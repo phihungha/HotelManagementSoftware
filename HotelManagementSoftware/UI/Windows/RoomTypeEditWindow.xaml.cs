@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HotelManagementSoftware.UI.Dialogs
+namespace HotelManagementSoftware.UI.Windows
 {
     /// <summary>
-    /// Interaction logic for HousekeepingEditWindow.xaml
+    /// Interaction logic for RoomTypeEditWindow.xaml
     /// </summary>
-    public partial class HousekeepingEditWindow : Window
+    public partial class RoomTypeEditWindow : Window
     {
-        public HousekeepingEditWindow()
+        public RoomTypeEditWindow()
         {
             InitializeComponent();
         }

@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HotelManagementSoftware.UI.Dialogs
+namespace HotelManagementSoftware.UI
 {
     /// <summary>
-    /// Interaction logic for EmployeeEditWindow.xaml
+    /// Interaction logic for Room.xaml
     /// </summary>
-    public partial class EmployeeEditWindow : Window
+    public partial class Rooms : UserControl
     {
-        public EmployeeEditWindow()
+        public Rooms()
         {
             InitializeComponent();
         }

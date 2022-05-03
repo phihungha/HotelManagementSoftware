@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HotelManagementSoftware.UI
+namespace HotelManagementSoftware.UI.Windows
 {
     /// <summary>
-    /// Interaction logic for RoomType.xaml
+    /// Interaction logic for HousekeepingEditWindow.xaml
     /// </summary>
-    public partial class RoomType : UserControl
+    public partial class HousekeepingEditWindow : Window
     {
-        public RoomType()
+        public HousekeepingEditWindow()
         {
             InitializeComponent();
         }

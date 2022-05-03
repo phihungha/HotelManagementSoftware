@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace HotelManagementSoftware.UI
 {
     /// <summary>
-    /// Interaction logic for Room.xaml
+    /// Interaction logic for RoomType.xaml
     /// </summary>
-    public partial class Room : UserControl
+    public partial class RoomTypes : UserControl
     {
-        public Room()
+        public RoomTypes()
         {
             InitializeComponent();
         }
