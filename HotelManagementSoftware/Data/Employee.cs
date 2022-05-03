@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HotelManagementSoftware.Data
+{
+    public class Employee
+    {
+
+    }
+
+    public class EmployeeType
+    {
+
+    }
+
+    public class Permission
+    {
+
+    }
+
+    public class EmployeePermission
+    {
+
+    }
+}
