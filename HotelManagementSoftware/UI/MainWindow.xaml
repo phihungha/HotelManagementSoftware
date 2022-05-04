@@ -7,7 +7,12 @@
         xmlns:local="clr-namespace:HotelManagementSoftware"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <Border>
+        <ui:SimpleStackPanel Spacing="10" VerticalAlignment="Center" HorizontalAlignment="Center" Width="336" >
+            <Image Source="/UI/Images/OneButler.png" Margin="0,0,0,36"/>
+            <TextBox ui:ControlHelper.PlaceholderText="Username" />
+            <TextBox ui:ControlHelper.PlaceholderText="Password" />
+            <Button Content="Login" HorizontalAlignment="Center" Padding="24,10,24,10" Margin="0,25,0,0" />
+        </ui:SimpleStackPanel>
+    </Border>
 </Window>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,19 @@ using System.Threading.Tasks;
 
 namespace HotelManagementSoftware.ViewModels
 {
-    public class MainWindowVM
+    public class MainWindowVM : ObservableObject
     {
+        ObservableObject currentPage;
+
+        public ObservableObject CurrentPage
+        {
+            get => CurrentPage;
+            set => SetProperty(ref currentPage, value);
+        }
+
+        public MainWindowVM()
+        {
+            currentPage = new LoginVM();
+        }
     }
 }
