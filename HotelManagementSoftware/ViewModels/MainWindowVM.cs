@@ -9,17 +9,26 @@ namespace HotelManagementSoftware.ViewModels
 {
     public class MainWindowVM : ObservableObject
     {
-        ObservableObject currentPage;
-
-        public ObservableObject CurrentPage
+        ObservableObject currentPageVM;
+        public ObservableObject CurrentPageVM
         {
-            get => CurrentPage;
-            set => SetProperty(ref currentPage, value);
+            get => currentPageVM;
+            set => SetProperty(ref currentPageVM, value);
         }
 
         public MainWindowVM()
         {
-            currentPage = new LoginVM();
+            CurrentPageVM = new LoginVM(this);
+        }
+
+        public void DisplayMainUI()
+        {
+            CurrentPageVM = new MainUIVM();
+        }
+
+        public void DisplayLoginUI()
+        {
+            CurrentPageVM = new LoginVM(this);
         }
     }
 }

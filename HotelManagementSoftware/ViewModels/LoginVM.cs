@@ -1,14 +1,57 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace HotelManagementSoftware.ViewModels
 {
     public class LoginVM : ObservableObject
     {
+        MainWindowVM mainWindowVM;
 
+        private string userName = "";
+        public string UserName
+        {
+            get => userName;
+            set => SetProperty(ref userName, value);
+        }
+
+        private string password = "";
+        public string Password
+        {
+            get => password;
+            set => SetProperty(ref password, value);
+        }
+
+        private bool isLoginInfoIncorrect = false;
+        public bool IsLoginInfoIncorrect
+        {
+            get => isLoginInfoIncorrect;
+            set => SetProperty(ref isLoginInfoIncorrect, value);
+        }
+
+        public ICommand LoginCommand { get; private set; }
+
+        public LoginVM(MainWindowVM mainWindowVM)
+        {
+            this.mainWindowVM = mainWindowVM;
+            LoginCommand = new RelayCommand(Login);
+        }
+
+        private void Login()
+        {
+            if (Password == "1234" && UserName == "Test")
+            {
+                mainWindowVM.DisplayMainUI();
+                IsLoginInfoIncorrect = false;
+            }
+            else
+                IsLoginInfoIncorrect = true;
+        }
     }
+
 }

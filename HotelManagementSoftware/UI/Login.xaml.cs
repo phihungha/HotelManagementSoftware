@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HotelManagementSoftware.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,11 @@ namespace HotelManagementSoftware.UI
         public Login()
         {
             InitializeComponent();
+        }
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            ((LoginVM)DataContext).Password = ((PasswordBox)sender).Password;
         }
     }
 }
