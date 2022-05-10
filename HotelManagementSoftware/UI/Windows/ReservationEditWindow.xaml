@@ -4,143 +4,303 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HotelManagementSoftware.UI"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
         mc:Ignorable="d"
-        Title="CreateReservationWindow" Height="559" Width="1351">
-    <Grid Margin="0,0,0,3">
-        <Grid Margin="0,0,0,429">
-            <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="New reservattion" VerticalAlignment="Top" Height="35" Width="181" FontSize="22" FontWeight="Bold"/>
-            <TextBlock HorizontalAlignment="Left" Margin="10,45,0,0" TextWrapping="Wrap" Text="Information for checkin/ Reservation. Please click on respective tab to set up respective information" VerticalAlignment="Top" Height="42" Width="379">
+        Title="CreateReservationWindow" >
+    <Window.Resources>
+        <Style x:Key="BoxHeader" TargetType="Panel">
+            <Setter Property="Margin" Value="0,0,0,10" />
+        </Style>
+    </Window.Resources>
+    
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="15,10,0,15" HorizontalAlignment="Left">
+            <TextBlock TextWrapping="Wrap" FontSize="22" FontWeight="Bold"
+                       Text="New reservation" />
+            <TextBlock Margin="0,10,0,0" TextWrapping="Wrap" Width="500"
+                       Text="Place a new reservation">
                 <TextBlock.Foreground>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}"/>
                 </TextBlock.Foreground>
             </TextBlock>
-            <Label Content="Label" HorizontalAlignment="Left" Margin="875,189,0,0" VerticalAlignment="Top"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Grid.Resources>
+                <Style TargetType="Border" BasedOn="{StaticResource BorderBox}">
+                    <Setter Property="Margin" Value="3" />
+                </Style>
+            </Grid.Resources>
+
+            <Border Grid.RowSpan="2">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.Resources>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Margin" Value="0,10,0,10" />
+                        </Style>
+                    </Grid.Resources>
+
+                    <Grid Grid.ColumnSpan="2" Style="{StaticResource BoxHeader}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Margin="0">
+                            <TextBlock Style="{StaticResource DialogTitle}" Text="Guest information" />
+                            <TextBlock Style="{StaticResource DialogSubtitle}" Text="Create a new reservation" />
+                        </StackPanel>
+                         <Button Grid.Column="1" Content="Choose Guest"
+                                 VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Grid>
+
+                    <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+                        <TextBlock Style="{StaticResource Label}" Text="Identity number"/>
+                        <TextBlock Style="{StaticResource Value}" Text="123456789" />
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Row="2">
+                        <TextBlock Style="{StaticResource Label}" Text="First name"/>
+                        <TextBlock Style="{StaticResource Value}" Text="John" />
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Row="2" Grid.Column="1">
+                        <TextBlock Style="{StaticResource Label}" Text="Last name"/>
+                        <TextBlock Style="{StaticResource Value}" Text="Doe" />
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Row="3">
+                        <TextBlock Style="{StaticResource Label}" Text="Gender"/>
+                        <TextBlock Style="{StaticResource Value}" Text="Male" />
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Row="3" Grid.Column="1">
+                        <TextBlock Style="{StaticResource Label}" Text="Phone number"/>
+                        <TextBlock Style="{StaticResource Value}" Text="+84 1234567890" />
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Row="4">
+                        <TextBlock Style="{StaticResource Label}" Text="Date of birth"/>
+                        <TextBlock Style="{StaticResource Value}" Text="12/05/2002" />
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Row="4" Grid.Column="1">
+                        <TextBlock Style="{StaticResource Label}" Text="Email"/>
+                        <TextBlock Style="{StaticResource Value}" Text="johndoe@gmail.com" />
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Row="5" Grid.ColumnSpan="2">
+                        <TextBlock Style="{StaticResource Label}" Text="Address"/>
+                        <TextBlock Style="{StaticResource Value}" Text="123 Lê Đại Hành, Huế, Thừa thiên Huế, Việt Nam" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Style="{StaticResource BoxHeader}">
+                        <TextBlock Style="{StaticResource DialogTitle}" Text="Stay information"/>
+                        <TextBlock Style="{StaticResource DialogSubtitle}" Text="Arrival and Departure time"/>
+                    </StackPanel>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Margin="0,0,15,0" >
+                            <TextBlock Style="{StaticResource Label}" Text="Arrival"/>
+                            <DatePicker HorizontalAlignment="Stretch" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="15,0,0,0">
+                            <TextBlock Style="{StaticResource Label}" Text="Departure"/>
+                            <DatePicker HorizontalAlignment="Stretch"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Margin="0,0,8,0">
+                            <TextBlock Style="{StaticResource Label}" Text="No of Days"/>
+                            <ComboBox HorizontalAlignment="Stretch" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="8,0,8,0">
+                            <TextBlock Style="{StaticResource Label}" Text="Adult"/>
+                            <ui:NumberBox HorizontalAlignment="Stretch" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Margin="8,0,0,0">
+                            <TextBlock Style="{StaticResource Label}" Text="Child"/>
+                            <ui:NumberBox HorizontalAlignment="Stretch" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="1" Grid.Row="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.ColumnSpan="2"  Style="{StaticResource BoxHeader}">
+                        <TextBlock Style="{StaticResource DialogTitle}" Text="Payment option" />
+                        <TextBlock Style="{StaticResource DialogSubtitle}" Text="Select payment option and information" />
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Row="1" Margin="0,0,8,0">
+                        <TextBlock Style="{StaticResource Label}" Text="Methods"/>
+                        <ComboBox HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="8,0,8,0">
+                        <TextBlock Style="{StaticResource Label}" Text="Card number"/>
+                        <TextBox Text="12345678" />
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Row="1" Grid.Column="2" Margin="8,0,0,0">
+                        <TextBlock FontSize="11"  Text="Expire date"/>
+                        <DatePicker HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="2">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.Resources>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Margin" Value="0,10,0,10" />
+                        </Style>
+                    </Grid.Resources>
+
+                    <Grid Grid.ColumnSpan="2" Style="{StaticResource BoxHeader}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Margin="0">
+                            <TextBlock Style="{StaticResource DialogTitle}" Text="Room information" />
+                            <TextBlock Style="{StaticResource DialogSubtitle}" Text="Room and room type" />
+                        </StackPanel>
+                        <Button Grid.Column="1" Content="Choose Room"
+                                 VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Grid>
+
+                    <StackPanel Grid.Row="1">
+                        <TextBlock Style="{StaticResource Label}" Text="Room Type"/>
+                        <TextBlock Style="{StaticResource Value}" Text="Deluxe" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="1">
+                        <TextBlock Style="{StaticResource Label}" Text="Room number"/>
+                        <TextBlock Style="{StaticResource Value}" Text="202" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
+                        <TextBlock Style="{StaticResource Label}" Text="Room Description"/>
+                        <TextBlock Style="{StaticResource Value}" Text="One single-person bed" />
+                    </StackPanel>
+
+
+                    <StackPanel Grid.Row="3">
+                        <TextBlock Style="{StaticResource Label}" Text="Half-day room rate"/>
+                        <TextBlock Style="{StaticResource Value}" Text="250.000 đ" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="3" Grid.Column="1">
+                        <TextBlock Style="{StaticResource Label}" Text="Full-day room rate"/>
+                        <TextBlock Style="{StaticResource Value}" Text="500.000 đ" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="2" Grid.Row="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource DialogTitle}" Text="Total Payment Amount"/>
+                        <TextBlock Style="{StaticResource DialogSubtitle}" Text="Total amount to pay for a stay from 01/01/2022 to 01/03/2022 in a Deluxe room"/>
+                    </StackPanel>
+                     <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="10,10,0,0" 
+                                TextWrapping="Wrap" FontWeight="Bold" Text="400.000 đ" FontSize="42"/>
+                </Grid>
+            </Border>
         </Grid>
-        <Border Height="390" Margin="10,94,924,0" VerticalAlignment="Top" Width="417">
-            <Grid HorizontalAlignment="Center" Height="380" Margin="0,10,0,0" VerticalAlignment="Top" Width="417">
 
-                <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Guest information" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                <TextBlock HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="Information for checkin/ Reservation. Please click on respective tab to set up respective information" VerticalAlignment="Top" FontSize="10" Width="237"/>
-                <Button Margin="265,10,20,338" Click="Button_Click" Content="Choose Guest" Background="#FF358AFF" Foreground="White" FontWeight="Bold" Grid.ColumnSpan="2" />
-                <StackPanel Margin="23,110,249,216">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontSize="9" Text="First name"/>
-                    <TextBox TextWrapping="Wrap" Text="Danh" Width="124" Height="22" TextChanged="TextBox_TextChanged" FontSize="14" BorderBrush="#FFEEF0F7"/>
-                </StackPanel>
-                <StackPanel Margin="234,110,40,216" Grid.ColumnSpan="2">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontSize="9" Text="Last name"/>
-                    <TextBox TextWrapping="Wrap" Text="Pham" Width="124" Height="22" TextChanged="TextBox_TextChanged" FontSize="14" BorderBrush="#FFF3F4F7"/>
-                </StackPanel>
-                <StackPanel Margin="23,164,249,162">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontSize="9" Text="Gender"/>
-                    <TextBox TextWrapping="Wrap" Text="Male" Width="124" Height="22" TextChanged="TextBox_TextChanged" FontSize="14" Background="#FFF9F6F6" BorderBrush="#FFF9FAFD"/>
-                </StackPanel>
-                <StackPanel Margin="234,164,40,162" Grid.ColumnSpan="2">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontSize="9" Text="Phone number"/>
-                    <TextBox TextWrapping="Wrap" Text="+84 752293689" Width="124" Height="22" TextChanged="TextBox_TextChanged" FontSize="14" BorderBrush="#FFF6F8FD"/>
-                </StackPanel>
-                <StackPanel Margin="23,223,249,103">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontSize="9" Text="Date of birth"/>
-                    <TextBox TextWrapping="Wrap" Text="12/05/2002" Width="124" Height="22" TextChanged="TextBox_TextChanged" FontSize="14" BorderBrush="#FFF4F5F9"/>
-                </StackPanel>
-                <StackPanel Margin="234,223,20,103" Grid.ColumnSpan="2">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontSize="9" Text="Email"/>
-                    <TextBox TextWrapping="Wrap" Text="danh123@gmail.com" Width="145" Height="22" TextChanged="TextBox_TextChanged" FontSize="14" BorderBrush="#FFE4E6EE"/>
-                </StackPanel>
-                <StackPanel Margin="23,282,62,44" Grid.ColumnSpan="2">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontSize="9" Text="Address"/>
-                    <TextBox TextWrapping="Wrap" Text="12334783646 dkjhsahdkajshdkasj" Width="309" Height="22" TextChanged="TextBox_TextChanged" FontSize="14" BorderBrush="#FFEFF3FD"/>
-                </StackPanel>
-                <StackPanel Margin="23,57,101,269">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontSize="9" Text="Identity number"/>
-                    <TextBox TextWrapping="Wrap" Text="123456789" Width="272" Height="22" TextChanged="TextBox_TextChanged" FontSize="14" BorderBrush="#FFEEF0F7"/>
-                </StackPanel>
-          
-            </Grid>
-        </Border>
-        <Border Height="208" Margin="467,94,467,0" VerticalAlignment="Top" Width="417">
-            <Grid HorizontalAlignment="Center" Height="173" Margin="0,10,0,0" VerticalAlignment="Top" Width="417">
-
-                <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Stay information" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                <TextBlock HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="When invest duration change, the interest is recalculated" VerticalAlignment="Top" FontSize="10" Width="250"/>
-                <StackPanel Margin="10,114,267,9">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontSize="11" Text="No of Nights (s)"/>
-                    <ComboBox Width="119"/>
-                </StackPanel>
-                <StackPanel Margin="10,49,209,69">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontSize="11" Text="Arrival"/>
-                    <DatePicker Width="179"/>
-                </StackPanel>
-                <StackPanel Margin="168,114,139,9">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontSize="11" Text="Adult"/>
-                    <ComboBox Width="91"/>
-                </StackPanel>
-                <StackPanel Margin="308,114,10,7">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontSize="11" Text="Child"/>
-                    <ComboBox Width="77"/>
-                </StackPanel>
-                <StackPanel Margin="209,49,10,69" Width="198">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontSize="11" Text="Departure"/>
-                    <DatePicker Width="178"/>
-                </StackPanel>
-            </Grid>
-        </Border>
-        <Border Height="148" Margin="467,336,467,0" VerticalAlignment="Top" Width="417">
-            <Grid HorizontalAlignment="Center" Height="148" VerticalAlignment="Center" Width="417">
-
-                <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Settle Option" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                <TextBlock HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="When invest duration change, the interest is recalculated" VerticalAlignment="Top" FontSize="10" Width="250"/>
-                <StackPanel Margin="10,65,302,28">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" Text="Methods"/>
-                    <ComboBox Width="82"/>
-                </StackPanel>
-                <StackPanel Margin="141,66,141,28">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontSize="11" Text="Card number"/>
-                    <TextBox TextWrapping="Wrap" Text="" Width="120" Height="22" TextChanged="TextBox_TextChanged_1"/>
-                </StackPanel>
-                <StackPanel Margin="292,66,10,26">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontSize="11" Text="Expire date"/>
-                    <TextBox TextWrapping="Wrap" Text="" Width="92" Height="22"/>
-                </StackPanel>
-            </Grid>
-        </Border>
-        <Border Height="208" Margin="924,94,10,0" VerticalAlignment="Top" Width="417">
-            <Grid HorizontalAlignment="Center" Height="208" VerticalAlignment="Center" Width="417">
-                <Button Margin="265,10,20,164" Click="Button_Click" Content="Change Room" Background="#FF358AFF" Foreground="White" FontWeight="Bold" />
-                <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Room" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                <TextBlock HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="Room and room type" VerticalAlignment="Top" FontSize="10" Width="250"/>
-                <StackPanel Margin="10,49,209,114">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontSize="11" Text="Room type"/>
-                    <TextBlock TextWrapping="Wrap" Text="Deluxe" Height="23" Width="175" FontSize="14"/>
-                </StackPanel>
-                <StackPanel Margin="239,49,29,111">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontSize="11" Text="Room"/>
-                    <TextBlock TextWrapping="Wrap" Text="202" Height="23" Width="129" FontSize="14"/>
-                </StackPanel>
-                <StackPanel Margin="10,97,209,63">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontSize="11" Text="Room description"/>
-                    <TextBlock TextWrapping="Wrap" Text="One single-person bed" Height="23" Width="175" FontSize="14"/>
-                </StackPanel>
-                <StackPanel Margin="10,150,209,10">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontSize="11" Text="Half-day room rate"/>
-                    <TextBlock TextWrapping="Wrap" Text="100.000 đ" Height="23" Width="175" FontSize="16" FontWeight="Bold"/>
-                </StackPanel>
-                <StackPanel Margin="209,150,10,10">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontSize="11" Text="Full-day room rate"/>
-                    <TextBlock TextWrapping="Wrap" Text="100.000 đ" Height="23" Width="175" FontSize="16" FontWeight="Bold"/>
-                </StackPanel>
-            </Grid>
-        </Border>
-        <Border Height="148" Margin="924,336,10,0" VerticalAlignment="Top" Width="417">
-            <Grid HorizontalAlignment="Center" Height="148" VerticalAlignment="Center" Width="417">
-
-                <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Total Payment Amount" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                <TextBlock HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="Total amount to pay for a stay from 01/01/2022 to 01/03/2022 in a Deluxe room" VerticalAlignment="Top" FontSize="10" Width="368"/>
-                <StackPanel Margin="10,65,39,28">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" FontWeight="Bold" Text="400.000 đ" Height="36" Width="354" FontSize="24"/>
-                </StackPanel>
-            </Grid>
-        </Border>
-        <Button Margin="1192,498,27,10" Click="Button_Click" Content="Update" Background="#FF358AFF" Foreground="White" FontWeight="Bold" Width="132" Height="32" />
-        <Button Margin="1040,498,179,10" Click="Button_Click" Content="Delete" Background="#FFF0241D" Foreground="White" FontWeight="Bold" Width="132" Height="32" />
+        <ui:SimpleStackPanel Grid.Row="2" HorizontalAlignment="Right"
+                             Orientation="Horizontal"  Spacing="15" Margin="0,15,32,5">
+            <Button Content="Update" FontWeight="Bold" Padding="45,10,45,10"
+                    Background="#FF358AFF" Foreground="White" />
+            <Button Content="Delete" FontWeight="Bold" Padding="45,10,45,10"
+                    Background="#FFF0241D" Foreground="White" />
+        </ui:SimpleStackPanel>
     </Grid>
 </Window>
