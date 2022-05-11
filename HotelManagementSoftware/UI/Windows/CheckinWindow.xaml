@@ -697,7 +697,7 @@
                 </StackPanel.RenderTransform>
 
 
-                <Button Content="Exit" Height="55" Width="239" RenderTransformOrigin="0.5,0.5" Background="#FFA5A5A5" HorizontalAlignment="Left" FontFamily="Poppins" FontSize="20" FontWeight="Bold" Foreground="White" >
+                <Button Content="Exit" Height="55" Width="239" RenderTransformOrigin="0.5,0.5" Background="#FFA5A5A5" HorizontalAlignment="Left" FontFamily="Poppins" FontSize="20" FontWeight="SemiBold" Foreground="White" >
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform ScaleY="-1" ScaleX="1"/>
@@ -721,7 +721,7 @@
                 </StackPanel.RenderTransform>
 
 
-                <Button Content="Check in" Height="55" Width="239" RenderTransformOrigin="0.5,0.5" Background="#FF369FFF" HorizontalAlignment="Left" FontFamily="Poppins" FontWeight="Bold" FontSize="20" Foreground="White">
+                <Button Content="Check in" Height="55" Width="239" RenderTransformOrigin="0.5,0.5" Background="#FF369FFF" HorizontalAlignment="Left" FontFamily="Poppins" FontWeight="SemiBold" FontSize="20" Foreground="White">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform ScaleY="-1" ScaleX="1"/>
