@@ -10,8 +10,11 @@
                 <ui:ThemeResources />
                 <ui:XamlControlsResources />
                 <ResourceDictionary Source="UI/Styles/General.xaml" />
+                <!-- Handy Control -->
+                <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/SkinDefault.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <!-- Other app resources here -->
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

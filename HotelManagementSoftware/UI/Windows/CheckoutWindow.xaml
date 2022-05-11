@@ -1,12 +1,1088 @@
-﻿<Window x:Class="HotelManagementSoftware.UI.CheckoutWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HotelManagementSoftware.UI"
+        xmlns:hc="https://handyorg.github.io/handycontrol" x:Class="HotelManagementSoftware.UI.CheckoutWindow"
         mc:Ignorable="d"
-        Title="CheckoutWindow" Height="450" Width="800">
+        Title="CheckoutWindow" Height="930" Width="1466">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="47*"/>
+            <ColumnDefinition Width="753*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Margin="68,27,444,378" Grid.ColumnSpan="2">
+            <Label Content="Reservation ID: 20462" BorderBrush="White" FontSize="36" HorizontalAlignment="Left" FontFamily="Poppins" FontWeight="Bold"/>
+        </StackPanel>
+        <StackPanel Margin="68,112,444,102" Grid.ColumnSpan="2">
+            <Border BorderBrush="#FFD4D4D4" BorderThickness="1" Height="580" CornerRadius="8,8,8,8" Width="634" HorizontalAlignment="Left"/>
+        </StackPanel>
+        <StackPanel RenderTransformOrigin="0.5,0.5" Grid.Column="1" Margin="35,131,928,710">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+            <Label Content="Guest information" Height="44" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="SemiBold" BorderBrush="White" FontSize="18" Width="200" HorizontalAlignment="Left">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+
+
+        </StackPanel>
+        <StackPanel Margin="35,212,1111,591" Orientation="Vertical" Grid.Column="1">
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="39" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="Identity number" Height="44" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="13" Width="140" HorizontalAlignment="Left">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="39" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="CMND" Height="44" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="18" Width="81" HorizontalAlignment="Left" Margin="41,0,0,0">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+        </StackPanel>
+        <StackPanel RenderTransformOrigin="0.5,0.5" Grid.Column="1" Margin="0,256,1299,626" HorizontalAlignment="Right" Width="30">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+            <Image Height="29" Width="26"  RenderTransformOrigin="0.5,0.5" Source="/UI/Icons/ic_cmnd.png">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+
+
+        </StackPanel>
+        <StackPanel RenderTransformOrigin="0.5,0.5" Grid.Column="1" Margin="152,252,976,631">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+            <Label Content="123456789" Height="44" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="18" Width="121" HorizontalAlignment="Left" Margin="-1,0,0,0">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+
+
+        </StackPanel>
+        <StackPanel Margin="35,315,1053,488" Orientation="Vertical" Grid.Column="1">
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="28" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="First name" Height="32" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="13" Width="103" HorizontalAlignment="Left" Padding="10,-21,10,6">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="34" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="Danh" Height="36" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="18" Width="73" HorizontalAlignment="Left" Margin="6,0,0,0">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Margin="357,315,806,488" Orientation="Vertical">
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="28" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="Last name" Height="32" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="13" Width="103" HorizontalAlignment="Left" Padding="10,-21,10,6">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="34" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="Hao" Height="36" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="18" Width="59" HorizontalAlignment="Left" Margin="6,0,0,0">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Margin="35,404,1188,400" Orientation="Vertical" Grid.Column="1">
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="28" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="Gender" Height="32" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="13" Width="86" HorizontalAlignment="Left" Padding="10,-21,10,6">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="34" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="Male" Height="36" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="18" Width="73" HorizontalAlignment="Left" Margin="6,0,0,0">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Margin="357,404,824,400" Orientation="Vertical">
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="28" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="Phone number" Height="32" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="13" Width="129" HorizontalAlignment="Left" Padding="10,-21,10,6">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="34" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="+84 752293689" Height="36" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="18" Width="160" HorizontalAlignment="Left" Margin="6,0,0,0">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Margin="35,494,1157,308" Orientation="Vertical" Grid.Column="1">
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="28" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="Date of birth" Height="32" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="13" Width="111" HorizontalAlignment="Left" Padding="10,-21,10,6">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="34" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="12/05/2002" Height="36" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="18" Width="132" HorizontalAlignment="Left">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Margin="357,494,796,308" Orientation="Vertical">
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="28" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="Email" Height="32" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="13" Width="70" HorizontalAlignment="Left" Padding="10,-21,10,6">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="34" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="danh123@gmail.com" Height="40" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="18" Width="222" HorizontalAlignment="Left">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Margin="35,596,866,208" Orientation="Vertical" Grid.Column="1">
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="28" Width="293" HorizontalAlignment="Left">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="Address" Height="32" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="13" Width="86" HorizontalAlignment="Left" Padding="10,-21,10,6">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="34" Width="445" HorizontalAlignment="Left">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="123 Lê Đại Hành, Huế, Thừa Thiên Huế, Việt Nam" Height="36" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="18" Width="448" HorizontalAlignment="Left">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Margin="670,112,-75,451" Grid.Column="1">
+            <Border BorderBrush="#FFD4D4D4" BorderThickness="1" Height="292" CornerRadius="8,8,8,8" Width="634" HorizontalAlignment="Left"/>
+        </StackPanel>
+        <StackPanel RenderTransformOrigin="0.5,0.5" Grid.Column="1" Margin="723,131,318,710">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+            <Label Content="Stay information" Height="44" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="SemiBold" BorderBrush="White" FontSize="18" Width="176" HorizontalAlignment="Left">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+
+
+        </StackPanel>
+        <StackPanel RenderTransformOrigin="0.5,0.5" Grid.Column="1" Margin="676,201,373,621">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+            <DatePicker Width="209"/>
+
+
+        </StackPanel>
+        <StackPanel RenderTransformOrigin="0.5,0.5" Grid.Column="1" Margin="718,196,573,658">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+            <Label Content="Arrival" Height="32" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="13" Width="81" HorizontalAlignment="Left" Padding="10,-21,10,6">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+
+
+        </StackPanel>
+        <StackPanel RenderTransformOrigin="0.5,0.5" Grid.Column="1" Margin="1005,201,44,621">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+            <DatePicker Width="209" HorizontalAlignment="Left"/>
+
+
+        </StackPanel>
+        <StackPanel RenderTransformOrigin="0.5,0.5" Grid.Column="1" Margin="1005,196,286,658">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+            <Label Content="Departure" Height="32" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="13" Width="81" HorizontalAlignment="Left" Padding="10,-21,10,6">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+
+
+        </StackPanel>
+        <StackPanel RenderTransformOrigin="0.5,0.5" Grid.Column="1" Margin="723,275,519,579">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+            <Label Content="No of Nights (s)" Height="32" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="13" Width="130" HorizontalAlignment="Left" Padding="10,-21,10,6">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+
+
+        </StackPanel>
+        <StackPanel RenderTransformOrigin="0.5,0.5" Margin="737,261,472,534" Grid.Column="1">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+
+
+            <TextBox TextWrapping="Wrap" Text="01" Width="137" Height="41" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontSize="18" HorizontalAlignment="Left">
+                <TextBox.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </TextBox.RenderTransform>
+            </TextBox>
+
+
+        </StackPanel>
+        <StackPanel RenderTransformOrigin="0.5,0.5" Grid.Column="1" Margin="922,275,320,579">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+            <Label Content="Adult" Height="32" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="13" Width="59" HorizontalAlignment="Left" Padding="10,-21,10,6">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+
+
+        </StackPanel>
+        <StackPanel RenderTransformOrigin="0.5,0.5" Margin="936,261,273,534" Grid.Column="1">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+
+
+            <TextBox TextWrapping="Wrap" Text="01" Width="137" Height="41" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontSize="18" HorizontalAlignment="Left">
+                <TextBox.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </TextBox.RenderTransform>
+            </TextBox>
+
+
+        </StackPanel>
+        <StackPanel RenderTransformOrigin="0.5,0.5" Grid.Column="1" Margin="1109,275,133,579">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+            <Label Content="Child" Height="32" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="13" Width="59" HorizontalAlignment="Left" Padding="10,-21,10,6">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+
+
+        </StackPanel>
+        <StackPanel RenderTransformOrigin="0.5,0.5" Margin="1123,261,86,533" Grid.Column="1">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+
+
+            <TextBox TextWrapping="Wrap" Text="01" Width="137" Height="41" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontSize="18" HorizontalAlignment="Left">
+                <TextBox.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </TextBox.RenderTransform>
+            </TextBox>
+
+
+        </StackPanel>
+        <StackPanel Grid.Column="1" Margin="807,806,73,8" Orientation="Horizontal">
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="68" Width="255">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+
+
+                <Button Content="Exit" Height="55" Width="239" RenderTransformOrigin="0.5,0.5" Background="#FFA5A5A5" HorizontalAlignment="Left" FontFamily="Poppins" FontSize="20" FontWeight="SemiBold" Foreground="White" >
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1" ScaleX="1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                </Button>
+
+
+            </StackPanel>
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="68" Width="255">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+
+
+                <Button Content="Check out" Height="55" Width="239" RenderTransformOrigin="0.5,0.5" Background="#FF369FFF" HorizontalAlignment="Left" FontFamily="Poppins" FontWeight="SemiBold" FontSize="20" Foreground="White">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1" ScaleX="1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                </Button>
+
+
+            </StackPanel>
+        </StackPanel>
+        <Path Data="M17.858302,153.54 L590.90791,153.54" Fill="#FFA5A5A5" Stroke="#FFA5A5A5" Stretch="Fill" Margin="704,599,102,282" Grid.Column="1" Opacity="0.5"/>
+        <StackPanel Margin="670,431,54,84" Grid.Column="1">
+            <Border BorderBrush="#FFD4D4D4" BorderThickness="1" Height="371" CornerRadius="8,8,8,8" Width="634" HorizontalAlignment="Left"/>
+        </StackPanel>
+        <StackPanel x:Name="RoomInfo" RenderTransformOrigin="0.5,0.5" Grid.Column="1" Margin="718,429,323,420">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+            <Label Content="Room information" Height="44" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="SemiBold" BorderBrush="White" FontSize="18" Width="193" HorizontalAlignment="Left">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+
+
+        </StackPanel>
+        <StackPanel x:Name="Room_Type" Grid.Column="1" Margin="718,504,463,299" Orientation="Vertical">
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="28" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="Room Type" Height="32" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="13" Width="111" HorizontalAlignment="Left" Padding="10,-21,10,6">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="34" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="Standard" Height="36" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="18" Width="112" HorizontalAlignment="Left" Margin="6,0,0,0">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+        </StackPanel>
+        <StackPanel x:Name="Room_Type_Copy" Orientation="Vertical" Margin="718,670,463,133" Grid.Column="1">
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="28" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="Room Type" Height="32" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="13" Width="111" HorizontalAlignment="Left" Padding="10,-21,10,6">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="34" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="Standard" Height="36" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="18" Width="112" HorizontalAlignment="Left" Margin="6,0,0,0">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+        </StackPanel>
+        <StackPanel x:Name="Payment" RenderTransformOrigin="0.5,0.5" Margin="718,605,323,249" Grid.Column="1">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+            <Label Content="Payment method" Height="44" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="SemiBold" BorderBrush="White" FontSize="18" Width="196" HorizontalAlignment="Left">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+
+
+        </StackPanel>
+        <StackPanel x:Name="Room_number" Grid.Column="1" Margin="1079,504,102,299" Orientation="Vertical">
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="28" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="Room Number" Height="32" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="13" Width="111" HorizontalAlignment="Left" Padding="10,-21,10,6">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="34" Width="132" HorizontalAlignment="Left">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="101" Height="36" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="18" Width="49" HorizontalAlignment="Left" Margin="6,0,0,0">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+        </StackPanel>
+        <StackPanel x:Name="Room_Type_Copy1" Orientation="Vertical" Margin="922,671,259,132" Grid.Column="1">
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="28" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="Card number" Height="32" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="13" Width="111" HorizontalAlignment="Left" Padding="10,-21,10,6">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="34" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="N/A" Height="36" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="18" Width="59" HorizontalAlignment="Left" Margin="6,0,0,0">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+        </StackPanel>
+        <StackPanel x:Name="Room_Type_Copy2" Orientation="Vertical" Margin="1095,671,86,132" Grid.Column="1">
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="28" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="Expire date" Height="32" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="13" Width="111" HorizontalAlignment="Left" Padding="10,-21,10,6">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="34" Width="293">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="N/A" Height="36" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="18" Width="59" HorizontalAlignment="Left" Margin="6,0,0,0">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Margin="1,711,1154,92" Orientation="Vertical" Grid.Column="1">
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="28" Width="279">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="Total" Height="32" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="18" Width="55" HorizontalAlignment="Left" Padding="10,-21,10,6" Margin="13,0,0,0">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+            <StackPanel RenderTransformOrigin="0.5,0.5" Height="57" Width="334">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Label Content="500.000 đ" Height="58" RenderTransformOrigin="0.5,0.5" FontFamily="Poppins" FontWeight="Regular" BorderBrush="White" FontSize="40" Width="226" HorizontalAlignment="Left" Margin="6,0,0,0">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+
+
+            </StackPanel>
+        </StackPanel>
+        <StackPanel RenderTransformOrigin="0.5,0.5" Margin="68,817,1143,29" Grid.ColumnSpan="2">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+
+
+            <hc:SplitButton Content="Print" Height="55" RenderTransformOrigin="0.5,0.5" Width="144" HorizontalAlignment="Left" FontFamily="Poppins" FontSize="18" BorderBrush="#FF369FFF">
+                <hc:SplitButton.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </hc:SplitButton.RenderTransform>
+            </hc:SplitButton>
+
+
+        </StackPanel>
+
     </Grid>
 </Window>
