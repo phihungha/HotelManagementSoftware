@@ -1,27 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HotelManagementSoftware.Data
 {
     public class Database : DbContext
     {
-        DbSet<Customer> Customers { get; set; }
-        DbSet<Country> Countries { get; set; }
-        DbSet<PaymentMethod> PaymentMethods { get; set; }
-        DbSet<IdNumberType> IdNumbers { get; set; }
-        DbSet<Reservation> Reservations { get; set; }
-        DbSet<Order> Orders { get; set; }
-        DbSet<HousekeepingRequest> HousekeepingRequests { get; set; }
-        DbSet<MaintenanceRequest> MaintenanceRequests { get; set; }
-        DbSet<MaintenanceItem> MaintenanceItems { get; set; }
-        DbSet<Employee> Employees { get; set; }
-        DbSet<EmployeeType> EmployeeTypes { get; set; }
-        DbSet<Room> Rooms { get; set; }
-        DbSet<RoomType> RoomTypes { get; set; }
+        public DbSet<Customer> Customers => Set<Customer>();
+        public DbSet<Country> Countries => Set<Country>();
+        public DbSet<Reservation> Reservations => Set<Reservation>();
+        public DbSet<Order> Orders => Set<Order>();
+        public DbSet<HousekeepingRequest> HousekeepingRequests => Set<HousekeepingRequest>();
+        public DbSet<MaintenanceRequest> MaintenanceRequests => Set<MaintenanceRequest>();
+        public DbSet<MaintenanceItem> MaintenanceItems => Set<MaintenanceItem>();
+        public DbSet<Employee> Employees => Set<Employee>();
+        public DbSet<EmployeeType> EmployeeTypes => Set<EmployeeType>();
+        public DbSet<Room> Rooms => Set<Room>();
+        public DbSet<RoomType> RoomTypes => Set<RoomType>();
 
         public Database()
         {
@@ -35,6 +28,34 @@ namespace HotelManagementSoftware.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Reservation>()
+                .Property(i => i.Status)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<Order>()
+                .Property(i => i.Status)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<Room>()
+                .Property(i => i.Status)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<MaintenanceRequest>()
+                .Property(i => i.Status)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<HousekeepingRequest>()
+                .Property(i => i.Status)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<Customer>()
+                .Property(i => i.PaymentMethod)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<Customer>()
+                .Property(i => i.IdNumberType)
+                .HasConversion<string>();
+
             modelBuilder.Entity<MaintenanceItem>()
                 .HasKey(i => new { i.MaintenanceItemId, i.MaintenanceRequestId });
 

@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HotelManagementSoftware.Data
 {
@@ -12,7 +7,6 @@ namespace HotelManagementSoftware.Data
     {
         public int OrderId { get; set; }
 
-        [Required]
         public DateTime CreationTime { get; set; }
 
         public DateTime PayTime { get; set; }
@@ -20,10 +14,23 @@ namespace HotelManagementSoftware.Data
         [Column(TypeName = "decimal(18,0)")]
         public decimal Amount { get; set; }
 
-        [Required]
-        public string Status { get; set; }
+        public OrderStatus Status { get; set; }
 
         public int? ReservationId { get; set; }
         public Reservation? Reservation { get; set; }
+
+        public Order(DateTime creationTime, DateTime payTime, decimal amount, OrderStatus status)
+        {
+            CreationTime = creationTime;
+            PayTime = payTime;
+            Amount = amount;
+            Status = status;
+        }
+    }
+
+    public enum OrderStatus
+    {
+        PENDING,
+        PAID
     }
 }

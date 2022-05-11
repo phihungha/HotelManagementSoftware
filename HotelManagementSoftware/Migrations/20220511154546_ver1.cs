@@ -36,40 +36,14 @@ namespace HotelManagementSoftware.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "IdNumbers",
-                columns: table => new
-                {
-                    IdNumberTypeId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_IdNumbers", x => x.IdNumberTypeId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PaymentMethods",
-                columns: table => new
-                {
-                    PaymentMethodId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PaymentMethods", x => x.PaymentMethodId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "RoomTypes",
                 columns: table => new
                 {
                     RoomTypeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BedNumber = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NumberOfPeople = table.Column<int>(type: "int", nullable: false),
                     FullDayRate = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
                     HalfDayRate = table.Column<decimal>(type: "decimal(18,0)", nullable: false)
                 },
@@ -79,19 +53,49 @@ namespace HotelManagementSoftware.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdNumberType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Province = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CountryId = table.Column<int>(type: "int", nullable: true),
+                    PaymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CardNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ExpireDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.CustomerId);
+                    table.ForeignKey(
+                        name: "FK_Customers_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
+                        principalColumn: "CountryId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
                 {
                     EmployeeID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EmployeeTypeId = table.Column<int>(type: "int", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -105,47 +109,6 @@ namespace HotelManagementSoftware.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customers",
-                columns: table => new
-                {
-                    CustomerId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdNumberTypeId = table.Column<int>(type: "int", nullable: true),
-                    IdNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Province = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CountryId = table.Column<int>(type: "int", nullable: true),
-                    PaymentMethodId = table.Column<int>(type: "int", nullable: true),
-                    CardNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ExpireDate = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Customers", x => x.CustomerId);
-                    table.ForeignKey(
-                        name: "FK_Customers_Countries_CountryId",
-                        column: x => x.CountryId,
-                        principalTable: "Countries",
-                        principalColumn: "CountryId");
-                    table.ForeignKey(
-                        name: "FK_Customers_IdNumbers_IdNumberTypeId",
-                        column: x => x.IdNumberTypeId,
-                        principalTable: "IdNumbers",
-                        principalColumn: "IdNumberTypeId");
-                    table.ForeignKey(
-                        name: "FK_Customers_PaymentMethods_PaymentMethodId",
-                        column: x => x.PaymentMethodId,
-                        principalTable: "PaymentMethods",
-                        principalColumn: "PaymentMethodId");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Rooms",
                 columns: table => new
                 {
@@ -153,7 +116,7 @@ namespace HotelManagementSoftware.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RoomTypeId = table.Column<int>(type: "int", nullable: true),
                     Floor = table.Column<int>(type: "int", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -177,8 +140,8 @@ namespace HotelManagementSoftware.Migrations
                     RoomId = table.Column<int>(type: "int", nullable: true),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CloseTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CloseTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -212,8 +175,8 @@ namespace HotelManagementSoftware.Migrations
                     RoomId = table.Column<int>(type: "int", nullable: true),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CloseTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CloseTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -276,7 +239,7 @@ namespace HotelManagementSoftware.Migrations
                     MaintenanceItemId = table.Column<int>(type: "int", nullable: false),
                     MaintenanceRequestId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -316,16 +279,6 @@ namespace HotelManagementSoftware.Migrations
                 name: "IX_Customers_CountryId",
                 table: "Customers",
                 column: "CountryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Customers_IdNumberTypeId",
-                table: "Customers",
-                column: "IdNumberTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Customers_PaymentMethodId",
-                table: "Customers",
-                column: "PaymentMethodId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_EmployeeTypeId",
@@ -423,12 +376,6 @@ namespace HotelManagementSoftware.Migrations
 
             migrationBuilder.DropTable(
                 name: "Countries");
-
-            migrationBuilder.DropTable(
-                name: "IdNumbers");
-
-            migrationBuilder.DropTable(
-                name: "PaymentMethods");
 
             migrationBuilder.DropTable(
                 name: "EmployeeTypes");

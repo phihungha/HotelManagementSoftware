@@ -4,6 +4,7 @@ using HotelManagementSoftware.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelManagementSoftware.Migrations
 {
     [DbContext(typeof(Database))]
-    partial class DatabaseModelSnapshot : ModelSnapshot
+    [Migration("20220511154546_ver1")]
+    partial class ver1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +38,7 @@ namespace HotelManagementSoftware.Migrations
 
                     b.HasKey("CountryId");
 
-                    b.ToTable("Countries", (string)null);
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("HotelManagementSoftware.Data.Customer", b =>
@@ -103,7 +105,7 @@ namespace HotelManagementSoftware.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("HotelManagementSoftware.Data.Employee", b =>
@@ -147,7 +149,7 @@ namespace HotelManagementSoftware.Migrations
 
                     b.HasIndex("EmployeeTypeId");
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("HotelManagementSoftware.Data.EmployeeType", b =>
@@ -164,7 +166,7 @@ namespace HotelManagementSoftware.Migrations
 
                     b.HasKey("EmployeeTypeId");
 
-                    b.ToTable("EmployeeTypes", (string)null);
+                    b.ToTable("EmployeeTypes");
                 });
 
             modelBuilder.Entity("HotelManagementSoftware.Data.HousekeepingRequest", b =>
@@ -208,7 +210,7 @@ namespace HotelManagementSoftware.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("HousekeepingRequests", (string)null);
+                    b.ToTable("HousekeepingRequests");
                 });
 
             modelBuilder.Entity("HotelManagementSoftware.Data.MaintenanceItem", b =>
@@ -233,7 +235,7 @@ namespace HotelManagementSoftware.Migrations
 
                     b.HasIndex("MaintenanceRequestId");
 
-                    b.ToTable("MaintenanceItems", (string)null);
+                    b.ToTable("MaintenanceItems");
                 });
 
             modelBuilder.Entity("HotelManagementSoftware.Data.MaintenanceRequest", b =>
@@ -277,7 +279,7 @@ namespace HotelManagementSoftware.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("MaintenanceRequests", (string)null);
+                    b.ToTable("MaintenanceRequests");
                 });
 
             modelBuilder.Entity("HotelManagementSoftware.Data.Order", b =>
@@ -310,7 +312,7 @@ namespace HotelManagementSoftware.Migrations
                         .IsUnique()
                         .HasFilter("[ReservationId] IS NOT NULL");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("HotelManagementSoftware.Data.Reservation", b =>
@@ -348,7 +350,7 @@ namespace HotelManagementSoftware.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("Reservations", (string)null);
+                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("HotelManagementSoftware.Data.Room", b =>
@@ -365,9 +367,6 @@ namespace HotelManagementSoftware.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoomNumber")
-                        .HasColumnType("int");
-
                     b.Property<int?>("RoomTypeId")
                         .HasColumnType("int");
 
@@ -379,7 +378,7 @@ namespace HotelManagementSoftware.Migrations
 
                     b.HasIndex("RoomTypeId");
 
-                    b.ToTable("Rooms", (string)null);
+                    b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("HotelManagementSoftware.Data.RoomType", b =>
@@ -408,7 +407,7 @@ namespace HotelManagementSoftware.Migrations
 
                     b.HasKey("RoomTypeId");
 
-                    b.ToTable("RoomTypes", (string)null);
+                    b.ToTable("RoomTypes");
                 });
 
             modelBuilder.Entity("HotelManagementSoftware.Data.Customer", b =>

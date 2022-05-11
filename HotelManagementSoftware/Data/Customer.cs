@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HotelManagementSoftware.Data
 {
@@ -11,71 +7,83 @@ namespace HotelManagementSoftware.Data
     {
         public int CustomerId { get; set; }
 
-        [Required]
         public string FirstName { get; set; }
 
-        [Required]
         public string LastName { get; set; }
 
-        public IdNumberType? IdNumberType { get; set; }
+        public IdNumberType IdNumberType { get; set; }
 
-        [Required]
         public string IdNumber { get; set; }
 
-        [Required]
         public string Gender { get; set; }
 
-        [Required]
         public string PhoneNumber { get; set; }
 
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
-        [Required]
         public string Address { get; set; }
 
-        [Required]
         public string City { get; set; }
 
-        [Required]
         public string Province { get; set; }
 
         public Country? Country { get; set; }
 
-        public PaymentMethod? PaymentMethod { get; set; }
+        public PaymentMethod PaymentMethod { get; set; }
 
-        public string CardNumber { get; set; }
-        public DateTime ExpireDate { get; set; }
+        public string? CardNumber { get; set; }
+        public DateTime? ExpireDate { get; set; }
 
         public List<Reservation> Reservations { get; } = new();
+
+        public Customer(string firstName,
+                        string lastName,
+                        string idNumber,
+                        string gender,
+                        string phoneNumber,
+                        string address,
+                        string city,
+                        string province,
+                        PaymentMethod paymentMethod,
+                        IdNumberType idNumberType)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            IdNumber = idNumber;
+            Gender = gender;
+            PhoneNumber = phoneNumber;
+            Address = address;
+            City = city;
+            Province = province;
+            PaymentMethod = paymentMethod;
+            IdNumberType = idNumberType;
+        }
     }
 
-    public class IdNumberType
+    public enum PaymentMethod
     {
-        public int IdNumberTypeId { get; set; }
-
-        [Required]
-        public string Name { get; set; }
-
-        public List<Customer> Reservations { get; } = new();
+        CASH,
+        VISA,
+        MASTERCARD
     }
 
-    public class PaymentMethod
+    public enum IdNumberType
     {
-        public int PaymentMethodId { get; set; }
-
-        [Required]
-        public string Name { get; set; }
-
-        public List<Customer> Reservations { get; } = new();
+        CMND,
+        PASSPORT
     }
 
     public class Country
     {
         public int CountryId { get; set; }
 
-        [Required]
         public string Name { get; set; }
 
         public List<Customer> Reservations { get; } = new();
+
+        public Country(string name)
+        {
+            Name = name;
+        }
     }
 }

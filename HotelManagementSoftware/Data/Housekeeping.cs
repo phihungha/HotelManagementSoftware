@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HotelManagementSoftware.Data
 {
@@ -19,17 +14,29 @@ namespace HotelManagementSoftware.Data
 
         public Room? Room { get; set; }
 
-        [Required]
         public DateTime StartTime { get; set; }
 
-        [Required]
         public DateTime EndTime { get; set; }
 
-        public DateTime CloseTime { get; set; }
+        public DateTime? CloseTime { get; set; }
 
-        public string Note { get; set; }
+        public string? Note { get; set; }
 
-        [Required]
-        public string Status { get; set; }
+        public HousekeepingRequestStatus Status { get; set; }
+
+        public HousekeepingRequest(DateTime startTime,
+                                   DateTime endTime,
+                                   HousekeepingRequestStatus status)
+        {
+            StartTime = startTime;
+            EndTime = endTime;
+            Status = status;
+        }
+    }
+
+    public enum HousekeepingRequestStatus
+    {
+        OPENED,
+        CLOSED
     }
 }
