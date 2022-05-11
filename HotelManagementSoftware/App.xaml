@@ -2,19 +2,15 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:HotelManagementSoftware"
-             xmlns:ui="http://schemas.modernwpf.com/2019"
-             StartupUri="UI/Windows/ReservationEditWindow.xaml">
+             StartupUri="UI/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ui:ThemeResources />
-                <ui:XamlControlsResources />
                 <ResourceDictionary Source="UI/Styles/General.xaml" />
                 <!-- Handy Control -->
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/SkinDefault.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

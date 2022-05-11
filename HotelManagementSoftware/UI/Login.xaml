@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HotelManagementSoftware.UI"
-             xmlns:ui="http://schemas.modernwpf.com/2019"
+             xmlns:ui="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -17,17 +17,27 @@
         </Border.Background>
         <Border Background="White" Padding="15" Width="410" 
                 VerticalAlignment="Center" HorizontalAlignment="Center" >
-            <ui:SimpleStackPanel Spacing="10">
+            <StackPanel>
                 <Image Source="/UI/Images/OneButler.png" Margin="0,0,0,36"/>
-                <TextBox Text="{Binding UserName}" ui:ControlHelper.PlaceholderText="Username" />
-                <PasswordBox PasswordChanged="PasswordBox_PasswordChanged" ui:ControlHelper.PlaceholderText="Password" />
+                <ui:TextBox Text="{Binding UserName}" 
+                            ShowClearButton="True"
+                            ui:InfoElement.Placeholder="Username"
+                            Margin="0,0,0,10" />
+                <ui:PasswordBox IsSafeEnabled="False"
+                                ShowEyeButton="True"
+                                UnsafePassword="{Binding Password}"
+                                ShowClearButton="True"
+                                ui:InfoElement.Placeholder="Password"
+                                Margin="0,0,0,20" />
                 <Button Command="{Binding LoginCommand}" Content="Login" 
-                    HorizontalAlignment="Center" Padding="24,10,24,10" Margin="0,25,0,0" />
+                        Background="#FF358AFF" Foreground="White"
+                        HorizontalAlignment="Center"
+                        Padding="30,0,30,0" />
                 <TextBlock Text="Incorrect username or password! Please try again." 
                        Visibility="{Binding IsLoginInfoIncorrect, Converter={StaticResource BoolToVisConverter}}"
                        Margin="0,10,0,0" FontSize="15" TextAlignment="Center"
                        HorizontalAlignment="Center" Foreground="Red" />
-            </ui:SimpleStackPanel>
+            </StackPanel>
         </Border>
     </Border>
 </UserControl>
