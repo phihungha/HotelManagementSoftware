@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelManagementSoftware.Migrations
 {
     [DbContext(typeof(Database))]
-    [Migration("20220511161734_ver1.1")]
-    partial class ver11
+    [Migration("20220512140922_ver1")]
+    partial class ver1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -110,11 +110,11 @@ namespace HotelManagementSoftware.Migrations
 
             modelBuilder.Entity("HotelManagementSoftware.Data.Employee", b =>
                 {
-                    b.Property<int>("EmployeeID")
+                    b.Property<int>("EmployeeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeID"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeId"), 1L, 1);
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -137,6 +137,10 @@ namespace HotelManagementSoftware.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("HashedPassword")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -145,7 +149,11 @@ namespace HotelManagementSoftware.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("EmployeeID");
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EmployeeId");
 
                     b.HasIndex("EmployeeTypeId");
 
@@ -332,7 +340,7 @@ namespace HotelManagementSoftware.Migrations
                     b.Property<DateTime>("DepartureTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("EmployeeID")
+                    b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<int?>("RoomId")
@@ -346,7 +354,7 @@ namespace HotelManagementSoftware.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("EmployeeID");
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("RoomId");
 
@@ -505,7 +513,7 @@ namespace HotelManagementSoftware.Migrations
 
                     b.HasOne("HotelManagementSoftware.Data.Employee", "Employee")
                         .WithMany("Reservations")
-                        .HasForeignKey("EmployeeID");
+                        .HasForeignKey("EmployeeId");
 
                     b.HasOne("HotelManagementSoftware.Data.Room", "Room")
                         .WithMany()

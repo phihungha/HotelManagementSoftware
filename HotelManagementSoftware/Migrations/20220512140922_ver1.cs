@@ -87,20 +87,22 @@ namespace HotelManagementSoftware.Migrations
                 name: "Employees",
                 columns: table => new
                 {
-                    EmployeeID = table.Column<int>(type: "int", nullable: false)
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EmployeeTypeId = table.Column<int>(type: "int", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HashedPassword = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employees", x => x.EmployeeID);
+                    table.PrimaryKey("PK_Employees", x => x.EmployeeId);
                     table.ForeignKey(
                         name: "FK_Employees_EmployeeTypes_EmployeeTypeId",
                         column: x => x.EmployeeTypeId,
@@ -114,6 +116,7 @@ namespace HotelManagementSoftware.Migrations
                 {
                     RoomId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    RoomNumber = table.Column<int>(type: "int", nullable: false),
                     RoomTypeId = table.Column<int>(type: "int", nullable: true),
                     Floor = table.Column<int>(type: "int", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -151,12 +154,12 @@ namespace HotelManagementSoftware.Migrations
                         name: "FK_HousekeepingRequests_Employees_CloseEmployeeId",
                         column: x => x.CloseEmployeeId,
                         principalTable: "Employees",
-                        principalColumn: "EmployeeID");
+                        principalColumn: "EmployeeId");
                     table.ForeignKey(
                         name: "FK_HousekeepingRequests_Employees_OpenEmployeeId",
                         column: x => x.OpenEmployeeId,
                         principalTable: "Employees",
-                        principalColumn: "EmployeeID");
+                        principalColumn: "EmployeeId");
                     table.ForeignKey(
                         name: "FK_HousekeepingRequests_Rooms_RoomId",
                         column: x => x.RoomId,
@@ -186,12 +189,12 @@ namespace HotelManagementSoftware.Migrations
                         name: "FK_MaintenanceRequests_Employees_CloseEmployeeId",
                         column: x => x.CloseEmployeeId,
                         principalTable: "Employees",
-                        principalColumn: "EmployeeID");
+                        principalColumn: "EmployeeId");
                     table.ForeignKey(
                         name: "FK_MaintenanceRequests_Employees_OpenEmployeeId",
                         column: x => x.OpenEmployeeId,
                         principalTable: "Employees",
-                        principalColumn: "EmployeeID");
+                        principalColumn: "EmployeeId");
                     table.ForeignKey(
                         name: "FK_MaintenanceRequests_Rooms_RoomId",
                         column: x => x.RoomId,
@@ -209,7 +212,7 @@ namespace HotelManagementSoftware.Migrations
                     DepartureTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RoomId = table.Column<int>(type: "int", nullable: true),
                     CustomerId = table.Column<int>(type: "int", nullable: true),
-                    EmployeeID = table.Column<int>(type: "int", nullable: true),
+                    EmployeeId = table.Column<int>(type: "int", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -221,10 +224,10 @@ namespace HotelManagementSoftware.Migrations
                         principalTable: "Customers",
                         principalColumn: "CustomerId");
                     table.ForeignKey(
-                        name: "FK_Reservations_Employees_EmployeeID",
-                        column: x => x.EmployeeID,
+                        name: "FK_Reservations_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
                         principalTable: "Employees",
-                        principalColumn: "EmployeeID");
+                        principalColumn: "EmployeeId");
                     table.ForeignKey(
                         name: "FK_Reservations_Rooms_RoomId",
                         column: x => x.RoomId,
@@ -333,9 +336,9 @@ namespace HotelManagementSoftware.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservations_EmployeeID",
+                name: "IX_Reservations_EmployeeId",
                 table: "Reservations",
-                column: "EmployeeID");
+                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_RoomId",

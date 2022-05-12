@@ -39,8 +39,8 @@ namespace HotelManagementSoftware.Data
 
     public enum MaintenanceRequestStatus
     {
-        OPENED,
-        CLOSED
+        Opened,
+        Closed
     }
 
     public class MaintenanceItem

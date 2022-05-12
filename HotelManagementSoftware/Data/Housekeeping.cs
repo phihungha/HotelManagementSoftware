@@ -36,7 +36,7 @@ namespace HotelManagementSoftware.Data
 
     public enum HousekeepingRequestStatus
     {
-        OPENED,
-        CLOSED
+        Opened,
+        Closed
     }
 }

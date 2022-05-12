@@ -15,7 +15,7 @@ namespace HotelManagementSoftware.Data
 
         public string IdNumber { get; set; }
 
-        public string Gender { get; set; }
+        public Gender Gender { get; set; }
 
         public string PhoneNumber { get; set; }
 
@@ -38,14 +38,14 @@ namespace HotelManagementSoftware.Data
 
         public Customer(string firstName,
                         string lastName,
+                        IdNumberType idNumberType,
                         string idNumber,
-                        string gender,
+                        Gender gender,
                         string phoneNumber,
                         string address,
                         string city,
                         string province,
-                        PaymentMethod paymentMethod,
-                        IdNumberType idNumberType)
+                        PaymentMethod paymentMethod)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -62,15 +62,21 @@ namespace HotelManagementSoftware.Data
 
     public enum PaymentMethod
     {
-        CASH,
-        VISA,
-        MASTERCARD
+        Cash,
+        Visa,
+        Mastercard
     }
 
     public enum IdNumberType
     {
-        CMND,
-        PASSPORT
+        Cmnd,
+        Passport
+    }
+
+    public enum Gender
+    {
+        Male,
+        Female
     }
 
     public class Country

@@ -27,10 +27,11 @@ namespace HotelManagementSoftware.Data
 
     public enum RoomStatus
     {
-        EMPTY,
-        IN_USE,
-        IN_WORK,
-        CLOSED
+        Empty,
+        InUse,
+        IsCleaning,
+        IsMaintaining,
+        Closed
     }
 
     public class RoomType

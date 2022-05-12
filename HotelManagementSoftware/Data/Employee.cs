@@ -13,7 +13,9 @@ namespace HotelManagementSoftware.Data
 
         public string LastName { get; set; }
 
-        public string Gender { get; set; }
+        public string UserName { get; set; }
+
+        public Gender Gender { get; set; }
 
         public DateTime BirthDate { get; set; }
 
@@ -33,7 +35,8 @@ namespace HotelManagementSoftware.Data
 
         public Employee(string firstName,
                         string lastName,
-                        string gender,
+                        string userName,
+                        Gender gender,
                         DateTime birthDate,
                         string phoneNumber,
                         string? email,
@@ -42,6 +45,7 @@ namespace HotelManagementSoftware.Data
         {
             FirstName = firstName;
             LastName = lastName;
+            UserName = userName;
             Gender = gender;
             BirthDate = birthDate;
             PhoneNumber = phoneNumber;

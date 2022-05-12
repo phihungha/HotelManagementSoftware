@@ -30,9 +30,9 @@ namespace HotelManagementSoftware.Data
 
     public enum ReservationStatus
     {
-        RESERVED,
-        CHECKED_IN,
-        CHECKED_OUT,
-        CANCELLED
+        Reserved,
+        CheckedIn,
+        CheckedOut,
+        Cancelled
     }
 }

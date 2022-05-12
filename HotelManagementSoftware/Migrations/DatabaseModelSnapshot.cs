@@ -147,6 +147,10 @@ namespace HotelManagementSoftware.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("EmployeeId");
 
                     b.HasIndex("EmployeeTypeId");

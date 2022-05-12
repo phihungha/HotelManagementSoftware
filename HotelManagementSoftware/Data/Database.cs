@@ -26,6 +26,13 @@ namespace HotelManagementSoftware.Data
             optionsBuilder.UseSqlServer(@"Database=HotelDB;Trusted_Connection=True;");
         }
 
+        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        {
+            configurationBuilder
+                .Properties<Gender>()
+                .HaveConversion<string>();
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Reservation>()

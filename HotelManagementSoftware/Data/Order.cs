@@ -30,7 +30,7 @@ namespace HotelManagementSoftware.Data
 
     public enum OrderStatus
     {
-        PENDING,
-        PAID
+        Pending,
+        Paid
     }
 }
