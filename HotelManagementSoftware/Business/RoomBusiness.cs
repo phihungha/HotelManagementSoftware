@@ -12,5 +12,6 @@ namespace HotelManagementSoftware.Business
 
     public class RoomTypeBusiness
     {
+
     }
 }
