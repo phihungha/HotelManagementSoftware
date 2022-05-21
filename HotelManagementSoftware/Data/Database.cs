@@ -7,6 +7,7 @@ namespace HotelManagementSoftware.Data
         public DbSet<Customer> Customers => Set<Customer>();
         public DbSet<Country> Countries => Set<Country>();
         public DbSet<Reservation> Reservations => Set<Reservation>();
+        public DbSet<ReservationCancelFeePercent> ReservationsCancelFee => Set<ReservationCancelFeePercent>();
         public DbSet<Order> Orders => Set<Order>();
         public DbSet<HousekeepingRequest> HousekeepingRequests => Set<HousekeepingRequest>();
         public DbSet<MaintenanceRequest> MaintenanceRequests => Set<MaintenanceRequest>();

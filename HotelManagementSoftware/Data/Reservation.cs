@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace HotelManagementSoftware.Data
 {
@@ -34,5 +35,13 @@ namespace HotelManagementSoftware.Data
         CheckedIn,
         CheckedOut,
         Cancelled
+    }
+
+    public class ReservationCancelFeePercent
+    {
+        [Key]
+        public DateTime DayBeforeArrival { get; set; }
+        
+        public double PercentOfTotal { get; set; }
     }
 }
