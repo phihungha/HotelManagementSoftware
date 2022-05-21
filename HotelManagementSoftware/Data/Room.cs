@@ -47,19 +47,15 @@ namespace HotelManagementSoftware.Data
         public int NumberOfPeople { get; set; }
 
         [Column(TypeName = "decimal(18,0)")]
-        public decimal FullDayRate { get; set; }
-
-        [Column(TypeName = "decimal(18,0)")]
-        public decimal HalfDayRate { get; set; }
+        public decimal Rate { get; set; }
 
         public List<Room> Rooms { get; set; } = new();
 
-        public RoomType(string name, int numberOfPeople, decimal fullDayRate, decimal halfDayRate)
+        public RoomType(string name, int numberOfPeople, decimal rate)
         {
             Name = name;
             NumberOfPeople = numberOfPeople;
-            FullDayRate = fullDayRate;
-            HalfDayRate = halfDayRate;
+            Rate = rate;
         }
     }
 }
