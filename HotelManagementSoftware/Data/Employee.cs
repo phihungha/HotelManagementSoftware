@@ -25,7 +25,9 @@ namespace HotelManagementSoftware.Data
 
         public string Address { get; set; }
 
-        public string HashedPassword { get; set; }
+        public string? HashedPassword { get; set; }
+
+        public string? Salt { get; set; }
 
         public List<HousekeepingRequest> OpenedHousekeepingRequests { get; set; } = new();
         public List<HousekeepingRequest> ClosedHousekeepingRequests { get; set; } = new();
@@ -39,9 +41,7 @@ namespace HotelManagementSoftware.Data
                         Gender gender,
                         DateTime birthDate,
                         string phoneNumber,
-                        string? email,
-                        string address,
-                        string hashedPassword)
+                        string address)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -49,9 +49,7 @@ namespace HotelManagementSoftware.Data
             Gender = gender;
             BirthDate = birthDate;
             PhoneNumber = phoneNumber;
-            Email = email;
             Address = address;
-            HashedPassword = hashedPassword;
         }
     }
 

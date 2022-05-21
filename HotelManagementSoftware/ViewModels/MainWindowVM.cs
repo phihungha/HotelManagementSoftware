@@ -1,4 +1,6 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using HotelManagementSoftware.Business;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +20,7 @@ namespace HotelManagementSoftware.ViewModels
 
         public MainWindowVM()
         {
-            CurrentPageVM = new LoginVM(this);
+            CurrentPageVM = new LoginVM(this, new EmployeeBusiness());
         }
 
         public void DisplayMainUI()
@@ -28,7 +30,8 @@ namespace HotelManagementSoftware.ViewModels
 
         public void DisplayLoginUI()
         {
-            CurrentPageVM = new LoginVM(this);
+            EmployeeBusiness b = new EmployeeBusiness();
+            CurrentPageVM = new LoginVM(this, new EmployeeBusiness());
         }
     }
 }
