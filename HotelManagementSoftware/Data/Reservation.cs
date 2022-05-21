@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace HotelManagementSoftware.Data
@@ -17,9 +18,9 @@ namespace HotelManagementSoftware.Data
 
         public Employee? Employee { get; set; }
 
-        public Order? Order { get; set; }
-
         public ReservationStatus Status { get; set; }
+
+        public List<Order> Orders { get; } = new();
 
         public Reservation(DateTime arrivalTime, DateTime departureTime, ReservationStatus status)
         {
@@ -40,8 +41,8 @@ namespace HotelManagementSoftware.Data
     public class ReservationCancelFeePercent
     {
         [Key]
-        public DateTime DayBeforeArrival { get; set; }
+        public int DayNumberBeforeArrival { get; set; }
         
-        public double PercentOfTotal { get; set; }
+        public int PercentOfTotal { get; set; }
     }
 }

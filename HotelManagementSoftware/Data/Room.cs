@@ -15,6 +15,8 @@ namespace HotelManagementSoftware.Data
 
         public string? Note { get; set; }
 
+        public List<Reservation> Reservations { get; set; } = new();
+
         public RoomStatus Status { get; set; }
 
         public Room(int roomNumber, int floor, RoomStatus status)

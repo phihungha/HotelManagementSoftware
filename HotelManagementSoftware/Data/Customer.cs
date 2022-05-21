@@ -85,7 +85,7 @@ namespace HotelManagementSoftware.Data
 
         public string Name { get; set; }
 
-        public List<Customer> Reservations { get; } = new();
+        public List<Customer> Reservations { get; set; } = new();
 
         public Country(string name)
         {
