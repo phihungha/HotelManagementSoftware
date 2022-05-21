@@ -1,4 +1,5 @@
-﻿using HotelManagementSoftware.Data;
+﻿using HotelManagementSoftware.Business;
+using HotelManagementSoftware.Data;
 using HotelManagementSoftware.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,7 +36,29 @@ namespace HotelManagementSoftware
         {
             var services = new ServiceCollection();
 
+            services.AddSingleton<EmployeeBusiness, EmployeeBusiness>();
+            services.AddSingleton<MainWindowVM, MainWindowVM>();
+
             return services.BuildServiceProvider();
+        }
+
+        private async void testDb()
+        {
+            EmployeeTypeBusiness b = new EmployeeTypeBusiness();
+            List<EmployeeType> types = await b.GetAllEmployeeTypes();
+            EmployeeType t = types.First(i => i.Name == "Receptionist");
+
+            Employee newEmployee = new Employee("john",
+                                                "skeet",
+                                                "johnskeet",
+                                                Gender.Male,
+                                                new DateTime(1975, 5, 10),
+                                                "0123456789",
+                                                "130");
+            newEmployee.EmployeeType = t;
+
+            EmployeeBusiness eb = new EmployeeBusiness();
+            eb.CreateEmployee(newEmployee, "4321");
         }
     }
 }
