@@ -2,22 +2,62 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HotelManagementSoftware.Business
 {
     public class ReservationBusiness
     {
+        /// <summary>
+        /// Get all reservations.
+        /// </summary>
+        /// <returns>List of reservations</returns>
         public async Task<List<Reservation>> GetAllReservations()
         {
             using (var db = new Database())
             {
                 return await db.Reservations
                     .Include(i => i.Customer)
-                    .Include(i => i.Employee)
                     .Include(i => i.Orders)
                     .Include(i => i.Room)
                     .ThenInclude(room => room.RoomType)
+                    .ToListAsync();
+            }
+        }
+
+        /// <summary>
+        /// Get reservations that arrive today.
+        /// </summary>
+        /// <returns>List of reservations</returns>
+        public async Task<List<Reservation>> GetArriveTodayReservation()
+        {
+            using (var db = new Database())
+            {
+                return await db.Reservations
+                    .Include(i => i.Customer)
+                    .Include(i => i.Orders)
+                    .Include(i => i.Room)
+                    .ThenInclude(room => room.RoomType)
+                    .Where(i => i.ArrivalTime.Date == DateTime.Now.Date)
+                    .ToListAsync();
+            }
+        }
+
+        /// <summary>
+        /// Get reservations that depart today.
+        /// </summary>
+        /// <returns>List of reservations</returns>
+        public async Task<List<Reservation>> GetDepartTodayReservation()
+        {
+            using (var db = new Database())
+            {
+                return await db.Reservations
+                    .Include(i => i.Customer)
+                    .Include(i => i.Orders)
+                    .Include(i => i.Room)
+                    .ThenInclude(room => room.RoomType)
+                    .Where(i => i.DepartureTime.Date == DateTime.Now.Date)
                     .ToListAsync();
             }
         }
@@ -28,8 +68,9 @@ namespace HotelManagementSoftware.Business
         /// <param name="reservation">Reservation info</param>
         /// <param name="checkIn">Checkin this reservation right away</param>
         /// <exception cref="ArgumentException">Problems with the reservation's info</exception>
-        public async void CreateNewReservation(Reservation reservation, bool checkIn)
+        public async void CreateReservation(Reservation reservation, bool checkIn)
         {
+            ValidateReservation(reservation);
             using (var db = new Database())
             {
                 if (await CheckCollidedReservation(db, reservation))
@@ -58,6 +99,7 @@ namespace HotelManagementSoftware.Business
         /// <param name="reservation">New reservation info</param>
         public async void EditReservation(Reservation reservation)
         {
+            ValidateReservation(reservation);
             using (var db = new Database())
             {
                 if (await CheckCollidedReservation(db, reservation))
@@ -96,6 +138,23 @@ namespace HotelManagementSoftware.Business
         }
 
         /// <summary>
+        /// Validate reservation's information before adding or updating.
+        /// </summary>
+        /// <param name="reservation">Reservation</param>
+        /// <exception cref="ArgumentException"></exception>
+        public void ValidateReservation(Reservation reservation)
+        {
+            if (reservation.ArrivalTime >= reservation.DepartureTime)
+                throw new ArgumentException("Arrival time cannot be ahead of departure time");
+            if (reservation.Room == null)
+                throw new ArgumentException("Room cannot be empty");
+            if (reservation.Customer == null)
+                throw new ArgumentException("Customer cannot be empty");
+            if (reservation.Employee == null)
+                throw new ArgumentException("Employee cannot be empty");
+        }
+
+        /// <summary>
         /// Check in a reservation.
         /// </summary>
         /// <param name="reservation">Reservation to check in</param>
@@ -106,6 +165,9 @@ namespace HotelManagementSoftware.Business
             {
                 if (reservation.Status != ReservationStatus.Reserved)
                     throw new ArgumentException("Reservation has been checked in before or has been canceled");
+
+                if (reservation.ArrivalTime.Date != DateTime.Now.Date)
+                    throw new ArgumentException("Today is not arrival date");
 
                 reservation.Status = ReservationStatus.CheckedIn;
 
@@ -126,6 +188,9 @@ namespace HotelManagementSoftware.Business
                 if (reservation.Status != ReservationStatus.CheckedIn)
                     throw new ArgumentException("Reservation has not been checked in or has been canceled");
 
+                if (reservation.DepartureTime.Date != DateTime.Now.Date)
+                    throw new ArgumentException("Today is not departure date");
+
                 reservation.Status = ReservationStatus.CheckedOut;
 
                 reservation.Orders[-1].Status = OrderStatus.Paid;
@@ -144,7 +209,7 @@ namespace HotelManagementSoftware.Business
         private decimal GetTotalRentFee(Reservation reservation)
         {
             if (reservation?.Room?.RoomType?.Rate == null)
-                throw new ArgumentNullException("Reservation's room or room type is null");
+                throw new ArgumentException("Reservation's room or room type is null");
             decimal roomRate = reservation.Room.RoomType.Rate;
 
             TimeSpan stayPeriod = reservation.DepartureTime - reservation.ArrivalTime;

@@ -30,6 +30,7 @@ namespace HotelManagementSoftware.Business
         {
             using (var db = new Database())
             {
+                db.Attach(room.RoomType);
                 db.Add(room);
                 await db.SaveChangesAsync();
             }

@@ -11,6 +11,8 @@ namespace HotelManagementSoftware.Data
 
         public string LastName { get; set; }
 
+        public DateTime BirthDate { get; set; }
+
         public IdNumberType IdNumberType { get; set; }
 
         public string IdNumber { get; set; }

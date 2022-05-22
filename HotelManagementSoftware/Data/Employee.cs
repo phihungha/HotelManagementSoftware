@@ -51,6 +51,20 @@ namespace HotelManagementSoftware.Data
             PhoneNumber = phoneNumber;
             Address = address;
         }
+
+        public Employee(string firstName,
+                        string lastName,
+                        string userName,
+                        EmployeeType employeeType,
+                        Gender gender,
+                        DateTime birthDate,
+                        string phoneNumber,
+                        string address)
+            : this(firstName, lastName, userName, gender, birthDate, phoneNumber, address)
+        {
+            EmployeeType = employeeType;
+        }
+
     }
 
     public class EmployeeType

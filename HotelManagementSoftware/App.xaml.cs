@@ -23,6 +23,7 @@ namespace HotelManagementSoftware
         {
             Services = ConfigureServices();
             InitializeComponent();
+            testDb();
         }
 
         public new static App Current => (App)Application.Current;
@@ -44,21 +45,9 @@ namespace HotelManagementSoftware
 
         private async void testDb()
         {
-            EmployeeTypeBusiness b = new EmployeeTypeBusiness();
-            List<EmployeeType> types = await b.GetAllEmployeeTypes();
-            EmployeeType t = types.First(i => i.Name == "Receptionist");
-
-            Employee newEmployee = new Employee("john",
-                                                "skeet",
-                                                "johnskeet",
-                                                Gender.Male,
-                                                new DateTime(1975, 5, 10),
-                                                "0123456789",
-                                                "130");
-            newEmployee.EmployeeType = t;
-
             EmployeeBusiness eb = new EmployeeBusiness();
-            eb.CreateEmployee(newEmployee, "4321");
+            Employee e = (await eb.GetAllEmloyees())[0];
+            e.Email = "abcd";
         }
     }
 }
