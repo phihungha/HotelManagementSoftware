@@ -9,9 +9,7 @@ namespace HotelManagementSoftware.Data
 
         public EmployeeType? EmployeeType { get; set; }
 
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
+        public string Name { get; set; }
 
         public string UserName { get; set; }
 
@@ -19,13 +17,17 @@ namespace HotelManagementSoftware.Data
 
         public DateTime BirthDate { get; set; }
 
+        public string Cmnd { get; set; }
+
         public string PhoneNumber { get; set; }
 
         public string? Email { get; set; }
 
         public string Address { get; set; }
 
-        public string HashedPassword { get; set; }
+        public string? HashedPassword { get; set; }
+
+        public string? Salt { get; set; }
 
         public List<HousekeepingRequest> OpenedHousekeepingRequests { get; set; } = new();
         public List<HousekeepingRequest> ClosedHousekeepingRequests { get; set; } = new();
@@ -33,26 +35,36 @@ namespace HotelManagementSoftware.Data
         public List<MaintenanceRequest> ClosedMaintenanceRequests { get; set; } = new();
         public List<Reservation> Reservations { get; set; } = new();
 
-        public Employee(string firstName,
-                        string lastName,
+        public Employee(string name,
                         string userName,
                         Gender gender,
                         DateTime birthDate,
+                        string cmnd,
                         string phoneNumber,
-                        string? email,
-                        string address,
-                        string hashedPassword)
+                        string address)
         {
-            FirstName = firstName;
-            LastName = lastName;
+            Name = name;
             UserName = userName;
             Gender = gender;
             BirthDate = birthDate;
             PhoneNumber = phoneNumber;
-            Email = email;
             Address = address;
-            HashedPassword = hashedPassword;
+            Cmnd = cmnd;
         }
+
+        public Employee(string name,
+                        string userName,
+                        EmployeeType employeeType,
+                        Gender gender,
+                        DateTime birthDate,
+                        string cmnd,
+                        string phoneNumber,
+                        string address)
+            : this(name, userName, gender, birthDate, cmnd, phoneNumber, address)
+        {
+            EmployeeType = employeeType;
+        }
+
     }
 
     public class EmployeeType

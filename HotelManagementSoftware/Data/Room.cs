@@ -15,6 +15,8 @@ namespace HotelManagementSoftware.Data
 
         public string? Note { get; set; }
 
+        public List<Reservation> Reservations { get; set; } = new();
+
         public RoomStatus Status { get; set; }
 
         public Room(int roomNumber, int floor, RoomStatus status)
@@ -23,14 +25,18 @@ namespace HotelManagementSoftware.Data
             Status = status;
             RoomNumber = roomNumber;
         }
+
+        public Room(int roomNumber, RoomType roomType, int floor, string? note, RoomStatus status)
+            : this(roomNumber, floor, status)
+        {
+            RoomType = roomType;
+            Note = note;
+        }
     }
 
     public enum RoomStatus
     {
-        Empty,
-        InUse,
-        IsCleaning,
-        IsMaintaining,
+        Usable,
         Closed
     }
 
@@ -42,22 +48,19 @@ namespace HotelManagementSoftware.Data
 
         public string? Description { get; set; }
 
-        public int NumberOfPeople { get; set; }
+        public int Capacity { get; set; }
 
         [Column(TypeName = "decimal(18,0)")]
-        public decimal FullDayRate { get; set; }
-
-        [Column(TypeName = "decimal(18,0)")]
-        public decimal HalfDayRate { get; set; }
+        public decimal Rate { get; set; }
 
         public List<Room> Rooms { get; set; } = new();
 
-        public RoomType(string name, int numberOfPeople, decimal fullDayRate, decimal halfDayRate)
+        public RoomType(string name, int capacity, decimal rate, string? description)
         {
             Name = name;
-            NumberOfPeople = numberOfPeople;
-            FullDayRate = fullDayRate;
-            HalfDayRate = halfDayRate;
+            Capacity = capacity;
+            Rate = rate;
+            Description = description;
         }
     }
 }

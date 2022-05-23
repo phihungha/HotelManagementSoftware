@@ -1,14 +1,9 @@
-﻿using HotelManagementSoftware.Data;
+﻿using HotelManagementSoftware.Business;
+using HotelManagementSoftware.Data;
+using HotelManagementSoftware.Utils;
 using HotelManagementSoftware.ViewModels;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace HotelManagementSoftware
@@ -22,6 +17,7 @@ namespace HotelManagementSoftware
         {
             Services = ConfigureServices();
             InitializeComponent();
+            testDb();
         }
 
         public new static App Current => (App)Application.Current;
@@ -35,7 +31,15 @@ namespace HotelManagementSoftware
         {
             var services = new ServiceCollection();
 
+            services.AddSingleton<EmployeeBusiness, EmployeeBusiness>();
+            services.AddSingleton<MainWindowVM, MainWindowVM>();
+
             return services.BuildServiceProvider();
+        }
+
+        private async void testDb()
+        {
+
         }
     }
 }
