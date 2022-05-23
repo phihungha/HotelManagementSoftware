@@ -22,7 +22,9 @@ namespace HotelManagementSoftware.Business
         {
             using (var db = new Database())
             {
-                Employee employee = await db.Employees.SingleAsync(i => i.UserName == userName);
+                Employee? employee = await db.Employees.FirstOrDefaultAsync(i => i.UserName == userName);
+                if (employee == null)
+                    return false;
                 if (employee.Salt == null || employee.HashedPassword == null)
                     return false;
                 byte[] salt = Convert.FromBase64String(employee.Salt);
