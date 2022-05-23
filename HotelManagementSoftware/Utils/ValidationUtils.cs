@@ -42,6 +42,16 @@ namespace HotelManagementSoftware.Utils
         }
 
         /// <summary>
+        /// Validate CMND number.
+        /// </summary>
+        /// <param name="cmndNumber">CMND number</param>
+        /// <returns></returns>
+        public static bool ValidateCmnd(string cmndNumber)
+        {
+            return cmndNumber.Length == 9 || cmndNumber.Length == 12;
+        }
+
+        /// <summary>
         /// Validate email
         /// </summary>
         /// <param name="email">Email</param>

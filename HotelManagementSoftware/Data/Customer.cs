@@ -7,9 +7,7 @@ namespace HotelManagementSoftware.Data
     {
         public int CustomerId { get; set; }
 
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
+        public string Name { get; set; }
 
         public DateTime BirthDate { get; set; }
 
@@ -38,8 +36,8 @@ namespace HotelManagementSoftware.Data
 
         public List<Reservation> Reservations { get; } = new();
 
-        public Customer(string firstName,
-                        string lastName,
+        public Customer(string name,
+                        DateTime birthDate,
                         IdNumberType idNumberType,
                         string idNumber,
                         Gender gender,
@@ -49,9 +47,9 @@ namespace HotelManagementSoftware.Data
                         string province,
                         PaymentMethod paymentMethod)
         {
-            FirstName = firstName;
-            LastName = lastName;
+            Name = name;
             IdNumber = idNumber;
+            BirthDate = birthDate;
             Gender = gender;
             PhoneNumber = phoneNumber;
             Address = address;
@@ -59,6 +57,35 @@ namespace HotelManagementSoftware.Data
             Province = province;
             PaymentMethod = paymentMethod;
             IdNumberType = idNumberType;
+        }
+
+        public Customer(string name,
+                        DateTime birthDate,
+                        IdNumberType idNumberType,
+                        string idNumber,
+                        Gender gender,
+                        string phoneNumber,
+                        string address,
+                        string city,
+                        string province,
+                        Country country,
+                        PaymentMethod paymentMethod,
+                        string? cardNumber,
+                        DateTime? expireDate)
+            : this(name,
+                   birthDate,
+                   idNumberType,
+                   idNumber,
+                   gender,
+                   phoneNumber,
+                   address,
+                   city,
+                   province,
+                   paymentMethod)
+        {
+            Country = country;
+            CardNumber = cardNumber;
+            ExpireDate = expireDate;
         }
     }
 

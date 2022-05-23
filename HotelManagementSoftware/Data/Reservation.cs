@@ -28,6 +28,19 @@ namespace HotelManagementSoftware.Data
             DepartureTime = departureTime;
             Status = status;
         }
+
+        public Reservation(DateTime arrivalTime,
+                           DateTime departureTime,
+                           Room room,
+                           Customer customer,
+                           Employee employee,
+                           ReservationStatus status)
+            : this(arrivalTime, departureTime, status)
+        {
+            Room = room;
+            Customer = customer;
+            Employee = employee;
+        }
     }
 
     public enum ReservationStatus

@@ -9,15 +9,15 @@ namespace HotelManagementSoftware.Data
 
         public EmployeeType? EmployeeType { get; set; }
 
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
+        public string Name { get; set; }
 
         public string UserName { get; set; }
 
         public Gender Gender { get; set; }
 
         public DateTime BirthDate { get; set; }
+
+        public string Cmnd { get; set; }
 
         public string PhoneNumber { get; set; }
 
@@ -35,32 +35,32 @@ namespace HotelManagementSoftware.Data
         public List<MaintenanceRequest> ClosedMaintenanceRequests { get; set; } = new();
         public List<Reservation> Reservations { get; set; } = new();
 
-        public Employee(string firstName,
-                        string lastName,
+        public Employee(string name,
                         string userName,
                         Gender gender,
                         DateTime birthDate,
+                        string cmnd,
                         string phoneNumber,
                         string address)
         {
-            FirstName = firstName;
-            LastName = lastName;
+            Name = name;
             UserName = userName;
             Gender = gender;
             BirthDate = birthDate;
             PhoneNumber = phoneNumber;
             Address = address;
+            Cmnd = cmnd;
         }
 
-        public Employee(string firstName,
-                        string lastName,
+        public Employee(string name,
                         string userName,
                         EmployeeType employeeType,
                         Gender gender,
                         DateTime birthDate,
+                        string cmnd,
                         string phoneNumber,
                         string address)
-            : this(firstName, lastName, userName, gender, birthDate, phoneNumber, address)
+            : this(name, userName, gender, birthDate, cmnd, phoneNumber, address)
         {
             EmployeeType = employeeType;
         }
