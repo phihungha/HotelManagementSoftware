@@ -32,7 +32,9 @@ namespace HotelManagementSoftware
             var services = new ServiceCollection();
 
             services.AddSingleton<EmployeeBusiness, EmployeeBusiness>();
-            services.AddSingleton<MainWindowVM, MainWindowVM>();
+            services.AddTransient<MainWindowVM, MainWindowVM>();
+            services.AddTransient<LoginVM, LoginVM>();
+            services.AddTransient<LoggedInVM, LoggedInVM>();
 
             return services.BuildServiceProvider();
         }

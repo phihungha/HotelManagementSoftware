@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HotelManagementSoftware.ViewModels
 {
-    public class MainUIVM : ObservableObject
+    public class LoggedInVM : ObservableObject
     {
 
     }

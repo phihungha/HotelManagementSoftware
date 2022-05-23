@@ -25,7 +25,7 @@ namespace HotelManagementSoftware
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = App.Current.Services.GetService<MainWindowVM>();
+            DataContext = App.Current.Services.GetRequiredService<MainWindowVM>();
         }
     }
 }
