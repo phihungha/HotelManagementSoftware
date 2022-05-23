@@ -39,8 +39,7 @@ namespace HotelManagementSoftware
 
         private async void testDb()
         {
-            EmployeeBusiness eb = new EmployeeBusiness();
-            Employee e = (await eb.GetAllEmloyees())[0];
+
         }
     }
 }

@@ -55,7 +55,7 @@ namespace HotelManagementSoftware.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CardNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -76,7 +76,7 @@ namespace HotelManagementSoftware.Migrations
 
                     b.Property<string>("IdNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("IdNumberType")
                         .IsRequired()
@@ -92,7 +92,7 @@ namespace HotelManagementSoftware.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Province")
                         .IsRequired()
@@ -100,7 +100,17 @@ namespace HotelManagementSoftware.Migrations
 
                     b.HasKey("CustomerId");
 
+                    b.HasIndex("CardNumber")
+                        .IsUnique()
+                        .HasFilter("[CardNumber] IS NOT NULL");
+
                     b.HasIndex("CountryId");
+
+                    b.HasIndex("IdNumber")
+                        .IsUnique();
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique();
 
                     b.ToTable("Customers");
                 });
@@ -122,7 +132,7 @@ namespace HotelManagementSoftware.Migrations
 
                     b.Property<string>("Cmnd")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -143,18 +153,27 @@ namespace HotelManagementSoftware.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Salt")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("EmployeeId");
 
+                    b.HasIndex("Cmnd")
+                        .IsUnique();
+
                     b.HasIndex("EmployeeTypeId");
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique();
+
+                    b.HasIndex("UserName")
+                        .IsUnique();
 
                     b.ToTable("Employees");
                 });
@@ -169,9 +188,12 @@ namespace HotelManagementSoftware.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("EmployeeTypeId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("EmployeeTypes");
                 });
@@ -400,6 +422,9 @@ namespace HotelManagementSoftware.Migrations
 
                     b.HasKey("RoomId");
 
+                    b.HasIndex("RoomNumber")
+                        .IsUnique();
+
                     b.HasIndex("RoomTypeId");
 
                     b.ToTable("Rooms");
@@ -421,12 +446,15 @@ namespace HotelManagementSoftware.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Rate")
                         .HasColumnType("decimal(18,0)");
 
                     b.HasKey("RoomTypeId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("RoomTypes");
                 });

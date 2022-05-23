@@ -13,6 +13,27 @@ namespace HotelManagementSoftware.Business
     public class EmployeeBusiness
     {
         /// <summary>
+        /// Login using a username and password
+        /// </summary>
+        /// <param name="userName">Username</param>
+        /// <param name="password">Password</param>
+        /// <returns>True if login succeeds</returns>
+        public async Task<bool> Login(string userName, string password)
+        {
+            using (var db = new Database())
+            {
+                Employee employee = await db.Employees.SingleAsync(i => i.UserName == userName);
+                if (employee.Salt == null || employee.HashedPassword == null)
+                    return false;
+                byte[] salt = Convert.FromBase64String(employee.Salt);
+                string hashedPassword = GetHashedPassword(password, salt);
+                if (employee.HashedPassword == hashedPassword)
+                    return true;
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Get all employees.
         /// </summary>
         /// <returns>List of employees</returns>
@@ -174,27 +195,6 @@ namespace HotelManagementSoftware.Business
                 throw new ArgumentException("Address cannot be empty");
             if (employee.Email != null && !ValidationUtils.ValidateEmail(employee.Email))
                 throw new ArgumentException("Email is invalid");
-        }
-
-        /// <summary>
-        /// Login using a username and password
-        /// </summary>
-        /// <param name="userName">Username</param>
-        /// <param name="password">Password</param>
-        /// <returns>True if login succeeds</returns>
-        public async Task<bool> Login(string userName, string password)
-        {
-            using (var db = new Database())
-            {
-                Employee employee = await db.Employees.SingleAsync(i => i.UserName == userName);
-                if (employee.Salt == null || employee.HashedPassword == null)
-                    return false;
-                byte[] salt = Convert.FromBase64String(employee.Salt);
-                string hashedPassword = GetHashedPassword(password, salt);
-                if (employee.HashedPassword == hashedPassword)
-                    return true;
-                return false;
-            }
         }
 
         /// <summary>

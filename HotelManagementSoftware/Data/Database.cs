@@ -36,6 +36,42 @@ namespace HotelManagementSoftware.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Employee>()
+                .HasIndex(i => new { i.Cmnd })
+                .IsUnique();
+
+            modelBuilder.Entity<Employee>()
+                .HasIndex(i => new { i.UserName })
+                .IsUnique();
+
+            modelBuilder.Entity<Employee>()
+                .HasIndex(i => new { i.PhoneNumber })
+                .IsUnique();
+
+            modelBuilder.Entity<EmployeeType>()
+                .HasIndex(i => new { i.Name })
+                .IsUnique();
+
+            modelBuilder.Entity<Customer>()
+                .HasIndex(i => new { i.IdNumber })
+                .IsUnique();
+
+            modelBuilder.Entity<Customer>()
+                .HasIndex(i => new { i.PhoneNumber })
+                .IsUnique();
+
+            modelBuilder.Entity<Customer>()
+                .HasIndex(i => new { i.CardNumber })
+                .IsUnique();
+
+            modelBuilder.Entity<Room>()
+                .HasIndex(i => new { i.RoomNumber })
+                .IsUnique();
+
+            modelBuilder.Entity<RoomType>()
+                .HasIndex(i => new { i.Name })
+                .IsUnique();
+
             modelBuilder.Entity<Reservation>()
                 .Property(i => i.Status)
                 .HasConversion<string>();
