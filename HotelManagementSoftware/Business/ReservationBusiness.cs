@@ -76,7 +76,7 @@ namespace HotelManagementSoftware.Business
                 if (await CheckCollidedReservation(db, reservation))
                     throw new ArgumentException("Another reservation exists in this reservation's stay period");
 
-                if (reservation.Room?.Status != RoomStatus.Empty)
+                if (reservation.Room?.Status != RoomStatus.Usable)
                     throw new ArgumentException("This room cannot be used now");
 
                 if (checkIn)
@@ -105,7 +105,7 @@ namespace HotelManagementSoftware.Business
                 if (await CheckCollidedReservation(db, reservation))
                     throw new ArgumentException("Another reservation exists in this reservation's stay period");
 
-                if (reservation.Room?.Status != RoomStatus.Empty)
+                if (reservation.Room?.Status != RoomStatus.Usable)
                     throw new ArgumentException("This room cannot be used now");
 
                 decimal totalRentFee = GetTotalRentFee(reservation);
@@ -141,7 +141,7 @@ namespace HotelManagementSoftware.Business
         /// Validate reservation's information before adding or updating.
         /// </summary>
         /// <param name="reservation">Reservation</param>
-        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentException">Validation error</exception>
         public void ValidateReservation(Reservation reservation)
         {
             if (reservation.ArrivalTime >= reservation.DepartureTime)

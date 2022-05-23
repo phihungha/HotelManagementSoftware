@@ -23,6 +23,82 @@ namespace HotelManagementSoftware.Business
         }
 
         /// <summary>
+        /// Get a customer by id.
+        /// </summary>
+        /// <returns>Customer</returns>
+        public async Task<Customer?> GetCustomerById(int id)
+        {
+            using (var db = new Database())
+            {
+                return await db.Customers
+                    .Include(i => i.Country)
+                    .FirstOrDefaultAsync(i => i.CustomerId == id);
+            }
+        }
+
+        /// <summary>
+        /// Get a customer by CMND or passport number.
+        /// </summary>
+        /// <param name="cmnd">Id number (CMND or passport number)</param>
+        /// <returns>Customer</returns>
+        public async Task<Customer?> GetCustomerByIdNumber(string idNumber)
+        {
+            using (var db = new Database())
+            {
+                return await db.Customers
+                    .Include(i => i.Country)
+                    .FirstOrDefaultAsync(i => i.IdNumber == idNumber);
+            }
+        }
+
+        /// <summary>
+        /// Get a customer by phone number.
+        /// </summary>
+        /// <param name="phoneNumber">Phone number</param>
+        /// <returns>Customer</returns>
+        public async Task<Customer?> GetCustomerByPhoneNumber(string phoneNumber)
+        {
+            using (var db = new Database())
+            {
+                return await db.Customers
+                    .Include(i => i.Country)
+                    .FirstOrDefaultAsync(i => i.PhoneNumber == phoneNumber);
+            }
+        }
+
+        /// <summary>
+        /// Get customers with name containing the search term.
+        /// </summary>
+        /// <param name="searchTerm">Search term</param>
+        /// <returns>List of customers</returns>
+        public async Task<List<Customer>> GetCustomersByName(string searchTerm)
+        {
+            using (var db = new Database())
+            {
+                return await db.Customers
+                    .Include(i => i.Country)
+                    .Where(i => i.Name.Contains(searchTerm))
+                    .ToListAsync();
+            }
+        }
+
+        /// <summary>
+        /// Get customers with name containing the search term.
+        /// </summary>
+        /// <param name="searchTerm">Search term</param>
+        /// <returns>List of customers</returns>
+        public async Task<List<Customer>> GetCustomersByCountry(Country country)
+        {
+            using (var db = new Database())
+            {
+                return await db.Customers
+                    .Include(i => i.Country)
+                    .Where(i => i.Country == country)
+                    .ToListAsync();
+            }
+        }
+
+        /// <summary>
         /// Create a customer.
         /// </summary>
         /// <param name="customer">Customer</param>
@@ -73,10 +149,8 @@ namespace HotelManagementSoftware.Business
         /// <exception cref="ArgumentException">Validation failure</exception>
         public void ValidateCustomer(Customer customer)
         {
-            if (customer.FirstName == "")
-                throw new ArgumentException("First name cannot be empty");
-            if (customer.LastName == "")
-                throw new ArgumentException("Last name cannot be empty");
+            if (customer.Name == "")
+                throw new ArgumentException("Name cannot be empty");
             if (customer.IdNumber == "")
                 throw new ArgumentException("Id number cannot be empty");
             if (customer.BirthDate > DateTime.Now.AddYears(-18))

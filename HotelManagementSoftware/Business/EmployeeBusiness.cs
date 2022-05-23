@@ -20,22 +20,67 @@ namespace HotelManagementSoftware.Business
         {
             using (var db = new Database())
             {
-                /// Don't map password hash and salt.
-                return await db.Employees.Include(i => i.EmployeeType)
-                    .Select(i =>
-                        new Employee(
-                            i.FirstName,
-                            i.LastName,
-                            i.UserName,
-                            i.Gender,
-                            i.BirthDate,
-                            i.PhoneNumber,
-                            i.Address)
-                        {
-                            Email = i.Email,
-                            EmployeeType = i.EmployeeType
-                        }
-                    ).ToListAsync();
+                return await db.Employees.Include(i => i.EmployeeType).ToListAsync();
+            }
+        }
+
+        /// <summary>
+        /// Get an employee by id.
+        /// </summary>
+        /// <returns>Employee</returns>
+        public async Task<Employee?> GetEmployeeById(int id)
+        {
+            using (var db = new Database())
+            {
+                return await db.Employees
+                    .Include(i => i.EmployeeType)
+                    .FirstOrDefaultAsync(i => i.EmployeeId == id);
+            }
+        }
+
+        /// <summary>
+        /// Get an employee by CMND number.
+        /// </summary>
+        /// <param name="cmnd">CMND number</param>
+        /// <returns>Employee</returns>
+        public async Task<Employee?> GetEmployeeByIdNumber(string cmnd)
+        {
+            using (var db = new Database())
+            {
+                return await db.Employees
+                    .Include(i => i.EmployeeType)
+                    .FirstOrDefaultAsync(i => i.Cmnd == cmnd);
+            }
+        }
+
+        /// <summary>
+        /// Get an employee by phone number.
+        /// </summary>
+        /// <param name="phoneNumber">Phone number</param>
+        /// <returns>Employee</returns>
+        public async Task<Employee?> GetEmployeeByPhoneNumber(string phoneNumber)
+        {
+            using (var db = new Database())
+            {
+                return await db.Employees
+                    .Include(i => i.EmployeeType)
+                    .FirstOrDefaultAsync(i => i.PhoneNumber == phoneNumber);
+            }
+        }
+
+        /// <summary>
+        /// Get employees with name containing the search term.
+        /// </summary>
+        /// <param name="searchTerm">Search term</param>
+        /// <returns>Employee</returns>
+        public async Task<List<Employee>> GetEmployeesByName(string searchTerm)
+        {
+            using (var db = new Database())
+            {
+                return await db.Employees
+                    .Include(i => i.EmployeeType)
+                    .Where(i => i.Name.Contains(searchTerm))
+                    .ToListAsync();
             }
         }
 
@@ -109,20 +154,20 @@ namespace HotelManagementSoftware.Business
         /// <summary>
         /// Validate employee's information before adding or updating.
         /// </summary>
-        /// <param name="employee">Employee</param>
+        /// <param name="employee">Employee to validate</param>
         /// <exception cref="ArgumentException">Validation failure</exception>
         public void ValidateEmployee(Employee employee)
         {
-            if (employee.FirstName == "")
-                throw new ArgumentException("First name cannot be empty");
-            if (employee.LastName == "")
-                throw new ArgumentException("Last name cannot be empty");
+            if (employee.Name == "")
+                throw new ArgumentException("Name cannot be empty");
             if (employee.UserName == "")
                 throw new ArgumentException("User name cannot be empty");
             if (employee.EmployeeType == null)
                 throw new ArgumentException("Employee type cannot be null");
             if (employee.BirthDate > DateTime.Now.AddYears(-18))
                 throw new ArgumentException("Age cannot be less than 18 years old");
+            if (!ValidationUtils.ValidateCmnd(employee.Cmnd))
+                throw new ArgumentException("CMND number must have 9 or 12 numbers");
             if (!ValidationUtils.ValidatePhoneNumber(employee.PhoneNumber, "VN"))
                 throw new ArgumentException("Phone number is invalid");
             if (employee.Address == "")
