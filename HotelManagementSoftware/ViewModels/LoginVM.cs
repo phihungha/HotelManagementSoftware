@@ -43,7 +43,7 @@ namespace HotelManagementSoftware.ViewModels
         {
             if (await employeeBusiness.Login(UserName, Password))
             {
-                MainWindowNavigationUtils.NavigateTo(MainWindowUIName.LoggedIn);
+                MainWindowNavigationUtils.NavigateTo(MainWindowPageName.LoggedIn);
                 IsLoginInfoIncorrect = false;
             }
             else

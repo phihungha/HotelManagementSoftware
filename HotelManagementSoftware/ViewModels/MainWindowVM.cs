@@ -3,11 +3,6 @@ using HotelManagementSoftware.ViewModels.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Messaging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HotelManagementSoftware.ViewModels
 {
@@ -24,17 +19,17 @@ namespace HotelManagementSoftware.ViewModels
         {
             WeakReferenceMessenger.Default.Register<MainWindowNavigationMessage>(
                 this, (recipient, message) => NavigateTo(message.Value));
-            NavigateTo(MainWindowUIName.Login);
+            NavigateTo(MainWindowPageName.Login);
         }
 
-        public void NavigateTo(MainWindowUIName ui)
+        public void NavigateTo(MainWindowPageName ui)
         {
             switch (ui)
             {
-                case MainWindowUIName.Login:
+                case MainWindowPageName.Login:
                     CurrentPageVM = App.Current.Services.GetRequiredService<LoginVM>();
                     break;
-                case MainWindowUIName.LoggedIn:
+                case MainWindowPageName.LoggedIn:
                     CurrentPageVM = App.Current.Services.GetRequiredService<LoggedInVM>();
                     break;
             }
