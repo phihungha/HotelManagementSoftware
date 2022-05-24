@@ -201,7 +201,7 @@ namespace HotelManagementSoftware.Business
                     throw new ArgumentException("This room cannot be used now");
 
                 if (reservation.Order == null)
-                    throw new ArgumentException("Order cannot be null");
+                    throw new ArgumentException("Order cannot be null when editing reservation");
 
                 reservation.Order.CreationTime = DateTime.Now;
                 reservation.Order.Amount = GetTotalRentFee(reservation);
@@ -222,10 +222,11 @@ namespace HotelManagementSoftware.Business
                 reservation.Status = ReservationStatus.Cancelled;
 
                 if (reservation.Order == null)
-                    throw new ArgumentException("Order cannot be null");
+                    throw new ArgumentException("Order cannot be null when cancelling reservation");
 
                 reservation.Order.PayTime = DateTime.Now;
                 reservation.Order.Amount = await GetCancelFee(db, reservation);
+                reservation.Order.Status = OrderStatus.Paid;
 
                 db.Update(reservation);
                 await db.SaveChangesAsync();
