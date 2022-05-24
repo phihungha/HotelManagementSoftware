@@ -18,9 +18,9 @@ namespace HotelManagementSoftware.UI
     /// <summary>
     /// Interaction logic for MainUI.xaml
     /// </summary>
-    public partial class MainUI : UserControl
+    public partial class LoggedIn : UserControl
     {
-        public MainUI()
+        public LoggedIn()
         {
             InitializeComponent();
         }

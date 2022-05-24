@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using HotelManagementSoftware.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace HotelManagementSoftware
 {
@@ -24,7 +25,7 @@ namespace HotelManagementSoftware
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainWindowVM();
+            DataContext = App.Current.Services.GetRequiredService<MainWindowVM>();
         }
     }
 }

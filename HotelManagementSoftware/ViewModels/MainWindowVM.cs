@@ -1,4 +1,8 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using HotelManagementSoftware.Business;
+using HotelManagementSoftware.ViewModels.Utils;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,17 +22,22 @@ namespace HotelManagementSoftware.ViewModels
 
         public MainWindowVM()
         {
-            CurrentPageVM = new LoginVM(this);
+            WeakReferenceMessenger.Default.Register<MainWindowNavigationMessage>(
+                this, (recipient, message) => NavigateTo(message.Value));
+            NavigateTo(MainWindowUIName.Login);
         }
 
-        public void DisplayMainUI()
+        public void NavigateTo(MainWindowUIName ui)
         {
-            CurrentPageVM = new MainUIVM();
-        }
-
-        public void DisplayLoginUI()
-        {
-            CurrentPageVM = new LoginVM(this);
+            switch (ui)
+            {
+                case MainWindowUIName.Login:
+                    CurrentPageVM = App.Current.Services.GetRequiredService<LoginVM>();
+                    break;
+                case MainWindowUIName.LoggedIn:
+                    CurrentPageVM = App.Current.Services.GetRequiredService<LoggedInVM>();
+                    break;
+            }
         }
     }
 }

@@ -51,8 +51,11 @@ namespace HotelManagementSoftware.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("CardNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -67,23 +70,19 @@ namespace HotelManagementSoftware.Migrations
                     b.Property<DateTime?>("ExpireDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IdNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("IdNumberType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LastName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -93,7 +92,7 @@ namespace HotelManagementSoftware.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Province")
                         .IsRequired()
@@ -101,7 +100,17 @@ namespace HotelManagementSoftware.Migrations
 
                     b.HasKey("CustomerId");
 
+                    b.HasIndex("CardNumber")
+                        .IsUnique()
+                        .HasFilter("[CardNumber] IS NOT NULL");
+
                     b.HasIndex("CountryId");
+
+                    b.HasIndex("IdNumber")
+                        .IsUnique();
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique();
 
                     b.ToTable("Customers");
                 });
@@ -121,39 +130,50 @@ namespace HotelManagementSoftware.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Cmnd")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("EmployeeTypeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HashedPassword")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LastName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Salt")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("EmployeeId");
 
+                    b.HasIndex("Cmnd")
+                        .IsUnique();
+
                     b.HasIndex("EmployeeTypeId");
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique();
+
+                    b.HasIndex("UserName")
+                        .IsUnique();
 
                     b.ToTable("Employees");
                 });
@@ -168,9 +188,12 @@ namespace HotelManagementSoftware.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("EmployeeTypeId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("EmployeeTypes");
                 });
@@ -302,7 +325,7 @@ namespace HotelManagementSoftware.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("PayTime")
+                    b.Property<DateTime?>("PayTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("ReservationId")
@@ -314,9 +337,7 @@ namespace HotelManagementSoftware.Migrations
 
                     b.HasKey("OrderId");
 
-                    b.HasIndex("ReservationId")
-                        .IsUnique()
-                        .HasFilter("[ReservationId] IS NOT NULL");
+                    b.HasIndex("ReservationId");
 
                     b.ToTable("Orders");
                 });
@@ -359,6 +380,22 @@ namespace HotelManagementSoftware.Migrations
                     b.ToTable("Reservations");
                 });
 
+            modelBuilder.Entity("HotelManagementSoftware.Data.ReservationCancelFeePercent", b =>
+                {
+                    b.Property<int>("DayNumberBeforeArrival")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DayNumberBeforeArrival"), 1L, 1);
+
+                    b.Property<int>("PercentOfTotal")
+                        .HasColumnType("int");
+
+                    b.HasKey("DayNumberBeforeArrival");
+
+                    b.ToTable("ReservationCancelFeePercents");
+                });
+
             modelBuilder.Entity("HotelManagementSoftware.Data.Room", b =>
                 {
                     b.Property<int>("RoomId")
@@ -385,6 +422,9 @@ namespace HotelManagementSoftware.Migrations
 
                     b.HasKey("RoomId");
 
+                    b.HasIndex("RoomNumber")
+                        .IsUnique();
+
                     b.HasIndex("RoomTypeId");
 
                     b.ToTable("Rooms");
@@ -398,23 +438,23 @@ namespace HotelManagementSoftware.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomTypeId"), 1L, 1);
 
+                    b.Property<int>("Capacity")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("FullDayRate")
-                        .HasColumnType("decimal(18,0)");
-
-                    b.Property<decimal>("HalfDayRate")
-                        .HasColumnType("decimal(18,0)");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("NumberOfPeople")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("decimal(18,0)");
 
                     b.HasKey("RoomTypeId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("RoomTypes");
                 });
@@ -497,8 +537,8 @@ namespace HotelManagementSoftware.Migrations
             modelBuilder.Entity("HotelManagementSoftware.Data.Order", b =>
                 {
                     b.HasOne("HotelManagementSoftware.Data.Reservation", "Reservation")
-                        .WithOne("Order")
-                        .HasForeignKey("HotelManagementSoftware.Data.Order", "ReservationId");
+                        .WithMany("Orders")
+                        .HasForeignKey("ReservationId");
 
                     b.Navigation("Reservation");
                 });
@@ -514,7 +554,7 @@ namespace HotelManagementSoftware.Migrations
                         .HasForeignKey("EmployeeId");
 
                     b.HasOne("HotelManagementSoftware.Data.Room", "Room")
-                        .WithMany()
+                        .WithMany("Reservations")
                         .HasForeignKey("RoomId");
 
                     b.Navigation("Customer");
@@ -568,7 +608,12 @@ namespace HotelManagementSoftware.Migrations
 
             modelBuilder.Entity("HotelManagementSoftware.Data.Reservation", b =>
                 {
-                    b.Navigation("Order");
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("HotelManagementSoftware.Data.Room", b =>
+                {
+                    b.Navigation("Reservations");
                 });
 
             modelBuilder.Entity("HotelManagementSoftware.Data.RoomType", b =>

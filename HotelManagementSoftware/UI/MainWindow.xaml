@@ -13,8 +13,8 @@
         <DataTemplate DataType="{x:Type vm:LoginVM}">
             <local:Login />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:MainUIVM}">
-            <local:MainUI />
+        <DataTemplate DataType="{x:Type vm:LoggedInVM}">
+            <local:LoggedIn />
         </DataTemplate>
     </Window.Resources>
 

@@ -35,6 +35,21 @@ namespace HotelManagementSoftware.Data
             EndTime = endTime;
             Status = status;
         }
+
+        public MaintenanceRequest(int openEmployeeId,
+                                  Employee openEmployee,
+                                  Room room,
+                                  DateTime startTime,
+                                  DateTime endTime,
+                                  MaintenanceRequestStatus status,
+                                  string? note = null)
+            : this(startTime, endTime, status)
+        {
+            OpenEmployeeId = openEmployeeId;
+            OpenEmployee = openEmployee;
+            Room = room;
+            Note = note;
+        }
     }
 
     public enum MaintenanceRequestStatus
