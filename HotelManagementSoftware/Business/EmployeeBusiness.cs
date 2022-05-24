@@ -118,7 +118,7 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 if (employee.EmployeeType == null)
-                    return;
+                    throw new ArgumentException("Employee type cannot be empty");
                 db.EmployeeTypes.Attach(employee.EmployeeType);
 
                 byte[] salt = GetNewSalt();

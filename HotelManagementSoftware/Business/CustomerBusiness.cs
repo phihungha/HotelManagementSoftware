@@ -108,7 +108,7 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 if (customer.Country == null)
-                    return;
+                    throw new ArgumentException("Country cannot be empty");
                 db.Attach(customer.Country);
                 db.Customers.Add(customer);
                 await db.SaveChangesAsync();

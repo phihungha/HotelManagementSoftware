@@ -47,8 +47,9 @@ namespace HotelManagementSoftware.Business
             ValidateRoom(room);
             using (var db = new Database())
             {
-                if (room.RoomType != null)
-                    db.Attach(room.RoomType);
+                if (room.RoomType == null)
+                    throw new ArgumentException("Room type cannot be empty");
+                db.Attach(room.RoomType);
                 db.Add(room);
                 await db.SaveChangesAsync();
             }
@@ -136,12 +137,11 @@ namespace HotelManagementSoftware.Business
 
                 if (descriptionSearchTerm != null)
                     filteredRequest = filteredRequest
-                        .Where(i => i.Description == null ? false :
+                        .Where(i => i.Description != null && 
                                     i.Description.Contains(descriptionSearchTerm));
 
                 if (capacity != null)
-                    filteredRequest = filteredRequest
-                        .Where(i => i.Capacity == capacity);
+                    filteredRequest = filteredRequest.Where(i => i.Capacity == capacity);
 
                 if (fromRate != null)
                     filteredRequest = filteredRequest.Where(i => i.Rate >= fromRate);
