@@ -4,9 +4,179 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HotelManagementSoftware.UI.Windows"
+        xmlns:ui="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d"
-        Title="EmployeeEditWindow" Height="450" Width="800">
+        Title="Employee Edit Window"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        Height="420"
+        Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+
+        <!--Title-->
+        <StackPanel Grid.Row="0">
+            <StackPanel Margin="16 32 0 0"
+                        HorizontalAlignment="Left"
+                        Orientation="Vertical">
+                <TextBlock TextWrapping="Wrap"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           Text="Edit employee infomation" />
+
+
+            </StackPanel>
+            <Border Width="Auto"
+                    BorderThickness="1"
+                    Margin="16 12 16 0"
+                    BorderBrush="Black"
+                    Opacity=".1" />
+        </StackPanel>
+
+        <!--Body-->
+        <Grid Grid.Row="1"
+              Margin="32 16 32 32">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <!--Left table-->
+            <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <!--ID-->
+                <Grid Grid.Column="0"
+                      Grid.ColumnSpan="2">
+                    <StackPanel  Margin="8 0 8 0"
+                                 Orientation="Vertical">
+                        <TextBlock Style="{StaticResource Label}"
+                                   Text="Identity number" />
+                        <TextBox  Text="12345678" />
+                    </StackPanel>
+                </Grid>
+
+                <!--FirstName-->
+                <Grid Grid.Column="0"
+                      Grid.Row="1">
+                    <StackPanel Margin="8 0 16 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource Label}"
+                                   Text="First name" />
+                        <TextBox  Text="firstName1" />
+                    </StackPanel>
+                </Grid>
+
+
+                <!--LastName-->
+                <Grid Grid.Column="0"
+                      Grid.Row="2">
+                    <StackPanel Margin="8 0 16 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource Label}"
+                                   Text="Last name" />
+                        <TextBox  Text="lastName1" />
+                    </StackPanel>
+                </Grid>
+
+                <!--Phone-->
+                <Grid Grid.Column="0"
+                      Grid.Row="3">
+                    <StackPanel Margin="8 0 16 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource Label}"
+                                   Text="Phone number" />
+                        <TextBox  Text="+84 0123456789" />
+                    </StackPanel>
+                </Grid>
+
+                <!--DateOfBirth-->
+                <Grid Grid.Column="1"
+                      Grid.Row="1">
+                    <StackPanel Margin="16 0 8 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource Label}"
+                                   Text="Date of birth" />
+                        <DatePicker HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                </Grid>
+
+
+                <!--Gender-->
+                <Grid Grid.Column="1"
+                      Grid.Row="2">
+                    <StackPanel Margin="16 0 8 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource Label}"
+                                   Text="Gender" />
+                        <ComboBox HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                </Grid>
+
+                <!--Email-->
+                <Grid Grid.Column="1"
+                      Grid.Row="3">
+                    <StackPanel Margin="16 0 8 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource Label}"
+                                   Text="Email" />
+                        <TextBox  Text="205201@gm.uit.edu.vn" />
+                    </StackPanel>
+                </Grid>
+
+            </Grid>
+
+            <!--Right table-->
+            <Grid Grid.Column="1"
+                  Grid.Row="0"
+                  Grid.ColumnSpan="4">
+                <!--Address-->
+                <StackPanel Margin="16 0 16 0"
+                            Orientation="Vertical">
+                    <TextBlock Style="{StaticResource ResourceKey=Label}"
+                               Text="Address" />
+                    <TextBox Text="123 Lê Đại Hành"
+                             Height="200"
+                             HorizontalContentAlignment="Left"
+                             VerticalContentAlignment="Top" />
+                </StackPanel>
+
+
+            </Grid>
+        </Grid>
+
+        <!--Button-->
+        <ui:UniformSpacingPanel Grid.Row="2"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Spacing="10"
+                                ItemWidth="139"
+                                Orientation="Horizontal"
+                                Margin="0 0 32 12">
+            <Button Content="Cancel"
+                    FontWeight="Bold"
+                    Background="#FFF0241D"
+                    Foreground="White" />
+            <Button Content="Update"
+                    FontWeight="Bold"
+                    Background="#FF358AFF"
+                    Foreground="White" />
+        </ui:UniformSpacingPanel>
+
     </Grid>
 </Window>

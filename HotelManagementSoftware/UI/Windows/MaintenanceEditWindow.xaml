@@ -5,8 +5,377 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HotelManagementSoftware.UI.Windows"
         mc:Ignorable="d"
-        Title="MaintenanceEditWindow" Height="450" Width="800">
+        xmlns:ui="https://handyorg.github.io/handycontrol"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        Title="MaintenanceEditWindow"
+        Height="600"
+        Width="900">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!--Title-->
+        <StackPanel Grid.Row="0">
+            <StackPanel Margin="16 16 0 0"
+                        HorizontalAlignment="Left"
+                        Orientation="Vertical">
+                <TextBlock TextWrapping="Wrap"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           Text="Issues" />
+
+
+            </StackPanel>
+            <Border Width="Auto"
+                    BorderThickness="1"
+                    Margin="16 12 16 0"
+                    BorderBrush="Black"
+                    Opacity=".1" />
+        </StackPanel>
+
+        <!--Body-->
+        <Grid Grid.Row="1"
+              Margin="32 16 32 32">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <!--Left table-->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Row="0"
+                      Grid.Column="0"
+                      Grid.RowSpan="2"
+                      Margin="0 0 16 0">
+                    <Image Source="\UI\Images\bg_issue_default.jpg"
+                           Stretch="Fill" />
+                </Grid>
+
+                <Grid Grid.Row="0"
+                      Grid.Column="1">
+                    <TextBlock TextWrapping="Wrap"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Text="Note" />
+
+                </Grid>
+
+                <Grid Grid.Row="1"
+                      Grid.Column="1">
+                    <TextBlock FontSize="12"
+                               TextWrapping="Wrap"
+                               Opacity=".6"
+                               Text="Note detail" />
+
+                </Grid>
+            </Grid>
+
+            <!--Right table-->
+            <Grid Grid.Column="1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+
+                </Grid.RowDefinitions>
+
+                <!--IssueID-->
+                <Grid Grid.Column="0"
+                      Grid.Row="0">
+                    <StackPanel Margin="8 0 16 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource Label}"
+                                   Text="Issue ID" />
+                        <TextBox  Text="001" />
+                    </StackPanel>
+                </Grid>
+
+
+                <!--Room-->
+                <Grid Grid.Column="1"
+                      Grid.Row="0">
+                    <StackPanel Margin="16 0 8 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource Label}"
+                                   Text="Room" />
+                        <TextBox  Text="426" />
+                    </StackPanel>
+                </Grid>
+
+                <!--StartDay-->
+                <Grid Grid.Column="0"
+                      Grid.Row="1">
+                    <StackPanel Margin="8 0 16 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource Label}"
+                                   Text="Start day" />
+                        <DatePicker HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                </Grid>
+
+
+                <!--Duration-->
+                <Grid Grid.Column="0"
+                      Grid.Row="2">
+                    <StackPanel Margin="8 0 16 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource Label}"
+                                   Text="Close day" />
+                        <DatePicker HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                </Grid>
+
+                <!--End day-->
+                <Grid Grid.Column="1"
+                      Grid.Row="1">
+                    <StackPanel Margin="16 0 8 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource Label}"
+                                   Text="End day" />
+                        <DatePicker HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                </Grid>
+
+                <!--Status-->
+                <Grid Grid.Column="1"
+                      Grid.Row="2">
+                    <StackPanel Margin="16 0 8 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource Label}"
+                                   Text="Status" />
+                        <ComboBox HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <!--Item-->
+        <StackPanel Grid.Row="2">
+
+            <Border Width="Auto"
+                    BorderThickness="1"
+                    Margin="16 12 16 0"
+                    BorderBrush="Black"
+                    Opacity=".1" />
+            <StackPanel Margin="16 0 0 0"
+                        HorizontalAlignment="Left"
+                        Orientation="Vertical">
+                <TextBlock TextWrapping="Wrap"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           Text="Items" />
+            </StackPanel>
+            
+        </StackPanel>
+
+        <!--Body-->
+        <Grid Grid.Row="3"
+              Margin="16 16 32 32">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <!--Left table-->
+            <Grid Grid.Column="0">
+                <ListView Margin="0 8 8 8"
+                          Height="150"
+                          Width="Auto"
+                          Background="Transparent"
+                          BorderBrush="Transparent"
+                          ScrollViewer.VerticalScrollBarVisibility="Visible"
+                          ScrollViewer.CanContentScroll="True"
+                          ItemsSource="{Binding Path=Items}"
+                          >
+                    <ListView.View>
+                        
+                        <GridView ColumnHeaderTemplate="{StaticResource ResourceKey=listViewHeaderTemplate}">
+                            <!--Name-->
+                            <GridViewColumn Width="Auto"
+                                            Header="Name">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <TextBlock Text="{Binding Name}"
+                                                       Style="{StaticResource ResourceKey=textBlockItem}" />
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <!--Quantity-->
+                            <GridViewColumn Width="Auto"
+                                            Header="Quantity">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <TextBlock Text="{Binding Quantity}"
+                                                       Style="{StaticResource ResourceKey=textBlockItem}" />
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <!--Description-->
+                            <GridViewColumn Width="Auto"
+                                            Header="Description">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <TextBlock Text="{Binding Description}"
+                                                       Style="{StaticResource ResourceKey=textBlockItem}" />
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <!--Action -->
+                            <GridViewColumn Width="Auto"
+                                            Header="Action">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <Button Height="24"
+                                                    Width="24"
+                                                    Style="{StaticResource ResourceKey=ImageButton}">
+                                                <Image Source="\UI\Icons\ic_edit.png"
+                                                       Stretch="Fill" />
+                                            </Button>
+                                            <Button Height="24"
+                                                    Width="24"
+                                                    Style="{StaticResource ResourceKey=ImageButton}">
+                                                <Image Source="\UI\Icons\ic_delete.png"
+                                                       Stretch="Fill" />
+                                            </Button>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+
+            <!--Right table-->
+            <Grid Grid.Column="1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!--ItemName-->
+                <Grid Grid.Column="0"
+                      Grid.Row="0">
+                    <StackPanel Margin="8 0 16 8"
+                                Orientation="Vertical">
+                        <Button Background="#369FFF"
+                                BorderBrush="Transparent"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                          
+                                >
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="\UI\Icons\ic_add.png"
+                                       Stretch="Fill" />
+                                <TextBlock Text="New item"
+                                           FontSize="12"
+                                           Foreground="White"
+                                           Margin="4 0 0 0" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+
+                <!--ItemName-->
+                <Grid Grid.Column="0"
+                      Grid.Row="1">
+                    <StackPanel Margin="8 0 16 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource Label}"
+                                   Text="Item name" />
+                        <TextBox  Text="Lightbulb" />
+                    </StackPanel>
+                </Grid>
+
+
+                <!--Item description-->
+                <Grid Grid.Column="1"
+                      Grid.Row="1"
+                      Grid.RowSpan="2"
+                     >
+                    <StackPanel Margin="16 0 8 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource Label}"
+                                   Text="Description" />
+                        <TextBox Text="20W lightbulb"
+                                 Height="75"
+                                 TextWrapping="Wrap"
+                                 HorizontalContentAlignment="Left"
+                                 VerticalContentAlignment="Top"
+                                 />
+                    </StackPanel>
+                </Grid>
+
+
+                <!--Item quantity-->
+                <Grid Grid.Column="0"
+                      Grid.Row="2">
+                    <StackPanel Margin="8 0 16 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource Label}"
+                                   Text="Quantity" />
+                        <TextBox  Text="4" 
+                                  />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <!--Button-->
+        <ui:UniformSpacingPanel Grid.Row="4"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Spacing="10"
+                                ItemWidth="139"
+                                Orientation="Horizontal"
+                                Margin="0 0 32 12">
+            <Button Content="Cancel"
+                    FontWeight="Bold"
+                    Background="#FFF0241D"
+                    Foreground="White" />
+            <Button Content="Update"
+                    FontWeight="Bold"
+                    Background="#FF358AFF"
+                    Foreground="White" />
+        </ui:UniformSpacingPanel>
     </Grid>
 </Window>

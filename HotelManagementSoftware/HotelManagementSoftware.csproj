@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="UI\Icons\ic_add.png" />
+    <None Remove="UI\Icons\ic_delete.png" />
+    <None Remove="UI\Icons\ic_edit.png" />
+    <None Remove="UI\Icons\ic_filter.png" />
+    <None Remove="UI\Icons\ic_id_card.png" />
+    <None Remove="UI\Icons\ic_search.png" />
+    <None Remove="UI\Images\bg_issue_default.jpg" />
     <None Remove="UI\LoginBackground.jpg" />
     <None Remove="UI\OneButler.png" />
   </ItemGroup>
@@ -29,6 +36,27 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="UI\Icons\ic_add.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Icons\ic_delete.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Icons\ic_edit.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Icons\ic_filter.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Icons\ic_id_card.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Icons\ic_search.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Images\bg_issue_default.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="UI\Images\OneButler.png" />
     <Resource Include="UI\LoginBackground.jpg" />
   </ItemGroup>
