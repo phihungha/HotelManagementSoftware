@@ -20,7 +20,7 @@ namespace HotelManagementSoftware.Data
 
         public ReservationStatus Status { get; set; }
 
-        public List<Order> Orders { get; } = new();
+        public Order? Order { get; set; }
 
         public Reservation(DateTime arrivalTime, DateTime departureTime, ReservationStatus status)
         {

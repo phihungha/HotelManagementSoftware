@@ -14,6 +14,8 @@ namespace HotelManagementSoftware.Data
         [Column(TypeName = "decimal(18,0)")]
         public decimal Amount { get; set; }
 
+        public int? ReservationId { get; set; }
+
         public Reservation? Reservation { get; set; }
 
         public OrderStatus Status { get; set; }
@@ -29,7 +31,6 @@ namespace HotelManagementSoftware.Data
     public enum OrderStatus
     {
         Pending,
-        Paid,
-        Cancelled
+        Paid
     }
 }

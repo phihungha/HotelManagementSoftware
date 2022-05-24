@@ -136,12 +136,11 @@ namespace HotelManagementSoftware.Business
 
                 if (descriptionSearchTerm != null)
                     filteredRequest = filteredRequest
-                        .Where(i => i.Description == null ? false :
+                        .Where(i => i.Description != null && 
                                     i.Description.Contains(descriptionSearchTerm));
 
                 if (capacity != null)
-                    filteredRequest = filteredRequest
-                        .Where(i => i.Capacity == capacity);
+                    filteredRequest = filteredRequest.Where(i => i.Capacity == capacity);
 
                 if (fromRate != null)
                     filteredRequest = filteredRequest.Where(i => i.Rate >= fromRate);

@@ -49,8 +49,8 @@ namespace HotelManagementSoftware.Business
         /// <param name="status">Status</param>
         /// <param name="roomNumber">Room number</param>
         /// <param name="note">Note search term</param>
-        /// <param name="openEmployeeName">Open employee name search term</param>
-        /// <param name="closeEmployeeName">Close employee name search term</param>
+        /// <param name="openEmployeeName">Open employee name</param>
+        /// <param name="closeEmployeeName">Close employee name</param>
         /// <param name="fromStartTime">From start time</param>
         /// <param name="toStartTime">To start time</param>
         /// <param name="fromEndTime">From end time</param>
@@ -84,7 +84,7 @@ namespace HotelManagementSoftware.Business
 
                 if (roomNumber != null)
                     filteredRequest = filteredRequest
-                        .Where(i => i.Room == null ? false : i.Room.RoomNumber == roomNumber);
+                        .Where(i => i.Room != null && i.Room.RoomNumber == roomNumber);
 
                 if (fromStartTime != null)
                     filteredRequest = filteredRequest.Where(i => i.StartTime >= fromStartTime);
@@ -106,21 +106,20 @@ namespace HotelManagementSoftware.Business
 
                 if (openEmployeeName != null)
                     filteredRequest = filteredRequest
-                        .Where(i => i.OpenEmployee == null ? false :
-                                    i.OpenEmployee.Name.Contains(openEmployeeName));
+                        .Where(i => i.OpenEmployee != null && 
+                                    i.OpenEmployee.Name == openEmployeeName);
 
                 if (closeEmployeeName != null)
                     filteredRequest = filteredRequest
-                        .Where(i => i.CloseEmployee == null ? false :
-                                    i.CloseEmployee.Name.Contains(closeEmployeeName));
+                        .Where(i => i.CloseEmployee != null && 
+                                    i.CloseEmployee.Name == closeEmployeeName);
 
                 if (status != null)
                     filteredRequest = filteredRequest.Where(i => i.Status == status);
 
                 if (note != null)
                     filteredRequest = filteredRequest
-                        .Where(i => i.Note == null ? false :
-                                    i.Note.Contains(closeEmployeeName));
+                        .Where(i => i.Note != null && i.Note.Contains(note));
 
                 return await filteredRequest.ToListAsync();
             }
