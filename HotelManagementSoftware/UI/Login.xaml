@@ -13,7 +13,7 @@
     
     <Border>
         <Border.Background>
-            <ImageBrush ImageSource="/UI/LoginBackground.jpg"/>
+            <ImageBrush ImageSource="/UI/Images/LoginBackground.jpg"/>
         </Border.Background>
         <Border Background="White" Padding="15" Width="410" 
                 VerticalAlignment="Center" HorizontalAlignment="Center" >
