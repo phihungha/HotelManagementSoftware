@@ -18,9 +18,9 @@ namespace HotelManagementSoftware.UI
     /// <summary>
     /// Interaction logic for Reservation.xaml
     /// </summary>
-    public partial class Reservation : UserControl
+    public partial class Reservations : UserControl
     {
-        public Reservation()
+        public Reservations()
         {
             InitializeComponent();
         }

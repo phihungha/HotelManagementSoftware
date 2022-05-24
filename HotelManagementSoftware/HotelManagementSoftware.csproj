@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <None Remove="UI\Images\LoginBackground.jpg" />
-    <None Remove="UI\OneButler.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,7 +30,6 @@
 
   <ItemGroup>
     <Resource Include="UI\Images\LoginBackground.jpg" />
-    <Resource Include="UI\Images\OneButler.png" />
   </ItemGroup>
 
 </Project>

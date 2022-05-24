@@ -7,6 +7,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="UI/Styles/General.xaml" />
+                <ResourceDictionary Source="UI/Styles/Colors.xaml" />
+                <ResourceDictionary Source="UI/Icons/SvgIcons.xaml" />
                 <!-- Handy Control -->
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/SkinDefault.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
