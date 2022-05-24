@@ -8,22 +8,22 @@ using System.Threading.Tasks;
 
 namespace HotelManagementSoftware.ViewModels.Utils
 {
-    public enum MainWindowUIName
+    public enum MainWindowPageName
     {
         Login,
         LoggedIn
     }
 
-    public class MainWindowNavigationMessage : ValueChangedMessage<MainWindowUIName>
+    public class MainWindowNavigationMessage : ValueChangedMessage<MainWindowPageName>
     {
-        public MainWindowNavigationMessage(MainWindowUIName value) : base(value)
+        public MainWindowNavigationMessage(MainWindowPageName value) : base(value)
         {
         }
     }
 
     public class MainWindowNavigationUtils
     {
-        public static void NavigateTo(MainWindowUIName ui)
+        public static void NavigateTo(MainWindowPageName ui)
         {
             WeakReferenceMessenger.Default.Send(new MainWindowNavigationMessage(ui));
         }
