@@ -127,10 +127,14 @@ namespace HotelManagementSoftware.Business
             ValidateHousekeepingRequest(request);
             using (var db = new Database())
             {
-                if (request.Room != null)
-                    db.Attach(request.Room);
-                if (request.OpenEmployee != null)
-                    db.Attach(request.OpenEmployee);
+                if (request.Room == null)
+                    throw new ArgumentException("Room cannot be empty");
+
+                if (request.OpenEmployee == null)
+                    throw new ArgumentException("Open employee cannot be empty");
+
+                db.Attach(request.Room);
+                db.Attach(request.OpenEmployee);
 
                 db.Add(request);
                 await db.SaveChangesAsync();

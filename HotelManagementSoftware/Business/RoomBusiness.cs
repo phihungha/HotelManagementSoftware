@@ -47,8 +47,9 @@ namespace HotelManagementSoftware.Business
             ValidateRoom(room);
             using (var db = new Database())
             {
-                if (room.RoomType != null)
-                    db.Attach(room.RoomType);
+                if (room.RoomType == null)
+                    throw new ArgumentException("Room type cannot be empty");
+                db.Attach(room.RoomType);
                 db.Add(room);
                 await db.SaveChangesAsync();
             }
