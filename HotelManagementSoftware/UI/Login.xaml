@@ -18,7 +18,7 @@
         <Border Background="White" Padding="15" Width="410" 
                 VerticalAlignment="Center" HorizontalAlignment="Center" >
             <StackPanel>
-                <Image Source="/UI/Images/OneButler.png" Margin="0,0,0,36"/>
+                <Image Source="{StaticResource OneButlerIcon}" Margin="0,0,0,36"/>
                 <ui:TextBox Text="{Binding UserName}" 
                             ShowClearButton="True"
                             ui:InfoElement.Placeholder="Username"

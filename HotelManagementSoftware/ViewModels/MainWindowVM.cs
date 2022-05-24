@@ -17,7 +17,7 @@ namespace HotelManagementSoftware.ViewModels
 
         public MainWindowVM()
         {
-            WeakReferenceMessenger.Default.Register<MainWindowNavigationMessage>(
+            WeakReferenceMessenger.Default.Register<MainWindowNavigation>(
                 this, (recipient, message) => NavigateTo(message.Value));
             NavigateTo(MainWindowPageName.Login);
         }

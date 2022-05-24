@@ -1,14 +1,19 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HotelManagementSoftware.ViewModels.Utils;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using System.Windows.Input;
 
 namespace HotelManagementSoftware.ViewModels
 {
     public class LoggedInVM : ObservableObject
     {
+        public ICommand LogoutCommand { get; }
 
+        public LoggedInVM()
+        {
+            LogoutCommand = new RelayCommand(
+                () => MainWindowNavigationUtils.NavigateTo(MainWindowPageName.Login)
+            );
+        }
     }
 }

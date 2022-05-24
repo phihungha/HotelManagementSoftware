@@ -3,10 +3,96 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HotelManagementSoftware.UI"
+             xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels"
+             xmlns:ui="clr-namespace:HotelManagementSoftware.UI"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             Background="White"
+             d:DesignHeight="720" d:DesignWidth="1280">
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type vm:DashboardVM}">
+            <ui:Dashboard />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ReservationsVM}">
+            <ui:Reservations />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ArrivalsVM}">
+            <ui:Arrivals />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DeparturesVM}">
+            <ui:Departures />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:HousekeepingVM}">
+            <ui:Housekeeping />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:MaintenanceVM}">
+            <ui:Maintenance />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:RoomsVM}">
+            <ui:Rooms />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:RoomTypesVM}">
+            <ui:RoomTypes />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:CustomersVM}">
+            <ui:Customers />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:EmployeesVM}">
+            <ui:Employee />
+        </DataTemplate>
+    </UserControl.Resources>
+    
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Border Margin="0,10,0,0" BorderBrush="LightGray" BorderThickness="0,0,0.5,0" Padding="15">
+            <Image Source="{StaticResource OneButlerIcon}" />
+        </Border>
+
+        <Border Grid.Row="1"  Margin="0,0,0,20" BorderThickness="0,0,0.5,0" BorderBrush="LightGray" >
+            <ListBox BorderThickness="0">
+                <ListBoxItem>ABCED</ListBoxItem>
+                <ListBoxItem>ABCED</ListBoxItem>
+                <ListBoxItem>ABCED</ListBoxItem>
+                <ListBoxItem>ABCED</ListBoxItem>
+                <ListBoxItem>ABCED</ListBoxItem>
+                <ListBoxItem>ABCED</ListBoxItem>
+                <ListBoxItem>ABCED</ListBoxItem>
+                <ListBoxItem>ABCED</ListBoxItem>
+                <ListBoxItem>ABCED</ListBoxItem>
+                <ListBoxItem>ABCED</ListBoxItem>
+            </ListBox>
+        </Border>
+
+        <Border Grid.Column="1" Margin="24,10,24,0" 
+                BorderThickness="0,0,0,0.5" BorderBrush="LightGray"
+                Padding="0,0,0,10">
+            <Grid HorizontalAlignment="Right">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Image Source="{StaticResource UserIcon}" Width="60" Margin="0,0,15,0" />
+
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,15,0">
+                    <TextBlock FontSize="20" Foreground="{StaticResource PrimaryColorSolid}">Ha Phi Hung</TextBlock>
+                    <TextBlock FontSize="15">Receptionist</TextBlock>
+                </StackPanel>
+
+                <Button Command="{Binding LogoutCommand}" Grid.Column="2" Height="50" Width="100"
+                    Background="{StaticResource PrimaryColorSolid}" Foreground="White"
+                    FontSize="15" Content="Logout" Margin="15,0,0,0"/>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>
