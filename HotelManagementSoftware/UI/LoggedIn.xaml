@@ -4,12 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels"
+             xmlns:converter="clr-namespace:HotelManagementSoftware.ViewModels.Converters"
              xmlns:ui="clr-namespace:HotelManagementSoftware.UI"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" 
              Background="White"
              d:DesignHeight="720" d:DesignWidth="1280">
     <UserControl.Resources>
+        <converter:SidebarPageNameToString x:Key="SidebarPageNameToStringConverter" />
+        <converter:SidebarPageNameToImageSource x:Key="SidebarPageNameToImageSourceConverter" />
+        
         <DataTemplate DataType="{x:Type vm:DashboardVM}">
             <ui:Dashboard />
         </DataTemplate>
@@ -58,17 +62,19 @@
         </Border>
 
         <Border Grid.Row="1"  Margin="0,0,0,20" BorderThickness="0,0,0.5,0" BorderBrush="LightGray" >
-            <ListBox BorderThickness="0">
-                <ListBoxItem>ABCED</ListBoxItem>
-                <ListBoxItem>ABCED</ListBoxItem>
-                <ListBoxItem>ABCED</ListBoxItem>
-                <ListBoxItem>ABCED</ListBoxItem>
-                <ListBoxItem>ABCED</ListBoxItem>
-                <ListBoxItem>ABCED</ListBoxItem>
-                <ListBoxItem>ABCED</ListBoxItem>
-                <ListBoxItem>ABCED</ListBoxItem>
-                <ListBoxItem>ABCED</ListBoxItem>
-                <ListBoxItem>ABCED</ListBoxItem>
+            <ListBox ItemsSource="{Binding SidebarPages}" 
+                     SelectedItem="{Binding CurrentPage}" 
+                     BorderThickness="0" VerticalContentAlignment="Center">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="8,10,8,10" Orientation="Horizontal">
+                            <Image VerticalAlignment="Center" Margin="15,0,0,0"
+                                Source="{Binding Converter={StaticResource SidebarPageNameToImageSourceConverter}}" />
+                            <TextBlock VerticalAlignment="Center" Margin="20,0,0,0" FontSize="17"
+                                Text="{Binding Converter={StaticResource SidebarPageNameToStringConverter}}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
             </ListBox>
         </Border>
 
@@ -94,5 +100,7 @@
                     FontSize="15" Content="Logout" Margin="15,0,0,0"/>
             </Grid>
         </Border>
+
+        <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding CurrentPageVM}" />
     </Grid>
 </UserControl>

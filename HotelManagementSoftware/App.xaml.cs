@@ -1,6 +1,5 @@
 ﻿using HotelManagementSoftware.Business;
 using HotelManagementSoftware.Data;
-using HotelManagementSoftware.Utils;
 using HotelManagementSoftware.ViewModels;
 using HotelManagementSoftware.ViewModels.WindowVMs;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +17,7 @@ namespace HotelManagementSoftware
         {
             Services = ConfigureServices();
             InitializeComponent();
+            InitiateDatabase();
             testDb();
         }
 
@@ -72,6 +72,16 @@ namespace HotelManagementSoftware
 
             return services.BuildServiceProvider();
         }
+
+        /// <summary>
+        /// Create the database if it doesn't exist yet;
+        /// </summary>
+        private void InitiateDatabase()
+        {
+            using (var db = new Database())
+                db.Database.EnsureCreated();
+        }
+
 
         private async void testDb()
         {
