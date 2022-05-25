@@ -53,25 +53,25 @@ namespace HotelManagementSoftware.ViewModels.Converters
             switch (pageName)
             {
                 case SidebarPageName.Dashboard:
-                    return App.Current.FindResource("UserIcon");
+                    return App.Current.FindResource("HomeIcon");
                 case SidebarPageName.Reservations:
-                    return App.Current.FindResource("UserIcon");
+                    return App.Current.FindResource("ReservationIcon");
                 case SidebarPageName.Arrivals:
-                    return App.Current.FindResource("UserIcon");
+                    return App.Current.FindResource("CheckInIcon");
                 case SidebarPageName.Departures:
-                    return App.Current.FindResource("UserIcon");
+                    return App.Current.FindResource("CheckOutIcon");
                 case SidebarPageName.Customers:
-                    return App.Current.FindResource("UserIcon");
+                    return App.Current.FindResource("CustomersIcon");
                 case SidebarPageName.Rooms:
-                    return App.Current.FindResource("UserIcon");
+                    return App.Current.FindResource("RoomsIcon");
                 case SidebarPageName.RoomTypes:
-                    return App.Current.FindResource("UserIcon");
+                    return App.Current.FindResource("RoomTypesIcon");
                 case SidebarPageName.Housekeeping:
-                    return App.Current.FindResource("UserIcon");
+                    return App.Current.FindResource("HousekeepingIcon");
                 case SidebarPageName.Maintenance:
-                    return App.Current.FindResource("UserIcon");
+                    return App.Current.FindResource("MaintenanceIcon");
                 case SidebarPageName.Employees:
-                    return App.Current.FindResource("UserIcon");
+                    return App.Current.FindResource("EmployeesIcon");
                 default:
                     return null;
             }
