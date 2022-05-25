@@ -28,6 +28,10 @@ namespace HotelManagementSoftware.ViewModels.Converters
                     return "Rooms";
                 case SidebarPageName.RoomTypes:
                     return "Room Types";
+                case SidebarPageName.Housekeeping:
+                    return "Housekeeping";
+                case SidebarPageName.Maintenance:
+                    return "Maintenance";
                 case SidebarPageName.Employees:
                     return "Employees";
                 default:
@@ -61,6 +65,10 @@ namespace HotelManagementSoftware.ViewModels.Converters
                 case SidebarPageName.Rooms:
                     return App.Current.FindResource("UserIcon");
                 case SidebarPageName.RoomTypes:
+                    return App.Current.FindResource("UserIcon");
+                case SidebarPageName.Housekeeping:
+                    return App.Current.FindResource("UserIcon");
+                case SidebarPageName.Maintenance:
                     return App.Current.FindResource("UserIcon");
                 case SidebarPageName.Employees:
                     return App.Current.FindResource("UserIcon");

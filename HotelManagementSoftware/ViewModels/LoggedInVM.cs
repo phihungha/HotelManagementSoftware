@@ -15,6 +15,8 @@ namespace HotelManagementSoftware.ViewModels
         Customers,
         Rooms,
         RoomTypes,
+        Housekeeping,
+        Maintenance,
         Employees
     }
 
@@ -28,6 +30,8 @@ namespace HotelManagementSoftware.ViewModels
             SidebarPageName.Customers,
             SidebarPageName.Rooms,
             SidebarPageName.RoomTypes,
+            SidebarPageName.Housekeeping,
+            SidebarPageName.Maintenance,
             SidebarPageName.Employees
         };
 
@@ -84,6 +88,12 @@ namespace HotelManagementSoftware.ViewModels
                     break;
                 case SidebarPageName.RoomTypes:
                     CurrentPageVM = App.Current.Services.GetRequiredService<RoomTypesVM>();
+                    break;
+                case SidebarPageName.Housekeeping:
+                    CurrentPageVM = App.Current.Services.GetRequiredService<HousekeepingVM>();
+                    break;
+                case SidebarPageName.Maintenance:
+                    CurrentPageVM = App.Current.Services.GetRequiredService<MaintenanceVM>();
                     break;
                 case SidebarPageName.Employees:
                     CurrentPageVM = App.Current.Services.GetRequiredService<EmployeesVM>();

@@ -11,6 +11,8 @@
              Background="White"
              d:DesignHeight="720" d:DesignWidth="1280">
     <UserControl.Resources>
+        <SolidColorBrush x:Key="GridLineColorSolid">#deebfa</SolidColorBrush>
+        
         <converter:SidebarPageNameToString x:Key="SidebarPageNameToStringConverter" />
         <converter:SidebarPageNameToImageSource x:Key="SidebarPageNameToImageSourceConverter" />
         
@@ -57,14 +59,16 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Border Margin="0,10,0,0" BorderBrush="LightGray" BorderThickness="0,0,0.5,0" Padding="15">
+        <Border Margin="0,10,0,0" BorderBrush="{StaticResource GridLineColorSolid}" BorderThickness="0,0,0.8,0" Padding="15">
             <Image Source="{StaticResource OneButlerIcon}" />
         </Border>
 
-        <Border Grid.Row="1"  Margin="0,0,0,20" BorderThickness="0,0,0.5,0" BorderBrush="LightGray" >
+        <Border Grid.Row="1" Margin="0,0,0,20"
+                BorderThickness="0,0,0.8,0" BorderBrush="{StaticResource GridLineColorSolid}" >
             <ListBox ItemsSource="{Binding SidebarPages}" 
                      SelectedItem="{Binding CurrentPage}" 
-                     BorderThickness="0" VerticalContentAlignment="Center">
+                     VerticalContentAlignment="Center" Margin="0,45,0,0"
+                     BorderThickness="0" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Margin="8,10,8,10" Orientation="Horizontal">
@@ -79,7 +83,7 @@
         </Border>
 
         <Border Grid.Column="1" Margin="24,10,24,0" 
-                BorderThickness="0,0,0,0.5" BorderBrush="LightGray"
+                BorderThickness="0,0,0,0.8" BorderBrush="{StaticResource GridLineColorSolid}"
                 Padding="0,0,0,10">
             <Grid HorizontalAlignment="Right">
                 <Grid.ColumnDefinitions>
