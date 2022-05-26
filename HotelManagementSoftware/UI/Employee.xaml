@@ -11,19 +11,20 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              Padding="16"
-             Background="White">
+             >
     <UserControl.Resources>
-     
+  
     </UserControl.Resources>
+    
     <UserControl.DataContext>
         <vm:EmployeesVM />
     </UserControl.DataContext>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-
         <!--Top bar-->
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -35,8 +36,8 @@
             <!--SearchBar-->
             <Grid Grid.Column="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="13*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column="0"
@@ -44,7 +45,9 @@
                     <Button BorderBrush="Transparent"
                             Background="Transparent"
                             HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
+                            VerticalAlignment="Center"
+                            Command="{Binding CommandSearch}"
+                            >
                         <Image Source="\UI\Icons\ic_search.png"
                                Stretch="Fill" />
                     </Button>
@@ -52,31 +55,19 @@
 
                 <Grid Grid.Column="1"
                       Panel.ZIndex="1">
-                    <TextBox Text="Search..."
-                             Foreground="#9E9E9E"
+                    <ui:TextBox Foreground="Black"
                              Background="Transparent"
                              BorderThickness="0"
                              BorderBrush="Transparent"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Center"
+                             HorizontalContentAlignment="Left"
+                             VerticalContentAlignment="Center"
                              x:Name="tbSearchBox"
                              Padding="0 0 8 0"
+                             Width="Auto"
+                             FontFamily="Consolas"
+                             ui:InfoElement.Placeholder="Search..."
                              Panel.ZIndex="2">
-                        <TextBox.Style>
-                            <Style TargetType="TextBox">
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver"
-                                             Value="True">
-
-                                        <Setter Property="Text"
-                                                Value="" />
-                                        <Setter Property="Foreground"
-                                                Value="Black" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBox.Style>
-                    </TextBox>
+                    </ui:TextBox>
                 </Grid>
 
                 <Grid Grid.Column="0"
@@ -103,23 +94,17 @@
                     <TextBlock Text="Search by"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Style="{StaticResource ResourceKey=TextLabel}" 
-                               />
+                               Style="{StaticResource ResourceKey=TextLabel}" />
                 </Grid>
 
                 <Grid Grid.Column="1"
                       Margin="8 0 0 0">
-                    <ComboBox HorizontalAlignment="Stretch">
-                        <TextBlock Text="Name" />
-                        <TextBlock Text="Phone" />
-                        <TextBlock Text="Gender" />
-                        <TextBlock Text="Email" />
-                    </ComboBox>
+                    <ComboBox HorizontalAlignment="Stretch" />
                 </Grid>
 
                 <Grid Grid.Column="2"
                       Margin="8 0 0 0">
-                    <Button>
+                    <Button Command="{Binding CommandFilterEmployee}">
                         <Image Source="\UI\Icons\ic_filter.png"
                                Stretch="Fill" />
                     </Button>
@@ -128,15 +113,19 @@
 
             <!--Button new employee-->
             <Grid Grid.Column="2">
+                
                 <Button Background="#369FFF"
                         BorderBrush="Transparent"
                         HorizontalAlignment="Right"
-                        VerticalAlignment="Center">
+                        VerticalAlignment="Center"
+                        Command="{Binding CommandAddNewEmployee}"
+                        >
                     <StackPanel Orientation="Horizontal">
                         <Image Source="\UI\Icons\ic_add.png"
                                Stretch="Fill" />
                         <TextBlock Text="New employee"
                                    FontSize="12"
+                                   Style="{StaticResource TextLabel}"
                                    Foreground="White"
                                    Margin="4 0 0 0" />
                     </StackPanel>
@@ -146,151 +135,7 @@
         </Grid>
 
         <!--ListView-->
-
         <Grid Grid.Row="1">
-            <!--<ListView Margin="8"
-                      Height="350"
-                      Width="Auto"
-                      ScrollViewer.VerticalScrollBarVisibility="Visible"
-                      ScrollViewer.CanContentScroll="True"
-                      Background="Transparent"
-                      BorderBrush="Transparent"
-                      ItemsSource="{Binding Path=Employees}">
-
-                <ListView.View>
-                    <GridView ColumnHeaderTemplate="{StaticResource ResourceKey=listViewHeaderTemplate}">
-                        -->
-            <!--FirstName-->
-            <!--
-                        <GridViewColumn Width="Auto"
-                                        Header="First Name">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <DockPanel>
-                                        <TextBlock Text="{Binding FirstName}"
-                                                   Style="{StaticResource ResourceKey=textBlockItem}" />
-                                    </DockPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        -->
-            <!--LastName-->
-            <!--
-                        <GridViewColumn Width="Auto"
-                                        Header="Last Name">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <DockPanel>
-                                        <TextBlock Text="{Binding LastName}"
-                                                   Style="{StaticResource ResourceKey=textBlockItem}" />
-                                    </DockPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-                        -->
-            <!--Birthday-->
-            <!--
-                        <GridViewColumn Width="Auto"
-                                        Header="Birthday">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <DockPanel>
-                                        <TextBlock Text="{Binding BirthDate, StringFormat={}{0:dd}/{0:MM}/{0:yyyy}}"
-                                                   Style="{StaticResource ResourceKey=textBlockItem}" />
-                                    </DockPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-                        -->
-            <!--Gender-->
-            <!--
-                        <GridViewColumn Width="Auto"
-                                        Header="Gender">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <DockPanel>
-                                        <TextBlock Text="{Binding Gender}"
-                                                   Style="{StaticResource ResourceKey=textBlockItem}" />
-                                    </DockPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-                        -->
-            <!--Phone-->
-            <!--
-                        <GridViewColumn Width="Auto"
-                                        Header="Phone">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <DockPanel>
-                                        <TextBlock Text="{Binding PhoneNumber}"
-                                                   Style="{StaticResource ResourceKey=textBlockItem}" />
-                                    </DockPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-                        -->
-            <!--Address-->
-            <!--
-                        <GridViewColumn Width="Auto"
-                                        Header="Address">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <DockPanel>
-                                        <TextBlock Text="{Binding Address}"
-                                                   Style="{StaticResource ResourceKey=textBlockItem}" />
-                                    </DockPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-                        -->
-            <!--Email-->
-            <!--
-                        <GridViewColumn Width="Auto"
-                                        Header="Email">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <DockPanel>
-                                        <TextBlock Text="{Binding Email}"
-                                                   Style="{StaticResource ResourceKey=textBlockItem}" />
-                                    </DockPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-                        -->
-            <!--Action -->
-            <!--
-                        <GridViewColumn Width="Auto"
-                                        Header="Action">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <DockPanel>
-                                        <Button Height="24"
-                                                Width="24"
-                                                Style="{StaticResource ResourceKey=ImageButton}">
-                                            <Image Source="\UI\Icons\ic_edit.png"
-                                                   Stretch="Fill" />
-                                        </Button>
-                                        <Button Height="24"
-                                                Width="24"
-                                                Style="{StaticResource ResourceKey=ImageButton}">
-                                            <Image Source="\UI\Icons\ic_delete.png"
-                                                   Stretch="Fill" />
-                                        </Button>
-                                    </DockPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>-->
-
             <DataGrid ItemsSource="{Binding Path=Employees}"
                       Background="Transparent"
                       CanUserReorderColumns="False"
@@ -301,10 +146,7 @@
                       SelectionUnit="FullRow"
                       FlowDirection="LeftToRight"
                       VerticalScrollBarVisibility="Visible"
-                      Height="400"
-                      Padding="16"
-                      >
-
+                      Padding="16">
                 <DataGrid.Resources>
                     <Style TargetType="{x:Type DataGridColumnHeader}">
                         <Setter Property="Background"
@@ -315,29 +157,29 @@
                                 Value="Center" />
                         <Setter Property="VerticalAlignment"
                                 Value="Center" />
+                        <Setter Property="FontWeight"
+                                Value="Bold" />
+                        <Setter Property="FontFamily"
+                                Value="Consolas" />
                     </Style>
                     
                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                                      Color="LightGray" />
-                    <!--<SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
-                                     Color="Blue" />
-                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
-                                     Color="Green" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
+                                     Color="LightGray" />
+                    <!--<SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
+                                     Color="LightGray" />
                     <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}"
-                                     Color="Black" />-->
+                                     Color="LightGray" />-->
 
                     <Style TargetType="{x:Type DataGridCell}">
-                        <Style.Triggers>
-                            <Trigger Property="IsSelected"
-                                     Value="True">
-                                <!--Value="#CCDAFF"-->
-                                <Setter Property="BorderBrush"
-                                        Value="{x:Null}" />
-                                <Setter Property="BorderThickness"
-                                        Value="0" />
-                            </Trigger>
-                        </Style.Triggers>
-
+                        <Setter Property="FontFamily"
+                                Value="Consolas" />
+                        <Setter Property="BorderBrush"
+                                Value="{x:Null}" />
+                        <Setter Property="BorderThickness"
+                                Value="0" />
+                        
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type DataGridCell}">
@@ -351,16 +193,22 @@
                 </DataGrid.Resources>
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="First name"
+                    <DataGridTextColumn Header="Name"
                                         Width="*"
                                         IsReadOnly="True"
-                                        Binding="{Binding FirstName}"
-                                        FontSize="12"
+                                        Binding="{Binding Name}"
+                                        FontSize="12" 
                                         />
-                    <DataGridTextColumn Header="Last name"
+                    <DataGridTextColumn Header="User name"
                                         Width="*"
                                         IsReadOnly="True"
-                                        Binding="{Binding LastName}"
+                                        Binding="{Binding UserName}"
+                                        FontSize="12" />
+
+                    <DataGridTextColumn Header="Gender"
+                                        Width="*"
+                                        IsReadOnly="True"
+                                        Binding="{Binding Gender}"
                                         FontSize="12" />
 
                     <DataGridTextColumn Header="Date of birth"
@@ -369,10 +217,10 @@
                                         Binding="{Binding BirthDate, StringFormat={}{0:dd}/{0:MM}/{0:yyyy}}"
                                         FontSize="12" />
 
-                    <DataGridTextColumn Header="Gender"
+                    <DataGridTextColumn Header="CMND"
                                         Width="*"
                                         IsReadOnly="True"
-                                        Binding="{Binding Gender}"
+                                        Binding="{Binding Cmnd}"
                                         FontSize="12" />
 
                     <DataGridTextColumn Header="Phone"
@@ -387,23 +235,18 @@
                                         Binding="{Binding Address}"
                                         FontSize="12" />
 
-                    <DataGridTextColumn Header="Email"
-                                        Width="*"
-                                        IsReadOnly="True"
-                                        Binding="{Binding Email}"
-                                        FontSize="12" />
                     <DataGridTemplateColumn Header="Action">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <DockPanel>
-                                    <Button Height="24"
-                                            Width="24"
+                                    <Button Height="18"
+                                            Width="18"
                                             Style="{StaticResource ResourceKey=ImageButton}">
                                         <Image Source="\UI\Icons\ic_edit.png"
                                                Stretch="Fill" />
                                     </Button>
-                                    <Button Height="24"
-                                            Width="24"
+                                    <Button Height="18"
+                                            Width="18"
                                             Style="{StaticResource ResourceKey=ImageButton}">
                                         <Image Source="\UI\Icons\ic_delete.png"
                                                Stretch="Fill" />
@@ -412,7 +255,6 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

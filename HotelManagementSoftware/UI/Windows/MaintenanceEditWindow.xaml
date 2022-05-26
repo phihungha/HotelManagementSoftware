@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HotelManagementSoftware.UI.Windows"
+        xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels.WindowVMs"
         mc:Ignorable="d"
         xmlns:ui="https://handyorg.github.io/handycontrol"
         WindowStartupLocation="CenterScreen"
@@ -11,12 +12,15 @@
         Title="MaintenanceEditWindow"
         Height="600"
         Width="900">
+    <Window.DataContext>
+        <vm:MaintenanceEditWindowVM />
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
@@ -82,7 +86,6 @@
                                TextWrapping="Wrap"
                                Opacity=".6"
                                Text="Note detail" />
-
                 </Grid>
             </Grid>
 
@@ -187,7 +190,7 @@
                            FontWeight="Bold"
                            Text="Items" />
             </StackPanel>
-            
+
         </StackPanel>
 
         <!--Body-->
@@ -201,16 +204,13 @@
             <!--Left table-->
             <Grid Grid.Column="0">
                 <ListView Margin="0 8 8 8"
-                          Height="150"
                           Width="Auto"
                           Background="Transparent"
                           BorderBrush="Transparent"
                           ScrollViewer.VerticalScrollBarVisibility="Visible"
                           ScrollViewer.CanContentScroll="True"
-                          ItemsSource="{Binding Path=Items}"
-                          >
+                          ItemsSource="{Binding Path=Items}">
                     <ListView.View>
-                        
                         <GridView ColumnHeaderTemplate="{StaticResource ResourceKey=listViewHeaderTemplate}">
                             <!--Name-->
                             <GridViewColumn Width="Auto"
@@ -281,14 +281,14 @@
             <Grid Grid.Column="1">
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <!--ItemName-->
@@ -299,9 +299,7 @@
                         <Button Background="#369FFF"
                                 BorderBrush="Transparent"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                          
-                                >
+                                VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="\UI\Icons\ic_add.png"
                                        Stretch="Fill" />
@@ -330,19 +328,25 @@
                 <!--Item description-->
                 <Grid Grid.Column="1"
                       Grid.Row="1"
-                      Grid.RowSpan="2"
-                     >
-                    <StackPanel Margin="16 0 8 0"
-                                Orientation="Vertical">
+                      Grid.RowSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <Grid Margin="16 0 8 0"
+                          Grid.Row="0"
+                          >
                         <TextBlock Style="{StaticResource Label}"
                                    Text="Description" />
+                    </Grid>
+
+                    <Grid Margin="16 0 8 0"
+                          Grid.Row="1">
                         <TextBox Text="20W lightbulb"
-                                 Height="75"
                                  TextWrapping="Wrap"
                                  HorizontalContentAlignment="Left"
-                                 VerticalContentAlignment="Top"
-                                 />
-                    </StackPanel>
+                                 VerticalContentAlignment="Top" />
+                    </Grid>
                 </Grid>
 
 
@@ -353,8 +357,7 @@
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource Label}"
                                    Text="Quantity" />
-                        <TextBox  Text="4" 
-                                  />
+                        <TextBox  Text="4" />
                     </StackPanel>
                 </Grid>
             </Grid>

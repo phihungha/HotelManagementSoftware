@@ -44,63 +44,13 @@
                 Value="16" />
     </Style>
 
-    <Style x:Key="ModernTextBoxSearch"
-           TargetType="{x:Type TextBox}">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TextBox}">
-                    <Border CornerRadius="4"
-                            Background="White">
-                        <StackPanel Orientation="Horizontal">
-
-
-                            <TextBox Margin="8"
-                                     Text="text"
-                                     Background="Transparent"
-                                     VerticalAlignment="Center"
-                                     Foreground="Wheat"
-                                     x:Name="SearchBox"
-                                     Panel.ZIndex="1" />
-
-                            <TextBlock   IsHitTestVisible="False"
-                                         Height="Auto"
-                                         Width="Auto"
-                                         Text="Search..."
-                                         VerticalAlignment="Center"
-                                         HorizontalAlignment="Left"
-                                         Margin="10 0 0 0"
-                                         FontSize="12"
-                                         Background="Transparent"
-                                         Foreground="Red"
-                                         Panel.ZIndex="0">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Text, ElementName=SearchBox}"
-                                                         Value="">
-                                                <Setter Property="Visibility"
-                                                        Value="Visible" />
-                                            </DataTrigger>
-
-                                        </Style.Triggers>
-                                        <Setter Property="Visibility"
-                                                Value="Hidden" />
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </StackPanel>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style x:Key="TextLabel"
            TargetType="{x:Type TextBlock}">
         <Setter Property="FontSize"
                 Value="16" />
+        <Setter Property="FontFamily"
+                Value="Consolas" />
     </Style>
-
 
     <Style x:Key="textBlockHeader"
            TargetType="{x:Type TextBlock}">
