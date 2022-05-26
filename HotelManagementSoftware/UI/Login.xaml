@@ -9,6 +9,15 @@
              d:DesignHeight="600" d:DesignWidth="900">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+        <Style x:Key="textBoxInError" TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+        Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                        Path=(Validation.Errors)/ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
 
     <Grid>
@@ -31,11 +40,10 @@
                 
                 <Image Source="{StaticResource OneButlerIcon}" Margin="0,0,0,50"/>
 
-                <hc:UniformSpacingPanel Grid.Row="1" Orientation="Vertical" Spacing="17">
-                    <hc:TextBox
-                    Text="{Binding UserName}" 
-                            ShowClearButton="True"
-                            hc:InfoElement.Placeholder="Username"/>
+                <hc:UniformSpacingPanel Grid.Row="1" Orientation="Vertical" Spacing="25">
+                    <hc:TextBox Text="{Binding UserName}"
+                                ShowClearButton="True"
+                                hc:InfoElement.Placeholder="Username"/>
                     
                     <hc:PasswordBox IsSafeEnabled="False"
                                 ShowEyeButton="True"

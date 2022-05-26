@@ -2,26 +2,29 @@
 using HotelManagementSoftware.ViewModels.Utils;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using System.ComponentModel.DataAnnotations;
 using System.Windows.Input;
 
 namespace HotelManagementSoftware.ViewModels
 {
-    public class LoginVM : ObservableObject
+    public class LoginVM : ObservableValidator
     {
         private readonly EmployeeBusiness employeeBusiness;
 
         private string userName = "";
+        [Required(ErrorMessage = "Please enter user name")]
         public string UserName
         {
             get => userName;
-            set => SetProperty(ref userName, value);
+            set => SetProperty(ref userName, value, true);
         }
 
         private string password = "";
+        [Required(ErrorMessage = "Please enter password")]
         public string Password
         {
             get => password;
-            set => SetProperty(ref password, value);
+            set => SetProperty(ref password, value, true);
         }
 
         private bool isLoginInfoIncorrect = false;
@@ -41,6 +44,7 @@ namespace HotelManagementSoftware.ViewModels
 
         private async void Login()
         {
+            ValidateAllProperties();
             if (await employeeBusiness.Login(UserName, Password))
             {
                 MainWindowNavigationUtils.NavigateTo(MainWindowPageName.LoggedIn);

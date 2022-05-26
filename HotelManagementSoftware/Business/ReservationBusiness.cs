@@ -10,6 +10,94 @@ namespace HotelManagementSoftware.Business
     public class ReservationBusiness
     {
         /// <summary>
+        /// Get reservations that satisfy specified criteria.
+        /// </summary>
+        /// <param name="status">Status</param>
+        /// <param name="customerName">Customer name</param>
+        /// <param name="roomNumber">Room number</param>
+        /// <param name="roomType">Room type name</param>
+        /// <param name="employeeName">Employee name</param>
+        /// <param name="fromArrivalTime">Min arrival time</param>
+        /// <param name="toArrivalTime">Max arrival time</param>
+        /// <param name="fromDepartureTime">Min departure time</param>
+        /// <param name="toDepartureTime">To departure time</param>
+        /// <param name="fromTotalRentFee">Min total rent fee</param>
+        /// <param name="toTotalRentFee">Max total rent fee</param>
+        /// <returns></returns>
+        public async Task<List<Reservation>> GetReservations(
+            ReservationStatus? status = null,
+            string? customerName = null,
+            int? roomNumber = null,
+            string? roomType = null,
+            string? employeeName = null,
+            DateTime? fromArrivalTime = null,
+            DateTime? toArrivalTime = null,
+            DateTime? fromDepartureTime = null,
+            DateTime? toDepartureTime = null,
+            decimal? fromTotalRentFee = null,
+            decimal? toTotalRentFee = null)
+        {
+            using (var db = new Database())
+            {
+                var request = db.Reservations
+                        .Include(i => i.Customer)
+                        .Include(i => i.Order)
+                        .Include(i => i.Room)
+                        .ThenInclude(room => room.RoomType);
+
+                var filteredRequest = request.Where(i => true);
+
+                if (status != null)
+                    filteredRequest = filteredRequest.Where(i => i.Status == status);
+
+                if (customerName != null)
+                    filteredRequest = filteredRequest
+                        .Where(i => i.Customer != null && i.Customer.Name == customerName);
+
+                if (roomNumber != null)
+                    filteredRequest = filteredRequest
+                        .Where(i => i.Room != null && i.Room.RoomNumber == roomNumber);
+
+                if (roomType != null)
+                    filteredRequest = filteredRequest
+                        .Where(i => i.Room != null && i.Room.RoomType != null &&
+                                    i.Room.RoomType.Name == roomType);
+
+                if (employeeName != null)
+                    filteredRequest = filteredRequest
+                        .Where(i => i.Employee != null && i.Employee.Name == employeeName);
+
+                if (fromArrivalTime != null)
+                    filteredRequest = filteredRequest
+                        .Where(i => i.ArrivalTime >= fromArrivalTime);
+
+                if (toArrivalTime != null)
+                    filteredRequest = filteredRequest
+                        .Where(i => i.ArrivalTime <= toArrivalTime);
+
+                if (fromDepartureTime != null)
+                    filteredRequest = filteredRequest
+                        .Where(i => i.DepartureTime >= fromDepartureTime);
+
+                if (toDepartureTime != null)
+                    filteredRequest = filteredRequest
+                        .Where(i => i.DepartureTime <= toDepartureTime);
+
+                if (fromTotalRentFee != null)
+                    filteredRequest = filteredRequest
+                        .Where(i => i.Order != null &&
+                                    i.Order.Amount >= fromTotalRentFee);
+
+                if (toTotalRentFee != null)
+                    filteredRequest = filteredRequest
+                        .Where(i => i.Order != null &&
+                                    i.Order.Amount <= toTotalRentFee);
+
+                return await filteredRequest.ToListAsync();
+            }
+        }
+
+        /// <summary>
         /// Get reservations that arrive today.
         /// </summary>
         /// <returns>List of reservations</returns>
@@ -62,94 +150,6 @@ namespace HotelManagementSoftware.Business
                 if (customerIdNumber != null)
                     filteredRequest = filteredRequest
                         .Where(i => i.Customer != null && i.Customer.IdNumber == customerIdNumber);
-
-                return await filteredRequest.ToListAsync();
-            }
-        }
-
-        /// <summary>
-        /// Get reservations that satisfy specified criteria.
-        /// </summary>
-        /// <param name="status">Status</param>
-        /// <param name="customerName">Customer name</param>
-        /// <param name="roomNumber">Room number</param>
-        /// <param name="roomType">Room type name</param>
-        /// <param name="employeeName">Employee name</param>
-        /// <param name="fromArrivalTime">Min arrival time</param>
-        /// <param name="toArrivalTime">Max arrival time</param>
-        /// <param name="fromDepartureTime">Min departure time</param>
-        /// <param name="toDepartureTime">To departure time</param>
-        /// <param name="fromTotalRentFee">Min total rent fee</param>
-        /// <param name="toTotalRentFee">Max total rent fee</param>
-        /// <returns></returns>
-        public async Task<List<Reservation>> GetReservations(
-            ReservationStatus? status = null,
-            string? customerName = null,
-            int? roomNumber = null,
-            string? roomType = null,
-            string? employeeName = null,
-            DateTime? fromArrivalTime = null,
-            DateTime? toArrivalTime = null,
-            DateTime? fromDepartureTime = null,
-            DateTime? toDepartureTime = null,
-            decimal? fromTotalRentFee = null,
-            decimal? toTotalRentFee = null)
-        {
-            using (var db = new Database())
-            {
-                var request = db.Reservations
-                        .Include(i => i.Customer)
-                        .Include(i => i.Order)
-                        .Include(i => i.Room)
-                        .ThenInclude(room => room.RoomType);
-
-                var filteredRequest = request.Where(i => true);
-
-                if (status != null)
-                    filteredRequest = filteredRequest.Where(i => i.Status == status);
-
-                if (customerName != null)
-                    filteredRequest = filteredRequest
-                        .Where(i => i.Customer != null && i.Customer.Name == customerName);
-
-                if (roomNumber != null)
-                    filteredRequest = filteredRequest
-                        .Where(i => i.Room != null && i.Room.RoomNumber == roomNumber);
-
-                if (roomType != null)
-                    filteredRequest = filteredRequest
-                        .Where(i => i.Room != null && i.Room.RoomType != null && 
-                                    i.Room.RoomType.Name == roomType);
-
-                if (employeeName != null)
-                    filteredRequest = filteredRequest
-                        .Where(i => i.Employee != null && i.Employee.Name == employeeName);
-
-                if (fromArrivalTime != null)
-                    filteredRequest = filteredRequest
-                        .Where(i => i.ArrivalTime >= fromArrivalTime);
-
-                if (toArrivalTime != null)
-                    filteredRequest = filteredRequest
-                        .Where(i => i.ArrivalTime <= toArrivalTime);
-
-                if (fromDepartureTime != null)
-                    filteredRequest = filteredRequest
-                        .Where(i => i.DepartureTime >= fromDepartureTime);
-
-                if (toDepartureTime != null)
-                    filteredRequest = filteredRequest
-                        .Where(i => i.DepartureTime <= toDepartureTime);
-
-                if (fromTotalRentFee != null)
-                    filteredRequest = filteredRequest
-                        .Where(i => i.Order != null && 
-                                    i.Order.Amount >= fromTotalRentFee);
-
-                if (toTotalRentFee != null)
-                    filteredRequest = filteredRequest
-                        .Where(i => i.Order != null && 
-                                    i.Order.Amount <= toTotalRentFee);
 
                 return await filteredRequest.ToListAsync();
             }
@@ -348,12 +348,18 @@ namespace HotelManagementSoftware.Business
 
         public async Task<bool> CheckCollidedReservation(Database db, Reservation newReservation)
         {
-            Reservation? collidedReservation = 
+            List<Reservation> collidedReservation =
                 await db.Reservations.Include(i => i.Room)
-                                     .FirstOrDefaultAsync(
-                        i => CheckStayPeriodCollision(newReservation, i)
-                    );
-            if (collidedReservation == null)
+                            .Where(i => i.Room == newReservation.Room)
+                            .ToListAsync();
+            bool collidedReservationExists = collidedReservation.Any(
+                                i => CheckStayPeriodCollision(
+                                    newReservation.ArrivalTime,
+                                    i.ArrivalTime,
+                                    newReservation.DepartureTime,
+                                    i.DepartureTime)
+                                );
+            if (collidedReservationExists)
                 return false;
             return true;
         }
@@ -361,17 +367,22 @@ namespace HotelManagementSoftware.Business
         /// <summary>
         /// Check if the stay period of a reservation collided with another reservation.
         /// </summary>
-        /// <param name="reservation">New reservation to check</param>
-        /// <param name="existingReservation">Existing reservation to check with</param>
+        /// <param name="arrivalTime">Arrival time of new reservation</param>
+        /// <param name="departureTime">Departure time of new reservation</param>
+        /// <param name="existingArrivalTime">Arrival time of existing reservation</param>
+        /// <param name="existingDepartureTime">Departure time of existing reservation</param>
         /// <returns>True if the stay period collided</returns>
-        public bool CheckStayPeriodCollision(Reservation reservation, Reservation existingReservation)
+        public static bool CheckStayPeriodCollision(DateTime arrivalTime,
+                                                    DateTime existingArrivalTime,
+                                                    DateTime departureTime,
+                                                    DateTime existingDepartureTime)
         {
-            if (reservation.DepartureTime <= existingReservation.DepartureTime && 
-                reservation.DepartureTime >= existingReservation.ArrivalTime)
+            if (departureTime <= existingDepartureTime &&
+                departureTime >= existingArrivalTime)
                 return true;
 
-            if (reservation.ArrivalTime >= existingReservation.ArrivalTime &&
-                reservation.ArrivalTime <= existingReservation.DepartureTime)
+            if (arrivalTime >= existingArrivalTime &&
+                arrivalTime <= existingDepartureTime)
                 return true;
 
             return false;

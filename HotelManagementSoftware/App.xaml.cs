@@ -4,6 +4,7 @@ using HotelManagementSoftware.ViewModels;
 using HotelManagementSoftware.ViewModels.WindowVMs;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace HotelManagementSoftware
@@ -82,10 +83,10 @@ namespace HotelManagementSoftware
                 db.Database.EnsureCreated();
         }
 
-
         private async void testDb()
         {
-
+            RoomBusiness rb = new RoomBusiness();
+            List<Room> rooms = await rb.GetUsableRooms("", 1, DateTime.Now, DateTime.Now.AddDays(1));
         }
     }
 }

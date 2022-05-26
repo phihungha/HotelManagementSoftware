@@ -21,20 +21,56 @@ namespace HotelManagementSoftware.Business
             }
         }
 
-        /// <summary>
-        /// Get all rooms that satisfy specified criteria.
-        /// <param name="floorNumber">Floor number</paramref>
-        /// <param name="status">Status</paramref>
-        /// </summary>
-        /// <returns></returns>
-        public async Task<List<Room>> GetRooms(int floorNumber, RoomStatus status)
+        public async Task<List<Room>> GetUsableRooms(string roomType,
+                                                     int floorNumber,
+                                                     DateTime arrivalTime,
+                                                     DateTime departureTime)
         {
             using (var db = new Database())
             {
-                return await db.Rooms.Include(i => i.RoomType)
+                List<Room> rooms = await db.Rooms
+                    .Include(i => i.RoomType)
+                    .Include(i => i.Reservations)
                     .Where(i => i.Floor == floorNumber)
-                    .Where(i => i.Status == status)
+                    .Where(i => i.RoomType != null && i.RoomType.Name == roomType)
                     .ToListAsync();
+
+                return rooms.Where(i => !i.Reservations.Any(
+                            r => ReservationBusiness.CheckStayPeriodCollision(
+                                    arrivalTime,
+                                    r.ArrivalTime,
+                                    departureTime,
+                                    r.DepartureTime)
+                            )
+                        ).ToList();
+            }
+        }
+
+        /// <summary>
+        /// Get all rooms that satisfy specified criteria.
+        /// <param name="floorNumber">Floor number</paramref>
+        /// /// <param name="roomType">Room type name</paramref>
+        /// <param name="status">Status</paramref>
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Room>> GetRooms(int? floorNumber, string roomType, RoomStatus? status)
+        {
+            using (var db = new Database())
+            {
+                var request = db.Rooms.Include(i => i.RoomType);
+                var filteredRequest = request.Where(i => true);
+
+                if (floorNumber != null)
+                    filteredRequest = filteredRequest.Where(i => i.Floor == floorNumber);
+
+                if (roomType != null)
+                    filteredRequest = filteredRequest.Where(
+                        i => i.RoomType != null && i.RoomType.Name == roomType);
+
+                if (status != null)
+                    filteredRequest = filteredRequest.Where(i => i.Status == status);
+
+                return await filteredRequest.ToListAsync();
             }
         }
 
