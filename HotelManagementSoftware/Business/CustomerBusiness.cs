@@ -153,6 +153,9 @@ namespace HotelManagementSoftware.Business
                 throw new ArgumentException("Name cannot be empty");
             if (customer.IdNumber == "")
                 throw new ArgumentException("Id number cannot be empty");
+            if (customer.IdNumberType == IdNumberType.Cmnd 
+                && ValidationUtils.ValidateCmnd(customer.IdNumber))
+                throw new ArgumentException("CMND number must have 9 or 12 digits");
             if (customer.BirthDate > DateTime.Now.AddYears(-18))
                 throw new ArgumentException("Age cannot be less than 18 years old");
             if (!ValidationUtils.ValidatePhoneNumber(customer.PhoneNumber, "VN"))
