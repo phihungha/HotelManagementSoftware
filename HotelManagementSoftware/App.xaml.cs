@@ -1,10 +1,10 @@
 ﻿using HotelManagementSoftware.Business;
 using HotelManagementSoftware.Data;
+using HotelManagementSoftware.Tests;
 using HotelManagementSoftware.ViewModels;
 using HotelManagementSoftware.ViewModels.WindowVMs;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Windows;
 
 namespace HotelManagementSoftware
@@ -19,7 +19,9 @@ namespace HotelManagementSoftware
             Services = ConfigureServices();
             InitializeComponent();
             InitiateDatabase();
-            testDb();
+            // Uncomment this to generate test data.
+            // Check the method for data that needs to be created.
+            // TestDataGenerator.GenerateTestData();
         }
 
         public new static App Current => (App)Application.Current;
@@ -80,12 +82,6 @@ namespace HotelManagementSoftware
         {
             using (var db = new Database())
                 db.Database.EnsureCreated();
-        }
-
-        private async void testDb()
-        {
-            RoomBusiness rb = new RoomBusiness();
-            List<Room> rooms = await rb.GetUsableRooms("", 1, DateTime.Now, DateTime.Now.AddDays(1));
         }
     }
 }
