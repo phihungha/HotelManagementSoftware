@@ -13,7 +13,6 @@ namespace HotelManagementSoftware.Data
         public DbSet<MaintenanceRequest> MaintenanceRequests => Set<MaintenanceRequest>();
         public DbSet<MaintenanceItem> MaintenanceItems => Set<MaintenanceItem>();
         public DbSet<Employee> Employees => Set<Employee>();
-        public DbSet<EmployeeType> EmployeeTypes => Set<EmployeeType>();
         public DbSet<Room> Rooms => Set<Room>();
         public DbSet<RoomType> RoomTypes => Set<RoomType>();
 
@@ -36,6 +35,7 @@ namespace HotelManagementSoftware.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Unique constraints & indexes
             modelBuilder.Entity<Employee>()
                 .HasIndex(i => new { i.Cmnd })
                 .IsUnique();
@@ -46,10 +46,6 @@ namespace HotelManagementSoftware.Data
 
             modelBuilder.Entity<Employee>()
                 .HasIndex(i => new { i.PhoneNumber })
-                .IsUnique();
-
-            modelBuilder.Entity<EmployeeType>()
-                .HasIndex(i => new { i.Name })
                 .IsUnique();
 
             modelBuilder.Entity<Customer>()
@@ -72,6 +68,7 @@ namespace HotelManagementSoftware.Data
                 .HasIndex(i => new { i.Name })
                 .IsUnique();
 
+            // Enum to string conversion
             modelBuilder.Entity<Reservation>()
                 .Property(i => i.Status)
                 .HasConversion<string>();
@@ -100,6 +97,11 @@ namespace HotelManagementSoftware.Data
                 .Property(i => i.IdNumberType)
                 .HasConversion<string>();
 
+            modelBuilder.Entity<Employee>()
+                .Property(i => i.EmployeeType)
+                .HasConversion<string>();
+
+            // Manual relation setup
             modelBuilder.Entity<MaintenanceItem>()
                 .HasKey(i => new { i.MaintenanceItemId, i.MaintenanceRequestId });
 

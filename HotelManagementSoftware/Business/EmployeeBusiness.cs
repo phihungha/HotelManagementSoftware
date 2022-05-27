@@ -117,10 +117,6 @@ namespace HotelManagementSoftware.Business
             ValidateEmployee(employee);
             using (var db = new Database())
             {
-                if (employee.EmployeeType == null)
-                    throw new ArgumentException("Employee type cannot be empty");
-                db.EmployeeTypes.Attach(employee.EmployeeType);
-
                 byte[] salt = GetNewSalt();
                 employee.HashedPassword = GetHashedPassword(password, salt);
                 employee.Salt = Convert.ToBase64String(salt);
@@ -185,8 +181,6 @@ namespace HotelManagementSoftware.Business
                 throw new ArgumentException("Name cannot be empty");
             if (employee.UserName == "")
                 throw new ArgumentException("User name cannot be empty");
-            if (employee.EmployeeType == null)
-                throw new ArgumentException("Employee type cannot be null");
             if (employee.BirthDate > DateTime.Now.AddYears(-18))
                 throw new ArgumentException("Age cannot be less than 18 years old");
             if (!ValidationUtils.ValidateCmnd(employee.Cmnd))
@@ -222,19 +216,6 @@ namespace HotelManagementSoftware.Business
                 prf: KeyDerivationPrf.HMACSHA256,
                 iterationCount: 100000,
                 numBytesRequested: 256 / 8));
-        }
-    }
-
-    public class EmployeeTypeBusiness
-    {
-        /// <summary>
-        /// Get all employee types.
-        /// </summary>
-        /// <returns>List of employee types</returns>
-        public async Task<List<EmployeeType>> GetAllEmployeeTypes()
-        {
-            using (var db = new Database())
-                return await db.EmployeeTypes.ToListAsync();
         }
     }
 }

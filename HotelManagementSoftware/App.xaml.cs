@@ -35,7 +35,6 @@ namespace HotelManagementSoftware
 
             // Business services
             services.AddSingleton<EmployeeBusiness>();
-            services.AddSingleton<EmployeeTypeBusiness>();
             services.AddSingleton<CustomerBusiness>();
             services.AddSingleton<ReservationBusiness>();
             services.AddSingleton<HousekeepingBusiness>();
