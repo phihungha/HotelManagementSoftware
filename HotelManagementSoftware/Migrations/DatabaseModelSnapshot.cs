@@ -30,6 +30,10 @@ namespace HotelManagementSoftware.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CountryId"), 1L, 1);
 
+                    b.Property<string>("CountryCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -341,6 +345,9 @@ namespace HotelManagementSoftware.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfPeople")
                         .HasColumnType("int");
 
                     b.Property<int?>("RoomId")

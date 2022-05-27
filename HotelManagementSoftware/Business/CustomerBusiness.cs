@@ -102,7 +102,7 @@ namespace HotelManagementSoftware.Business
         /// Create a customer.
         /// </summary>
         /// <param name="customer">Customer</param>
-        public async void CreateCustomer(Customer customer)
+        public async Task CreateCustomer(Customer customer)
         {
             ValidateCustomer(customer);
             using (var db = new Database())
@@ -119,7 +119,7 @@ namespace HotelManagementSoftware.Business
         /// Edit a customer.
         /// </summary>
         /// <param name="customer">Updated customer</param>
-        public async void EditCustomer(Customer customer)
+        public async Task EditCustomer(Customer customer)
         {
             ValidateCustomer(customer);
             using (var db = new Database())
@@ -133,7 +133,7 @@ namespace HotelManagementSoftware.Business
         /// Delete a customer.
         /// </summary>
         /// <param name="customer">Customer to delete</param>
-        public async void DeleteCustomer(Customer customer)
+        public async Task DeleteCustomer(Customer customer)
         {
             using (var db = new Database())
             {
@@ -154,11 +154,13 @@ namespace HotelManagementSoftware.Business
             if (customer.IdNumber == "")
                 throw new ArgumentException("Id number cannot be empty");
             if (customer.IdNumberType == IdNumberType.Cmnd 
-                && ValidationUtils.ValidateCmnd(customer.IdNumber))
+                && !ValidationUtils.ValidateCmnd(customer.IdNumber))
                 throw new ArgumentException("CMND number must have 9 or 12 digits");
+            if (customer.Country == null)
+                throw new ArgumentException("Country cannot be empty");
             if (customer.BirthDate > DateTime.Now.AddYears(-18))
                 throw new ArgumentException("Age cannot be less than 18 years old");
-            if (!ValidationUtils.ValidatePhoneNumber(customer.PhoneNumber, "VN"))
+            if (!ValidationUtils.ValidatePhoneNumber(customer.PhoneNumber, customer.Country.CountryCode))
                 throw new ArgumentException("Phone number is invalid");
             if (customer.Address == "")
                 throw new ArgumentException("Address cannot be empty");
@@ -166,8 +168,6 @@ namespace HotelManagementSoftware.Business
                 throw new ArgumentException("City cannot be empty");
             if (customer.Province == "")
                 throw new ArgumentException("Province cannot be empty");
-            if (customer.Country == null)
-                throw new ArgumentException("Country cannot be empty");
             if (customer.Email != null && !ValidationUtils.ValidateEmail(customer.Email))
                 throw new ArgumentException("Email is invalid");
             if (customer.PaymentMethod != PaymentMethod.Cash)
@@ -178,6 +178,17 @@ namespace HotelManagementSoftware.Business
                     throw new ArgumentException("Card expiration date cannot be empty");
                 if (customer.ExpireDate <= DateTime.Now.Date)
                     throw new ArgumentException("Card's expiration date cannot be earlier than today");
+            }
+        }
+    }
+
+    public class CountryBusiness
+    {
+        public async Task<List<Country>> GetAllCountries()
+        {
+            using (var db = new Database())
+            {
+                return await db.Countries.ToListAsync();
             }
         }
     }
