@@ -12,6 +12,8 @@ namespace HotelManagementSoftware.Data
 
         public DateTime DepartureTime { get; set; }
 
+        public int NumberOfPeople { get; set; }
+
         public Room? Room { get; set; }
 
         public Customer? Customer { get; set; }
@@ -22,20 +24,22 @@ namespace HotelManagementSoftware.Data
 
         public Order? Order { get; set; }
 
-        public Reservation(DateTime arrivalTime, DateTime departureTime, ReservationStatus status)
+        public Reservation(DateTime arrivalTime, DateTime departureTime, int numberOfPeople, ReservationStatus status)
         {
             ArrivalTime = arrivalTime;
             DepartureTime = departureTime;
             Status = status;
+            NumberOfPeople = numberOfPeople;
         }
 
         public Reservation(DateTime arrivalTime,
                            DateTime departureTime,
+                           int numberOfPeople,
                            Room room,
                            Customer customer,
                            Employee employee,
-                           ReservationStatus status)
-            : this(arrivalTime, departureTime, status)
+                           ReservationStatus status = ReservationStatus.Reserved)
+            : this(arrivalTime, departureTime, numberOfPeople, status)
         {
             Room = room;
             Customer = customer;

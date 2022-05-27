@@ -78,7 +78,7 @@ namespace HotelManagementSoftware.Business
         /// Add a new room.
         /// </summary>
         /// <param name="room">Room info</param>
-        public async void AddRoom(Room room)
+        public async Task AddRoom(Room room)
         {
             ValidateRoom(room);
             using (var db = new Database())
@@ -95,7 +95,7 @@ namespace HotelManagementSoftware.Business
         /// Edit a room.
         /// </summary>
         /// <param name="room">New room's info</param>
-        public async void EditRoom(Room room)
+        public async Task EditRoom(Room room)
         {
             ValidateRoom(room);
             using (var db = new Database())
@@ -109,7 +109,7 @@ namespace HotelManagementSoftware.Business
         /// Remove a room.
         /// </summary>
         /// <param name="room">Room to remove</param>
-        public async void RemoveRoom(Room room)
+        public async Task RemoveRoom(Room room)
         {
             using (var db = new Database())
             {
@@ -193,7 +193,7 @@ namespace HotelManagementSoftware.Business
         /// Add a new room type.
         /// </summary>
         /// <param name="roomType">Room type</param>
-        public async void AddRoomType(RoomType roomType)
+        public async Task AddRoomType(RoomType roomType)
         {
             ValidateRoomType(roomType);
             using (var db = new Database())
@@ -207,7 +207,7 @@ namespace HotelManagementSoftware.Business
         /// Edit a room type.
         /// </summary>
         /// <param name="roomType">Updated room type</param>
-        public async void EditRoomType(RoomType roomType)
+        public async Task EditRoomType(RoomType roomType)
         {
             ValidateRoomType(roomType);
             using (var db = new Database())
@@ -221,7 +221,7 @@ namespace HotelManagementSoftware.Business
         /// Remove a room type.
         /// </summary>
         /// <param name="roomType">Room type to remove</param>
-        public async void RemoveRoomType(RoomType roomType)
+        public async Task RemoveRoomType(RoomType roomType)
         {
             using (var db = new Database())
             {

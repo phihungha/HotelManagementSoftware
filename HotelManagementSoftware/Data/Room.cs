@@ -26,7 +26,7 @@ namespace HotelManagementSoftware.Data
             RoomNumber = roomNumber;
         }
 
-        public Room(int roomNumber, RoomType roomType, int floor, string? note, RoomStatus status)
+        public Room(int roomNumber, RoomType roomType, int floor, RoomStatus status = RoomStatus.Usable, string? note = null)
             : this(roomNumber, floor, status)
         {
             RoomType = roomType;

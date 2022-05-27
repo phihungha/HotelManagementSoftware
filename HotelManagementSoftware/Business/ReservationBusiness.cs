@@ -161,7 +161,7 @@ namespace HotelManagementSoftware.Business
         /// <param name="reservation">Reservation info</param>
         /// <param name="checkIn">Checkin this reservation right away</param>
         /// <exception cref="ArgumentException">Problems with the reservation's info</exception>
-        public async void CreateReservation(Reservation reservation, bool checkIn)
+        public async Task CreateReservation(Reservation reservation, bool checkIn)
         {
             ValidateReservation(reservation);
             using (var db = new Database())
@@ -172,6 +172,18 @@ namespace HotelManagementSoftware.Business
                 if (reservation.Room?.Status != RoomStatus.Usable)
                     throw new ArgumentException("This room cannot be used now");
 
+                if (reservation.NumberOfPeople > reservation.Room?.RoomType?.Capacity)
+                    throw new ArgumentException("Number of people is higher than room's capacity");
+
+                if (reservation.Room == null)
+                    throw new ArgumentException("Room cannot be empty");
+
+                if (reservation.Customer == null)
+                    throw new ArgumentException("Customer cannot be empty");
+
+                if (reservation.Employee == null)
+                    throw new ArgumentException("Employee cannot be empty");
+
                 if (checkIn)
                     reservation.Status = ReservationStatus.CheckedIn;
                 else
@@ -180,6 +192,9 @@ namespace HotelManagementSoftware.Business
                 decimal totalRentFee = GetTotalRentFee(reservation);
                 reservation.Order = new Order(DateTime.Now, totalRentFee, OrderStatus.Pending);
 
+                db.Attach(reservation.Customer);
+                db.Attach(reservation.Room);
+                db.Attach(reservation.Employee);
                 db.Add(reservation);
                 await db.SaveChangesAsync();
             }
@@ -189,7 +204,7 @@ namespace HotelManagementSoftware.Business
         /// Edit a reservation.
         /// </summary>
         /// <param name="reservation">New reservation info</param>
-        public async void EditReservation(Reservation reservation)
+        public async Task EditReservation(Reservation reservation)
         {
             ValidateReservation(reservation);
             using (var db = new Database())
@@ -215,7 +230,7 @@ namespace HotelManagementSoftware.Business
         /// Cancel a reservation.
         /// </summary>
         /// <param name="reservation"></param>
-        public async void CancelReservation(Reservation reservation)
+        public async Task CancelReservation(Reservation reservation)
         {
             using (var db = new Database())
             {
@@ -238,7 +253,7 @@ namespace HotelManagementSoftware.Business
         /// </summary>
         /// <param name="reservation">Reservation to check in</param>
         /// <exception cref="ArgumentException">Reservation has been checked in before or has been canceled</exception>
-        public async void CheckIn(Reservation reservation)
+        public async Task CheckIn(Reservation reservation)
         {
             using (var db = new Database())
             {
@@ -260,7 +275,7 @@ namespace HotelManagementSoftware.Business
         /// </summary>
         /// <param name="reservation">Reservation to check out</param>
         /// <exception cref="ArgumentException">Reservation has not been checked in or has been canceled</exception>
-        public async void CheckOut(Reservation reservation)
+        public async Task CheckOut(Reservation reservation)
         {
             using (var db = new Database())
             {
@@ -352,16 +367,13 @@ namespace HotelManagementSoftware.Business
                 await db.Reservations.Include(i => i.Room)
                             .Where(i => i.Room == newReservation.Room)
                             .ToListAsync();
-            bool collidedReservationExists = collidedReservation.Any(
-                                i => CheckStayPeriodCollision(
-                                    newReservation.ArrivalTime,
-                                    i.ArrivalTime,
-                                    newReservation.DepartureTime,
-                                    i.DepartureTime)
-                                );
-            if (collidedReservationExists)
-                return false;
-            return true;
+            return collidedReservation.Any(
+                            i => CheckStayPeriodCollision(
+                                newReservation.ArrivalTime,
+                                i.ArrivalTime,
+                                newReservation.DepartureTime,
+                                i.DepartureTime)
+                            );
         }
 
         /// <summary>
