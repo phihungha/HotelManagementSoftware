@@ -32,9 +32,7 @@ namespace HotelManagementSoftware.Business
             {
                 return await db.MaintenanceRequests
                         .Include(i => i.OpenEmployee)
-                        .Include(i => i.OpenEmployeeId)
                         .Include(i => i.CloseEmployee)
-                        .Include(i => i.CloseEmployeeId)
                         .Include(i => i.Room)
                         .Include(i => i.MaintenanceItems)
                         .FirstOrDefaultAsync(i => i.MaintenanceRequestId == id);
@@ -75,9 +73,7 @@ namespace HotelManagementSoftware.Business
             {
                 var request = db.MaintenanceRequests
                     .Include(i => i.OpenEmployee)
-                    .Include(i => i.OpenEmployeeId)
                     .Include(i => i.CloseEmployee)
-                    .Include(i => i.CloseEmployeeId)
                     .Include(i => i.Room);
 
                 var filteredRequest = request.Where(i => true);

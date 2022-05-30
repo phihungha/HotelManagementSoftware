@@ -88,14 +88,16 @@ namespace HotelManagementSoftware
         /// </summary>
         private async void GenerateTestData()
         {
-            // var testDataGenerator = new TestDataGenerator();
-            // await testDataGenerator.GenerateEmployees();
-            // await testDataGenerator.GenerateRooms();
-            // await testDataGenerator.GenerateCustomers();
-            // await testDataGenerator.GenerateReservations();
-            // await testDataGenerator.GenerateHousekeepingRequests();
-            // await testDataGenerator.GenerateMaintenanceRequests();
-            // await testDataGenerator.CancelReservation();
+            //var testDataGenerator = new TestDataGenerator();
+            //await testDataGenerator.GenerateEmployees();
+            //await testDataGenerator.GenerateRooms();
+            //await testDataGenerator.GenerateCustomers();
+            //await testDataGenerator.GenerateReservations();
+            //await testDataGenerator.GenerateHousekeepingRequests();
+            //await testDataGenerator.GenerateMaintenanceRequests();
+            //await testDataGenerator.CancelReservation();
+            //await testDataGenerator.CloseHousekeepingRequest();
+            //await testDataGenerator.CloseMaintenanceRequest();
         }
     }
 }

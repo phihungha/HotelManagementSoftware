@@ -173,40 +173,76 @@ namespace HotelManagementSoftware.Tests
         {
             Employee currentEmployee = (await employeeBusiness.GetEmployeesByName("Nguyễn Lễ Tân"))[0];
 
-            var housekeepingRequest = new HousekeepingRequest(currentEmployee.EmployeeId,
+            var housekeepingRequest1 = new HousekeepingRequest(currentEmployee.EmployeeId,
                                                               currentEmployee,
                                                               (await roomBusiness.GetRooms())[0],
                                                               DateTime.Now,
                                                               DateTime.Now.AddDays(1),
-                                                              "abcdef");
-            await housekeepingBusiness.CreateHousekeepingRequest(housekeepingRequest);
+                                                              "note 1");
+            await housekeepingBusiness.CreateHousekeepingRequest(housekeepingRequest1);
+
+            var housekeepingRequest2 = new HousekeepingRequest(currentEmployee.EmployeeId,
+                                                              currentEmployee,
+                                                              (await roomBusiness.GetRooms())[1],
+                                                              DateTime.Now.AddDays(10),
+                                                              DateTime.Now.AddDays(20),
+                                                              "note 2");
+            await housekeepingBusiness.CreateHousekeepingRequest(housekeepingRequest2);
         }
 
         public async Task GenerateMaintenanceRequests()
         {
             Employee currentEmployee = (await employeeBusiness.GetEmployeesByName("Nguyễn Lễ Tân"))[0];
 
-            var maintenanceRequest = new MaintenanceRequest(currentEmployee.EmployeeId,
+            var maintenanceRequest1 = new MaintenanceRequest(currentEmployee.EmployeeId,
                                                             currentEmployee,
                                                             (await roomBusiness.GetRooms())[0],
                                                             DateTime.Now,
                                                             DateTime.Now.AddDays(1),
-                                                            "abcdef")
+                                                            "note 1")
             {
                 MaintenanceItems =
                 {
-                    new MaintenanceItem("Item 1", 5),
-                    new MaintenanceItem("Item 2", 10)
+                    new MaintenanceItem("Lightbulb", 2),
+                    new MaintenanceItem("TV", 1)
                 }
             };
+            await maintenanceBusiness.CreateMaintenanceRequest(maintenanceRequest1);
 
-            await maintenanceBusiness.CreateMaintenanceRequest(maintenanceRequest);
+            var maintenanceRequest2 = new MaintenanceRequest(currentEmployee.EmployeeId,
+                                                            currentEmployee,
+                                                            (await roomBusiness.GetRooms())[0],
+                                                            DateTime.Now.AddDays(10),
+                                                            DateTime.Now.AddDays(20),
+                                                            "note 2")
+            {
+                MaintenanceItems =
+                {
+                    new MaintenanceItem("AC", 1),
+                    new MaintenanceItem("Bed", 2)
+                }
+            };
+            await maintenanceBusiness.CreateMaintenanceRequest(maintenanceRequest2);
         }
 
         public async Task CancelReservation()
         {
             Reservation reservation = (await reservationBusiness.GetReservations(customerName: "Nguyễn Văn A"))[0];
             await reservationBusiness.CancelReservation(reservation);
+        }
+
+        public async Task CloseHousekeepingRequest()
+        {
+            Employee currentEmployee = (await employeeBusiness.GetEmployeesByName("Lê Dọn Phòng"))[0];
+            HousekeepingRequest request = (await housekeepingBusiness.GetHousekeepingRequests(note: "note 2"))[0];
+            await housekeepingBusiness.CloseHousekeepingRequest(request, DateTime.Now.AddDays(15), currentEmployee);
+        }
+
+        public async Task CloseMaintenanceRequest()
+        {
+            Employee currentEmployee = (await employeeBusiness.GetEmployeesByName("Vũ Sửa Phòng"))[0];
+            MaintenanceRequest request = (await maintenanceBusiness.GetMaintenanceRequests(note: "note 2"))[0];
+            await maintenanceBusiness.CloseMaintenanceRequest(request, DateTime.Now.AddDays(15), currentEmployee);
         }
     }
 }
