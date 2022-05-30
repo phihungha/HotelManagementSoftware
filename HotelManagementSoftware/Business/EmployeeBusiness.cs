@@ -12,6 +12,9 @@ namespace HotelManagementSoftware.Business
 {
     public class EmployeeBusiness
     {
+        // Currently logged in employee
+        public Employee? CurrentEmployee { get; set; } = null;
+
         /// <summary>
         /// Login using a username and password
         /// </summary>
@@ -30,7 +33,10 @@ namespace HotelManagementSoftware.Business
                 byte[] salt = Convert.FromBase64String(employee.Salt);
                 string hashedPassword = GetHashedPassword(password, salt);
                 if (employee.HashedPassword == hashedPassword)
+                {
+                    CurrentEmployee = employee;
                     return true;
+                }
                 return false;
             }
         }

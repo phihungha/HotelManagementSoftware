@@ -1,4 +1,6 @@
-﻿using HotelManagementSoftware.ViewModels.Utils;
+﻿using HotelManagementSoftware.Business;
+using HotelManagementSoftware.Data;
+using HotelManagementSoftware.ViewModels.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -35,6 +37,8 @@ namespace HotelManagementSoftware.ViewModels
             SidebarPageName.Employees
         };
 
+        public string CurrentEmployeeName { get; } = "";
+
         // Currently selected page on the sidebar
         private SidebarPageName currentPage = SidebarPageName.Dashboard;
         public SidebarPageName CurrentPage
@@ -57,8 +61,10 @@ namespace HotelManagementSoftware.ViewModels
 
         public ICommand LogoutCommand { get; }
 
-        public LoggedInVM()
+        public LoggedInVM(EmployeeBusiness employeeBusiness)
         {
+            CurrentEmployeeName = employeeBusiness.CurrentEmployee?.Name ?? "";
+            
             LogoutCommand = new RelayCommand(
                 () => MainWindowNavigationUtils.NavigateTo(MainWindowPageName.Login)
             );

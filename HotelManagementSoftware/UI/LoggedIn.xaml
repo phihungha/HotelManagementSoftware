@@ -95,7 +95,8 @@
                 <Image Source="{StaticResource UserIcon}" Width="60" Margin="0,0,15,0" />
 
                 <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,15,0">
-                    <TextBlock FontSize="20" Foreground="{StaticResource PrimaryColorSolid}">Ha Phi Hung</TextBlock>
+                    <TextBlock FontSize="20" Foreground="{StaticResource PrimaryColorSolid}"
+                               Text="{Binding CurrentEmployeeName}" />
                     <TextBlock FontSize="15">Receptionist</TextBlock>
                 </StackPanel>
 
