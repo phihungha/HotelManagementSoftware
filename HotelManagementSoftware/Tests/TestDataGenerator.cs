@@ -17,6 +17,7 @@ namespace HotelManagementSoftware.Tests
         private RoomBusiness roomBusiness;
         private RoomTypeBusiness roomTypeBusiness;
         private ReservationBusiness reservationBusiness;
+        private ReservationCancelFeePercentBusiness reservationCancelFeePercentBusiness;
         private HousekeepingBusiness housekeepingBusiness;
         private MaintenanceBusiness maintenanceBusiness;
 
@@ -28,6 +29,7 @@ namespace HotelManagementSoftware.Tests
             roomBusiness = App.Current.Services.GetRequiredService<RoomBusiness>();
             roomTypeBusiness = App.Current.Services.GetRequiredService<RoomTypeBusiness>();
             reservationBusiness = App.Current.Services.GetRequiredService<ReservationBusiness>();
+            reservationCancelFeePercentBusiness = App.Current.Services.GetRequiredService<ReservationCancelFeePercentBusiness>();
             housekeepingBusiness = App.Current.Services.GetRequiredService<HousekeepingBusiness>();
             maintenanceBusiness = App.Current.Services.GetRequiredService<MaintenanceBusiness>();
         }
@@ -106,7 +108,7 @@ namespace HotelManagementSoftware.Tests
                                                          DateTime.Now.AddYears(5)));
         }
 
-        public async Task GenerateRooms()
+        public async Task GenerateRoomsAndRoomTypes()
         {
             await roomTypeBusiness.AddRoomType(new RoomType("Normal",
                                                       2,
@@ -142,12 +144,20 @@ namespace HotelManagementSoftware.Tests
             await roomBusiness.AddRoom(new Room(206, presidential, 2));
         }
 
+        public async Task GenerateCancelFeePercents()
+        {
+            await reservationCancelFeePercentBusiness.Add(new ReservationCancelFeePercent(1, 100));
+            await reservationCancelFeePercentBusiness.Add(new ReservationCancelFeePercent(2, 70));
+            await reservationCancelFeePercentBusiness.Add(new ReservationCancelFeePercent(3, 50));
+            await reservationCancelFeePercentBusiness.Add(new ReservationCancelFeePercent(4, 30));
+        }
+
         public async Task GenerateReservations()
         {
             Employee currentEmployee = (await employeeBusiness.GetEmployeesByName("Nguyễn Lễ Tân"))[0];
 
-            var arrivalTime = new DateTime(2022, 8, 5, 17, 0, 0);
-            var departureTime = new DateTime(2022, 8, 7, 19, 0, 0);
+            var arrivalTime = DateTime.Now.AddDays(2);
+            var departureTime = DateTime.Now.AddDays(5);
             Customer customer = (await customerBusiness.GetCustomersByName("Nguyễn Văn A"))[0];
             Room room = (await roomBusiness.GetUsableRooms("Normal", 1, arrivalTime, departureTime))[0];
             await reservationBusiness.CreateReservation(new Reservation(arrivalTime,
@@ -169,13 +179,20 @@ namespace HotelManagementSoftware.Tests
                                                                   currentEmployee), true);
         }
 
+        public async Task CancelReservation()
+        {
+            Reservation reservation = (await reservationBusiness.GetReservations(customerName: "Nguyễn Văn A"))[0];
+            await reservationBusiness.CancelReservation(reservation);
+        }
+
         public async Task GenerateHousekeepingRequests()
         {
             Employee currentEmployee = (await employeeBusiness.GetEmployeesByName("Nguyễn Lễ Tân"))[0];
+            List<Room> rooms = await roomBusiness.GetRooms();
 
             var housekeepingRequest1 = new HousekeepingRequest(currentEmployee.EmployeeId,
                                                               currentEmployee,
-                                                              (await roomBusiness.GetRooms())[0],
+                                                              rooms[0],
                                                               DateTime.Now,
                                                               DateTime.Now.AddDays(1),
                                                               "note 1");
@@ -183,7 +200,7 @@ namespace HotelManagementSoftware.Tests
 
             var housekeepingRequest2 = new HousekeepingRequest(currentEmployee.EmployeeId,
                                                               currentEmployee,
-                                                              (await roomBusiness.GetRooms())[1],
+                                                              rooms[1],
                                                               DateTime.Now.AddDays(10),
                                                               DateTime.Now.AddDays(20),
                                                               "note 2");
@@ -193,10 +210,11 @@ namespace HotelManagementSoftware.Tests
         public async Task GenerateMaintenanceRequests()
         {
             Employee currentEmployee = (await employeeBusiness.GetEmployeesByName("Nguyễn Lễ Tân"))[0];
+            List<Room> rooms = await roomBusiness.GetRooms();
 
             var maintenanceRequest1 = new MaintenanceRequest(currentEmployee.EmployeeId,
                                                             currentEmployee,
-                                                            (await roomBusiness.GetRooms())[0],
+                                                            rooms[0],
                                                             DateTime.Now,
                                                             DateTime.Now.AddDays(1),
                                                             "note 1")
@@ -211,7 +229,7 @@ namespace HotelManagementSoftware.Tests
 
             var maintenanceRequest2 = new MaintenanceRequest(currentEmployee.EmployeeId,
                                                             currentEmployee,
-                                                            (await roomBusiness.GetRooms())[0],
+                                                            rooms[1],
                                                             DateTime.Now.AddDays(10),
                                                             DateTime.Now.AddDays(20),
                                                             "note 2")
@@ -223,12 +241,6 @@ namespace HotelManagementSoftware.Tests
                 }
             };
             await maintenanceBusiness.CreateMaintenanceRequest(maintenanceRequest2);
-        }
-
-        public async Task CancelReservation()
-        {
-            Reservation reservation = (await reservationBusiness.GetReservations(customerName: "Nguyễn Văn A"))[0];
-            await reservationBusiness.CancelReservation(reservation);
         }
 
         public async Task CloseHousekeepingRequest()

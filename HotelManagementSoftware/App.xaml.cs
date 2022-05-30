@@ -38,6 +38,7 @@ namespace HotelManagementSoftware
             services.AddSingleton<CustomerBusiness>();
             services.AddSingleton<CountryBusiness>();
             services.AddSingleton<ReservationBusiness>();
+            services.AddSingleton<ReservationCancelFeePercentBusiness>();
             services.AddSingleton<HousekeepingBusiness>();
             services.AddSingleton<MaintenanceBusiness>();
             services.AddSingleton<RoomBusiness>();
@@ -88,14 +89,15 @@ namespace HotelManagementSoftware
         /// </summary>
         private async void GenerateTestData()
         {
-            //var testDataGenerator = new TestDataGenerator();
+            var testDataGenerator = new TestDataGenerator();
             //await testDataGenerator.GenerateEmployees();
-            //await testDataGenerator.GenerateRooms();
             //await testDataGenerator.GenerateCustomers();
+            //await testDataGenerator.GenerateRoomsAndRoomTypes();
+            //await testDataGenerator.GenerateCancelFeePercents();
             //await testDataGenerator.GenerateReservations();
+            //await testDataGenerator.CancelReservation();
             //await testDataGenerator.GenerateHousekeepingRequests();
             //await testDataGenerator.GenerateMaintenanceRequests();
-            //await testDataGenerator.CancelReservation();
             //await testDataGenerator.CloseHousekeepingRequest();
             //await testDataGenerator.CloseMaintenanceRequest();
         }
