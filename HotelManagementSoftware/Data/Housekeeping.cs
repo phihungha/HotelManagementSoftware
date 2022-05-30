@@ -24,6 +24,9 @@ namespace HotelManagementSoftware.Data
 
         public HousekeepingRequestStatus Status { get; set; }
 
+        /// <summary>
+        /// Constructor for EF. DO NOT USE THIS
+        /// </summary>
         public HousekeepingRequest(DateTime startTime,
                                    DateTime endTime,
                                    HousekeepingRequestStatus status)
@@ -38,9 +41,8 @@ namespace HotelManagementSoftware.Data
                                    Room room,
                                    DateTime startTime,
                                    DateTime endTime,
-                                   string? note,
-                                   HousekeepingRequestStatus status)
-            : this(startTime, endTime, status)
+                                   string? note = null)
+            : this(startTime, endTime, HousekeepingRequestStatus.Opened)
         {
             OpenEmployeeId = openEmployeeId;
             OpenEmployee = openEmployee;

@@ -24,7 +24,13 @@ namespace HotelManagementSoftware.Data
 
         public Order? Order { get; set; }
 
-        public Reservation(DateTime arrivalTime, DateTime departureTime, int numberOfPeople, ReservationStatus status)
+        /// <summary>
+        /// Constructor for EF. DO NOT USE THIS
+        /// </summary>
+        public Reservation(DateTime arrivalTime,
+                           DateTime departureTime,
+                           int numberOfPeople,
+                           ReservationStatus status)
         {
             ArrivalTime = arrivalTime;
             DepartureTime = departureTime;
@@ -37,9 +43,8 @@ namespace HotelManagementSoftware.Data
                            int numberOfPeople,
                            Room room,
                            Customer customer,
-                           Employee employee,
-                           ReservationStatus status = ReservationStatus.Reserved)
-            : this(arrivalTime, departureTime, numberOfPeople, status)
+                           Employee employee)
+            : this(arrivalTime, departureTime, numberOfPeople, ReservationStatus.Reserved)
         {
             Room = room;
             Customer = customer;

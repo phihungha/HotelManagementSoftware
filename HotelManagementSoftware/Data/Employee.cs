@@ -35,6 +35,9 @@ namespace HotelManagementSoftware.Data
         public List<MaintenanceRequest> ClosedMaintenanceRequests { get; set; } = new();
         public List<Reservation> Reservations { get; set; } = new();
 
+        /// <summary>
+        /// Constructor for EF. DO NOT USE THIS
+        /// </summary>
         public Employee(string name,
                         string userName,
                         EmployeeType employeeType,

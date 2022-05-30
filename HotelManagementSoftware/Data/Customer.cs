@@ -36,6 +36,9 @@ namespace HotelManagementSoftware.Data
 
         public List<Reservation> Reservations { get; } = new();
 
+        /// <summary>
+        /// Constructor for EF. DO NOT USE THIS
+        /// </summary>
         public Customer(string name,
                         DateTime birthDate,
                         IdNumberType idNumberType,
