@@ -114,7 +114,7 @@ namespace HotelManagementSoftware.Business
         /// Get reservations that arrive today.
         /// </summary>
         /// <returns>List of reservations</returns>
-        public async Task<List<Reservation>> GetArriveTodayReservation(
+        public async Task<List<Reservation>> GetArriveTodayReservations(
             string? customerName, 
             string? customerIdNumber)
         {
@@ -143,7 +143,7 @@ namespace HotelManagementSoftware.Business
         /// Get reservations that depart today.
         /// </summary>
         /// <returns>List of reservations</returns>
-        public async Task<List<Reservation>> GetDepartTodayReservation(
+        public async Task<List<Reservation>> GetDepartTodayReservations(
             string? customerName,
             string? customerIdNumber)
         {

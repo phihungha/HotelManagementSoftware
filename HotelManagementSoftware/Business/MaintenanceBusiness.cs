@@ -169,6 +169,8 @@ namespace HotelManagementSoftware.Business
             ValidateMaintenanceRequest(request);
             using (var db = new Database())
             {
+                if (request.Status == MaintenanceRequestStatus.Closed)
+                    throw new ArgumentException("Request already closed");
                 request.Status = MaintenanceRequestStatus.Closed;
                 request.CloseTime = closeTime;
                 request.CloseEmployee = closeEmployee;
@@ -204,6 +206,11 @@ namespace HotelManagementSoftware.Business
             request.MaintenanceItems.ForEach(i => ValidateMaintenanceItem(i));
         }
 
+        /// <summary>
+        /// Validate maintenance item's info.
+        /// </summary>
+        /// <param name="item">Maintenance item to validate</param>
+        /// <exception cref="ArgumentException">Validation failure</exception>
         public void ValidateMaintenanceItem(MaintenanceItem item)
         {
             if (item.Name == "")

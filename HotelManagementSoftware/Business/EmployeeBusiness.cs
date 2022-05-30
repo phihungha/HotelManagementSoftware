@@ -65,7 +65,7 @@ namespace HotelManagementSoftware.Business
         /// </summary>
         /// <param name="cmnd">CMND number</param>
         /// <returns>Employee</returns>
-        public async Task<Employee?> GetEmployeeByIdNumber(string cmnd)
+        public async Task<Employee?> GetEmployeeByCmndNumber(string cmnd)
         {
             using (var db = new Database())
             {
@@ -91,7 +91,7 @@ namespace HotelManagementSoftware.Business
         /// <summary>
         /// Get employees with name containing the search term.
         /// </summary>
-        /// <param name="searchTerm">Search term</param>
+        /// <param name="searchTerm">Name search term</param>
         /// <returns>Employee</returns>
         public async Task<List<Employee>> GetEmployeesByName(string searchTerm)
         {
@@ -137,7 +137,7 @@ namespace HotelManagementSoftware.Business
         }
 
         /// <summary>
-        /// Change employee's login password
+        /// Change employee's login password.
         /// </summary>
         /// <param name="employee">Employee</param>
         /// <param name="password">New password</param>

@@ -162,6 +162,8 @@ namespace HotelManagementSoftware.Business
             ValidateHousekeepingRequest(request);
             using (var db = new Database())
             {
+                if (request.Status == HousekeepingRequestStatus.Closed)
+                    throw new ArgumentException("Request already closed");
                 request.Status = HousekeepingRequestStatus.Closed;
                 request.CloseTime = closeTime;
                 request.CloseEmployee = closeEmployee;
