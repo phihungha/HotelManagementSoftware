@@ -69,7 +69,7 @@ namespace HotelManagementSoftware.Business
         /// <summary>
         /// Get customers with name containing the search term.
         /// </summary>
-        /// <param name="searchTerm">Search term</param>
+        /// <param name="searchTerm">Customer name search term</param>
         /// <returns>List of customers</returns>
         public async Task<List<Customer>> GetCustomersByName(string searchTerm)
         {

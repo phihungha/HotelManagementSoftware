@@ -129,7 +129,7 @@ namespace HotelManagementSoftware.Business
         /// Create a maintenance request
         /// </summary>
         /// <param name="request">Maintenance request</param>
-        public async void CreateMaintenanceRequest(MaintenanceRequest request)
+        public async Task CreateMaintenanceRequest(MaintenanceRequest request)
         {
             ValidateMaintenanceRequest(request);
             using (var db = new Database())
@@ -152,7 +152,7 @@ namespace HotelManagementSoftware.Business
         /// Edit a maintenance request
         /// </summary>
         /// <param name="request">Updated maintenance request</param>
-        public async void EditMaintenanceRequest(MaintenanceRequest request)
+        public async Task EditMaintenanceRequest(MaintenanceRequest request)
         {
             ValidateMaintenanceRequest(request);
             using (var db = new Database())
@@ -168,7 +168,7 @@ namespace HotelManagementSoftware.Business
         /// <param name="request">Maintenance request to close</param>
         /// <param name="closeTime">Close time</param>
         /// <param name="closeEmployee">Close employee</param>
-        public async void CloseMaintenanceRequest(MaintenanceRequest request, DateTime closeTime, Employee closeEmployee)
+        public async Task CloseMaintenanceRequest(MaintenanceRequest request, DateTime closeTime, Employee closeEmployee)
         {
             ValidateMaintenanceRequest(request);
             using (var db = new Database())
@@ -205,6 +205,15 @@ namespace HotelManagementSoftware.Business
                 throw new ArgumentException("Room cannot be empty");
             if (request.StartTime >= request.EndTime)
                 throw new ArgumentException("End time cannot be ahead of start time");
+            request.MaintenanceItems.ForEach(i => ValidateMaintenanceItem(i));
+        }
+
+        public void ValidateMaintenanceItem(MaintenanceItem item)
+        {
+            if (item.Name == "")
+                throw new ArgumentException("Name cannot be empty");
+            if (item.Quantity <= 0)
+                throw new ArgumentException("Quantity cannot be less than 1");
         }
     }
 }

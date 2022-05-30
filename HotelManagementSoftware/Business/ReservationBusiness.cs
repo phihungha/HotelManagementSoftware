@@ -9,6 +9,19 @@ namespace HotelManagementSoftware.Business
 {
     public class ReservationBusiness
     {
+        public async Task<Reservation?> GetReservationById(int id)
+        {
+            using (var db = new Database())
+            {
+                return await db.Reservations
+                    .Include(i => i.Customer)
+                    .Include(i => i.Order)
+                    .Include(i => i.Room)
+                    .ThenInclude(room => room.RoomType)
+                    .FirstOrDefaultAsync(i => i.ReservationId == id);
+            }
+        }
+
         /// <summary>
         /// Get reservations that satisfy specified criteria.
         /// </summary>
@@ -234,10 +247,13 @@ namespace HotelManagementSoftware.Business
         {
             using (var db = new Database())
             {
-                reservation.Status = ReservationStatus.Cancelled;
+                if (reservation.Status != ReservationStatus.Reserved)
+                    throw new ArgumentException("Cannot cancel reservation if it has been checked in");
 
                 if (reservation.Order == null)
                     throw new ArgumentException("Order cannot be null when cancelling reservation");
+
+                reservation.Status = ReservationStatus.Cancelled;
 
                 reservation.Order.PayTime = DateTime.Now;
                 reservation.Order.Amount = await GetCancelFee(db, reservation);

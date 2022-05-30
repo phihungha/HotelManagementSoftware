@@ -122,7 +122,7 @@ namespace HotelManagementSoftware.Business
         /// Create a housekeeping request
         /// </summary>
         /// <param name="request">Housekeeping request</param>
-        public async void CreateHousekeepingRequest(HousekeepingRequest request)
+        public async Task CreateHousekeepingRequest(HousekeepingRequest request)
         {
             ValidateHousekeepingRequest(request);
             using (var db = new Database())
@@ -145,7 +145,7 @@ namespace HotelManagementSoftware.Business
         /// Edit a housekeeping request
         /// </summary>
         /// <param name="request">Updated housekeeping request</param>
-        public async void EditHousekeepingRequest(HousekeepingRequest request)
+        public async Task EditHousekeepingRequest(HousekeepingRequest request)
         {
             ValidateHousekeepingRequest(request);
             using (var db = new Database())
@@ -161,7 +161,7 @@ namespace HotelManagementSoftware.Business
         /// <param name="request">Housekeeping request to close</param>
         /// <param name="closeTime">Close time</param>
         /// <param name="closeEmployee">Close employee</param>
-        public async void CloseHousekeepingRequest(HousekeepingRequest request, DateTime closeTime, Employee closeEmployee)
+        public async Task CloseHousekeepingRequest(HousekeepingRequest request, DateTime closeTime, Employee closeEmployee)
         {
             ValidateHousekeepingRequest(request);
             using (var db = new Database())

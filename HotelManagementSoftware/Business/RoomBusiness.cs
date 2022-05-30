@@ -10,17 +10,13 @@ namespace HotelManagementSoftware.Business
     public class RoomBusiness
     {
         /// <summary>
-        /// Get all rooms.
+        /// Get usable rooms in provided stay period, room type, and floor.
         /// </summary>
+        /// <param name="roomType">Room type name</param>
+        /// <param name="floorNumber">Floor number</param>
+        /// <param name="arrivalTime">Arrival time</param>
+        /// <param name="departureTime">Departure time</param>
         /// <returns></returns>
-        public async Task<List<Room>> GetAllRooms()
-        {
-            using (var db = new Database())
-            {
-                return await db.Rooms.Include(i => i.RoomType).ToListAsync();
-            }
-        }
-
         public async Task<List<Room>> GetUsableRooms(string roomType,
                                                      int floorNumber,
                                                      DateTime arrivalTime,
@@ -53,7 +49,7 @@ namespace HotelManagementSoftware.Business
         /// <param name="status">Status</paramref>
         /// </summary>
         /// <returns></returns>
-        public async Task<List<Room>> GetRooms(int? floorNumber, string roomType, RoomStatus? status)
+        public async Task<List<Room>> GetRooms(int? floorNumber = null, string? roomType = null, RoomStatus? status = null)
         {
             using (var db = new Database())
             {
