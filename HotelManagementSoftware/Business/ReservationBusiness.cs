@@ -334,6 +334,9 @@ namespace HotelManagementSoftware.Business
                 throw new ArgumentException("Customer cannot be empty");
             if (reservation.Employee == null)
                 throw new ArgumentException("Employee cannot be empty");
+            if (reservation.Employee.EmployeeType != EmployeeType.Receptionist
+                && reservation.Employee.EmployeeType != EmployeeType.Manager)
+                throw new ArgumentException("Reservation needs to be created by a receptionist or manager");
         }
 
         /// <summary>

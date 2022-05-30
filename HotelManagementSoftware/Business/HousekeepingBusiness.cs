@@ -165,6 +165,11 @@ namespace HotelManagementSoftware.Business
             {
                 if (request.Status == HousekeepingRequestStatus.Closed)
                     throw new ArgumentException("Request already closed");
+
+                if (closeEmployee.EmployeeType != EmployeeType.Manager
+                    && closeEmployee.EmployeeType != EmployeeType.HousekeepingManager)
+                    throw new ArgumentException("Close employee needs to be a manager or housekeeping manager");
+
                 request.Status = HousekeepingRequestStatus.Closed;
                 request.CloseTime = closeTime;
                 request.CloseEmployee = closeEmployee;
