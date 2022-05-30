@@ -259,9 +259,10 @@ INSERT INTO Countries VALUES
 
 select * from Countries
 select * from Employees
+select * from Customers
 select * from Rooms
 select * from RoomTypes
-select * from Customers
+select * from ReservationCancelFeePercents
 select * from Reservations
 select * from Orders
 select * from HousekeepingRequests
@@ -276,3 +277,8 @@ delete from Customers
 delete from RoomTypes
 delete from Rooms
 delete from Reservations
+delete from Orders
+delete from HousekeepingRequests
+delete from MaintenanceRequests
+
+drop database HotelDB

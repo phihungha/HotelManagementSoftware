@@ -50,13 +50,14 @@ namespace HotelManagementSoftware.Migrations
                 name: "ReservationCancelFeePercents",
                 columns: table => new
                 {
-                    DayNumberBeforeArrival = table.Column<int>(type: "int", nullable: false)
+                    ReservationCancelFeePercentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    DayNumberBeforeArrival = table.Column<int>(type: "int", nullable: false),
                     PercentOfTotal = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ReservationCancelFeePercents", x => x.DayNumberBeforeArrival);
+                    table.PrimaryKey("PK_ReservationCancelFeePercents", x => x.ReservationCancelFeePercentId);
                 });
 
             migrationBuilder.CreateTable(
@@ -359,6 +360,12 @@ namespace HotelManagementSoftware.Migrations
                 column: "ReservationId",
                 unique: true,
                 filter: "[ReservationId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReservationCancelFeePercents_DayNumberBeforeArrival",
+                table: "ReservationCancelFeePercents",
+                column: "DayNumberBeforeArrival",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_CustomerId",

@@ -62,9 +62,16 @@ namespace HotelManagementSoftware.Data
 
     public class ReservationCancelFeePercent
     {
-        [Key]
+        public int ReservationCancelFeePercentId { get; set; }
+
         public int DayNumberBeforeArrival { get; set; }
         
         public int PercentOfTotal { get; set; }
+
+        public ReservationCancelFeePercent(int dayNumberBeforeArrival, int percentOfTotal)
+        {
+            DayNumberBeforeArrival = dayNumberBeforeArrival;
+            PercentOfTotal = percentOfTotal;
+        }
     }
 }

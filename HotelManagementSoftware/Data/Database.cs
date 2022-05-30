@@ -68,6 +68,10 @@ namespace HotelManagementSoftware.Data
                 .HasIndex(i => new { i.Name })
                 .IsUnique();
 
+            modelBuilder.Entity<ReservationCancelFeePercent>()
+                .HasIndex(i => new { i.DayNumberBeforeArrival })
+                .IsUnique();
+
             // Enum to string conversion
             modelBuilder.Entity<Reservation>()
                 .Property(i => i.Status)

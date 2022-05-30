@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelManagementSoftware.Migrations
 {
     [DbContext(typeof(Database))]
-    [Migration("20220530142526_v1")]
+    [Migration("20220530155312_v1")]
     partial class v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -375,16 +375,22 @@ namespace HotelManagementSoftware.Migrations
 
             modelBuilder.Entity("HotelManagementSoftware.Data.ReservationCancelFeePercent", b =>
                 {
-                    b.Property<int>("DayNumberBeforeArrival")
+                    b.Property<int>("ReservationCancelFeePercentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DayNumberBeforeArrival"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationCancelFeePercentId"), 1L, 1);
+
+                    b.Property<int>("DayNumberBeforeArrival")
+                        .HasColumnType("int");
 
                     b.Property<int>("PercentOfTotal")
                         .HasColumnType("int");
 
-                    b.HasKey("DayNumberBeforeArrival");
+                    b.HasKey("ReservationCancelFeePercentId");
+
+                    b.HasIndex("DayNumberBeforeArrival")
+                        .IsUnique();
 
                     b.ToTable("ReservationCancelFeePercents");
                 });
