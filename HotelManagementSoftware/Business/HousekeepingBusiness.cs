@@ -19,8 +19,9 @@ namespace HotelManagementSoftware.Business
         }
 
         /// <summary>
-        /// Get a housekeeping request by id.
+        /// Get a housekeeping request by ID.
         /// </summary>
+        /// <param name="id">Request ID</param>
         /// <returns>Housekeeping request</returns>
         public async Task<HousekeepingRequest?> GetHousekeepingRequestById(int id)
         {

@@ -48,8 +48,9 @@ namespace HotelManagementSoftware.Business
         }
 
         /// <summary>
-        /// Get an employee by id.
+        /// Get an employee by ID.
         /// </summary>
+        /// <param name="id">Employee ID</param>
         /// <returns>Employee</returns>
         public async Task<Employee?> GetEmployeeById(int id)
         {

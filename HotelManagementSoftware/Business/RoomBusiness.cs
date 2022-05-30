@@ -16,7 +16,7 @@ namespace HotelManagementSoftware.Business
         /// <param name="floorNumber">Floor number</param>
         /// <param name="arrivalTime">Arrival time</param>
         /// <param name="departureTime">Departure time</param>
-        /// <returns></returns>
+        /// <returns>List of rooms</returns>
         public async Task<List<Room>> GetUsableRooms(string roomType,
                                                      int floorNumber,
                                                      DateTime arrivalTime,
@@ -48,8 +48,10 @@ namespace HotelManagementSoftware.Business
         /// /// <param name="roomType">Room type name</paramref>
         /// <param name="status">Status</paramref>
         /// </summary>
-        /// <returns></returns>
-        public async Task<List<Room>> GetRooms(int? floorNumber = null, string? roomType = null, RoomStatus? status = null)
+        /// <returns>List of rooms</returns>
+        public async Task<List<Room>> GetRooms(int? floorNumber = null,
+                                               string? roomType = null,
+                                               RoomStatus? status = null)
         {
             using (var db = new Database())
             {
@@ -151,7 +153,7 @@ namespace HotelManagementSoftware.Business
         /// <param name="fromRate">Min rate</param>
         /// <param name="toRate">Max rate</param>
         /// <param name="descriptionSearchTerm">Search term for description</param>
-        /// <returns></returns>
+        /// <returns>List of room types</returns>
         public async Task<List<RoomType>> GetRoomTypes(
             string? nameSearchTerm = null,
             int? capacity = null,

@@ -23,8 +23,9 @@ namespace HotelManagementSoftware.Business
         }
 
         /// <summary>
-        /// Get a customer by id.
+        /// Get a customer by ID.
         /// </summary>
+        /// <param name="id">Customer ID</param>
         /// <returns>Customer</returns>
         public async Task<Customer?> GetCustomerById(int id)
         {

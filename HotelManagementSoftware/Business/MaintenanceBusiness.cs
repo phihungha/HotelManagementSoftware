@@ -22,9 +22,10 @@ namespace HotelManagementSoftware.Business
         }
 
         /// <summary>
-        /// Get a maintenance request by id. Each maintenance request
+        /// Get a maintenance request by ID. Each maintenance request
         /// contains maintenance items.
         /// </summary>
+        /// <param name="id">Request ID</param>
         /// <returns>Maintenance request</returns>
         public async Task<MaintenanceRequest?> GetMaintenanceRequestById(int id)
         {

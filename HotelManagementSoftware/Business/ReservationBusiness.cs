@@ -9,6 +9,11 @@ namespace HotelManagementSoftware.Business
 {
     public class ReservationBusiness
     {
+        /// <summary>
+        /// Ger reservation by ID.
+        /// </summary>
+        /// <param name="id">Reservation ID</param>
+        /// <returns>Reservation</returns>
         public async Task<Reservation?> GetReservationById(int id)
         {
             using (var db = new Database())
@@ -36,7 +41,7 @@ namespace HotelManagementSoftware.Business
         /// <param name="toDepartureTime">To departure time</param>
         /// <param name="fromTotalRentFee">Min total rent fee</param>
         /// <param name="toTotalRentFee">Max total rent fee</param>
-        /// <returns></returns>
+        /// <returns>List of reservations</returns>
         public async Task<List<Reservation>> GetReservations(
             ReservationStatus? status = null,
             string? customerName = null,
@@ -216,7 +221,7 @@ namespace HotelManagementSoftware.Business
         /// <summary>
         /// Edit a reservation.
         /// </summary>
-        /// <param name="reservation">New reservation info</param>
+        /// <param name="reservation">Updated reservation info</param>
         public async Task EditReservation(Reservation reservation)
         {
             ValidateReservation(reservation);
@@ -242,13 +247,13 @@ namespace HotelManagementSoftware.Business
         /// <summary>
         /// Cancel a reservation.
         /// </summary>
-        /// <param name="reservation"></param>
+        /// <param name="reservation">Reservation info</param>
         public async Task CancelReservation(Reservation reservation)
         {
             using (var db = new Database())
             {
                 if (reservation.Status != ReservationStatus.Reserved)
-                    throw new ArgumentException("Cannot cancel reservation if it has been checked in");
+                    throw new ArgumentException("Cannot cancel reservation if it has been checked in or cancelled");
 
                 if (reservation.Order == null)
                     throw new ArgumentException("Order cannot be null when cancelling reservation");
@@ -359,13 +364,10 @@ namespace HotelManagementSoftware.Business
         /// <returns>Cancel fee</returns>
         public async Task<decimal> GetCancelFee(Database db, Reservation reservation)
         {
-
-            int dayNumberBeforeArrival = (DateTime.Now - reservation.ArrivalTime).Days;
+            int dayNumberBeforeArrival = (reservation.ArrivalTime - DateTime.Now).Days;
             ReservationCancelFeePercent? cancelFeePercent 
                 = await db.ReservationCancelFeePercents
-                        .FirstOrDefaultAsync(
-                    i => i.DayNumberBeforeArrival == dayNumberBeforeArrival
-                    );
+                    .FirstOrDefaultAsync(i => i.DayNumberBeforeArrival == dayNumberBeforeArrival);
 
             if (cancelFeePercent == null)
                 return 0;
@@ -414,6 +416,59 @@ namespace HotelManagementSoftware.Business
                 return true;
 
             return false;
+        }
+    }
+
+    public class ReservationCancelFeePercentBusiness
+    {
+        /// <summary>
+        /// Add reservation cancel fee percent.
+        /// </summary>
+        /// <param name="percent">Percent info</param>
+        public async Task Add(ReservationCancelFeePercent percent)
+        {
+            ValidatePercent(percent);
+            using (var db = new Database())
+            {
+                db.ReservationCancelFeePercents.Add(percent);
+                await db.SaveChangesAsync();
+            }
+        }
+
+        /// <summary>
+        /// Edit reservation cancel fee percent.
+        /// </summary>
+        /// <param name="percent">Updated percent info</param>
+        public async Task Edit(ReservationCancelFeePercent percent)
+        {
+            ValidatePercent(percent);
+            using (var db = new Database())
+            {
+                db.ReservationCancelFeePercents.Update(percent);
+                await db.SaveChangesAsync();
+            }
+        }
+
+        /// <summary>
+        /// Delete reservation cancel fee percent.
+        /// </summary>
+        /// <param name="percent">Percent info</param>
+        public async Task Delete(ReservationCancelFeePercent percent)
+        {
+            ValidatePercent(percent);
+            using (var db = new Database())
+            {
+                db.ReservationCancelFeePercents.Remove(percent);
+                await db.SaveChangesAsync();
+            }
+        }
+
+        public void ValidatePercent(ReservationCancelFeePercent percent)
+        {
+            if (percent.PercentOfTotal <= 0)
+                throw new ArgumentException("Percent cannot be <= 0");
+            if (percent.DayNumberBeforeArrival < 0)
+                throw new ArgumentException("Day number cannot be smaller than 0");
         }
     }
 }
