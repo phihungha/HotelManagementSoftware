@@ -255,8 +255,7 @@ INSERT INTO Countries VALUES
 ,('ZM','Zambia')
 ,('ZW','Zimbabwe')
 
--- Test data
-
+-- Display data
 select * from Countries
 select * from Employees
 select * from Customers
@@ -269,8 +268,7 @@ select * from HousekeepingRequests
 select * from MaintenanceRequests
 select * from MaintenanceItems
 
--- Clean data
-
+-- Delete data
 delete from Countries
 delete from Employees
 delete from Customers
