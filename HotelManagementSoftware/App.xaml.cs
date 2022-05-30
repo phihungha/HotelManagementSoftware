@@ -19,9 +19,7 @@ namespace HotelManagementSoftware
             Services = ConfigureServices();
             InitializeComponent();
             InitiateDatabase();
-            // Uncomment this to generate test data.
-            // Check the method for data that needs to be created.
-            // TestDataGenerator.GenerateTestData();
+            GenerateTestData();
         }
 
         public new static App Current => (App)Application.Current;
@@ -38,6 +36,7 @@ namespace HotelManagementSoftware
             // Business services
             services.AddSingleton<EmployeeBusiness>();
             services.AddSingleton<CustomerBusiness>();
+            services.AddSingleton<CountryBusiness>();
             services.AddSingleton<ReservationBusiness>();
             services.AddSingleton<HousekeepingBusiness>();
             services.AddSingleton<MaintenanceBusiness>();
@@ -82,6 +81,21 @@ namespace HotelManagementSoftware
         {
             using (var db = new Database())
                 db.Database.EnsureCreated();
+        }
+
+        /// <summary>
+        /// Run backend tests
+        /// </summary>
+        private async void GenerateTestData()
+        {
+            // var testDataGenerator = new TestDataGenerator();
+            // await testDataGenerator.GenerateEmployees();
+            // await testDataGenerator.GenerateRooms();
+            // await testDataGenerator.GenerateCustomers();
+            // await testDataGenerator.GenerateReservations();
+            // await testDataGenerator.GenerateHousekeepingRequests();
+            // await testDataGenerator.GenerateMaintenanceRequests();
+            // await testDataGenerator.CancelReservation();
         }
     }
 }

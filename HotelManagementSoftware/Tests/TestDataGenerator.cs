@@ -1,5 +1,6 @@
 ﻿using HotelManagementSoftware.Business;
 using HotelManagementSoftware.Data;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,22 +9,31 @@ using System.Threading.Tasks;
 
 namespace HotelManagementSoftware.Tests
 {
-    public static class TestDataGenerator
+    public class TestDataGenerator
     {
-        /// <summary>
-        /// Generate test data. Uncomment the data that needs to be generated.
-        /// </summary>
-        public static async void GenerateTestData()
+        private EmployeeBusiness employeeBusiness;
+        private CountryBusiness countryBusiness;
+        private CustomerBusiness customerBusiness;
+        private RoomBusiness roomBusiness;
+        private RoomTypeBusiness roomTypeBusiness;
+        private ReservationBusiness reservationBusiness;
+        private HousekeepingBusiness housekeepingBusiness;
+        private MaintenanceBusiness maintenanceBusiness;
+
+        public TestDataGenerator()
         {
-            // await GenerateEmployees();
-            // await GenerateRooms();
-            // await GenerateCustomers();
-            // await GenerateReservations();
+            employeeBusiness = App.Current.Services.GetRequiredService<EmployeeBusiness>();
+            countryBusiness = App.Current.Services.GetRequiredService<CountryBusiness>();
+            customerBusiness = App.Current.Services.GetRequiredService<CustomerBusiness>();
+            roomBusiness = App.Current.Services.GetRequiredService<RoomBusiness>();
+            roomTypeBusiness = App.Current.Services.GetRequiredService<RoomTypeBusiness>();
+            reservationBusiness = App.Current.Services.GetRequiredService<ReservationBusiness>();
+            housekeepingBusiness = App.Current.Services.GetRequiredService<HousekeepingBusiness>();
+            maintenanceBusiness = App.Current.Services.GetRequiredService<MaintenanceBusiness>();
         }
 
-        private static async Task GenerateEmployees()
+        public async Task GenerateEmployees()
         {
-            EmployeeBusiness employeeBusiness = new EmployeeBusiness();
             await employeeBusiness.CreateEmployee(new Employee("Nguyễn Lễ Tân",
                                                             "letan",
                                                             EmployeeType.Receptionist,
@@ -62,14 +72,12 @@ namespace HotelManagementSoftware.Tests
                                                          "suaphong@gmail.com"), "1234suaphong");
         }
 
-        private static async Task GenerateCustomers()
+        public async Task GenerateCustomers()
         {
-            CountryBusiness countryBusiness = new CountryBusiness();
-
             Country vietnam = (await countryBusiness.GetAllCountries())
                 .First(i => i.Name == "Vietnam");
-            CustomerBusiness customerBusiness = new CustomerBusiness();
-            await customerBusiness.CreateCustomer(new Customer("Nguyen Van A",
+            var customerBusiness = new CustomerBusiness();
+            await customerBusiness.CreateCustomer(new Customer("Nguyễn Văn A",
                                                          new DateTime(1975, 4, 2),
                                                          IdNumberType.Cmnd,
                                                          "123456789",
@@ -98,9 +106,8 @@ namespace HotelManagementSoftware.Tests
                                                          DateTime.Now.AddYears(5)));
         }
 
-        private static async Task GenerateRooms()
+        public async Task GenerateRooms()
         {
-            RoomTypeBusiness roomTypeBusiness = new RoomTypeBusiness();
             await roomTypeBusiness.AddRoomType(new RoomType("Normal",
                                                       2,
                                                       500000,
@@ -114,7 +121,6 @@ namespace HotelManagementSoftware.Tests
                                                       3000000,
                                                       "Luxury room with two-person bed"));
 
-            RoomBusiness roomBusiness = new RoomBusiness();
             List<RoomType> roomTypes = await roomTypeBusiness.GetRoomTypes();
 
             RoomType normal = roomTypes.First(i => i.Name == "Normal");
@@ -136,18 +142,13 @@ namespace HotelManagementSoftware.Tests
             await roomBusiness.AddRoom(new Room(206, presidential, 2));
         }
 
-        private static async Task GenerateReservations()
+        public async Task GenerateReservations()
         {
-            EmployeeBusiness employeeBusiness = new EmployeeBusiness();
             Employee currentEmployee = (await employeeBusiness.GetEmployeesByName("Nguyễn Lễ Tân"))[0];
 
-            RoomBusiness roomBusiness = new RoomBusiness();
-            CustomerBusiness customerBusiness = new CustomerBusiness();
-            ReservationBusiness reservationBusiness = new ReservationBusiness();
-
-            DateTime arrivalTime = new DateTime(2022, 8, 5, 17, 0, 0);
-            DateTime departureTime = new DateTime(2022, 8, 7, 19, 0, 0);
-            Customer customer = (await customerBusiness.GetCustomersByName("Nguyen Van A"))[0];
+            var arrivalTime = new DateTime(2022, 8, 5, 17, 0, 0);
+            var departureTime = new DateTime(2022, 8, 7, 19, 0, 0);
+            Customer customer = (await customerBusiness.GetCustomersByName("Nguyễn Văn A"))[0];
             Room room = (await roomBusiness.GetUsableRooms("Normal", 1, arrivalTime, departureTime))[0];
             await reservationBusiness.CreateReservation(new Reservation(arrivalTime,
                                                                   departureTime,
@@ -166,6 +167,46 @@ namespace HotelManagementSoftware.Tests
                                                                   room,
                                                                   customer,
                                                                   currentEmployee), true);
+        }
+
+        public async Task GenerateHousekeepingRequests()
+        {
+            Employee currentEmployee = (await employeeBusiness.GetEmployeesByName("Nguyễn Lễ Tân"))[0];
+
+            var housekeepingRequest = new HousekeepingRequest(currentEmployee.EmployeeId,
+                                                              currentEmployee,
+                                                              (await roomBusiness.GetRooms())[0],
+                                                              DateTime.Now,
+                                                              DateTime.Now.AddDays(1),
+                                                              "abcdef");
+            await housekeepingBusiness.CreateHousekeepingRequest(housekeepingRequest);
+        }
+
+        public async Task GenerateMaintenanceRequests()
+        {
+            Employee currentEmployee = (await employeeBusiness.GetEmployeesByName("Nguyễn Lễ Tân"))[0];
+
+            var maintenanceRequest = new MaintenanceRequest(currentEmployee.EmployeeId,
+                                                            currentEmployee,
+                                                            (await roomBusiness.GetRooms())[0],
+                                                            DateTime.Now,
+                                                            DateTime.Now.AddDays(1),
+                                                            "abcdef")
+            {
+                MaintenanceItems =
+                {
+                    new MaintenanceItem("Item 1", 5),
+                    new MaintenanceItem("Item 2", 10)
+                }
+            };
+
+            await maintenanceBusiness.CreateMaintenanceRequest(maintenanceRequest);
+        }
+
+        public async Task CancelReservation()
+        {
+            Reservation reservation = (await reservationBusiness.GetReservations(customerName: "Nguyễn Văn A"))[0];
+            await reservationBusiness.CancelReservation(reservation);
         }
     }
 }
