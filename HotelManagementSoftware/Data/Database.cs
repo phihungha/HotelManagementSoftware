@@ -101,10 +101,6 @@ namespace HotelManagementSoftware.Data
                 .Property(i => i.EmployeeType)
                 .HasConversion<string>();
 
-            // Manual relation setup
-            modelBuilder.Entity<MaintenanceItem>()
-                .HasKey(i => new { i.MaintenanceItemId, i.MaintenanceRequestId });
-
             modelBuilder.Entity<MaintenanceRequest>()
                 .HasOne(i => i.OpenEmployee)
                 .WithMany(i => i.OpenedMaintenanceRequests)
