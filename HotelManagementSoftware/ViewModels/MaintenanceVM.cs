@@ -15,21 +15,7 @@ namespace HotelManagementSoftware.ViewModels
 {
     public class MaintenanceVM : ObservableValidator
     {
-        #region private variable
-
-
-        #endregion
-
-        #region property
-
         public ObservableCollection<MaintenanceCustomItem> MaintenanceCustomLists { get; set; }
-        public ObservableCollection<ReporterItemMainenance> ReporterLists { get; set; }
-        public ObservableCollection<ActivityItemMainenance> ActivityLists { get; set; }
-        public int AllReports { get; set; }
-        public int TotalReportsDone { get; set; }
-        public int TotalReportsNeedToDone { get; set; }
-
-        #endregion
 
         #region ctor
         public MaintenanceVM()
@@ -37,43 +23,12 @@ namespace HotelManagementSoftware.ViewModels
             MaintenanceCustomLists = new ObservableCollection<MaintenanceCustomItem>();
             addMaintenanceItem();
 
-            ReporterLists = new ObservableCollection<ReporterItemMainenance>();
-            addReporter();
-
-            ActivityLists = new ObservableCollection<ActivityItemMainenance>();
-            addActivity();
-
-            AllReports = 23;
-            TotalReportsDone = 10;
-            TotalReportsNeedToDone = 13;
             CommandAddNewIssue = new RelayCommand(executeAddIssueAction);
             CommandDeleteIssue = new RelayCommand(executeDeleteIssueAction);
             CommandSearch = new RelayCommand(executeSearchIssueAction);
             CommandFilterIssue = new RelayCommand(executeFilterIssueAction);
         }
-        private void addActivity()
-        {
-            ActivityLists.Add(new ActivityItemMainenance("Name1", "Completed the task", DateTime.Now));
-            ActivityLists.Add(new ActivityItemMainenance("Name2", "Completed the task", DateTime.Now));
-            ActivityLists.Add(new ActivityItemMainenance("Name3", "Completed the task", DateTime.Now));
-            ActivityLists.Add(new ActivityItemMainenance("Name4", "Completed the task", DateTime.Now));
-            ActivityLists.Add(new ActivityItemMainenance("Name5", "Completed the task", DateTime.Now));
-            ActivityLists.Add(new ActivityItemMainenance("Name6", "Completed the task", DateTime.Now));
-            ActivityLists.Add(new ActivityItemMainenance("Name7", "Completed the task", DateTime.Now));
-            ActivityLists.Add(new ActivityItemMainenance("Name8", "Completed the task", DateTime.Now));
-        }
-
-        private void addReporter()
-        {
-            ReporterLists.Add(new ReporterItemMainenance("Name1", "note1"));
-            ReporterLists.Add(new ReporterItemMainenance("Name2", "note2"));
-            ReporterLists.Add(new ReporterItemMainenance("Name3", "note3"));
-            ReporterLists.Add(new ReporterItemMainenance("Name4", "note4"));
-            ReporterLists.Add(new ReporterItemMainenance("Name5", "note5"));
-            ReporterLists.Add(new ReporterItemMainenance("Name6", "note6"));
-            ReporterLists.Add(new ReporterItemMainenance("Name7", "note7"));
-            ReporterLists.Add(new ReporterItemMainenance("Name8", "note8"));
-        }
+       
         private void addMaintenanceItem()
         {
             MaintenanceCustomLists.Add(new MaintenanceCustomItem(101, "note1", "customername1", MaintenanceRequestStatus.Opened));
@@ -111,48 +66,6 @@ namespace HotelManagementSoftware.ViewModels
             MessageBox.Show("Open add Issue edit window");
         }
         #endregion
-    }
-
-
-    /// <summary>
-    /// Item for activity listbox
-    /// </summary>
-    public class ActivityItemMainenance
-    {
-        public string Name { get; set; }
-        public string StatusString { get; set; }
-        public DateTime CreateTime { get; set; }
-        public ActivityItemMainenance()
-        {
-           
-        }
-
-        public ActivityItemMainenance(string name, string statusString, DateTime createTime)
-        {
-            Name = name;
-            StatusString = statusString;
-            CreateTime = createTime;
-        }
-    }
-
-    /// <summary>
-    /// Item for reporter listbox
-    /// </summary>
-    public class ReporterItemMainenance
-    {
-        public string Name { get; set; }
-        public string Note { get; set; }
-
-        public ReporterItemMainenance()
-        {
-
-        }
-
-        public ReporterItemMainenance(string name, string note)
-        {
-            Name = name;
-            Note = note;
-        }
     }
 
     /// <summary>

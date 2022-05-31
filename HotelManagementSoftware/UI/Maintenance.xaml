@@ -8,9 +8,11 @@
              xmlns:ui="https://handyorg.github.io/handycontrol"
              xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels"
              d:DesignHeight="450"
-             d:DesignWidth="800">
+             d:DesignWidth="800"
+             Padding="16"
+             >
     <UserControl.DataContext>
-        <vm:MaintenanceVM x:Name="maintenanceVM"/>
+        <vm:MaintenanceVM x:Name="maintenanceVM" />
     </UserControl.DataContext>
 
     <UserControl.Resources>
@@ -19,305 +21,224 @@
                     Value="Consolas" />
         </Style>
     </UserControl.Resources>
+    
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <!--Top bar-->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*" />
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="5*" />
+            </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="0"
-              Grid.Column="0"
-              Margin="16">
-            <Border Background="White"
-                    CornerRadius="16">
-                <StackPanel HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
-                    <TextBlock FontSize="30"
-                               Style="{StaticResource ResourceKey=TextLabel}"
-                               Text="{Binding AllReports}"
-                               Foreground="#41A5DE"
-                               HorizontalAlignment="Center" />
-                    <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
-                               Opacity=".6"
-                               Text="All reports" />
-
-                </StackPanel>
-            </Border>
-
-        </Grid>
-
-        <Grid Grid.Row="0"
-              Grid.Column="1"
-              Margin="16">
-            <Border Background="White"
-                    CornerRadius="16">
-                <StackPanel HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
-                    <TextBlock FontSize="30"
-                               Style="{StaticResource ResourceKey=TextLabel}"
-                               Text="{Binding TotalReportsDone}"
-                               Foreground="#38CB89"
-                               HorizontalAlignment="Center" />
-                    <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
-                               Opacity=".6"
-                               Text="Done" />
-
-                </StackPanel>
-            </Border>
-
-        </Grid>
-
-        <Grid Grid.Row="0"
-              Grid.Column="2"
-              Margin="16">
-            <Border Background="White"
-                    CornerRadius="16">
-                <StackPanel HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
-                    <TextBlock FontSize="30"
-                               Style="{StaticResource ResourceKey=TextLabel}"
-                               Text="{Binding TotalReportsNeedToDone}"
-                               Foreground="#FF5630"
-                               HorizontalAlignment="Center" />
-                    <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
-                               Text="Need to done"
-                               Opacity=".6" />
-
-                </StackPanel>
-            </Border>
-        </Grid>
-
-        <!--list-->
-        <Grid Grid.Row="1"
-              Grid.Column="0"
-              Grid.RowSpan="2"
-              Grid.ColumnSpan="3">
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="1*" />
-            </Grid.RowDefinitions>
-            <!--Top bar-->
-            <Grid Grid.Row="0">
+            <!--SearchBar-->
+            <Grid Grid.Column="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="5*" />
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="5*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <!--SearchBar-->
-                <Grid Grid.Column="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <Grid Grid.Column="0"
-                          Panel.ZIndex="1"
-                          Margin="16 0 0 0">
-                        <Button BorderBrush="Transparent"
-                                Background="Transparent"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Command="{Binding CommandSearch}">
-                            <Image Source="\UI\Icons\ic_search.png"
-                                   Stretch="Fill" />
-                        </Button>
-                    </Grid>
-
-                    <Grid Grid.Column="1"
-                          Panel.ZIndex="1">
-                        <ui:TextBox Foreground="Black"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    BorderBrush="Transparent"
-                                    HorizontalContentAlignment="Left"
-                                    VerticalContentAlignment="Center"
-                                    x:Name="tbSearchBox"
-                                    Padding="0 0 8 0"
-                                    Width="Auto"
-                                    FontFamily="Poppins"
-                                    ui:InfoElement.Placeholder="Search..."
-                                    Panel.ZIndex="2">
-                        </ui:TextBox>
-                    </Grid>
-
-                    <Grid Grid.Column="0"
-                          Panel.ZIndex="0"
-                          Margin="16 0 0 0"
-                          Grid.ColumnSpan="2">
-                        <Border CornerRadius="8"
-                                BorderThickness="2"
-                                BorderBrush="#9E9E9E"
-                                Background="White">
-                        </Border>
-                    </Grid>
-                </Grid>
-
-                <!--Filter-->
-                <Grid Grid.Column="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <Grid Grid.Column="0"
-                          Margin="8 0 0 0">
-                        <TextBlock Text="Search by"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Style="{StaticResource ResourceKey=TextLabel}" />
-                    </Grid>
-
-                    <Grid Grid.Column="1"
-                          Margin="8 0 0 0">
-                        <ComboBox HorizontalAlignment="Stretch" />
-                    </Grid>
-
-                    <Grid Grid.Column="2"
-                          Margin="8 0 0 0">
-                        <Button Command="{Binding CommandFilterIssue}">
-                            <Image Source="\UI\Icons\ic_filter.png"
-                                   Stretch="Fill" />
-                        </Button>
-                    </Grid>
-                </Grid>
-
-                <!--Button new employee-->
-                <Grid Grid.Column="2">
-
-                    <Button Background="#369FFF"
-                            BorderBrush="Transparent"
-                            HorizontalAlignment="Right"
+                <Grid Grid.Column="0"
+                      Panel.ZIndex="1"
+                      Margin="16 0 0 0">
+                    <Button BorderBrush="Transparent"
+                            Background="Transparent"
+                            HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Margin="0 0 16 0"
-                            Command="{Binding CommandAddNewIssue}">
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="\UI\Icons\ic_add.png"
-                                   Stretch="Fill" />
-                            <TextBlock Text="Add"
-                                       FontSize="12"
-                                       Style="{StaticResource TextLabel}"
-                                       Foreground="White"
-                                       Margin="4 0 0 0" />
-                        </StackPanel>
+                            Command="{Binding CommandSearch}">
+                        <Image Source="\UI\Icons\ic_search.png"
+                               Stretch="Fill" />
                     </Button>
                 </Grid>
 
+                <Grid Grid.Column="1"
+                      Panel.ZIndex="1">
+                    <ui:TextBox Foreground="Black"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                BorderBrush="Transparent"
+                                HorizontalContentAlignment="Left"
+                                VerticalContentAlignment="Center"
+                                x:Name="tbSearchBox"
+                                Padding="0 0 8 0"
+                                Width="Auto"
+                                FontFamily="Poppins"
+                                ui:InfoElement.Placeholder="Search..."
+                                Panel.ZIndex="2">
+                    </ui:TextBox>
+                </Grid>
+
+                <Grid Grid.Column="0"
+                      Panel.ZIndex="0"
+                      Margin="16 0 0 0"
+                      Grid.ColumnSpan="2">
+                    <Border CornerRadius="8"
+                            BorderThickness="2"
+                            BorderBrush="#9E9E9E"
+                            Background="White">
+                    </Border>
+                </Grid>
             </Grid>
 
-            <!--ListView-->
-            <Grid Grid.Row="1">
-                <DataGrid ItemsSource="{Binding Path=MaintenanceCustomLists}"
-                          Background="Transparent"
-                          CanUserReorderColumns="False"
-                          CanUserResizeRows="False"
-                          AutoGenerateColumns="False"
-                          RowBackground="White"
-                          AlternatingRowBackground="AliceBlue"
-                          SelectionUnit="FullRow"
-                          FlowDirection="LeftToRight"
-                          VerticalScrollBarVisibility="Visible"
-                          Padding="16"
-                          ColumnHeaderStyle="{StaticResource ResourceKey=gridHeaderStyle}"
-                          CellStyle="{StaticResource ResourceKey=gridCellStyle}"
-                          >
-                    <DataGrid.Resources>
-                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                                         Color="LightGray" />
-                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
-                                         Color="LightGray" />
-                        <!--<SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
+            <!--Filter-->
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0"
+                      Margin="8 0 0 0">
+                    <TextBlock Text="Search by"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Style="{StaticResource ResourceKey=TextLabel}" />
+                </Grid>
+
+                <Grid Grid.Column="1"
+                      Margin="8 0 0 0">
+                    <ComboBox HorizontalAlignment="Stretch" />
+                </Grid>
+
+                <Grid Grid.Column="2"
+                      Margin="8 0 0 0">
+                    <Button Command="{Binding CommandFilterIssue}">
+                        <Image Source="\UI\Icons\ic_filter.png"
+                               Stretch="Fill" />
+                    </Button>
+                </Grid>
+            </Grid>
+
+            <!--Button new employee-->
+            <Grid Grid.Column="2">
+
+                <Button Background="#369FFF"
+                        BorderBrush="Transparent"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Margin="0 0 16 0"
+                        Command="{Binding CommandAddNewIssue}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="\UI\Icons\ic_add.png"
+                               Stretch="Fill" />
+                        <TextBlock Text="Add"
+                                   FontSize="12"
+                                   Style="{StaticResource TextLabel}"
+                                   Foreground="White"
+                                   Margin="4 0 0 0" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+        </Grid>
+
+        <!--ListView-->
+        <Grid Grid.Row="1">
+            <DataGrid ItemsSource="{Binding Path=MaintenanceCustomLists}"
+                      Background="Transparent"
+                      CanUserReorderColumns="False"
+                      CanUserResizeRows="False"
+                      AutoGenerateColumns="False"
+                      RowBackground="White"
+                      AlternatingRowBackground="AliceBlue"
+                      SelectionUnit="FullRow"
+                      FlowDirection="LeftToRight"
+                      VerticalScrollBarVisibility="Visible"
+                      Padding="16"
+                      ColumnHeaderStyle="{StaticResource ResourceKey=gridHeaderStyle}"
+                      CellStyle="{StaticResource ResourceKey=gridCellStyle}">
+                <DataGrid.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                                     Color="LightGray" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
+                                     Color="LightGray" />
+                    <!--<SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
                                      Color="LightGray" />
                     <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}"
                                      Color="LightGray" />-->
-                    </DataGrid.Resources>
+                </DataGrid.Resources>
 
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Room"
-                                            Width="Auto"
-                                            IsReadOnly="True"
-                                            Binding="{Binding RoomNumber}"
-                                            FontSize="12" />
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Room"
+                                        Width="Auto"
+                                        IsReadOnly="True"
+                                        Binding="{Binding RoomNumber}"
+                                        FontSize="12" />
 
-                        <DataGridTemplateColumn Header="Issues"
-                                                Width="*">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal"
-                                                >
-                                        <Image Width="Auto"
-                                               Height="Auto"
-                                               Source="\UI\Images\bg_issue_default.jpg"
-                                               Stretch="Fill" 
-                                                Margin="8"/>
-                                        <TextBlock Margin="4 0 0 0"
-                                                   Text="{Binding Note}" 
-                                                   TextWrapping="Wrap"
-                                                   VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Issues"
+                                            Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="Auto"
+                                           Height="Auto"
+                                           Source="\UI\Images\bg_issue_default.jpg"
+                                           Stretch="Fill"
+                                           Margin="8" />
+                                    <TextBlock Margin="4 0 0 0"
+                                               Text="{Binding Note}"
+                                               TextWrapping="Wrap"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
-                        <DataGridTemplateColumn Header="Reporter" Width="*">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Width="18"
-                                               Height="18"
-                                               Source="\UI\Icons\ic_male.png"
-                                                   Stretch="Fill" />
-                                        <TextBlock Margin="4 0 0 0"
-                                                   Text="{Binding CustomerName}" 
-                                                   VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Reporter"
+                                            Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="18"
+                                           Height="18"
+                                           Source="\UI\Icons\ic_male.png"
+                                           Stretch="Fill" />
+                                    <TextBlock Margin="4 0 0 0"
+                                               Text="{Binding CustomerName}"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
-                        <DataGridTextColumn Header="Status"
-                                            Width="*"
-                                            IsReadOnly="True"
-                                            Binding="{Binding Status}"
-                                            FontSize="12" />
+                    <DataGridTextColumn Header="Status"
+                                        Width="*"
+                                        IsReadOnly="True"
+                                        Binding="{Binding Status}"
+                                        FontSize="12" />
 
-                        <DataGridTemplateColumn Header="Action" Width="Auto">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Vertical">
-                                        <Button Height="18"
-                                                Width="18"
-                                                Style="{StaticResource ResourceKey=ImageButton}"
-                                                Command="{Binding CommandAddNewIssue, ElementName=maintenanceVM}">
-                                            <Image Source="\UI\Icons\ic_edit.png"
-                                                   Stretch="Fill" />
-                                        </Button>
-                                        <Button Height="18"
-                                                Width="18"
-                                                Style="{StaticResource ResourceKey=ImageButton}"
-                                                Command="{Binding CommandDeleteIssue, ElementName=maintenanceVM}">
-                                            <Image Source="\UI\Icons\ic_delete.png"
-                                                   Stretch="Fill" />
-                                        </Button>
+                    <DataGridTemplateColumn Header="Action"
+                                            Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <Button Height="18"
+                                            Width="18"
+                                            Style="{StaticResource ResourceKey=ImageButton}"
+                                            Command="{Binding CommandAddNewIssue, ElementName=maintenanceVM}">
+                                        <Image Source="\UI\Icons\ic_edit.png"
+                                               Stretch="Fill" />
+                                    </Button>
+                                    <Button Height="18"
+                                            Width="18"
+                                            Style="{StaticResource ResourceKey=ImageButton}"
+                                            Command="{Binding CommandDeleteIssue, ElementName=maintenanceVM}">
+                                        <Image Source="\UI\Icons\ic_delete.png"
+                                               Stretch="Fill" />
+                                    </Button>
 
-                                        
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Grid>
 
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
     </Grid>
 </UserControl>

@@ -14,21 +14,7 @@ namespace HotelManagementSoftware.ViewModels
 {
     public class HousekeepingVM : ObservableValidator
     {
-        #region private variable
-
-
-        #endregion
-
-        #region property
-
         public ObservableCollection<HouseKeepingCustomItem> HouseKeepingCustomLists { get; set; }
-        public ObservableCollection<ReporterItemHouseKeeping> ReporterLists { get; set; }
-        public ObservableCollection<ActivityItemHouseKeeping> ActivityLists { get; set; }
-        public int AllReports { get; set; }
-        public int TotalReportsDone { get; set; }
-        public int TotalReportsNeedToDone { get; set; }
-
-        #endregion
 
         #region ctor
         public HousekeepingVM()
@@ -36,44 +22,12 @@ namespace HotelManagementSoftware.ViewModels
             HouseKeepingCustomLists = new ObservableCollection<HouseKeepingCustomItem>();
             addMaintenanceItem();
 
-            ReporterLists = new ObservableCollection<ReporterItemHouseKeeping>();
-            addReporter();
-
-            ActivityLists = new ObservableCollection<ActivityItemHouseKeeping>();
-            addActivity();
-
-            AllReports = 23;
-            TotalReportsDone = 10;
-            TotalReportsNeedToDone = 13;
-
             CommandAddNewIssue = new RelayCommand(executeAddIssueAction);
             CommandDeleteIssue = new RelayCommand(executeDeleteIssueAction);
             CommandSearch = new RelayCommand(executeSearchIssueAction);
             CommandFilterIssue = new RelayCommand(executeFilterIssueAction);
         }
-        private void addActivity()
-        {
-            ActivityLists.Add(new ActivityItemHouseKeeping("Name1", "Completed the task", DateTime.Now));
-            ActivityLists.Add(new ActivityItemHouseKeeping("Name2", "Completed the task", DateTime.Now));
-            ActivityLists.Add(new ActivityItemHouseKeeping("Name3", "Completed the task", DateTime.Now));
-            ActivityLists.Add(new ActivityItemHouseKeeping("Name4", "Completed the task", DateTime.Now));
-            ActivityLists.Add(new ActivityItemHouseKeeping("Name5", "Completed the task", DateTime.Now));
-            ActivityLists.Add(new ActivityItemHouseKeeping("Name6", "Completed the task", DateTime.Now));
-            ActivityLists.Add(new ActivityItemHouseKeeping("Name7", "Completed the task", DateTime.Now));
-            ActivityLists.Add(new ActivityItemHouseKeeping("Name8", "Completed the task", DateTime.Now));
-        }
 
-        private void addReporter()
-        {
-            ReporterLists.Add(new ReporterItemHouseKeeping("Name1", "note1"));
-            ReporterLists.Add(new ReporterItemHouseKeeping("Name2", "note2"));
-            ReporterLists.Add(new ReporterItemHouseKeeping("Name3", "note3"));
-            ReporterLists.Add(new ReporterItemHouseKeeping("Name4", "note4"));
-            ReporterLists.Add(new ReporterItemHouseKeeping("Name5", "note5"));
-            ReporterLists.Add(new ReporterItemHouseKeeping("Name6", "note6"));
-            ReporterLists.Add(new ReporterItemHouseKeeping("Name7", "note7"));
-            ReporterLists.Add(new ReporterItemHouseKeeping("Name8", "note8"));
-        }
         private void addMaintenanceItem()
         {
             HouseKeepingCustomLists.Add(new HouseKeepingCustomItem(101, "note1", "customername1", HousekeepingRequestStatus.Opened));
@@ -111,47 +65,6 @@ namespace HotelManagementSoftware.ViewModels
             MessageBox.Show("Open add Issue edit window");
         }
         #endregion
-    }
-
-    /// <summary>
-    /// Item for activity listbox
-    /// </summary>
-    public class ActivityItemHouseKeeping
-    {
-        public string Name { get; set; }
-        public string StatusString { get; set; }
-        public DateTime CreateTime { get; set; }
-        public ActivityItemHouseKeeping()
-        {
-
-        }
-
-        public ActivityItemHouseKeeping(string name, string statusString, DateTime createTime)
-        {
-            Name = name;
-            StatusString = statusString;
-            CreateTime = createTime;
-        }
-    }
-
-    /// <summary>
-    /// Item for reporter listbox
-    /// </summary>
-    public class ReporterItemHouseKeeping
-    {
-        public string Name { get; set; }
-        public string Note { get; set; }
-
-        public ReporterItemHouseKeeping()
-        {
-
-        }
-
-        public ReporterItemHouseKeeping(string name, string note)
-        {
-            Name = name;
-            Note = note;
-        }
     }
 
     /// <summary>
