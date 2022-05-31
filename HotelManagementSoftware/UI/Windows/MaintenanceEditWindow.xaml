@@ -67,8 +67,15 @@
                       Grid.Column="0"
                       Grid.RowSpan="2"
                       Margin="0 0 16 0">
-                    <Image Source="\UI\Images\bg_issue_default.jpg"
-                           Stretch="Fill" />
+                    <Button Height="Auto"
+                            Width="Auto"
+                            BorderBrush="{x:Null}"
+                            BorderThickness="0"
+                            Command="{Binding CommandAddImage}">
+                        <Image Source="\UI\Images\bg_issue_default.jpg"
+                               Stretch="Fill" />
+                    </Button>
+
                 </Grid>
 
                 <Grid Grid.Row="0"
@@ -82,10 +89,13 @@
 
                 <Grid Grid.Row="1"
                       Grid.Column="1">
-                    <TextBlock FontSize="12"
-                               TextWrapping="Wrap"
-                               Opacity=".6"
-                               Text="Note detail" />
+                    <ui:TextBox FontSize="12"
+                                TextWrapping="Wrap"
+                                HorizontalContentAlignment="Left"
+                                VerticalContentAlignment="Top"
+                                ui:InfoElement.Placeholder="Note detail"
+                                Text="{Binding Path=Note,UpdateSourceTrigger=PropertyChanged}"
+                                ShowClearButton="True" />
                 </Grid>
             </Grid>
 
@@ -111,7 +121,10 @@
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource Label}"
                                    Text="Issue ID" />
-                        <TextBox  Text="001" />
+                        <ui:TextBox  ui:InfoElement.Placeholder="ID auto generate"
+                                     Text="{Binding Path=IssueID,UpdateSourceTrigger=PropertyChanged}"
+                                     ShowClearButton="True"
+                                     IsEnabled="False" />
                     </StackPanel>
                 </Grid>
 
@@ -123,7 +136,10 @@
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource Label}"
                                    Text="Room" />
-                        <TextBox  Text="426" />
+                        <ui:ComboBox HorizontalAlignment="Stretch"
+                                     ui:InfoElement.Placeholder="Room ID"
+                                     Text="{Binding Path=RoomID,UpdateSourceTrigger=PropertyChanged}">
+                        </ui:ComboBox>
                     </StackPanel>
                 </Grid>
 
@@ -134,7 +150,11 @@
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource Label}"
                                    Text="Start day" />
-                        <DatePicker HorizontalAlignment="Stretch" />
+                        <DatePicker HorizontalAlignment="Stretch"
+                                    SelectedDate="{Binding Path=StartTime,UpdateSourceTrigger=PropertyChanged,
+                            Mode=TwoWay,
+                            ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                                    ui:InfoElement.Placeholder="Enter start time" />
                     </StackPanel>
                 </Grid>
 
@@ -146,7 +166,13 @@
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource Label}"
                                    Text="Close day" />
-                        <DatePicker HorizontalAlignment="Stretch" />
+                        <DatePicker HorizontalAlignment="Stretch"
+                                    SelectedDate="{Binding Path=CloseTime,
+                            UpdateSourceTrigger=PropertyChanged,
+                            Mode=TwoWay,
+                            ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                                    ui:InfoElement.Placeholder="Enter close time" 
+                                    />
                     </StackPanel>
                 </Grid>
 
@@ -157,7 +183,12 @@
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource Label}"
                                    Text="End day" />
-                        <DatePicker HorizontalAlignment="Stretch" />
+                        <DatePicker HorizontalAlignment="Stretch"
+                                    SelectedDate="{Binding Path=EndTime,
+                            UpdateSourceTrigger=PropertyChanged,
+                            Mode=TwoWay,
+                            ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                                    ui:InfoElement.Placeholder="Enter end time" />
                     </StackPanel>
                 </Grid>
 
@@ -168,7 +199,10 @@
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource Label}"
                                    Text="Status" />
-                        <ComboBox HorizontalAlignment="Stretch" />
+                        <ui:ComboBox HorizontalAlignment="Stretch"
+                                     ui:InfoElement.Placeholder="Status"
+                                     Text="{Binding Path=Status,UpdateSourceTrigger=PropertyChanged}">
+                        </ui:ComboBox>
                     </StackPanel>
                 </Grid>
             </Grid>
@@ -203,78 +237,123 @@
 
             <!--Left table-->
             <Grid Grid.Column="0">
-                <ListView Margin="0 8 8 8"
-                          Width="Auto"
+                <DataGrid ItemsSource="{Binding Path=Items}"
                           Background="Transparent"
-                          BorderBrush="Transparent"
-                          ScrollViewer.VerticalScrollBarVisibility="Visible"
-                          ScrollViewer.CanContentScroll="True"
-                          ItemsSource="{Binding Path=Items}">
-                    <ListView.View>
-                        <GridView ColumnHeaderTemplate="{StaticResource ResourceKey=listViewHeaderTemplate}">
-                            <!--Name-->
-                            <GridViewColumn Width="Auto"
-                                            Header="Name">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <DockPanel>
-                                            <TextBlock Text="{Binding Name}"
-                                                       Style="{StaticResource ResourceKey=textBlockItem}" />
-                                        </DockPanel>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <!--Quantity-->
-                            <GridViewColumn Width="Auto"
-                                            Header="Quantity">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <DockPanel>
-                                            <TextBlock Text="{Binding Quantity}"
-                                                       Style="{StaticResource ResourceKey=textBlockItem}" />
-                                        </DockPanel>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                          CanUserReorderColumns="False"
+                          CanUserResizeRows="False"
+                          AutoGenerateColumns="False"
+                          RowBackground="White"
+                          AlternatingRowBackground="AliceBlue"
+                          SelectionUnit="FullRow"
+                          FlowDirection="LeftToRight"
+                          VerticalScrollBarVisibility="Visible"
+                          Margin="0 8 8 8">
+                    <DataGrid.Resources>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Background"
+                                    Value="Transparent" />
+                            <Setter Property="FontSize"
+                                    Value="16" />
+                            <Setter Property="VerticalContentAlignment"
+                                    Value="Center" />
+                            <Setter Property="VerticalAlignment"
+                                    Value="Center" />
+                            <Setter Property="FontWeight"
+                                    Value="Bold" />
+                            <Setter Property="FontFamily"
+                                    Value="Consolas" />
+                            <Setter Property="Padding"
+                                    Value="0 0 16 0" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                                        <Border Padding="{TemplateBinding Padding}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                Background="{TemplateBinding Background}"
+                                                SnapsToDevicePixels="True">
+                                            <ContentPresenter VerticalAlignment="Center"
+                                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 
-                            <!--Description-->
-                            <GridViewColumn Width="Auto"
-                                            Header="Description">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <DockPanel>
-                                            <TextBlock Text="{Binding Description}"
-                                                       Style="{StaticResource ResourceKey=textBlockItem}" />
-                                        </DockPanel>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
 
-                            <!--Action -->
-                            <GridViewColumn Width="Auto"
-                                            Header="Action">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <DockPanel>
-                                            <Button Height="24"
-                                                    Width="24"
-                                                    Style="{StaticResource ResourceKey=ImageButton}">
-                                                <Image Source="\UI\Icons\ic_edit.png"
-                                                       Stretch="Fill" />
-                                            </Button>
-                                            <Button Height="24"
-                                                    Width="24"
-                                                    Style="{StaticResource ResourceKey=ImageButton}">
-                                                <Image Source="\UI\Icons\ic_delete.png"
-                                                       Stretch="Fill" />
-                                            </Button>
-                                        </DockPanel>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                                         Color="LightGray" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
+                                         Color="LightGray" />
+                        <!--<SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
+                                     Color="LightGray" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}"
+                                     Color="LightGray" />-->
+
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="FontFamily"
+                                    Value="Consolas" />
+                            <Setter Property="BorderBrush"
+                                    Value="{x:Null}" />
+                            <Setter Property="BorderThickness"
+                                    Value="0" />
+
+
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                        <Grid Background="{TemplateBinding Background}">
+                                            <ContentPresenter VerticalAlignment="Center" />
+
+                                        </Grid>
+
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGrid.Resources>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name"
+                                            Width="Auto"
+                                            IsReadOnly="True"
+                                            Binding="{Binding Name}"
+                                            FontSize="12" />
+                        <DataGridTextColumn Header="Quantity"
+                                            Width="Auto"
+                                            IsReadOnly="True"
+                                            Binding="{Binding Quantity}"
+                                            FontSize="12" />
+
+                        <DataGridTextColumn Header="Description"
+                                            Width="Auto"
+                                            IsReadOnly="True"
+                                            Binding="{Binding Description}"
+                                            FontSize="12" />
+                        <DataGridTemplateColumn Header="Action"
+                                                Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Height="18"
+                                                Width="18"
+                                                Style="{StaticResource ResourceKey=ImageButton}">
+                                            <Image Source="\UI\Icons\ic_edit.png"
+                                                   Stretch="Fill" />
+                                        </Button>
+                                        <Button Height="18"
+                                                Width="18"
+                                                Style="{StaticResource ResourceKey=ImageButton}">
+                                            <Image Source="\UI\Icons\ic_delete.png"
+                                                   Stretch="Fill" />
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
             </Grid>
 
             <!--Right table-->
@@ -299,7 +378,8 @@
                         <Button Background="#369FFF"
                                 BorderBrush="Transparent"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center">
+                                VerticalAlignment="Center"
+                                Command="{Binding CommandAddNewItem}">
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="\UI\Icons\ic_add.png"
                                        Stretch="Fill" />
@@ -320,7 +400,9 @@
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource Label}"
                                    Text="Item name" />
-                        <TextBox  Text="Lightbulb" />
+                        <ui:TextBox ui:InfoElement.Placeholder="Enter item name"
+                                    Text="{Binding Path=ItemName}"
+                                    ShowClearButton="True" />
                     </StackPanel>
                 </Grid>
 
@@ -334,18 +416,19 @@
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
                     <Grid Margin="16 0 8 0"
-                          Grid.Row="0"
-                          >
+                          Grid.Row="0">
                         <TextBlock Style="{StaticResource Label}"
                                    Text="Description" />
                     </Grid>
 
                     <Grid Margin="16 0 8 0"
                           Grid.Row="1">
-                        <TextBox Text="20W lightbulb"
-                                 TextWrapping="Wrap"
-                                 HorizontalContentAlignment="Left"
-                                 VerticalContentAlignment="Top" />
+                        <ui:TextBox TextWrapping="Wrap"
+                                    HorizontalContentAlignment="Left"
+                                    VerticalContentAlignment="Top"
+                                    ui:InfoElement.Placeholder="Enter item name"
+                                    Text="{Binding Path=ItemDescription}"
+                                    ShowClearButton="True" />
                     </Grid>
                 </Grid>
 
@@ -357,7 +440,9 @@
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource Label}"
                                    Text="Quantity" />
-                        <TextBox  Text="4" />
+                        <ui:TextBox ui:InfoElement.Placeholder="Enter item quantity"
+                                    Text="{Binding Path=ItemQuantity}"
+                                    ShowClearButton="True" />
                     </StackPanel>
                 </Grid>
             </Grid>
@@ -374,11 +459,13 @@
             <Button Content="Cancel"
                     FontWeight="Bold"
                     Background="#FFF0241D"
-                    Foreground="White" />
+                    Foreground="White"
+                    Command="{Binding CommandCancel}" />
             <Button Content="Update"
                     FontWeight="Bold"
                     Background="#FF358AFF"
-                    Foreground="White" />
+                    Foreground="White"
+                    Command="{Binding CommandUpdate}" />
         </ui:UniformSpacingPanel>
     </Grid>
 </Window>

@@ -11,8 +11,10 @@
     <None Remove="UI\Icons\ic_add.png" />
     <None Remove="UI\Icons\ic_delete.png" />
     <None Remove="UI\Icons\ic_edit.png" />
+    <None Remove="UI\Icons\ic_female.png" />
     <None Remove="UI\Icons\ic_filter.png" />
     <None Remove="UI\Icons\ic_id_card.png" />
+    <None Remove="UI\Icons\ic_male.png" />
     <None Remove="UI\Icons\ic_search.png" />
     <None Remove="UI\Images\bg_issue_default.jpg" />
     <None Remove="UI\LoginBackground.jpg" />
@@ -37,6 +39,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="UI\Icons\ic_add.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -46,10 +52,16 @@
     <Resource Include="UI\Icons\ic_edit.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="UI\Icons\ic_female.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="UI\Icons\ic_filter.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Icons\ic_id_card.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Icons\ic_male.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Icons\ic_search.png">

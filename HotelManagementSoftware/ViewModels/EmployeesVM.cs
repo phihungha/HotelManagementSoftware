@@ -16,7 +16,8 @@ namespace HotelManagementSoftware.ViewModels
     public class EmployeesVM : ObservableValidator
     {
         public ObservableCollection<Employee> Employees { get; set; }
- 
+
+        #region ctor
         public EmployeesVM()
         {
             Employees = new ObservableCollection<Employee>();
@@ -139,6 +140,9 @@ namespace HotelManagementSoftware.ViewModels
                 "address1"));
 
         }
+        #endregion
+
+        #region command
         public ICommand CommandFilterEmployee { get; }
         public ICommand CommandDeleteEmployee { get; }
         public ICommand CommandAddNewEmployee { get; }
@@ -160,5 +164,6 @@ namespace HotelManagementSoftware.ViewModels
         {
             MessageBox.Show("Open add employee edit window");
         }
+        #endregion
     }
 }

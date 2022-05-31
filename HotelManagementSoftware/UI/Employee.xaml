@@ -161,6 +161,24 @@
                                 Value="Bold" />
                         <Setter Property="FontFamily"
                                 Value="Consolas" />
+
+                        <Setter Property="Padding"
+                                Value="0 0 16 0" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                                    <Border Padding="{TemplateBinding Padding}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            Background="{TemplateBinding Background}"
+                                            SnapsToDevicePixels="True">
+                                        <ContentPresenter VerticalAlignment="Center"
+                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
                     </Style>
                     
                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
@@ -238,7 +256,7 @@
                     <DataGridTemplateColumn Header="Action">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <DockPanel>
+                                <StackPanel Orientation="Horizontal">
                                     <Button Height="18"
                                             Width="18"
                                             Style="{StaticResource ResourceKey=ImageButton}">
@@ -251,7 +269,7 @@
                                         <Image Source="\UI\Icons\ic_delete.png"
                                                Stretch="Fill" />
                                     </Button>
-                                </DockPanel>
+                                </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

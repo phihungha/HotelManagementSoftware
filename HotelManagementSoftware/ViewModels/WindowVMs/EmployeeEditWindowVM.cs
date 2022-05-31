@@ -15,6 +15,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
     public class EmployeeEditWindowVM : ObservableValidator
     {
+        #region private variables
         private string name;
         private string userName;
         private Gender gender;
@@ -24,7 +25,9 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         private string? email;
         private string address;
         private string? hashedPassword;
+        #endregion
 
+        #region Property Validation
         [Required(ErrorMessage = "Name cannot be empty")]
         [MinLength(2,ErrorMessage = "Name cannot be shorter than 2 character")]
         [MaxLength(100, ErrorMessage = "Name should be shorter than 100 character")]
@@ -91,7 +94,9 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             get => hashedPassword;
             set => SetProperty(ref hashedPassword, value, true);
         }
+        #endregion
 
+        #region ctor
         public EmployeeEditWindowVM()
         {
             Name = "name";
@@ -120,7 +125,9 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             CommandCancel = new RelayCommand(cancel);
             CommandUpdate = new RelayCommand(updateEmployeeAction, canUpdateEmployee);
         }
-        
+        #endregion
+
+        #region command
         public ICommand CommandUpdate { get; }
         public ICommand CommandCancel { get; }
 
@@ -139,6 +146,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             MessageBox.Show("Cancel");
 
         }
+        #endregion
 
     }
 }

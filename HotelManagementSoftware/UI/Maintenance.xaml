@@ -5,12 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HotelManagementSoftware.UI"
              mc:Ignorable="d"
+             xmlns:ui="https://handyorg.github.io/handycontrol"
              xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels"
              d:DesignHeight="450"
              d:DesignWidth="800">
     <UserControl.DataContext>
-        <vm:EmployeesVM />
+        <vm:MaintenanceVM />
     </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily"
+                    Value="Consolas" />
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -57,12 +65,13 @@
             <!--list activity-->
             <ListBox Name="lb_allActivities"
                      Grid.Row="2"
-                     ItemsSource="{Binding Employees, Mode=OneWay}"
+                     ItemsSource="{Binding ActivityLists}"
                      Margin="8 0 8 8"
                      BorderBrush="Transparent"
                      Background="Transparent"
                      VerticalAlignment="Stretch"
                      Height="Auto"
+                     Padding="4"
                      ScrollViewer.CanContentScroll="True"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                      ScrollViewer.HorizontalScrollBarVisibility="Auto">
@@ -95,6 +104,9 @@
                                 Value="Stretch" />
                         <Setter Property="HorizontalContentAlignment"
                                 Value="Stretch" />
+
+                        <Setter Property="FontFamily"
+                                Value="Consolas" />
                     </Style>
                 </ListBox.ItemContainerStyle>
 
@@ -104,17 +116,34 @@
                               Background="Transparent">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition MaxWidth="150" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Border CornerRadius="1">
-                                <Image Source="\UI\Icons\ic_cmnd.png"
-                                       Height="16"
-                                       Width="16" />
+                                <Image Source="\UI\Icons\ic_male.png"
+                                       Height="24"
+                                       Width="24" />
                             </Border>
-                            <TextBlock Grid.Column="1"
-                                       FontSize="12"
-                                       VerticalAlignment="Center"
-                                       Text="{Binding Name}" />
+
+                            <StackPanel Orientation="Vertical"
+                                        Margin="8 0 0 0"
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal"
+                                            >
+                                    <TextBlock FontSize="12"
+                                               Text="{Binding Name}"
+                                               VerticalAlignment="Center"/>
+                                    <TextBlock FontSize="10"
+                                               Margin="4 0 0 0"
+                                               Foreground="#38CB89"
+                                               VerticalAlignment="Center"
+                                               Text="{Binding StatusString}" />
+                                </StackPanel>
+                              
+                                <TextBlock FontSize="8"
+                                           Text="{Binding CreateTime}"
+                                           Opacity=".5" />
+                            </StackPanel>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -138,7 +167,7 @@
                     Grid.RowSpan="3" />
             <!--Allreporter-->
             <StackPanel Grid.Row="0">
-                <StackPanel Margin="16 4 0 0"
+                <StackPanel Margin="16 4 0 4"
                             HorizontalAlignment="Left"
                             Orientation="Vertical">
                     <TextBlock TextWrapping="Wrap"
@@ -157,12 +186,13 @@
             <!--list reporter-->
             <ListBox Name="lb_AllReporter"
                      Grid.Row="1"
-                     ItemsSource="{Binding Employees, Mode=OneWay}"
+                     ItemsSource="{Binding Path=ReporterLists}"
                      Margin="8 0 8 8"
                      BorderBrush="Transparent"
                      Background="Transparent"
                      VerticalAlignment="Stretch"
                      Height="Auto"
+                     Padding="4"
                      ScrollViewer.CanContentScroll="True"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                      ScrollViewer.HorizontalScrollBarVisibility="Auto">
@@ -177,26 +207,6 @@
                     <!-- Background of selected item when not focussed -->
                     <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
                                      Color="LightGreen" />
-
-                    <!--<Style TargetType="{x:Type ListBoxItem}">
-                        <Style.Triggers>
-                            <Trigger Property="IsSelected"
-                                     Value="True">
-                                <Setter Property="Background"
-                                        Value="LightGray"/>
-                            </Trigger>
-                        </Style.Triggers>
-                        
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                    <ScrollViewer x:Name="ScrollViewer">
-                                        <ItemsPresenter VerticalAlignment="Center"/>
-                                    </ScrollViewer>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>-->
                 </ListBox.Resources>
 
                 <ListBox.ItemContainerStyle>
@@ -207,6 +217,8 @@
                                 Value="Stretch" />
                         <Setter Property="HorizontalContentAlignment"
                                 Value="Stretch" />
+                        <Setter Property="FontFamily"
+                                Value="Consolas" />
                     </Style>
                 </ListBox.ItemContainerStyle>
 
@@ -216,17 +228,25 @@
                               Background="Transparent">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition MaxWidth="150" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Border CornerRadius="1">
-                                <Image Source="\UI\Icons\ic_cmnd.png"
-                                       Height="16"
-                                       Width="16" />
+                                <Image Source="\UI\Icons\ic_male.png"
+                                       Height="36"
+                                       Width="36" />
                             </Border>
-                            <TextBlock Grid.Column="1"
-                                       FontSize="12"
-                                       VerticalAlignment="Center"
-                                       Text="{Binding Name}" />
+                            <StackPanel Orientation="Vertical"
+                                        Margin="8 0 0 0"
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center">
+                                <TextBlock 
+                                           FontSize="12"
+                                           Text="{Binding Name}" />
+                                <TextBlock FontSize="12"
+                                           Text="{Binding Note}" 
+                                           Opacity=".5"/>
+                            </StackPanel>
+                           
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -237,12 +257,19 @@
                 <Border CornerRadius="8"
                         Background="Black"
                         Padding="4">
-                    <TextBlock Text="23 reported issues"
-                               Foreground="White"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontWeight="Bold"
-                               FontSize="12" />
+                    <StackPanel  HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Orientation="Horizontal">
+                        <TextBlock Text="{Binding AllReports}"
+                                   Foreground="White"
+                                   FontWeight="Bold"
+                                   FontSize="12" />
+                        <TextBlock Text=" reported issues"
+                                   Foreground="White"
+                                   FontWeight="Bold"
+                                   FontSize="12" />
+                    </StackPanel>
+                   
                 </Border>
             </Grid>
 
@@ -256,11 +283,13 @@
                     CornerRadius="16">
                 <StackPanel HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                    <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
-                               Text="23"
+                    <TextBlock FontSize="30"
+                               Text="{Binding AllReports}"
+                               Foreground="#41A5DE"
                                HorizontalAlignment="Center" />
                     <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
-                               Text="Reported Issues" />
+                               Opacity=".6"
+                               Text="All reports" />
 
                 </StackPanel>
             </Border>
@@ -274,11 +303,13 @@
                     CornerRadius="16">
                 <StackPanel HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                    <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
-                               Text="23"
+                    <TextBlock FontSize="30"
+                               Text="{Binding TotalReportsDone}"
+                               Foreground="#38CB89"
                                HorizontalAlignment="Center" />
                     <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
-                               Text="Reported Issues" />
+                               Opacity=".6"
+                               Text="Done" />
 
                 </StackPanel>
             </Border>
@@ -292,11 +323,13 @@
                     CornerRadius="16">
                 <StackPanel HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                    <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
-                               Text="23"
+                    <TextBlock FontSize="30"
+                               Text="{Binding TotalReportsNeedToDone}"
+                               Foreground="#FF5630"
                                HorizontalAlignment="Center" />
                     <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
-                               Text="Reported Issues" />
+                               Text="Need to done"
+                               Opacity=".6" />
 
                 </StackPanel>
             </Border>
@@ -332,7 +365,8 @@
                         <Button BorderBrush="Transparent"
                                 Background="Transparent"
                                 HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
+                                VerticalAlignment="Center"
+                                Command="{Binding CommandSearch}">
                             <Image Source="\UI\Icons\ic_search.png"
                                    Stretch="Fill" />
                         </Button>
@@ -340,17 +374,19 @@
 
                     <Grid Grid.Column="1"
                           Panel.ZIndex="1">
-                        <TextBox Foreground="Black"
-                                 Background="Transparent"
-                                 BorderThickness="0"
-                                 BorderBrush="Transparent"
-                                 HorizontalContentAlignment="Left"
-                                 VerticalContentAlignment="Center"
-                                 x:Name="tbSearchBox"
-                                 Padding="0 0 8 0"
-                                 Width="Auto"
-                                 Panel.ZIndex="2" />
-
+                        <ui:TextBox Foreground="Black"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    BorderBrush="Transparent"
+                                    HorizontalContentAlignment="Left"
+                                    VerticalContentAlignment="Center"
+                                    x:Name="tbSearchBox"
+                                    Padding="0 0 8 0"
+                                    Width="Auto"
+                                    FontFamily="Consolas"
+                                    ui:InfoElement.Placeholder="Search..."
+                                    Panel.ZIndex="2">
+                        </ui:TextBox>
                     </Grid>
 
                     <Grid Grid.Column="0"
@@ -382,17 +418,12 @@
 
                     <Grid Grid.Column="1"
                           Margin="8 0 0 0">
-                        <ComboBox HorizontalAlignment="Stretch">
-                            <TextBlock Text="Name" />
-                            <TextBlock Text="Phone" />
-                            <TextBlock Text="Gender" />
-                            <TextBlock Text="Email" />
-                        </ComboBox>
+                        <ComboBox HorizontalAlignment="Stretch" />
                     </Grid>
 
                     <Grid Grid.Column="2"
                           Margin="8 0 0 0">
-                        <Button>
+                        <Button Command="{Binding CommandFilterIssue}">
                             <Image Source="\UI\Icons\ic_filter.png"
                                    Stretch="Fill" />
                         </Button>
@@ -405,12 +436,15 @@
                     <Button Background="#369FFF"
                             BorderBrush="Transparent"
                             HorizontalAlignment="Right"
-                            VerticalAlignment="Center">
+                            VerticalAlignment="Center"
+                            Margin="0 0 16 0"
+                            Command="{Binding CommandAddNewIssue}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="\UI\Icons\ic_add.png"
                                    Stretch="Fill" />
                             <TextBlock Text="Add"
                                        FontSize="12"
+                                       Style="{StaticResource TextLabel}"
                                        Foreground="White"
                                        Margin="4 0 0 0" />
                         </StackPanel>
@@ -421,7 +455,7 @@
 
             <!--ListView-->
             <Grid Grid.Row="1">
-                <DataGrid ItemsSource="{Binding Path=Employees}"
+                <DataGrid ItemsSource="{Binding Path=MaintenanceCustomLists}"
                           Background="Transparent"
                           CanUserReorderColumns="False"
                           CanUserResizeRows="False"
@@ -442,6 +476,27 @@
                                     Value="Center" />
                             <Setter Property="VerticalAlignment"
                                     Value="Center" />
+                            <Setter Property="FontWeight"
+                                    Value="Bold" />
+                            <Setter Property="FontFamily"
+                                    Value="Consolas" />
+
+                            <Setter Property="Padding"
+                                    Value="0 0 16 0" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                                        <Border Padding="{TemplateBinding Padding}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                Background="{TemplateBinding Background}"
+                                                SnapsToDevicePixels="True">
+                                            <ContentPresenter VerticalAlignment="Center"
+                                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
 
                         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
@@ -454,7 +509,8 @@
                                      Color="LightGray" />-->
 
                         <Style TargetType="{x:Type DataGridCell}">
-                      
+                            <Setter Property="FontFamily"
+                                    Value="Consolas" />
                             <Setter Property="BorderBrush"
                                     Value="{x:Null}" />
                             <Setter Property="BorderThickness"
@@ -473,41 +529,66 @@
                     </DataGrid.Resources>
 
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Name"
-                                            Width="*"
+                        <DataGridTextColumn Header="Room"
+                                            Width="Auto"
                                             IsReadOnly="True"
-                                            Binding="{Binding Name}"
-                                            FontSize="10" />
-                        <DataGridTextColumn Header="User name"
-                                            Width="*"
-                                            IsReadOnly="True"
-                                            Binding="{Binding UserName}"
-                                            FontSize="10" />
+                                            Binding="{Binding RoomNumber}"
+                                            FontSize="12" />
 
-                        <DataGridTextColumn Header="Gender"
-                                            Width="*"
-                                            IsReadOnly="True"
-                                            Binding="{Binding Gender}"
-                                            FontSize="10" />
+                        <DataGridTemplateColumn Header="Issues"
+                                                Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal"
+                                                >
+                                        <Image Width="Auto"
+                                               Height="Auto"
+                                               Source="\UI\Images\bg_issue_default.jpg"
+                                               Stretch="Fill" 
+                                                Margin="8"/>
+                                        <TextBlock Margin="4 0 0 0"
+                                                   Text="{Binding Note}" 
+                                                   TextWrapping="Wrap"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
-                        <DataGridTextColumn Header="Phone"
-                                            Width="*"
-                                            IsReadOnly="True"
-                                            Binding="{Binding PhoneNumber}"
-                                            FontSize="10" />
-
-                        <DataGridTemplateColumn Header="Action">
+                        <DataGridTemplateColumn Header="Reporter" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Button Height="16"
-                                                Width="16"
+                                        <Image Width="18"
+                                               Height="18"
+                                               Source="\UI\Icons\ic_male.png"
+                                                   Stretch="Fill" />
+                                        <TextBlock Margin="4 0 0 0"
+                                                   Text="{Binding CustomerName}" 
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTextColumn Header="Status"
+                                            Width="*"
+                                            IsReadOnly="True"
+                                            Binding="{Binding Status}"
+                                            FontSize="12" />
+
+                        <DataGridTemplateColumn Header="Action" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <Button Height="18"
+                                                Width="18"
                                                 Style="{StaticResource ResourceKey=ImageButton}">
                                             <Image Source="\UI\Icons\ic_edit.png"
                                                    Stretch="Fill" />
                                         </Button>
-                                        <Button Height="16"
-                                                Width="16"
+                                        <Button Height="18"
+                                                Width="18"
                                                 Style="{StaticResource ResourceKey=ImageButton}">
                                             <Image Source="\UI\Icons\ic_delete.png"
                                                    Stretch="Fill" />
@@ -519,6 +600,7 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
+
         </Grid>
     </Grid>
 </UserControl>
