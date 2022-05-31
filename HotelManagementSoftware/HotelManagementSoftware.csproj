@@ -70,8 +70,12 @@
     <Resource Include="UI\Images\bg_issue_default.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="UI\Images\OneButler.png" />
-    <Resource Include="UI\LoginBackground.jpg" />
+    <Resource Include="UI\Images\OneButler.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\LoginBackground.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

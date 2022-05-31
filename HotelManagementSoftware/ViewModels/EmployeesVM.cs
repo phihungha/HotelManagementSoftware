@@ -1,15 +1,9 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using HotelManagementSoftware.Data;
-using HotelManagementSoftware.ViewModels.Utils;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 
 namespace HotelManagementSoftware.ViewModels
@@ -33,112 +27,52 @@ namespace HotelManagementSoftware.ViewModels
         private void addEmployees()
         {
             Employees.Add(new Employee("name",
-                   "userName1", Gender.Male,
+                   "userName1", EmployeeType.Receptionist, Gender.Male,
                    new DateTime(2020, 2, 13),
                    "cmnd", "phone",
                    "address1"));
 
             Employees.Add(new Employee("name",
-                "userName1", Gender.Male,
-                new DateTime(2020, 2, 13),
-                "cmnd", "phone",
-                "address1"));
-
+                      "userName1", EmployeeType.Receptionist, Gender.Male,
+                      new DateTime(2020, 2, 13),
+                      "cmnd", "phone",
+                      "address1"));
             Employees.Add(new Employee("name",
-                "userName1", Gender.Male,
-                new DateTime(2020, 2, 13),
-                "cmnd", "phone",
-                "address1"));
-
+                               "userName1", EmployeeType.Receptionist, Gender.Male,
+                               new DateTime(2020, 2, 13),
+                               "cmnd", "phone",
+                               "address1"));
             Employees.Add(new Employee("name",
-                "userName1", Gender.Male,
-                new DateTime(2020, 2, 13),
-                "cmnd", "phone",
-                "address1"));
-
+                               "userName1", EmployeeType.Receptionist, Gender.Male,
+                               new DateTime(2020, 2, 13),
+                               "cmnd", "phone",
+                               "address1"));
             Employees.Add(new Employee("name",
-                "userName1", Gender.Male,
-                new DateTime(2020, 2, 13),
-                "cmnd", "phone",
-                "address1"));
-
+                               "userName1", EmployeeType.Receptionist, Gender.Male,
+                               new DateTime(2020, 2, 13),
+                               "cmnd", "phone",
+                               "address1"));
             Employees.Add(new Employee("name",
-                "userName1", Gender.Male,
-                new DateTime(2020, 2, 13),
-                "cmnd", "phone",
-                "address1"));
-
+                               "userName1", EmployeeType.Receptionist, Gender.Male,
+                               new DateTime(2020, 2, 13),
+                               "cmnd", "phone",
+                               "address1"));
             Employees.Add(new Employee("name",
-                "userName1", Gender.Male,
-                new DateTime(2020, 2, 13),
-                "cmnd", "phone",
-                "address1"));
-
+                               "userName1", EmployeeType.Receptionist, Gender.Male,
+                               new DateTime(2020, 2, 13),
+                               "cmnd", "phone",
+                               "address1"));
             Employees.Add(new Employee("name",
-                "userName1", Gender.Male,
-                new DateTime(2020, 2, 13),
-                "cmnd", "phone",
-                "address1"));
-
+                               "userName1", EmployeeType.Receptionist, Gender.Male,
+                               new DateTime(2020, 2, 13),
+                               "cmnd", "phone",
+                               "address1"));
             Employees.Add(new Employee("name",
-               "userName1", Gender.Male,
-               new DateTime(2020, 2, 13),
-               "cmnd", "phone",
-               "address1"));
+                               "userName1", EmployeeType.Receptionist, Gender.Male,
+                               new DateTime(2020, 2, 13),
+                               "cmnd", "phone",
+                               "address1"));
 
-            Employees.Add(new Employee("name",
-                "userName1", Gender.Male,
-                new DateTime(2020, 2, 13),
-                "cmnd", "phone",
-                "address1"));
-
-            Employees.Add(new Employee("name",
-                "userName1", Gender.Male,
-                new DateTime(2020, 2, 13),
-                "cmnd", "phone",
-                "address1"));
-
-            Employees.Add(new Employee("name",
-                "userName1", Gender.Male,
-                new DateTime(2020, 2, 13),
-                "cmnd", "phone",
-                "address1"));
-
-            Employees.Add(new Employee("name",
-                "userName1", Gender.Male,
-                new DateTime(2020, 2, 13),
-                "cmnd", "phone",
-                "address1"));
-
-            Employees.Add(new Employee("name",
-               "userName1", Gender.Male,
-               new DateTime(2020, 2, 13),
-               "cmnd", "phone",
-               "address1"));
-
-            Employees.Add(new Employee("name",
-                "userName1", Gender.Male,
-                new DateTime(2020, 2, 13),
-                "cmnd", "phone",
-                "address1"));
-
-            Employees.Add(new Employee("name",
-                "userName1", Gender.Male,
-                new DateTime(2020, 2, 13),
-                "cmnd", "phone",
-                "address1"));
-
-            Employees.Add(new Employee("name",
-                "userName1", Gender.Male,
-                new DateTime(2020, 2, 13),
-                "cmnd", "phone",
-                "address1"));
-
-            Employees.Add(new Employee("name",
-                "userName1", Gender.Male,
-                new DateTime(2020, 2, 13),
-                "cmnd", "phone",
-                "address1"));
 
         }
         #endregion
