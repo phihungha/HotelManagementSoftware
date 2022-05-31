@@ -31,6 +31,7 @@
                         Orientation="Vertical">
                 <TextBlock TextWrapping="Wrap"
                            FontSize="24"
+                           Style="{StaticResource ResourceKey=TextLabel}"
                            FontWeight="Bold"
                            Text="Issues" />
 
@@ -62,6 +63,7 @@
                     <TextBlock TextWrapping="Wrap"
                                FontSize="20"
                                FontWeight="Bold"
+                               Style="{StaticResource ResourceKey=TextLabel}"
                                Text="Note" />
                 </Grid>
 
@@ -94,7 +96,8 @@
                       Grid.Row="0">
                     <StackPanel Margin="8 0 16 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock  Style="{StaticResource ResourceKey=TextLabel}"
+                                    FontSize="12"
                                    Text="Issue ID" />
                         <ui:TextBox  ui:InfoElement.Placeholder="ID auto generate"
                                      Text="{Binding Path=IssueID,UpdateSourceTrigger=PropertyChanged}"
@@ -109,7 +112,8 @@
                       Grid.Row="0">
                     <StackPanel Margin="16 0 8 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
+                                   FontSize="12"
                                    Text="Room" />
                         <ui:ComboBox HorizontalAlignment="Stretch"
                                      ui:InfoElement.Placeholder="Room ID"
@@ -123,7 +127,8 @@
                       Grid.Row="1">
                     <StackPanel Margin="8 0 16 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
+                                   FontSize="12"
                                    Text="Start day" />
                         <DatePicker HorizontalAlignment="Stretch"
                                     SelectedDate="{Binding Path=StartTime,UpdateSourceTrigger=PropertyChanged,
@@ -139,7 +144,8 @@
                       Grid.Row="2">
                     <StackPanel Margin="8 0 16 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
+                                   FontSize="12"
                                    Text="Close day" />
                         <DatePicker HorizontalAlignment="Stretch"
                                     SelectedDate="{Binding Path=CloseTime,
@@ -155,7 +161,8 @@
                       Grid.Row="1">
                     <StackPanel Margin="16 0 8 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
+                                   FontSize="12"
                                    Text="End day" />
                         <DatePicker HorizontalAlignment="Stretch"
                                     SelectedDate="{Binding Path=EndTime,
@@ -171,7 +178,8 @@
                       Grid.Row="2">
                     <StackPanel Margin="16 0 8 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
+                                   FontSize="12"
                                    Text="Status" />
                         <ui:ComboBox HorizontalAlignment="Stretch"
                                      ui:InfoElement.Placeholder="Status"
@@ -194,11 +202,13 @@
                     FontWeight="Bold"
                     Background="#FFF0241D"
                     Foreground="White"
+                    FontFamily="Poppins"
                     Command="{Binding CommandCancel}"/>
             <Button Content="Update"
                     FontWeight="Bold"
                     Background="#FF358AFF"
                     Foreground="White"
+                    FontFamily="Poppins"
                     Command="{Binding CommandUpdate}"/>
         </ui:UniformSpacingPanel>
     </Grid>

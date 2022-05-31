@@ -31,6 +31,7 @@
                         Orientation="Vertical">
                 <TextBlock TextWrapping="Wrap"
                            FontSize="24"
+                           Style="{StaticResource TextLabel}"
                            FontWeight="Bold"
                            Text="Issues" />
 
@@ -82,6 +83,7 @@
                       Grid.Column="1">
                     <TextBlock TextWrapping="Wrap"
                                FontSize="20"
+                               Style="{StaticResource TextLabel}"
                                FontWeight="Bold"
                                Text="Note" />
 
@@ -119,7 +121,8 @@
                       Grid.Row="0">
                     <StackPanel Margin="8 0 16 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
                                    Text="Issue ID" />
                         <ui:TextBox  ui:InfoElement.Placeholder="ID auto generate"
                                      Text="{Binding Path=IssueID,UpdateSourceTrigger=PropertyChanged}"
@@ -134,7 +137,8 @@
                       Grid.Row="0">
                     <StackPanel Margin="16 0 8 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
                                    Text="Room" />
                         <ui:ComboBox HorizontalAlignment="Stretch"
                                      ui:InfoElement.Placeholder="Room ID"
@@ -148,7 +152,8 @@
                       Grid.Row="1">
                     <StackPanel Margin="8 0 16 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
                                    Text="Start day" />
                         <DatePicker HorizontalAlignment="Stretch"
                                     SelectedDate="{Binding Path=StartTime,UpdateSourceTrigger=PropertyChanged,
@@ -164,7 +169,8 @@
                       Grid.Row="2">
                     <StackPanel Margin="8 0 16 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
                                    Text="Close day" />
                         <DatePicker HorizontalAlignment="Stretch"
                                     SelectedDate="{Binding Path=CloseTime,
@@ -181,7 +187,8 @@
                       Grid.Row="1">
                     <StackPanel Margin="16 0 8 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
                                    Text="End day" />
                         <DatePicker HorizontalAlignment="Stretch"
                                     SelectedDate="{Binding Path=EndTime,
@@ -197,7 +204,8 @@
                       Grid.Row="2">
                     <StackPanel Margin="16 0 8 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
                                    Text="Status" />
                         <ui:ComboBox HorizontalAlignment="Stretch"
                                      ui:InfoElement.Placeholder="Status"
@@ -221,6 +229,7 @@
                         Orientation="Vertical">
                 <TextBlock TextWrapping="Wrap"
                            FontSize="24"
+                           Style="{StaticResource TextLabel}"
                            FontWeight="Bold"
                            Text="Items" />
             </StackPanel>
@@ -247,39 +256,11 @@
                           SelectionUnit="FullRow"
                           FlowDirection="LeftToRight"
                           VerticalScrollBarVisibility="Visible"
-                          Margin="0 8 8 8">
+                          Margin="0 8 8 8"
+                          ColumnHeaderStyle="{StaticResource ResourceKey=gridHeaderStyle}"
+                          CellStyle="{StaticResource ResourceKey=gridCellStyle}"
+                          >
                     <DataGrid.Resources>
-                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                            <Setter Property="Background"
-                                    Value="Transparent" />
-                            <Setter Property="FontSize"
-                                    Value="16" />
-                            <Setter Property="VerticalContentAlignment"
-                                    Value="Center" />
-                            <Setter Property="VerticalAlignment"
-                                    Value="Center" />
-                            <Setter Property="FontWeight"
-                                    Value="Bold" />
-                            <Setter Property="FontFamily"
-                                    Value="Consolas" />
-                            <Setter Property="Padding"
-                                    Value="0 0 16 0" />
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
-                                        <Border Padding="{TemplateBinding Padding}"
-                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                BorderThickness="{TemplateBinding BorderThickness}"
-                                                Background="{TemplateBinding Background}"
-                                                SnapsToDevicePixels="True">
-                                            <ContentPresenter VerticalAlignment="Center"
-                                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
 
                         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                                          Color="LightGray" />
@@ -289,28 +270,6 @@
                                      Color="LightGray" />
                     <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}"
                                      Color="LightGray" />-->
-
-                        <Style TargetType="{x:Type DataGridCell}">
-                            <Setter Property="FontFamily"
-                                    Value="Consolas" />
-                            <Setter Property="BorderBrush"
-                                    Value="{x:Null}" />
-                            <Setter Property="BorderThickness"
-                                    Value="0" />
-
-
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                        <Grid Background="{TemplateBinding Background}">
-                                            <ContentPresenter VerticalAlignment="Center" />
-
-                                        </Grid>
-
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
                     </DataGrid.Resources>
 
                     <DataGrid.Columns>
@@ -386,6 +345,7 @@
                                 <Image Source="\UI\Icons\ic_add.png"
                                        Stretch="Fill" />
                                 <TextBlock Text="New item"
+                                           Style="{StaticResource TextLabel}"
                                            FontSize="12"
                                            Foreground="White"
                                            Margin="4 0 0 0" />
@@ -400,7 +360,8 @@
                       Grid.Row="1">
                     <StackPanel Margin="8 0 16 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
                                    Text="Item name" />
                         <ui:TextBox ui:InfoElement.Placeholder="Enter item name"
                                     Text="{Binding Path=ItemName}"
@@ -419,7 +380,8 @@
                     </Grid.RowDefinitions>
                     <Grid Margin="16 0 8 0"
                           Grid.Row="0">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
                                    Text="Description" />
                     </Grid>
 
@@ -440,7 +402,8 @@
                       Grid.Row="2">
                     <StackPanel Margin="8 0 16 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
                                    Text="Quantity" />
                         <ui:TextBox ui:InfoElement.Placeholder="Enter item quantity"
                                     Text="{Binding Path=ItemQuantity}"
@@ -462,11 +425,13 @@
                     FontWeight="Bold"
                     Background="#FFF0241D"
                     Foreground="White"
+                    FontFamily="Poppins"
                     Command="{Binding CommandCancel}" />
             <Button Content="Update"
                     FontWeight="Bold"
                     Background="#FF358AFF"
                     Foreground="White"
+                    FontFamily="Poppins"
                     Command="{Binding CommandUpdate}" />
         </ui:UniformSpacingPanel>
     </Grid>

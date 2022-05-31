@@ -24,7 +24,6 @@
             <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
-            <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -32,249 +31,6 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
-        <!--Activity-->
-        <Grid Grid.Row="0"
-              Grid.Column="3">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-            <Border CornerRadius="16 0 0 16"
-                    Background="#EBF9FB"
-                    Grid.RowSpan="2" />
-            <!--Activity-->
-            <StackPanel Grid.Row="0">
-                <StackPanel Margin="16 4 0 0"
-                            HorizontalAlignment="Left"
-                            Orientation="Vertical">
-                    <TextBlock TextWrapping="Wrap"
-                               FontSize="12"
-                               FontWeight="Bold"
-                               Text="Activity" />
-                </StackPanel>
-                <Border Width="Auto"
-                        BorderThickness="1"
-                        Margin="16 0 16 0"
-                        BorderBrush="Black"
-                        Opacity=".1"
-                        CornerRadius="4" />
-            </StackPanel>
-
-            <!--list activity-->
-            <ListBox Name="lb_allActivities"
-                     Grid.Row="2"
-                     ItemsSource="{Binding ActivityLists}"
-                     Margin="8 0 8 8"
-                     BorderBrush="Transparent"
-                     Background="Transparent"
-                     VerticalAlignment="Stretch"
-                     Height="Auto"
-                     Padding="4"
-                     ScrollViewer.CanContentScroll="True"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                <ListBox.Resources>
-                    <!--Background of selected item when focussed-->
-                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                                     Color="Transparent" />
-                    <!--Background of selected item when not focussed-->
-                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
-                                     Color="Transparent" />
-
-                    <Style TargetType="{x:Type ListBox}">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type ListBox}">
-                                    <ScrollViewer x:Name="ScrollViewer">
-                                        <ItemsPresenter />
-                                    </ScrollViewer>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListBox.Resources>
-
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="Background"
-                                Value="Transparent"></Setter>
-                        <Setter Property="VerticalContentAlignment"
-                                Value="Stretch" />
-                        <Setter Property="HorizontalContentAlignment"
-                                Value="Stretch" />
-
-                        <Setter Property="FontFamily"
-                                Value="Consolas" />
-                    </Style>
-                </ListBox.ItemContainerStyle>
-
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="0,2"
-                              Background="Transparent">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Border CornerRadius="1">
-                                <Image Source="\UI\Icons\ic_male.png"
-                                       Height="24"
-                                       Width="24" />
-                            </Border>
-
-                            <StackPanel Orientation="Vertical"
-                                        Margin="8 0 0 0"
-                                        Grid.Column="1"
-                                        VerticalAlignment="Center">
-                                <StackPanel Orientation="Horizontal"
-                                            >
-                                    <TextBlock FontSize="12"
-                                               Text="{Binding Name}"
-                                               VerticalAlignment="Center"/>
-                                    <TextBlock FontSize="10"
-                                               Margin="4 0 0 0"
-                                               Foreground="#38CB89"
-                                               VerticalAlignment="Center"
-                                               Text="{Binding StatusString}" />
-                                </StackPanel>
-                              
-                                <TextBlock FontSize="8"
-                                           Text="{Binding CreateTime}"
-                                           Opacity=".5" />
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid>
-
-        <!--all reporter-->
-        <Grid Grid.Row="1"
-              Grid.Column="3"
-              Margin="0 8 0 8"
-              Grid.RowSpan="2">
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="7*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-            <Border CornerRadius="16 0 0 16"
-                    Background="#EBF9FB"
-                    Grid.RowSpan="3" />
-            <!--Allreporter-->
-            <StackPanel Grid.Row="0">
-                <StackPanel Margin="16 4 0 4"
-                            HorizontalAlignment="Left"
-                            Orientation="Vertical">
-                    <TextBlock TextWrapping="Wrap"
-                               FontSize="12"
-                               FontWeight="Bold"
-                               Text="All reporter" />
-                </StackPanel>
-                <Border Width="Auto"
-                        BorderThickness="1"
-                        Margin="16 0 16 0"
-                        BorderBrush="Black"
-                        Opacity=".1"
-                        CornerRadius="4" />
-            </StackPanel>
-
-            <!--list reporter-->
-            <ListBox Name="lb_AllReporter"
-                     Grid.Row="1"
-                     ItemsSource="{Binding Path=ReporterLists}"
-                     Margin="8 0 8 8"
-                     BorderBrush="Transparent"
-                     Background="Transparent"
-                     VerticalAlignment="Stretch"
-                     Height="Auto"
-                     Padding="4"
-                     ScrollViewer.CanContentScroll="True"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                <ListBox.Resources>
-                    <!--Background of selected item when focussed-->
-                    <!--<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                                     Color="LightGray" />-->
-
-                    <!-- Background of selected item when focussed -->
-                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                                     Color="Green" />
-                    <!-- Background of selected item when not focussed -->
-                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
-                                     Color="LightGreen" />
-                </ListBox.Resources>
-
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="Background"
-                                Value="Transparent"></Setter>
-                        <Setter Property="VerticalContentAlignment"
-                                Value="Stretch" />
-                        <Setter Property="HorizontalContentAlignment"
-                                Value="Stretch" />
-                        <Setter Property="FontFamily"
-                                Value="Consolas" />
-                    </Style>
-                </ListBox.ItemContainerStyle>
-
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="0,2"
-                              Background="Transparent">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Border CornerRadius="1">
-                                <Image Source="\UI\Icons\ic_male.png"
-                                       Height="36"
-                                       Width="36" />
-                            </Border>
-                            <StackPanel Orientation="Vertical"
-                                        Margin="8 0 0 0"
-                                        Grid.Column="1"
-                                        VerticalAlignment="Center">
-                                <TextBlock 
-                                           FontSize="12"
-                                           Text="{Binding Name}" />
-                                <TextBlock FontSize="12"
-                                           Text="{Binding Note}" 
-                                           Opacity=".5"/>
-                            </StackPanel>
-                           
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-
-            <Grid Grid.Row="2"
-                  Margin="32 0 32 4">
-                <Border CornerRadius="8"
-                        Background="Black"
-                        Padding="4">
-                    <StackPanel  HorizontalAlignment="Center"
-                                 VerticalAlignment="Center"
-                                 Orientation="Horizontal">
-                        <TextBlock Text="{Binding AllReports}"
-                                   Foreground="White"
-                                   FontWeight="Bold"
-                                   FontSize="12" />
-                        <TextBlock Text=" reported issues"
-                                   Foreground="White"
-                                   FontWeight="Bold"
-                                   FontSize="12" />
-                    </StackPanel>
-                   
-                </Border>
-            </Grid>
-
-
-        </Grid>
 
         <Grid Grid.Row="0"
               Grid.Column="0"
@@ -284,6 +40,7 @@
                 <StackPanel HorizontalAlignment="Center"
                             VerticalAlignment="Center">
                     <TextBlock FontSize="30"
+                               Style="{StaticResource ResourceKey=TextLabel}"
                                Text="{Binding AllReports}"
                                Foreground="#41A5DE"
                                HorizontalAlignment="Center" />
@@ -304,6 +61,7 @@
                 <StackPanel HorizontalAlignment="Center"
                             VerticalAlignment="Center">
                     <TextBlock FontSize="30"
+                               Style="{StaticResource ResourceKey=TextLabel}"
                                Text="{Binding TotalReportsDone}"
                                Foreground="#38CB89"
                                HorizontalAlignment="Center" />
@@ -324,6 +82,7 @@
                 <StackPanel HorizontalAlignment="Center"
                             VerticalAlignment="Center">
                     <TextBlock FontSize="30"
+                               Style="{StaticResource ResourceKey=TextLabel}"
                                Text="{Binding TotalReportsNeedToDone}"
                                Foreground="#FF5630"
                                HorizontalAlignment="Center" />
@@ -361,7 +120,8 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid Grid.Column="0"
-                          Panel.ZIndex="1">
+                          Panel.ZIndex="1"
+                          Margin="16 0 0 0">
                         <Button BorderBrush="Transparent"
                                 Background="Transparent"
                                 HorizontalAlignment="Center"
@@ -383,7 +143,7 @@
                                     x:Name="tbSearchBox"
                                     Padding="0 0 8 0"
                                     Width="Auto"
-                                    FontFamily="Consolas"
+                                    FontFamily="Poppins"
                                     ui:InfoElement.Placeholder="Search..."
                                     Panel.ZIndex="2">
                         </ui:TextBox>
@@ -391,6 +151,7 @@
 
                     <Grid Grid.Column="0"
                           Panel.ZIndex="0"
+                          Margin="16 0 0 0"
                           Grid.ColumnSpan="2">
                         <Border CornerRadius="8"
                                 BorderThickness="2"
@@ -465,40 +226,11 @@
                           SelectionUnit="FullRow"
                           FlowDirection="LeftToRight"
                           VerticalScrollBarVisibility="Visible"
-                          Padding="16">
+                          Padding="16"
+                          ColumnHeaderStyle="{StaticResource ResourceKey=gridHeaderStyle}"
+                          CellStyle="{StaticResource ResourceKey=gridCellStyle}"
+                          >
                     <DataGrid.Resources>
-                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                            <Setter Property="Background"
-                                    Value="Transparent" />
-                            <Setter Property="FontSize"
-                                    Value="16" />
-                            <Setter Property="VerticalContentAlignment"
-                                    Value="Center" />
-                            <Setter Property="VerticalAlignment"
-                                    Value="Center" />
-                            <Setter Property="FontWeight"
-                                    Value="Bold" />
-                            <Setter Property="FontFamily"
-                                    Value="Consolas" />
-
-                            <Setter Property="Padding"
-                                    Value="0 0 16 0" />
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
-                                        <Border Padding="{TemplateBinding Padding}"
-                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                BorderThickness="{TemplateBinding BorderThickness}"
-                                                Background="{TemplateBinding Background}"
-                                                SnapsToDevicePixels="True">
-                                            <ContentPresenter VerticalAlignment="Center"
-                                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-
                         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                                          Color="LightGray" />
                         <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
@@ -507,25 +239,6 @@
                                      Color="LightGray" />
                     <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}"
                                      Color="LightGray" />-->
-
-                        <Style TargetType="{x:Type DataGridCell}">
-                            <Setter Property="FontFamily"
-                                    Value="Consolas" />
-                            <Setter Property="BorderBrush"
-                                    Value="{x:Null}" />
-                            <Setter Property="BorderThickness"
-                                    Value="0" />
-
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                        <Grid Background="{TemplateBinding Background}">
-                                            <ContentPresenter VerticalAlignment="Center" />
-                                        </Grid>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
                     </DataGrid.Resources>
 
                     <DataGrid.Columns>

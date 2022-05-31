@@ -14,7 +14,7 @@
     <UserControl.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontFamily"
-                    Value="Consolas" />
+                    Value="Poppins" />
         </Style>
     </UserControl.Resources>
     <UserControl.DataContext>
@@ -42,7 +42,8 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column="0"
-                      Panel.ZIndex="1">
+                      Panel.ZIndex="1"
+                      Margin="16 0 0 0">
                     <Button BorderBrush="Transparent"
                             Background="Transparent"
                             HorizontalAlignment="Center"
@@ -71,7 +72,8 @@
 
                 <Grid Grid.Column="0"
                       Panel.ZIndex="0"
-                      Grid.ColumnSpan="2">
+                      Grid.ColumnSpan="2"
+                      Margin="16 0 0 0">
                     <Border CornerRadius="8"
                             BorderThickness="2"
                             BorderBrush="#9E9E9E"
@@ -117,6 +119,7 @@
                         BorderBrush="Transparent"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
+                        Margin="0 0 16 0"
                         Command="{Binding CommandAddNewEmployee}">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="\UI\Icons\ic_add.png"
@@ -145,8 +148,8 @@
                       FlowDirection="LeftToRight"
                       VerticalScrollBarVisibility="Visible"
                       Padding="16"
-                      ColumnHeaderStyle="{StaticResource ResourceKey=gridHeaderStyle}"
                       CellStyle="{StaticResource ResourceKey=gridCellStyle}"
+                      ColumnHeaderStyle="{StaticResource ResourceKey=gridHeaderStyle}"
                       >
                 <DataGrid.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
@@ -164,8 +167,7 @@
                                         Width="*"
                                         IsReadOnly="True"
                                         Binding="{Binding Name}"
-                                        FontSize="12"
-                                        />
+                                        FontSize="12" />
                     <DataGridTextColumn Header="User name"
                                         Width="*"
                                         IsReadOnly="True"

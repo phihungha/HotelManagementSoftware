@@ -12,16 +12,6 @@
         WindowStartupLocation="CenterScreen"
         Height="420"
         Width="800">
-    <Window.Resources>
-        <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="FontFamily"
-                    Value="PoppinsFont" />
-        </Style>
-        <Style TargetType="{x:Type TextBox}">
-            <Setter Property="FontFamily"
-                    Value="PoppinsFont" />
-        </Style>
-    </Window.Resources>
     <Window.DataContext>
         <vm:EmployeeEditWindowVM />
     </Window.DataContext>
@@ -40,6 +30,7 @@
                 <TextBlock TextWrapping="Wrap"
                            FontSize="24"
                            FontWeight="Bold"
+                           Style="{StaticResource TextLabel}"
                            Text="Edit employee infomation" />
             </StackPanel>
             <Border Width="Auto"
@@ -75,7 +66,8 @@
                 <Grid Grid.Column="0">
                     <StackPanel  Margin="8 0 8 0"
                                  Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
                                    Text="Identity number" />
                         <ui:TextBox  ui:InfoElement.Placeholder="Enter identity number"
                                      Text="{Binding Path=Cmnd,UpdateSourceTrigger=PropertyChanged}"
@@ -88,7 +80,8 @@
                       Grid.Row="1">
                     <StackPanel Margin="8 0 16 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
                                    Text="Name" />
                         <ui:TextBox ui:InfoElement.Placeholder="Enter name"
                                     Text="{Binding Path=Name,UpdateSourceTrigger=PropertyChanged}"
@@ -103,7 +96,8 @@
                       Grid.Row="0">
                     <StackPanel Margin="16 0 8 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
                                    Text="Username" />
                         <ui:TextBox ShowClearButton="True"
                                     Text="{Binding Path=UserName,UpdateSourceTrigger=PropertyChanged}"
@@ -116,7 +110,8 @@
                       Grid.Row="3">
                     <StackPanel Margin="8 0 16 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
                                    Text="Phone number" />
                         <ui:TextBox  ShowClearButton="True"
                                      Text="{Binding Path=PhoneNumber,UpdateSourceTrigger=PropertyChanged}"
@@ -129,7 +124,8 @@
                       Grid.Row="2">
                     <StackPanel Margin="8 0 16 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
                                    Text="Date of birth" />
                         <DatePicker HorizontalAlignment="Stretch"
                                     SelectedDate="{Binding Path=BirthDate,UpdateSourceTrigger=PropertyChanged,
@@ -145,7 +141,8 @@
                       Grid.Row="2">
                     <StackPanel Margin="16 0 8 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
                                    Text="Gender" />
                         <ui:ComboBox HorizontalAlignment="Stretch"
                                      ui:InfoElement.Placeholder="Enter gender"
@@ -161,7 +158,8 @@
                       Grid.Row="3">
                     <StackPanel Margin="16 0 8 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
                                    Text="Email" />
                         <ui:TextBox  ui:InfoElement.Placeholder="Enter email"
                                      ShowClearButton="True"
@@ -174,7 +172,8 @@
                       Grid.Row="1">
                     <StackPanel Margin="16 0 8 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource Label}"
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
                                    Text="Password" />
                         <ui:PasswordBox IsSafeEnabled="False"
                                         ShowEyeButton="True"
@@ -199,7 +198,8 @@
 
                 <Grid Grid.Row="0"
                       Margin="16 0 16 0">
-                    <TextBlock Style="{StaticResource ResourceKey=Label}"
+                    <TextBlock Style="{StaticResource TextLabel}"
+                               FontSize="12"
                                Text="Address" />
                 </Grid>
 
@@ -228,13 +228,13 @@
                     Foreground="White"
                     BorderBrush="{x:Null}"
                     Padding="8"
-                    FontFamily="PoppinsFont"
+                    FontFamily="Poppins"
                     Command="{Binding CommandCancel}" />
             <Button Content="Update"
                     FontWeight="Bold"
                     Background="#FF358AFF"
                     Foreground="White"
-                    FontFamily="PoppinsFont"
+                    FontFamily="Poppins"
                     Command="{Binding CommandUpdate}" />
         </ui:UniformSpacingPanel>
 
