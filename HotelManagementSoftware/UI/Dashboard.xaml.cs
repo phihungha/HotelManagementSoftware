@@ -24,5 +24,11 @@ namespace HotelManagementSoftware.UI
         {
             InitializeComponent();
         }
+
+        private void NewReservationBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var createReservationDialog = new ReservationEditWindow();
+            createReservationDialog.Show();
+        }
     }
 }

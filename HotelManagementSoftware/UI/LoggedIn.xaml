@@ -60,7 +60,8 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Border Margin="0,10,0,0" BorderBrush="{StaticResource GridLineColorSolid}" BorderThickness="0,0,0.8,0" Padding="15">
+        <Border Margin="0,10,0,0" BorderBrush="{StaticResource GridLineColorSolid}" 
+                BorderThickness="0,0,0.8,0" Padding="15">
             <Image Source="{StaticResource OneButlerIcon}" />
         </Border>
 
@@ -109,6 +110,6 @@
             </Grid>
         </Border>
 
-        <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding CurrentPageVM}" />
+        <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding CurrentPageVM}" Margin="24,15,24,24" />
     </Grid>
 </UserControl>
