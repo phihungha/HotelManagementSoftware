@@ -10,16 +10,17 @@
              xmlns:hc="https://handyorg.github.io/handycontrol"
              d:DesignHeight="450"
              d:DesignWidth="800"
-             Padding="16"
-             >
+             Padding="16">
     <UserControl.Resources>
-  
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily"
+                    Value="Consolas" />
+        </Style>
     </UserControl.Resources>
-    
     <UserControl.DataContext>
-        <vm:EmployeesVM x:Name="employeeVM"/>
+        <vm:EmployeesVM x:Name="employeeVM" />
     </UserControl.DataContext>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -46,8 +47,7 @@
                             Background="Transparent"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Command="{Binding CommandSearch}"
-                            >
+                            Command="{Binding CommandSearch}">
                         <Image Source="\UI\Icons\ic_search.png"
                                Stretch="Fill" />
                     </Button>
@@ -56,17 +56,16 @@
                 <Grid Grid.Column="1"
                       Panel.ZIndex="1">
                     <ui:TextBox Foreground="Black"
-                             Background="Transparent"
-                             BorderThickness="0"
-                             BorderBrush="Transparent"
-                             HorizontalContentAlignment="Left"
-                             VerticalContentAlignment="Center"
-                             x:Name="tbSearchBox"
-                             Padding="0 0 8 0"
-                             Width="Auto"
-                             FontFamily="Consolas"
-                             ui:InfoElement.Placeholder="Search..."
-                             Panel.ZIndex="2">
+                                Background="Transparent"
+                                BorderThickness="0"
+                                BorderBrush="Transparent"
+                                HorizontalContentAlignment="Left"
+                                VerticalContentAlignment="Center"
+                                x:Name="tbSearchBox"
+                                Padding="0 0 8 0"
+                                Width="Auto"
+                                ui:InfoElement.Placeholder="Search..."
+                                Panel.ZIndex="2">
                     </ui:TextBox>
                 </Grid>
 
@@ -113,19 +112,18 @@
 
             <!--Button new employee-->
             <Grid Grid.Column="2">
-                
+
                 <Button Background="#369FFF"
                         BorderBrush="Transparent"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
-                        Command="{Binding CommandAddNewEmployee}"
-                        >
+                        Command="{Binding CommandAddNewEmployee}">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="\UI\Icons\ic_add.png"
                                Stretch="Fill" />
                         <TextBlock Text="New employee"
                                    FontSize="12"
-                                   Style="{StaticResource TextLabel}"
+                                   Style="{Binding TextLabel}"
                                    Foreground="White"
                                    Margin="4 0 0 0" />
                     </StackPanel>
@@ -146,41 +144,11 @@
                       SelectionUnit="FullRow"
                       FlowDirection="LeftToRight"
                       VerticalScrollBarVisibility="Visible"
-                      Padding="16">
+                      Padding="16"
+                      ColumnHeaderStyle="{StaticResource ResourceKey=gridHeaderStyle}"
+                      CellStyle="{StaticResource ResourceKey=gridCellStyle}"
+                      >
                 <DataGrid.Resources>
-                    <Style TargetType="{x:Type DataGridColumnHeader}">
-                        <Setter Property="Background"
-                                Value="Transparent" />
-                        <Setter Property="FontSize"
-                                Value="16" />
-                        <Setter Property="VerticalContentAlignment"
-                                Value="Center" />
-                        <Setter Property="VerticalAlignment"
-                                Value="Center" />
-                        <Setter Property="FontWeight"
-                                Value="Bold" />
-                        <Setter Property="FontFamily"
-                                Value="Consolas" />
-
-                        <Setter Property="Padding"
-                                Value="0 0 16 0" />
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
-                                    <Border Padding="{TemplateBinding Padding}"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            Background="{TemplateBinding Background}"
-                                            SnapsToDevicePixels="True">
-                                        <ContentPresenter VerticalAlignment="Center"
-                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                    
                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                                      Color="LightGray" />
                     <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
@@ -189,25 +157,6 @@
                                      Color="LightGray" />
                     <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}"
                                      Color="LightGray" />-->
-
-                    <Style TargetType="{x:Type DataGridCell}">
-                        <Setter Property="FontFamily"
-                                Value="Consolas" />
-                        <Setter Property="BorderBrush"
-                                Value="{x:Null}" />
-                        <Setter Property="BorderThickness"
-                                Value="0" />
-                        
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                    <Grid Background="{TemplateBinding Background}">
-                                        <ContentPresenter VerticalAlignment="Center" />
-                                    </Grid>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
                 </DataGrid.Resources>
 
                 <DataGrid.Columns>
@@ -215,7 +164,7 @@
                                         Width="*"
                                         IsReadOnly="True"
                                         Binding="{Binding Name}"
-                                        FontSize="12" 
+                                        FontSize="12"
                                         />
                     <DataGridTextColumn Header="User name"
                                         Width="*"

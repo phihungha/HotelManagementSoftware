@@ -49,7 +49,7 @@
         <Setter Property="FontSize"
                 Value="16" />
         <Setter Property="FontFamily"
-                Value="Consolas" />
+                Value="PoppinsFont" />
     </Style>
 
     <Style x:Key="textBlockHeader"
@@ -64,6 +64,8 @@
                 Value="Normal" />
         <Setter Property="FontWeight"
                 Value="Bold" />
+        <Setter Property="FontFamily"
+                Value="PoppinsFont" />
     </Style>
 
     <Style x:Key="textBlockItem"
@@ -78,6 +80,8 @@
                 Value="Normal" />
         <Setter Property="FontWeight"
                 Value="Normal" />
+        <Setter Property="FontFamily"
+                Value="PoppinsFont" />
     </Style>
 
     <DataTemplate x:Key="listViewHeaderTemplate">
@@ -96,5 +100,58 @@
                 Value="Transparent" />
         <Setter Property="BorderBrush"
                 Value="Transparent" />
+    </Style>
+
+    <Style x:Key="gridHeaderStyle"
+           TargetType="{x:Type DataGridColumnHeader}">
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="FontSize"
+                Value="16" />
+        <Setter Property="VerticalContentAlignment"
+                Value="Center" />
+        <Setter Property="VerticalAlignment"
+                Value="Center" />
+        <Setter Property="FontWeight"
+                Value="Bold" />
+        <Setter Property="Padding"
+                Value="0 0 16 0" />
+        <Setter Property="FontFamily"
+                Value="PoppinsFont" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                    <Border Padding="{TemplateBinding Padding}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter VerticalAlignment="Center"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type DataGridCell}"
+           x:Key="gridCellStyle">
+        <Setter Property="BorderBrush"
+                Value="{x:Null}" />
+        <Setter Property="BorderThickness"
+                Value="0" />
+        <Setter Property="FontFamily"
+                Value="PoppinsFont" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                    <Grid Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>
