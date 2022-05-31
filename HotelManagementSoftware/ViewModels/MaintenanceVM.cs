@@ -23,8 +23,8 @@ namespace HotelManagementSoftware.ViewModels
         #region property
 
         public ObservableCollection<MaintenanceCustomItem> MaintenanceCustomLists { get; set; }
-        public ObservableCollection<ReporterItem> ReporterLists { get; set; }
-        public ObservableCollection<ActivityItem> ActivityLists { get; set; }
+        public ObservableCollection<ReporterItemMainenance> ReporterLists { get; set; }
+        public ObservableCollection<ActivityItemMainenance> ActivityLists { get; set; }
         public int AllReports { get; set; }
         public int TotalReportsDone { get; set; }
         public int TotalReportsNeedToDone { get; set; }
@@ -37,10 +37,10 @@ namespace HotelManagementSoftware.ViewModels
             MaintenanceCustomLists = new ObservableCollection<MaintenanceCustomItem>();
             addMaintenanceItem();
 
-            ReporterLists = new ObservableCollection<ReporterItem>();
+            ReporterLists = new ObservableCollection<ReporterItemMainenance>();
             addReporter();
 
-            ActivityLists = new ObservableCollection<ActivityItem>();
+            ActivityLists = new ObservableCollection<ActivityItemMainenance>();
             addActivity();
 
             AllReports = 23;
@@ -53,26 +53,26 @@ namespace HotelManagementSoftware.ViewModels
         }
         private void addActivity()
         {
-            ActivityLists.Add(new ActivityItem("Name1", "Completed the task", DateTime.Now));
-            ActivityLists.Add(new ActivityItem("Name2", "Completed the task", DateTime.Now));
-            ActivityLists.Add(new ActivityItem("Name3", "Completed the task", DateTime.Now));
-            ActivityLists.Add(new ActivityItem("Name4", "Completed the task", DateTime.Now));
-            ActivityLists.Add(new ActivityItem("Name5", "Completed the task", DateTime.Now));
-            ActivityLists.Add(new ActivityItem("Name6", "Completed the task", DateTime.Now));
-            ActivityLists.Add(new ActivityItem("Name7", "Completed the task", DateTime.Now));
-            ActivityLists.Add(new ActivityItem("Name8", "Completed the task", DateTime.Now));
+            ActivityLists.Add(new ActivityItemMainenance("Name1", "Completed the task", DateTime.Now));
+            ActivityLists.Add(new ActivityItemMainenance("Name2", "Completed the task", DateTime.Now));
+            ActivityLists.Add(new ActivityItemMainenance("Name3", "Completed the task", DateTime.Now));
+            ActivityLists.Add(new ActivityItemMainenance("Name4", "Completed the task", DateTime.Now));
+            ActivityLists.Add(new ActivityItemMainenance("Name5", "Completed the task", DateTime.Now));
+            ActivityLists.Add(new ActivityItemMainenance("Name6", "Completed the task", DateTime.Now));
+            ActivityLists.Add(new ActivityItemMainenance("Name7", "Completed the task", DateTime.Now));
+            ActivityLists.Add(new ActivityItemMainenance("Name8", "Completed the task", DateTime.Now));
         }
 
         private void addReporter()
         {
-            ReporterLists.Add(new ReporterItem("Name1", "note1"));
-            ReporterLists.Add(new ReporterItem("Name2", "note2"));
-            ReporterLists.Add(new ReporterItem("Name3", "note3"));
-            ReporterLists.Add(new ReporterItem("Name4", "note4"));
-            ReporterLists.Add(new ReporterItem("Name5", "note5"));
-            ReporterLists.Add(new ReporterItem("Name6", "note6"));
-            ReporterLists.Add(new ReporterItem("Name7", "note7"));
-            ReporterLists.Add(new ReporterItem("Name8", "note8"));
+            ReporterLists.Add(new ReporterItemMainenance("Name1", "note1"));
+            ReporterLists.Add(new ReporterItemMainenance("Name2", "note2"));
+            ReporterLists.Add(new ReporterItemMainenance("Name3", "note3"));
+            ReporterLists.Add(new ReporterItemMainenance("Name4", "note4"));
+            ReporterLists.Add(new ReporterItemMainenance("Name5", "note5"));
+            ReporterLists.Add(new ReporterItemMainenance("Name6", "note6"));
+            ReporterLists.Add(new ReporterItemMainenance("Name7", "note7"));
+            ReporterLists.Add(new ReporterItemMainenance("Name8", "note8"));
         }
         private void addMaintenanceItem()
         {
@@ -117,17 +117,17 @@ namespace HotelManagementSoftware.ViewModels
     /// <summary>
     /// Item for activity listbox
     /// </summary>
-    public class ActivityItem
+    public class ActivityItemMainenance
     {
         public string Name { get; set; }
         public string StatusString { get; set; }
         public DateTime CreateTime { get; set; }
-        public ActivityItem()
+        public ActivityItemMainenance()
         {
            
         }
 
-        public ActivityItem(string name, string statusString, DateTime createTime)
+        public ActivityItemMainenance(string name, string statusString, DateTime createTime)
         {
             Name = name;
             StatusString = statusString;
@@ -138,17 +138,17 @@ namespace HotelManagementSoftware.ViewModels
     /// <summary>
     /// Item for reporter listbox
     /// </summary>
-    public class ReporterItem
+    public class ReporterItemMainenance
     {
         public string Name { get; set; }
         public string Note { get; set; }
 
-        public ReporterItem()
+        public ReporterItemMainenance()
         {
 
         }
 
-        public ReporterItem(string name, string note)
+        public ReporterItemMainenance(string name, string note)
         {
             Name = name;
             Note = note;
