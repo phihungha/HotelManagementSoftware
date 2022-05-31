@@ -76,7 +76,7 @@ namespace HotelManagementSoftware
         }
 
         /// <summary>
-        /// Create the database if it doesn't exist yet;
+        /// Create the database if it doesn't exist yet
         /// </summary>
         private void InitiateDatabase()
         {
@@ -85,7 +85,8 @@ namespace HotelManagementSoftware
         }
 
         /// <summary>
-        /// Run backend tests
+        /// Generate test data.
+        /// TODO: Delete this when the UI is usable.
         /// </summary>
         private async void GenerateTestData()
         {

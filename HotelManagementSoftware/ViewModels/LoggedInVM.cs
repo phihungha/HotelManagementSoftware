@@ -24,22 +24,13 @@ namespace HotelManagementSoftware.ViewModels
 
     public class LoggedInVM : ObservableObject
     {
-        public SidebarPageName[] SidebarPages { get; } = {
-            SidebarPageName.Dashboard,
-            SidebarPageName.Reservations,
-            SidebarPageName.Arrivals,
-            SidebarPageName.Departures,
-            SidebarPageName.Customers,
-            SidebarPageName.Rooms,
-            SidebarPageName.RoomTypes,
-            SidebarPageName.Housekeeping,
-            SidebarPageName.Maintenance,
-            SidebarPageName.Employees
-        };
+        // List of sidebar page options
+        public SidebarPageName[] SidebarPages { get; private set; } = {};
 
         public string CurrentEmployeeName { get; } = "";
+        public EmployeeType CurrentEmployeeType { get; }
 
-        // Currently selected page on the sidebar
+        // Currently selected page option on the sidebar
         private SidebarPageName currentPage = SidebarPageName.Dashboard;
         public SidebarPageName CurrentPage
         {
@@ -63,11 +54,74 @@ namespace HotelManagementSoftware.ViewModels
 
         public LoggedInVM(EmployeeBusiness employeeBusiness)
         {
-            CurrentEmployeeName = employeeBusiness.CurrentEmployee?.Name ?? "";
+            Employee? currentEmployee = employeeBusiness.CurrentEmployee;
+            if (currentEmployee != null)
+            {
+                CurrentEmployeeName = currentEmployee.Name;
+                CurrentEmployeeType = currentEmployee.EmployeeType;
+            }
+            SetupAccessiblePageOptions();
             
             LogoutCommand = new RelayCommand(
                 () => MainWindowNavigationUtils.NavigateTo(MainWindowPageName.Login)
             );
+        }
+
+        /// <summary>
+        /// Setup sidebar page options that this employee can access.
+        /// </summary>
+        private void SetupAccessiblePageOptions()
+        {
+            switch (CurrentEmployeeType)
+            {
+                case EmployeeType.Receptionist:
+                    SidebarPages = new SidebarPageName[]
+                    {
+                        SidebarPageName.Dashboard,
+                        SidebarPageName.Reservations,
+                        SidebarPageName.Arrivals,
+                        SidebarPageName.Departures,
+                        SidebarPageName.Customers,
+                        SidebarPageName.Rooms,
+                        SidebarPageName.RoomTypes,
+                        SidebarPageName.Housekeeping,
+                        SidebarPageName.Maintenance,
+                    };
+                    break;
+                case EmployeeType.HousekeepingManager:
+                    SidebarPages = new SidebarPageName[]
+                    {
+                        SidebarPageName.Dashboard,
+                        SidebarPageName.Rooms,
+                        SidebarPageName.RoomTypes,
+                        SidebarPageName.Housekeeping,
+                    };
+                    break;
+                case EmployeeType.MaintenanceManager:
+                    SidebarPages = new SidebarPageName[]
+                    {
+                        SidebarPageName.Dashboard,
+                        SidebarPageName.Rooms,
+                        SidebarPageName.RoomTypes,
+                        SidebarPageName.Maintenance,
+                    };
+                    break;
+                case EmployeeType.Manager:
+                    SidebarPages = new SidebarPageName[]
+                    {
+                        SidebarPageName.Dashboard,
+                        SidebarPageName.Reservations,
+                        SidebarPageName.Arrivals,
+                        SidebarPageName.Departures,
+                        SidebarPageName.Customers,
+                        SidebarPageName.Rooms,
+                        SidebarPageName.RoomTypes,
+                        SidebarPageName.Housekeeping,
+                        SidebarPageName.Maintenance,
+                        SidebarPageName.Employees
+                    };
+                    break;
+            }
         }
 
         private void NavigateToPage(SidebarPageName pageName)
