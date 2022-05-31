@@ -15,6 +15,7 @@
         
         <converter:SidebarPageNameToString x:Key="SidebarPageNameToStringConverter" />
         <converter:SidebarPageNameToImageSource x:Key="SidebarPageNameToImageSourceConverter" />
+        <converter:EmployeeTypeToString x:Key="EmployeeTypeToStringConverter" />
         
         <DataTemplate DataType="{x:Type vm:DashboardVM}">
             <ui:Dashboard />
@@ -97,7 +98,9 @@
                 <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,15,0">
                     <TextBlock FontSize="20" Foreground="{StaticResource PrimaryColorSolid}"
                                Text="{Binding CurrentEmployeeName}" />
-                    <TextBlock FontSize="15">Receptionist</TextBlock>
+                    <TextBlock FontSize="15" 
+                               Text="{Binding CurrentEmployeeType, 
+                                      Converter={StaticResource EmployeeTypeToStringConverter}}" />
                 </StackPanel>
 
                 <Button Command="{Binding LogoutCommand}" Grid.Column="2" Height="50" Width="100"

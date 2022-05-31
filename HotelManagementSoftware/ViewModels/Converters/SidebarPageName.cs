@@ -5,7 +5,7 @@ using System.Windows.Data;
 namespace HotelManagementSoftware.ViewModels.Converters
 {
     /// <summary>
-    /// Convert SidebarPageName enum values to displayed strings.
+    /// Convert a SidebarPageName enum value to string for displaying.
     /// </summary>
     public class SidebarPageNameToString : IValueConverter
     {
