@@ -27,7 +27,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid.Background>
-            <ImageBrush ImageSource="/UI/Images/LoginBackground.jpg" Stretch="Fill"/>
+            <ImageBrush ImageSource="/UI/Images/LoginBackground.jpg" Stretch="UniformToFill"/>
         </Grid.Background>
         
         <Border Grid.Column="1" Background="White" Padding="20,0,20,0">
