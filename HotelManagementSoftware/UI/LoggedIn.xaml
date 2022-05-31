@@ -110,6 +110,6 @@
             </Grid>
         </Border>
 
-        <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding CurrentPageVM}" />
+        <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding CurrentPageVM}" Margin="24,15,24,24" />
     </Grid>
 </UserControl>
