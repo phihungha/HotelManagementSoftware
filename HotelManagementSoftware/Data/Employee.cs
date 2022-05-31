@@ -7,7 +7,7 @@ namespace HotelManagementSoftware.Data
     {
         public int EmployeeId { get; set; }
 
-        public EmployeeType? EmployeeType { get; set; }
+        public EmployeeType EmployeeType { get; set; }
 
         public string Name { get; set; }
 
@@ -35,8 +35,12 @@ namespace HotelManagementSoftware.Data
         public List<MaintenanceRequest> ClosedMaintenanceRequests { get; set; } = new();
         public List<Reservation> Reservations { get; set; } = new();
 
+        /// <summary>
+        /// Constructor for EF. DO NOT USE THIS
+        /// </summary>
         public Employee(string name,
                         string userName,
+                        EmployeeType employeeType,
                         Gender gender,
                         DateTime birthDate,
                         string cmnd,
@@ -45,6 +49,7 @@ namespace HotelManagementSoftware.Data
         {
             Name = name;
             UserName = userName;
+            EmployeeType = employeeType;
             Gender = gender;
             BirthDate = birthDate;
             PhoneNumber = phoneNumber;
@@ -59,25 +64,19 @@ namespace HotelManagementSoftware.Data
                         DateTime birthDate,
                         string cmnd,
                         string phoneNumber,
-                        string address)
-            : this(name, userName, gender, birthDate, cmnd, phoneNumber, address)
+                        string address,
+                        string? email = null)
+            : this(name, userName, employeeType, gender, birthDate, cmnd, phoneNumber, address)
         {
-            EmployeeType = employeeType;
+            Email = email;
         }
-
     }
 
-    public class EmployeeType
+    public enum EmployeeType
     {
-        public int EmployeeTypeId { get; set; }
-
-        public string Name { get; set; }
-
-        public List<Employee> Employees { get; set; } = new();
-
-        public EmployeeType(string name)
-        {
-            Name = name;
-        }
+        Receptionist,
+        Manager,
+        HousekeepingManager,
+        MaintenanceManager
     }
 }

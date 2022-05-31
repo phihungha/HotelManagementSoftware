@@ -12,6 +12,9 @@ namespace HotelManagementSoftware.Business
 {
     public class EmployeeBusiness
     {
+        // Currently logged in employee
+        public Employee? CurrentEmployee { get; set; } = null;
+
         /// <summary>
         /// Login using a username and password
         /// </summary>
@@ -30,7 +33,10 @@ namespace HotelManagementSoftware.Business
                 byte[] salt = Convert.FromBase64String(employee.Salt);
                 string hashedPassword = GetHashedPassword(password, salt);
                 if (employee.HashedPassword == hashedPassword)
+                {
+                    CurrentEmployee = employee;
                     return true;
+                }
                 return false;
             }
         }
@@ -48,15 +54,15 @@ namespace HotelManagementSoftware.Business
         }
 
         /// <summary>
-        /// Get an employee by id.
+        /// Get an employee by ID.
         /// </summary>
+        /// <param name="id">Employee ID</param>
         /// <returns>Employee</returns>
         public async Task<Employee?> GetEmployeeById(int id)
         {
             using (var db = new Database())
             {
                 return await db.Employees
-                    .Include(i => i.EmployeeType)
                     .FirstOrDefaultAsync(i => i.EmployeeId == id);
             }
         }
@@ -66,12 +72,11 @@ namespace HotelManagementSoftware.Business
         /// </summary>
         /// <param name="cmnd">CMND number</param>
         /// <returns>Employee</returns>
-        public async Task<Employee?> GetEmployeeByIdNumber(string cmnd)
+        public async Task<Employee?> GetEmployeeByCmndNumber(string cmnd)
         {
             using (var db = new Database())
             {
                 return await db.Employees
-                    .Include(i => i.EmployeeType)
                     .FirstOrDefaultAsync(i => i.Cmnd == cmnd);
             }
         }
@@ -86,7 +91,6 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 return await db.Employees
-                    .Include(i => i.EmployeeType)
                     .FirstOrDefaultAsync(i => i.PhoneNumber == phoneNumber);
             }
         }
@@ -94,14 +98,13 @@ namespace HotelManagementSoftware.Business
         /// <summary>
         /// Get employees with name containing the search term.
         /// </summary>
-        /// <param name="searchTerm">Search term</param>
+        /// <param name="searchTerm">Name search term</param>
         /// <returns>Employee</returns>
         public async Task<List<Employee>> GetEmployeesByName(string searchTerm)
         {
             using (var db = new Database())
             {
                 return await db.Employees
-                    .Include(i => i.EmployeeType)
                     .Where(i => i.Name.Contains(searchTerm))
                     .ToListAsync();
             }
@@ -112,15 +115,11 @@ namespace HotelManagementSoftware.Business
         /// </summary>
         /// <param name="employee">Employee</param>
         /// <param name="password">Login password of the employee</param>
-        public async void CreateEmployee(Employee employee, string password)
+        public async Task CreateEmployee(Employee employee, string password)
         {
             ValidateEmployee(employee);
             using (var db = new Database())
             {
-                if (employee.EmployeeType == null)
-                    return;
-                db.EmployeeTypes.Attach(employee.EmployeeType);
-
                 byte[] salt = GetNewSalt();
                 employee.HashedPassword = GetHashedPassword(password, salt);
                 employee.Salt = Convert.ToBase64String(salt);
@@ -134,7 +133,7 @@ namespace HotelManagementSoftware.Business
         /// Edit an employee.
         /// </summary>
         /// <param name="employee">Updated employee</param>
-        public async void EditEmployee(Employee employee)
+        public async Task EditEmployee(Employee employee)
         {
             ValidateEmployee(employee);
             using (var db = new Database())
@@ -145,11 +144,11 @@ namespace HotelManagementSoftware.Business
         }
 
         /// <summary>
-        /// Change employee's login password
+        /// Change employee's login password.
         /// </summary>
         /// <param name="employee">Employee</param>
         /// <param name="password">New password</param>
-        public async void ChangePassword(Employee employee, string password)
+        public async Task ChangePassword(Employee employee, string password)
         {
             using (var db = new Database())
             {
@@ -165,7 +164,7 @@ namespace HotelManagementSoftware.Business
         /// Delete an employee.
         /// </summary>
         /// <param name="employee">Employee to delete</param>
-        public async void DeleteEmployee(Employee employee)
+        public async Task DeleteEmployee(Employee employee)
         {
             using (var db = new Database())
             {
@@ -185,8 +184,6 @@ namespace HotelManagementSoftware.Business
                 throw new ArgumentException("Name cannot be empty");
             if (employee.UserName == "")
                 throw new ArgumentException("User name cannot be empty");
-            if (employee.EmployeeType == null)
-                throw new ArgumentException("Employee type cannot be null");
             if (employee.BirthDate > DateTime.Now.AddYears(-18))
                 throw new ArgumentException("Age cannot be less than 18 years old");
             if (!ValidationUtils.ValidateCmnd(employee.Cmnd))
@@ -222,19 +219,6 @@ namespace HotelManagementSoftware.Business
                 prf: KeyDerivationPrf.HMACSHA256,
                 iterationCount: 100000,
                 numBytesRequested: 256 / 8));
-        }
-    }
-
-    public class EmployeeTypeBusiness
-    {
-        /// <summary>
-        /// Get all employee types.
-        /// </summary>
-        /// <returns>List of employee types</returns>
-        public async Task<List<EmployeeType>> GetAllEmployeeTypes()
-        {
-            using (var db = new Database())
-                return await db.EmployeeTypes.ToListAsync();
         }
     }
 }

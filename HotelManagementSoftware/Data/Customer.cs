@@ -36,6 +36,9 @@ namespace HotelManagementSoftware.Data
 
         public List<Reservation> Reservations { get; } = new();
 
+        /// <summary>
+        /// Constructor for EF. DO NOT USE THIS
+        /// </summary>
         public Customer(string name,
                         DateTime birthDate,
                         IdNumberType idNumberType,
@@ -70,8 +73,8 @@ namespace HotelManagementSoftware.Data
                         string province,
                         Country country,
                         PaymentMethod paymentMethod,
-                        string? cardNumber,
-                        DateTime? expireDate)
+                        string? cardNumber = null,
+                        DateTime? expireDate = null)
             : this(name,
                    birthDate,
                    idNumberType,
@@ -112,13 +115,16 @@ namespace HotelManagementSoftware.Data
     {
         public int CountryId { get; set; }
 
+        public string CountryCode { get; set; }
+
         public string Name { get; set; }
 
         public List<Customer> Reservations { get; set; } = new();
 
-        public Country(string name)
+        public Country(string countryCode, string name)
         {
             Name = name;
+            CountryCode = countryCode;
         }
     }
 }

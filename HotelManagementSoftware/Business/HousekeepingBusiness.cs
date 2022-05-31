@@ -19,8 +19,9 @@ namespace HotelManagementSoftware.Business
         }
 
         /// <summary>
-        /// Get a housekeeping request by id.
+        /// Get a housekeeping request by ID.
         /// </summary>
+        /// <param name="id">Request ID</param>
         /// <returns>Housekeeping request</returns>
         public async Task<HousekeepingRequest?> GetHousekeepingRequestById(int id)
         {
@@ -28,9 +29,7 @@ namespace HotelManagementSoftware.Business
             {
                 return await db.HousekeepingRequests
                         .Include(i => i.OpenEmployee)
-                        .Include(i => i.OpenEmployeeId)
                         .Include(i => i.CloseEmployee)
-                        .Include(i => i.CloseEmployeeId)
                         .Include(i => i.Room)
                         .FirstOrDefaultAsync(i => i.HousekeepingRequestId == id);
             }
@@ -42,8 +41,8 @@ namespace HotelManagementSoftware.Business
         /// <param name="status">Status</param>
         /// <param name="roomNumber">Room number</param>
         /// <param name="note">Note search term</param>
-        /// <param name="openEmployeeName">Open employee name search term</param>
-        /// <param name="closeEmployeeName">Close employee name search term</param>
+        /// <param name="openEmployeeName">Open employee name</param>
+        /// <param name="closeEmployeeName">Close employee name</param>
         /// <param name="fromStartTime">Min start time</param>
         /// <param name="toStartTime">Max start time</param>
         /// <param name="fromEndTime">Min end time</param>
@@ -68,16 +67,14 @@ namespace HotelManagementSoftware.Business
             {
                 var request = db.HousekeepingRequests
                     .Include(i => i.OpenEmployee)
-                    .Include(i => i.OpenEmployeeId)
                     .Include(i => i.CloseEmployee)
-                    .Include(i => i.CloseEmployeeId)
                     .Include(i => i.Room);
 
                 var filteredRequest = request.Where(i => true);
 
                 if (roomNumber != null)
                     filteredRequest = filteredRequest
-                        .Where(i => i.Room == null ? false : i.Room.RoomNumber == roomNumber);
+                        .Where(i => i.Room != null && i.Room.RoomNumber == roomNumber);
 
                 if (fromStartTime != null)
                     filteredRequest = filteredRequest.Where(i => i.StartTime >= fromStartTime);
@@ -99,21 +96,20 @@ namespace HotelManagementSoftware.Business
 
                 if (openEmployeeName != null)
                     filteredRequest = filteredRequest
-                        .Where(i => i.OpenEmployee == null ? false : 
-                                    i.OpenEmployee.Name.Contains(openEmployeeName));
+                        .Where(i => i.OpenEmployee != null && 
+                                    i.OpenEmployee.Name == openEmployeeName);
 
                 if (closeEmployeeName != null)
                     filteredRequest = filteredRequest
-                        .Where(i => i.CloseEmployee == null ? false :
-                                    i.CloseEmployee.Name.Contains(closeEmployeeName));
+                        .Where(i => i.CloseEmployee != null && 
+                                    i.CloseEmployee.Name == closeEmployeeName);
 
                 if (status != null)
                     filteredRequest = filteredRequest.Where(i => i.Status == status);
 
                 if (note != null)
                     filteredRequest = filteredRequest
-                        .Where(i => i.Note == null ? false :
-                                    i.Note.Contains(closeEmployeeName));
+                        .Where(i => i.Note != null && i.Note.Contains(note));
 
                 return await filteredRequest.ToListAsync();
             }
@@ -123,15 +119,19 @@ namespace HotelManagementSoftware.Business
         /// Create a housekeeping request
         /// </summary>
         /// <param name="request">Housekeeping request</param>
-        public async void CreateHousekeepingRequest(HousekeepingRequest request)
+        public async Task CreateHousekeepingRequest(HousekeepingRequest request)
         {
             ValidateHousekeepingRequest(request);
             using (var db = new Database())
             {
-                if (request.Room != null)
-                    db.Attach(request.Room);
-                if (request.OpenEmployee != null)
-                    db.Attach(request.OpenEmployee);
+                if (request.Room == null)
+                    throw new ArgumentException("Room cannot be empty");
+
+                if (request.OpenEmployee == null)
+                    throw new ArgumentException("Open employee cannot be empty");
+
+                db.Attach(request.Room);
+                db.Attach(request.OpenEmployee);
 
                 db.Add(request);
                 await db.SaveChangesAsync();
@@ -142,7 +142,7 @@ namespace HotelManagementSoftware.Business
         /// Edit a housekeeping request
         /// </summary>
         /// <param name="request">Updated housekeeping request</param>
-        public async void EditHousekeepingRequest(HousekeepingRequest request)
+        public async Task EditHousekeepingRequest(HousekeepingRequest request)
         {
             ValidateHousekeepingRequest(request);
             using (var db = new Database())
@@ -158,11 +158,18 @@ namespace HotelManagementSoftware.Business
         /// <param name="request">Housekeeping request to close</param>
         /// <param name="closeTime">Close time</param>
         /// <param name="closeEmployee">Close employee</param>
-        public async void CloseHousekeepingRequest(HousekeepingRequest request, DateTime closeTime, Employee closeEmployee)
+        public async Task CloseHousekeepingRequest(HousekeepingRequest request, DateTime closeTime, Employee closeEmployee)
         {
             ValidateHousekeepingRequest(request);
             using (var db = new Database())
             {
+                if (request.Status == HousekeepingRequestStatus.Closed)
+                    throw new ArgumentException("Request already closed");
+
+                if (closeEmployee.EmployeeType != EmployeeType.Manager
+                    && closeEmployee.EmployeeType != EmployeeType.HousekeepingManager)
+                    throw new ArgumentException("Close employee needs to be a manager or housekeeping manager");
+
                 request.Status = HousekeepingRequestStatus.Closed;
                 request.CloseTime = closeTime;
                 request.CloseEmployee = closeEmployee;

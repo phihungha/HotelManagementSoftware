@@ -27,6 +27,9 @@ namespace HotelManagementSoftware.Data
 
         public List<MaintenanceItem> MaintenanceItems { get; set; } = new();
 
+        /// <summary>
+        /// Constructor for EF. DO NOT USE THIS
+        /// </summary>
         public MaintenanceRequest(DateTime startTime,
                                   DateTime endTime,
                                   MaintenanceRequestStatus status)
@@ -41,8 +44,8 @@ namespace HotelManagementSoftware.Data
                                   Room room,
                                   DateTime startTime,
                                   DateTime endTime,
-                                  MaintenanceRequestStatus status,
-                                  string? note = null)
+                                  string? note = null,
+                                  MaintenanceRequestStatus status = MaintenanceRequestStatus.Opened)
             : this(startTime, endTime, status)
         {
             OpenEmployeeId = openEmployeeId;
@@ -61,8 +64,6 @@ namespace HotelManagementSoftware.Data
     public class MaintenanceItem
     {
         public int MaintenanceItemId { get; set; }
-
-        public int MaintenanceRequestId { get; set; }
 
         public MaintenanceRequest MaintenanceRequest { get; set; } = null!;
 

@@ -19,6 +19,9 @@ namespace HotelManagementSoftware.Data
 
         public RoomStatus Status { get; set; }
 
+        /// <summary>
+        /// Constructor for EF. DO NOT USE THIS
+        /// </summary>
         public Room(int roomNumber, int floor, RoomStatus status)
         {
             Floor = floor;
@@ -26,7 +29,11 @@ namespace HotelManagementSoftware.Data
             RoomNumber = roomNumber;
         }
 
-        public Room(int roomNumber, RoomType roomType, int floor, string? note, RoomStatus status)
+        public Room(int roomNumber,
+                    RoomType roomType,
+                    int floor,
+                    RoomStatus status = RoomStatus.Usable,
+                    string? note = null)
             : this(roomNumber, floor, status)
         {
             RoomType = roomType;

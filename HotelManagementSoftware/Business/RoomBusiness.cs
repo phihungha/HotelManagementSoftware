@@ -10,31 +10,65 @@ namespace HotelManagementSoftware.Business
     public class RoomBusiness
     {
         /// <summary>
-        /// Get all rooms.
+        /// Get usable rooms in provided stay period, room type, and floor.
         /// </summary>
-        /// <returns></returns>
-        public async Task<List<Room>> GetAllRooms()
+        /// <param name="roomType">Room type name</param>
+        /// <param name="floorNumber">Floor number</param>
+        /// <param name="arrivalTime">Arrival time</param>
+        /// <param name="departureTime">Departure time</param>
+        /// <returns>List of rooms</returns>
+        public async Task<List<Room>> GetUsableRooms(string roomType,
+                                                     int floorNumber,
+                                                     DateTime arrivalTime,
+                                                     DateTime departureTime)
         {
             using (var db = new Database())
             {
-                return await db.Rooms.Include(i => i.RoomType).ToListAsync();
+                List<Room> rooms = await db.Rooms
+                    .Include(i => i.RoomType)
+                    .Include(i => i.Reservations)
+                    .Where(i => i.Floor == floorNumber)
+                    .Where(i => i.RoomType != null && i.RoomType.Name == roomType)
+                    .ToListAsync();
+
+                return rooms.Where(i => !i.Reservations.Any(
+                            r => ReservationBusiness.CheckStayPeriodCollision(
+                                    arrivalTime,
+                                    r.ArrivalTime,
+                                    departureTime,
+                                    r.DepartureTime)
+                            )
+                        ).ToList();
             }
         }
 
         /// <summary>
         /// Get all rooms that satisfy specified criteria.
         /// <param name="floorNumber">Floor number</paramref>
+        /// /// <param name="roomType">Room type name</paramref>
         /// <param name="status">Status</paramref>
         /// </summary>
-        /// <returns></returns>
-        public async Task<List<Room>> GetRooms(int floorNumber, RoomStatus status)
+        /// <returns>List of rooms</returns>
+        public async Task<List<Room>> GetRooms(int? floorNumber = null,
+                                               string? roomType = null,
+                                               RoomStatus? status = null)
         {
             using (var db = new Database())
             {
-                return await db.Rooms.Include(i => i.RoomType)
-                    .Where(i => i.Floor == floorNumber)
-                    .Where(i => i.Status == status)
-                    .ToListAsync();
+                var request = db.Rooms.Include(i => i.RoomType);
+                var filteredRequest = request.Where(i => true);
+
+                if (floorNumber != null)
+                    filteredRequest = filteredRequest.Where(i => i.Floor == floorNumber);
+
+                if (roomType != null)
+                    filteredRequest = filteredRequest.Where(
+                        i => i.RoomType != null && i.RoomType.Name == roomType);
+
+                if (status != null)
+                    filteredRequest = filteredRequest.Where(i => i.Status == status);
+
+                return await filteredRequest.ToListAsync();
             }
         }
 
@@ -42,13 +76,14 @@ namespace HotelManagementSoftware.Business
         /// Add a new room.
         /// </summary>
         /// <param name="room">Room info</param>
-        public async void AddRoom(Room room)
+        public async Task AddRoom(Room room)
         {
             ValidateRoom(room);
             using (var db = new Database())
             {
-                if (room.RoomType != null)
-                    db.Attach(room.RoomType);
+                if (room.RoomType == null)
+                    throw new ArgumentException("Room type cannot be empty");
+                db.Attach(room.RoomType);
                 db.Add(room);
                 await db.SaveChangesAsync();
             }
@@ -58,7 +93,7 @@ namespace HotelManagementSoftware.Business
         /// Edit a room.
         /// </summary>
         /// <param name="room">New room's info</param>
-        public async void EditRoom(Room room)
+        public async Task EditRoom(Room room)
         {
             ValidateRoom(room);
             using (var db = new Database())
@@ -72,7 +107,7 @@ namespace HotelManagementSoftware.Business
         /// Remove a room.
         /// </summary>
         /// <param name="room">Room to remove</param>
-        public async void RemoveRoom(Room room)
+        public async Task RemoveRoom(Room room)
         {
             using (var db = new Database())
             {
@@ -118,7 +153,7 @@ namespace HotelManagementSoftware.Business
         /// <param name="fromRate">Min rate</param>
         /// <param name="toRate">Max rate</param>
         /// <param name="descriptionSearchTerm">Search term for description</param>
-        /// <returns></returns>
+        /// <returns>List of room types</returns>
         public async Task<List<RoomType>> GetRoomTypes(
             string? nameSearchTerm = null,
             int? capacity = null,
@@ -136,12 +171,11 @@ namespace HotelManagementSoftware.Business
 
                 if (descriptionSearchTerm != null)
                     filteredRequest = filteredRequest
-                        .Where(i => i.Description == null ? false :
+                        .Where(i => i.Description != null && 
                                     i.Description.Contains(descriptionSearchTerm));
 
                 if (capacity != null)
-                    filteredRequest = filteredRequest
-                        .Where(i => i.Capacity == capacity);
+                    filteredRequest = filteredRequest.Where(i => i.Capacity == capacity);
 
                 if (fromRate != null)
                     filteredRequest = filteredRequest.Where(i => i.Rate >= fromRate);
@@ -157,7 +191,7 @@ namespace HotelManagementSoftware.Business
         /// Add a new room type.
         /// </summary>
         /// <param name="roomType">Room type</param>
-        public async void AddRoomType(RoomType roomType)
+        public async Task AddRoomType(RoomType roomType)
         {
             ValidateRoomType(roomType);
             using (var db = new Database())
@@ -171,7 +205,7 @@ namespace HotelManagementSoftware.Business
         /// Edit a room type.
         /// </summary>
         /// <param name="roomType">Updated room type</param>
-        public async void EditRoomType(RoomType roomType)
+        public async Task EditRoomType(RoomType roomType)
         {
             ValidateRoomType(roomType);
             using (var db = new Database())
@@ -185,7 +219,7 @@ namespace HotelManagementSoftware.Business
         /// Remove a room type.
         /// </summary>
         /// <param name="roomType">Room type to remove</param>
-        public async void RemoveRoomType(RoomType roomType)
+        public async Task RemoveRoomType(RoomType roomType)
         {
             using (var db = new Database())
             {

@@ -22,9 +22,10 @@ namespace HotelManagementSoftware.Business
         }
 
         /// <summary>
-        /// Get a maintenance request by id. Each maintenance request
+        /// Get a maintenance request by ID. Each maintenance request
         /// contains maintenance items.
         /// </summary>
+        /// <param name="id">Request ID</param>
         /// <returns>Maintenance request</returns>
         public async Task<MaintenanceRequest?> GetMaintenanceRequestById(int id)
         {
@@ -32,9 +33,7 @@ namespace HotelManagementSoftware.Business
             {
                 return await db.MaintenanceRequests
                         .Include(i => i.OpenEmployee)
-                        .Include(i => i.OpenEmployeeId)
                         .Include(i => i.CloseEmployee)
-                        .Include(i => i.CloseEmployeeId)
                         .Include(i => i.Room)
                         .Include(i => i.MaintenanceItems)
                         .FirstOrDefaultAsync(i => i.MaintenanceRequestId == id);
@@ -49,8 +48,8 @@ namespace HotelManagementSoftware.Business
         /// <param name="status">Status</param>
         /// <param name="roomNumber">Room number</param>
         /// <param name="note">Note search term</param>
-        /// <param name="openEmployeeName">Open employee name search term</param>
-        /// <param name="closeEmployeeName">Close employee name search term</param>
+        /// <param name="openEmployeeName">Open employee name</param>
+        /// <param name="closeEmployeeName">Close employee name</param>
         /// <param name="fromStartTime">From start time</param>
         /// <param name="toStartTime">To start time</param>
         /// <param name="fromEndTime">From end time</param>
@@ -75,16 +74,14 @@ namespace HotelManagementSoftware.Business
             {
                 var request = db.MaintenanceRequests
                     .Include(i => i.OpenEmployee)
-                    .Include(i => i.OpenEmployeeId)
                     .Include(i => i.CloseEmployee)
-                    .Include(i => i.CloseEmployeeId)
                     .Include(i => i.Room);
 
                 var filteredRequest = request.Where(i => true);
 
                 if (roomNumber != null)
                     filteredRequest = filteredRequest
-                        .Where(i => i.Room == null ? false : i.Room.RoomNumber == roomNumber);
+                        .Where(i => i.Room != null && i.Room.RoomNumber == roomNumber);
 
                 if (fromStartTime != null)
                     filteredRequest = filteredRequest.Where(i => i.StartTime >= fromStartTime);
@@ -106,21 +103,20 @@ namespace HotelManagementSoftware.Business
 
                 if (openEmployeeName != null)
                     filteredRequest = filteredRequest
-                        .Where(i => i.OpenEmployee == null ? false :
-                                    i.OpenEmployee.Name.Contains(openEmployeeName));
+                        .Where(i => i.OpenEmployee != null && 
+                                    i.OpenEmployee.Name == openEmployeeName);
 
                 if (closeEmployeeName != null)
                     filteredRequest = filteredRequest
-                        .Where(i => i.CloseEmployee == null ? false :
-                                    i.CloseEmployee.Name.Contains(closeEmployeeName));
+                        .Where(i => i.CloseEmployee != null && 
+                                    i.CloseEmployee.Name == closeEmployeeName);
 
                 if (status != null)
                     filteredRequest = filteredRequest.Where(i => i.Status == status);
 
                 if (note != null)
                     filteredRequest = filteredRequest
-                        .Where(i => i.Note == null ? false :
-                                    i.Note.Contains(closeEmployeeName));
+                        .Where(i => i.Note != null && i.Note.Contains(note));
 
                 return await filteredRequest.ToListAsync();
             }
@@ -130,15 +126,19 @@ namespace HotelManagementSoftware.Business
         /// Create a maintenance request
         /// </summary>
         /// <param name="request">Maintenance request</param>
-        public async void CreateMaintenanceRequest(MaintenanceRequest request)
+        public async Task CreateMaintenanceRequest(MaintenanceRequest request)
         {
             ValidateMaintenanceRequest(request);
             using (var db = new Database())
             {
-                if (request.Room != null)
-                    db.Attach(request.Room);
-                if (request.OpenEmployee != null)
-                    db.Attach(request.OpenEmployee);
+                if (request.Room == null)
+                    throw new ArgumentException("Room cannot be empty");
+
+                if (request.OpenEmployee == null)
+                    throw new ArgumentException("Open employee cannot be empty");
+
+                db.Attach(request.Room);
+                db.Attach(request.OpenEmployee);
 
                 db.Add(request);
                 await db.SaveChangesAsync();
@@ -149,7 +149,7 @@ namespace HotelManagementSoftware.Business
         /// Edit a maintenance request
         /// </summary>
         /// <param name="request">Updated maintenance request</param>
-        public async void EditMaintenanceRequest(MaintenanceRequest request)
+        public async Task EditMaintenanceRequest(MaintenanceRequest request)
         {
             ValidateMaintenanceRequest(request);
             using (var db = new Database())
@@ -165,11 +165,18 @@ namespace HotelManagementSoftware.Business
         /// <param name="request">Maintenance request to close</param>
         /// <param name="closeTime">Close time</param>
         /// <param name="closeEmployee">Close employee</param>
-        public async void CloseMaintenanceRequest(MaintenanceRequest request, DateTime closeTime, Employee closeEmployee)
+        public async Task CloseMaintenanceRequest(MaintenanceRequest request, DateTime closeTime, Employee closeEmployee)
         {
             ValidateMaintenanceRequest(request);
             using (var db = new Database())
             {
+                if (request.Status == MaintenanceRequestStatus.Closed)
+                    throw new ArgumentException("Request already closed");
+
+                if (closeEmployee.EmployeeType != EmployeeType.Manager 
+                    && closeEmployee.EmployeeType != EmployeeType.MaintenanceManager)
+                    throw new ArgumentException("Close employee needs to be a manager or maintenance manager");
+
                 request.Status = MaintenanceRequestStatus.Closed;
                 request.CloseTime = closeTime;
                 request.CloseEmployee = closeEmployee;
@@ -202,6 +209,20 @@ namespace HotelManagementSoftware.Business
                 throw new ArgumentException("Room cannot be empty");
             if (request.StartTime >= request.EndTime)
                 throw new ArgumentException("End time cannot be ahead of start time");
+            request.MaintenanceItems.ForEach(i => ValidateMaintenanceItem(i));
+        }
+
+        /// <summary>
+        /// Validate maintenance item's info.
+        /// </summary>
+        /// <param name="item">Maintenance item to validate</param>
+        /// <exception cref="ArgumentException">Validation failure</exception>
+        public void ValidateMaintenanceItem(MaintenanceItem item)
+        {
+            if (item.Name == "")
+                throw new ArgumentException("Name cannot be empty");
+            if (item.Quantity <= 0)
+                throw new ArgumentException("Quantity cannot be less than 1");
         }
     }
 }

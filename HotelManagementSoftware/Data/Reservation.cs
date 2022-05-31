@@ -12,6 +12,8 @@ namespace HotelManagementSoftware.Data
 
         public DateTime DepartureTime { get; set; }
 
+        public int NumberOfPeople { get; set; }
+
         public Room? Room { get; set; }
 
         public Customer? Customer { get; set; }
@@ -20,22 +22,29 @@ namespace HotelManagementSoftware.Data
 
         public ReservationStatus Status { get; set; }
 
-        public List<Order> Orders { get; } = new();
+        public Order? Order { get; set; }
 
-        public Reservation(DateTime arrivalTime, DateTime departureTime, ReservationStatus status)
+        /// <summary>
+        /// Constructor for EF. DO NOT USE THIS
+        /// </summary>
+        public Reservation(DateTime arrivalTime,
+                           DateTime departureTime,
+                           int numberOfPeople,
+                           ReservationStatus status)
         {
             ArrivalTime = arrivalTime;
             DepartureTime = departureTime;
             Status = status;
+            NumberOfPeople = numberOfPeople;
         }
 
         public Reservation(DateTime arrivalTime,
                            DateTime departureTime,
+                           int numberOfPeople,
                            Room room,
                            Customer customer,
-                           Employee employee,
-                           ReservationStatus status)
-            : this(arrivalTime, departureTime, status)
+                           Employee employee)
+            : this(arrivalTime, departureTime, numberOfPeople, ReservationStatus.Reserved)
         {
             Room = room;
             Customer = customer;
@@ -53,9 +62,16 @@ namespace HotelManagementSoftware.Data
 
     public class ReservationCancelFeePercent
     {
-        [Key]
+        public int ReservationCancelFeePercentId { get; set; }
+
         public int DayNumberBeforeArrival { get; set; }
         
         public int PercentOfTotal { get; set; }
+
+        public ReservationCancelFeePercent(int dayNumberBeforeArrival, int percentOfTotal)
+        {
+            DayNumberBeforeArrival = dayNumberBeforeArrival;
+            PercentOfTotal = percentOfTotal;
+        }
     }
 }

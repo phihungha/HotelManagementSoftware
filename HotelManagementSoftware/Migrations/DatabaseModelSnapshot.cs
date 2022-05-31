@@ -30,6 +30,10 @@ namespace HotelManagementSoftware.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CountryId"), 1L, 1);
 
+                    b.Property<string>("CountryCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -137,8 +141,9 @@ namespace HotelManagementSoftware.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("EmployeeTypeId")
-                        .HasColumnType("int");
+                    b.Property<string>("EmployeeType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
                         .IsRequired()
@@ -167,8 +172,6 @@ namespace HotelManagementSoftware.Migrations
                     b.HasIndex("Cmnd")
                         .IsUnique();
 
-                    b.HasIndex("EmployeeTypeId");
-
                     b.HasIndex("PhoneNumber")
                         .IsUnique();
 
@@ -176,26 +179,6 @@ namespace HotelManagementSoftware.Migrations
                         .IsUnique();
 
                     b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("HotelManagementSoftware.Data.EmployeeType", b =>
-                {
-                    b.Property<int>("EmployeeTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeTypeId"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("EmployeeTypeId");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("EmployeeTypes");
                 });
 
             modelBuilder.Entity("HotelManagementSoftware.Data.HousekeepingRequest", b =>
@@ -245,13 +228,16 @@ namespace HotelManagementSoftware.Migrations
             modelBuilder.Entity("HotelManagementSoftware.Data.MaintenanceItem", b =>
                 {
                     b.Property<int>("MaintenanceItemId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("MaintenanceRequestId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaintenanceItemId"), 1L, 1);
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MaintenanceRequestId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -260,7 +246,7 @@ namespace HotelManagementSoftware.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("MaintenanceItemId", "MaintenanceRequestId");
+                    b.HasKey("MaintenanceItemId");
 
                     b.HasIndex("MaintenanceRequestId");
 
@@ -337,7 +323,9 @@ namespace HotelManagementSoftware.Migrations
 
                     b.HasKey("OrderId");
 
-                    b.HasIndex("ReservationId");
+                    b.HasIndex("ReservationId")
+                        .IsUnique()
+                        .HasFilter("[ReservationId] IS NOT NULL");
 
                     b.ToTable("Orders");
                 });
@@ -362,6 +350,9 @@ namespace HotelManagementSoftware.Migrations
                     b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
+                    b.Property<int>("NumberOfPeople")
+                        .HasColumnType("int");
+
                     b.Property<int?>("RoomId")
                         .HasColumnType("int");
 
@@ -382,16 +373,22 @@ namespace HotelManagementSoftware.Migrations
 
             modelBuilder.Entity("HotelManagementSoftware.Data.ReservationCancelFeePercent", b =>
                 {
-                    b.Property<int>("DayNumberBeforeArrival")
+                    b.Property<int>("ReservationCancelFeePercentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DayNumberBeforeArrival"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationCancelFeePercentId"), 1L, 1);
+
+                    b.Property<int>("DayNumberBeforeArrival")
+                        .HasColumnType("int");
 
                     b.Property<int>("PercentOfTotal")
                         .HasColumnType("int");
 
-                    b.HasKey("DayNumberBeforeArrival");
+                    b.HasKey("ReservationCancelFeePercentId");
+
+                    b.HasIndex("DayNumberBeforeArrival")
+                        .IsUnique();
 
                     b.ToTable("ReservationCancelFeePercents");
                 });
@@ -468,15 +465,6 @@ namespace HotelManagementSoftware.Migrations
                     b.Navigation("Country");
                 });
 
-            modelBuilder.Entity("HotelManagementSoftware.Data.Employee", b =>
-                {
-                    b.HasOne("HotelManagementSoftware.Data.EmployeeType", "EmployeeType")
-                        .WithMany("Employees")
-                        .HasForeignKey("EmployeeTypeId");
-
-                    b.Navigation("EmployeeType");
-                });
-
             modelBuilder.Entity("HotelManagementSoftware.Data.HousekeepingRequest", b =>
                 {
                     b.HasOne("HotelManagementSoftware.Data.Employee", "CloseEmployee")
@@ -537,8 +525,8 @@ namespace HotelManagementSoftware.Migrations
             modelBuilder.Entity("HotelManagementSoftware.Data.Order", b =>
                 {
                     b.HasOne("HotelManagementSoftware.Data.Reservation", "Reservation")
-                        .WithMany("Orders")
-                        .HasForeignKey("ReservationId");
+                        .WithOne("Order")
+                        .HasForeignKey("HotelManagementSoftware.Data.Order", "ReservationId");
 
                     b.Navigation("Reservation");
                 });
@@ -596,11 +584,6 @@ namespace HotelManagementSoftware.Migrations
                     b.Navigation("Reservations");
                 });
 
-            modelBuilder.Entity("HotelManagementSoftware.Data.EmployeeType", b =>
-                {
-                    b.Navigation("Employees");
-                });
-
             modelBuilder.Entity("HotelManagementSoftware.Data.MaintenanceRequest", b =>
                 {
                     b.Navigation("MaintenanceItems");
@@ -608,7 +591,7 @@ namespace HotelManagementSoftware.Migrations
 
             modelBuilder.Entity("HotelManagementSoftware.Data.Reservation", b =>
                 {
-                    b.Navigation("Orders");
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("HotelManagementSoftware.Data.Room", b =>
