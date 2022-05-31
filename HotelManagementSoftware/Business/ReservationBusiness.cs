@@ -118,10 +118,12 @@ namespace HotelManagementSoftware.Business
         /// <summary>
         /// Get reservations that arrive today.
         /// </summary>
+        /// <param name="customerName">Name of customer</param>
+        /// <param name="customerIdNumber">Personal ID of customer</param>
         /// <returns>List of reservations</returns>
         public async Task<List<Reservation>> GetArriveTodayReservations(
-            string? customerName, 
-            string? customerIdNumber)
+            string? customerName = null, 
+            string? customerIdNumber = null)
         {
             using (var db = new Database())
             {
@@ -147,10 +149,12 @@ namespace HotelManagementSoftware.Business
         /// <summary>
         /// Get reservations that depart today.
         /// </summary>
+        /// <param name="customerName">Name of customer</param>
+        /// <param name="customerIdNumber">Personal ID of customer</param>
         /// <returns>List of reservations</returns>
         public async Task<List<Reservation>> GetDepartTodayReservations(
-            string? customerName,
-            string? customerIdNumber)
+            string? customerName = null,
+            string? customerIdNumber = null)
         {
             using (var db = new Database())
             {

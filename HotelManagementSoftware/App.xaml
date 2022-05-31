@@ -7,6 +7,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="UI/Styles/General.xaml" />
+                <ResourceDictionary Source="UI/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="UI/Styles/Colors.xaml" />
                 <ResourceDictionary Source="UI/Icons/SvgIcons.xaml" />
                 <!-- Handy Control -->
