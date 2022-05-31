@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels"
         mc:Ignorable="d"
         Style="{StaticResource PoppinsFont}"
-        Title="MainWindow" Height="720" Width="1290">
+        Title="OneButler" Height="720" Width="1290">
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:LoginVM}">
             <local:Login />
