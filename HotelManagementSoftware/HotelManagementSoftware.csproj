@@ -17,7 +17,6 @@
     <None Remove="UI\Icons\ic_male.png" />
     <None Remove="UI\Icons\ic_search.png" />
     <None Remove="UI\Images\bg_issue_default.jpg" />
-    <None Remove="UI\LoginBackground.jpg" />
     <None Remove="UI\OneButler.png" />
   </ItemGroup>
 
@@ -68,12 +67,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Images\bg_issue_default.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Images\OneButler.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\LoginBackground.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
