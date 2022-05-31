@@ -13,7 +13,7 @@
         Height="600"
         Width="900">
     <Window.DataContext>
-        <vm:MaintenanceEditWindowVM />
+        <vm:MaintenanceEditWindowVM x:Name="maintenanceEditVM"/>
     </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
@@ -337,13 +337,15 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Button Height="18"
                                                 Width="18"
-                                                Style="{StaticResource ResourceKey=ImageButton}">
+                                                Style="{StaticResource ResourceKey=ImageButton}"
+                                                Command="{Binding CommandEditItem, ElementName=maintenanceEditVM}">
                                             <Image Source="\UI\Icons\ic_edit.png"
                                                    Stretch="Fill" />
                                         </Button>
                                         <Button Height="18"
                                                 Width="18"
-                                                Style="{StaticResource ResourceKey=ImageButton}">
+                                                Style="{StaticResource ResourceKey=ImageButton}"
+                                                Command="{Binding CommandDeleteItem, ElementName=maintenanceEditVM}">
                                             <Image Source="\UI\Icons\ic_delete.png"
                                                    Stretch="Fill" />
                                         </Button>

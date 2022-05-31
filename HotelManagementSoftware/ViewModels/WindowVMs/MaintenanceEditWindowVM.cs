@@ -132,16 +132,27 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             CommandCancel = new RelayCommand(executeCancelAction);
             CommandUpdate = new RelayCommand(executeUpdateAction, canUpdate);
             CommandAddImage = new RelayCommand(executeAddImageAction);
+            CommandEditItem = new RelayCommand(executeEditItem);
+            CommandDeleteItem = new RelayCommand(executeDeleteItem);
         }
 
         #endregion
 
         #region command
         public ICommand CommandAddImage { get; }
+        public ICommand CommandDeleteItem { get; }
+        public ICommand CommandEditItem { get; }
         public ICommand CommandAddNewItem { get; }
         public ICommand CommandCancel { get; }
         public ICommand CommandUpdate { get; }
-
+        public void executeDeleteItem()
+        {
+            MessageBox.Show("Delete item");
+        }
+        public void executeEditItem()
+        {
+            MessageBox.Show("Edit item");
+        }
 
         public bool canUpdate()
         {

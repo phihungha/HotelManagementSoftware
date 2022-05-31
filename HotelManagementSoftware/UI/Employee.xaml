@@ -17,7 +17,7 @@
     </UserControl.Resources>
     
     <UserControl.DataContext>
-        <vm:EmployeesVM />
+        <vm:EmployeesVM x:Name="employeeVM"/>
     </UserControl.DataContext>
     
     <Grid>
@@ -259,13 +259,15 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Button Height="18"
                                             Width="18"
-                                            Style="{StaticResource ResourceKey=ImageButton}">
+                                            Style="{StaticResource ResourceKey=ImageButton}"
+                                            Command="{Binding CommandAddNewEmployee, ElementName=employeeVM}">
                                         <Image Source="\UI\Icons\ic_edit.png"
                                                Stretch="Fill" />
                                     </Button>
                                     <Button Height="18"
                                             Width="18"
-                                            Style="{StaticResource ResourceKey=ImageButton}">
+                                            Style="{StaticResource ResourceKey=ImageButton}"
+                                            Command="{Binding CommandDeleteEmployee, ElementName=employeeVM}">
                                         <Image Source="\UI\Icons\ic_delete.png"
                                                Stretch="Fill" />
                                     </Button>

@@ -10,7 +10,7 @@
              d:DesignHeight="450"
              d:DesignWidth="800">
     <UserControl.DataContext>
-        <vm:MaintenanceVM />
+        <vm:MaintenanceVM x:Name="maintenanceVM"/>
     </UserControl.DataContext>
 
     <UserControl.Resources>
@@ -583,16 +583,20 @@
                                     <StackPanel Orientation="Vertical">
                                         <Button Height="18"
                                                 Width="18"
-                                                Style="{StaticResource ResourceKey=ImageButton}">
+                                                Style="{StaticResource ResourceKey=ImageButton}"
+                                                Command="{Binding CommandAddNewIssue, ElementName=maintenanceVM}">
                                             <Image Source="\UI\Icons\ic_edit.png"
                                                    Stretch="Fill" />
                                         </Button>
                                         <Button Height="18"
                                                 Width="18"
-                                                Style="{StaticResource ResourceKey=ImageButton}">
+                                                Style="{StaticResource ResourceKey=ImageButton}"
+                                                Command="{Binding CommandDeleteIssue, ElementName=maintenanceVM}">
                                             <Image Source="\UI\Icons\ic_delete.png"
                                                    Stretch="Fill" />
                                         </Button>
+
+                                        
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
