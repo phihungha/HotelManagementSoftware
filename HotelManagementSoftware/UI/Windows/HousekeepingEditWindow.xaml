@@ -4,9 +4,212 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HotelManagementSoftware.UI.Windows"
+        xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels.WindowVMs"
         mc:Ignorable="d"
-        Title="HousekeepingEditWindow" Height="450" Width="800">
+        xmlns:ui="https://handyorg.github.io/handycontrol"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        Title="HousekeepingEditWindow"
+        Height="350"
+        Width="800">
+
+    <Window.DataContext>
+        <vm:HousekeepingEditWindowVM />
+    </Window.DataContext>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+
+        <!--Title-->
+        <StackPanel Grid.Row="0">
+            <StackPanel Margin="16 32 0 0"
+                        HorizontalAlignment="Left"
+                        Orientation="Vertical">
+                <TextBlock TextWrapping="Wrap"
+                           FontSize="24"
+                           Style="{StaticResource ResourceKey=TextLabel}"
+                           FontWeight="Bold"
+                           Text="Issues" />
+
+
+            </StackPanel>
+            <Border Width="Auto"
+                    BorderThickness="1"
+                    Margin="16 12 16 0"
+                    BorderBrush="Black"
+                    Opacity=".1" />
+        </StackPanel>
+
+        <!--Body-->
+        <Grid Grid.Row="1"
+              Margin="32 16 32 32">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <!--Left table-->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <TextBlock TextWrapping="Wrap"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Style="{StaticResource ResourceKey=TextLabel}"
+                               Text="Note" />
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <ui:TextBox FontSize="12"
+                                TextWrapping="Wrap"
+                                HorizontalContentAlignment="Left"
+                                VerticalContentAlignment="Top"
+                                ui:InfoElement.Placeholder="Note detail"
+                                Text="{Binding Path=Note,UpdateSourceTrigger=PropertyChanged}"
+                                ShowClearButton="True" />
+                </Grid>
+            </Grid>
+
+            <!--Right table-->
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <!--IssueID-->
+                <Grid Grid.Column="0"
+                      Grid.Row="0">
+                    <StackPanel Margin="8 0 16 0"
+                                Orientation="Vertical">
+                        <TextBlock  Style="{StaticResource ResourceKey=TextLabel}"
+                                    FontSize="12"
+                                   Text="Issue ID" />
+                        <ui:TextBox  ui:InfoElement.Placeholder="ID auto generate"
+                                     Text="{Binding Path=IssueID,UpdateSourceTrigger=PropertyChanged}"
+                                     ShowClearButton="True"
+                                     IsEnabled="False" />
+                    </StackPanel>
+                </Grid>
+
+
+                <!--Room-->
+                <Grid Grid.Column="1"
+                      Grid.Row="0">
+                    <StackPanel Margin="16 0 8 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
+                                   FontSize="12"
+                                   Text="Room" />
+                        <ui:ComboBox HorizontalAlignment="Stretch"
+                                     ui:InfoElement.Placeholder="Room ID"
+                                     Text="{Binding Path=RoomID,UpdateSourceTrigger=PropertyChanged}">
+                        </ui:ComboBox>
+                    </StackPanel>
+                </Grid>
+
+                <!--StartDay-->
+                <Grid Grid.Column="0"
+                      Grid.Row="1">
+                    <StackPanel Margin="8 0 16 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
+                                   FontSize="12"
+                                   Text="Start day" />
+                        <DatePicker HorizontalAlignment="Stretch"
+                                    SelectedDate="{Binding Path=StartTime,UpdateSourceTrigger=PropertyChanged,
+                            Mode=TwoWay,
+                            ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                                    ui:InfoElement.Placeholder="Enter start time" />
+                    </StackPanel>
+                </Grid>
+
+
+                <!--Duration-->
+                <Grid Grid.Column="0"
+                      Grid.Row="2">
+                    <StackPanel Margin="8 0 16 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
+                                   FontSize="12"
+                                   Text="Close day" />
+                        <DatePicker HorizontalAlignment="Stretch"
+                                    SelectedDate="{Binding Path=CloseTime,
+                            UpdateSourceTrigger=PropertyChanged,
+                            Mode=TwoWay,
+                            ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                                    ui:InfoElement.Placeholder="Enter close time" />
+                    </StackPanel>
+                </Grid>
+
+                <!--End day-->
+                <Grid Grid.Column="1"
+                      Grid.Row="1">
+                    <StackPanel Margin="16 0 8 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
+                                   FontSize="12"
+                                   Text="End day" />
+                        <DatePicker HorizontalAlignment="Stretch"
+                                    SelectedDate="{Binding Path=EndTime,
+                            UpdateSourceTrigger=PropertyChanged,
+                            Mode=TwoWay,
+                            ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                                    ui:InfoElement.Placeholder="Enter end time" />
+                    </StackPanel>
+                </Grid>
+
+                <!--Status-->
+                <Grid Grid.Column="1"
+                      Grid.Row="2">
+                    <StackPanel Margin="16 0 8 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
+                                   FontSize="12"
+                                   Text="Status" />
+                        <ui:ComboBox HorizontalAlignment="Stretch"
+                                     ui:InfoElement.Placeholder="Status"
+                                     Text="{Binding Path=Status,UpdateSourceTrigger=PropertyChanged}">
+                        </ui:ComboBox>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <!--Button-->
+        <ui:UniformSpacingPanel Grid.Row="2"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Spacing="10"
+                                ItemWidth="139"
+                                Orientation="Horizontal"
+                                Margin="0 0 32 12">
+            <Button Content="Cancel"
+                    FontWeight="Bold"
+                    Background="#FFF0241D"
+                    Foreground="White"
+                    FontFamily="Poppins"
+                    Command="{Binding CommandCancel}"/>
+            <Button Content="Update"
+                    FontWeight="Bold"
+                    Background="#FF358AFF"
+                    Foreground="White"
+                    FontFamily="Poppins"
+                    Command="{Binding CommandUpdate}"/>
+        </ui:UniformSpacingPanel>
     </Grid>
 </Window>
