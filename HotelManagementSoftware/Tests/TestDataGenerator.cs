@@ -91,6 +91,18 @@ namespace HotelManagementSoftware.Tests
                                                          vietnam,
                                                          PaymentMethod.Cash));
 
+            await customerBusiness.CreateCustomer(new Customer("Nguyễn Văn B",
+                                                         new DateTime(2001, 1, 1),
+                                                         IdNumberType.Cmnd,
+                                                         "123456789101",
+                                                         Gender.Male,
+                                                         "0344250407",
+                                                         "120 Quang Trung",
+                                                         "Nha Trang",
+                                                         "Khánh Hòa",
+                                                         vietnam,
+                                                         PaymentMethod.Cash));
+
             Country usa = (await countryBusiness.GetAllCountries())
                 .First(i => i.Name == "United States");
             await customerBusiness.CreateCustomer(new Customer("Mary John",
@@ -163,6 +175,17 @@ namespace HotelManagementSoftware.Tests
             await reservationBusiness.CreateReservation(new Reservation(arrivalTime,
                                                                   departureTime,
                                                                   1,
+                                                                  room,
+                                                                  customer,
+                                                                  currentEmployee), false);
+
+            arrivalTime = DateTime.Now.AddHours(12);
+            departureTime = DateTime.Now.AddDays(2);
+            customer = (await customerBusiness.GetCustomersByName("Nguyễn Văn B"))[0];
+            room = (await roomBusiness.GetUsableRooms("Presidential", 2, arrivalTime, departureTime))[0];
+            await reservationBusiness.CreateReservation(new Reservation(arrivalTime,
+                                                                  departureTime,
+                                                                  2,
                                                                   room,
                                                                   customer,
                                                                   currentEmployee), false);

@@ -106,7 +106,7 @@
 
                 <Button Command="{Binding LogoutCommand}" Grid.Column="2" Height="50" Width="100"
                     Background="{StaticResource PrimaryColorSolid}" Foreground="White"
-                    FontSize="15" Content="Logout" Margin="15,0,0,0"/>
+                    FontSize="15" FontWeight="Bold" Content="Logout" Margin="15,0,0,0"/>
             </Grid>
         </Border>
 

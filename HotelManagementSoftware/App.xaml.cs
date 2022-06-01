@@ -5,7 +5,10 @@ using HotelManagementSoftware.ViewModels;
 using HotelManagementSoftware.ViewModels.WindowVMs;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Globalization;
+using System.Threading;
 using System.Windows;
+using System.Windows.Markup;
 
 namespace HotelManagementSoftware
 {
@@ -18,6 +21,17 @@ namespace HotelManagementSoftware
         {
             Services = ConfigureServices();
             InitializeComponent();
+
+            // Set global culture
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-IN");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-IN");
+            FrameworkElement.LanguageProperty.OverrideMetadata(
+                typeof(FrameworkElement), 
+                new FrameworkPropertyMetadata(
+                        XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)
+                        )
+                );
+            
             InitiateDatabase();
             GenerateTestData();
         }

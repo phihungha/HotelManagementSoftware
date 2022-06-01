@@ -5,4 +5,7 @@
 
     <Color x:Key="BorderColor">#deebfa</Color>
     <SolidColorBrush x:Key="BorderColorSolid" Color="{StaticResource BorderColor}" />
+
+    <Color x:Key="CheckoutColor">#FF8E26</Color>
+    <SolidColorBrush x:Key="CheckoutColorSolid" Color="{StaticResource CheckoutColor}" />
 </ResourceDictionary>

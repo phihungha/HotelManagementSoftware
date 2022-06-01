@@ -10,6 +10,50 @@ namespace HotelManagementSoftware.Business
     public class ReservationBusiness
     {
         /// <summary>
+        /// Contains info of upcoming arrivals.
+        /// </summary>
+        public class UpcomingArrival
+        {
+            public Reservation Reservation { get; }
+
+            public Customer? Customer => Reservation.Customer;
+
+            public TimeSpan RemainingTime { get; set; }
+
+            public UpcomingArrival(Reservation reservation, TimeSpan remainingTime)
+            {
+                Reservation = reservation;
+                RemainingTime = remainingTime;
+            }
+        }
+
+        /// <summary>
+        /// Contains info of upcoming departures.
+        /// </summary>
+        public class UpcomingDeparture
+        {
+            public Reservation Reservation { get; }
+
+            public Customer? Customer => Reservation.Customer;
+
+            public TimeSpan RemainingTime { get; set; }
+
+            public UpcomingDeparture(Reservation reservation, TimeSpan remainingTime)
+            {
+                Reservation = reservation;
+                RemainingTime = remainingTime;
+            }
+        }
+
+        public async Task<int> GetTotalReservationNumber()
+        {
+            using (var db = new Database())
+            {
+                return await db.Reservations.CountAsync();
+            }
+        }
+
+        /// <summary>
         /// Ger reservation by ID.
         /// </summary>
         /// <param name="id">Reservation ID</param>
@@ -116,12 +160,12 @@ namespace HotelManagementSoftware.Business
         }
 
         /// <summary>
-        /// Get reservations that arrive today.
+        /// Get reservations that arrive in 24 hours.
         /// </summary>
         /// <param name="customerName">Name of customer</param>
         /// <param name="customerIdNumber">Personal ID of customer</param>
         /// <returns>List of reservations</returns>
-        public async Task<List<Reservation>> GetArriveTodayReservations(
+        public async Task<List<UpcomingArrival>> GetUpcomingArrivals(
             string? customerName = null, 
             string? customerIdNumber = null)
         {
@@ -132,7 +176,8 @@ namespace HotelManagementSoftware.Business
                             .Include(i => i.Order)
                             .Include(i => i.Room)
                             .ThenInclude(room => room.RoomType)
-                            .Where(i => i.ArrivalTime.Date == DateTime.Now.Date);
+                            .Where(i => i.ArrivalTime <= DateTime.Now.AddDays(1))
+                            .Where(i => i.Status == ReservationStatus.Reserved);
 
                 if (customerName != null)
                     filteredRequest = filteredRequest
@@ -142,17 +187,20 @@ namespace HotelManagementSoftware.Business
                     filteredRequest = filteredRequest
                         .Where(i => i.Customer != null && i.Customer.IdNumber == customerIdNumber);
 
-                return await filteredRequest.ToListAsync();
+                return await filteredRequest
+                    .Select(i => new UpcomingArrival(
+                                   i, i.ArrivalTime - DateTime.Now))
+                    .ToListAsync();
             }
         }
 
         /// <summary>
-        /// Get reservations that depart today.
+        /// Get reservations that depart in 24 hours.
         /// </summary>
         /// <param name="customerName">Name of customer</param>
         /// <param name="customerIdNumber">Personal ID of customer</param>
         /// <returns>List of reservations</returns>
-        public async Task<List<Reservation>> GetDepartTodayReservations(
+        public async Task<List<UpcomingDeparture>> GetUpcomingDepartures(
             string? customerName = null,
             string? customerIdNumber = null)
         {
@@ -163,7 +211,8 @@ namespace HotelManagementSoftware.Business
                             .Include(i => i.Order)
                             .Include(i => i.Room)
                             .ThenInclude(room => room.RoomType)
-                            .Where(i => i.DepartureTime.Date == DateTime.Now.Date);
+                            .Where(i => i.DepartureTime <= DateTime.Now.AddDays(1))
+                            .Where(i => i.Status == ReservationStatus.CheckedIn);
 
                 if (customerName != null)
                     filteredRequest = filteredRequest
@@ -173,7 +222,10 @@ namespace HotelManagementSoftware.Business
                     filteredRequest = filteredRequest
                         .Where(i => i.Customer != null && i.Customer.IdNumber == customerIdNumber);
 
-                return await filteredRequest.ToListAsync();
+                return await filteredRequest
+                    .Select(i => new UpcomingDeparture(
+                                   i, i.DepartureTime - DateTime.Now))
+                    .ToListAsync();
             }
         }
 

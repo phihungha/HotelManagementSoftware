@@ -15,13 +15,20 @@ namespace HotelManagementSoftware.ViewModels
 
         private Timer currentTimeTimer = new Timer()
         {
-            Interval = 1,
+            Interval = 1000,
+            AutoReset = true,
+            Enabled = true
+        };
+        
+        private Timer upcomingListTimer = new Timer()
+        {
+            Interval = 60000,
             AutoReset = true,
             Enabled = true
         };
 
-        public ObservableCollection<Reservation> ArrivalsToday { get; } = new();
-        public ObservableCollection<Reservation> DeparturesToday { get; } = new();
+        public ObservableCollection<ReservationBusiness.UpcomingArrival> UpcomingArrivals { get; } = new();
+        public ObservableCollection<ReservationBusiness.UpcomingDeparture> UpcomingDepartures { get; } = new();
 
         private DateTime currentTime;
         public DateTime CurrentTime
@@ -30,32 +37,38 @@ namespace HotelManagementSoftware.ViewModels
             set => SetProperty(ref currentTime, value);
         }
 
-        private int arrivalNumber = 0;
-        public int ArrivalNumber
+        private int upcomingArrivalNumber = 0;
+        public int UpcomingArrivalNumber
         {
-            get => arrivalNumber;
-            set => SetProperty(ref arrivalNumber, value);
+            get => upcomingArrivalNumber;
+            set => SetProperty(ref upcomingArrivalNumber, value);
         }
 
-        private int departureNumber = 0;
-        public int DepartureNumber
+        private int upcomingDepartureNumber = 0;
+        public int UpcomingDepartureNumber
         {
-            get => departureNumber;
-            set => SetProperty(ref departureNumber, value);
+            get => upcomingDepartureNumber;
+            set => SetProperty(ref upcomingDepartureNumber, value);
         }
 
-        private int reservationsNumber = 0;
+        private int reservationNumber = 0;
         public int ReservationNumber
         {
-            get => reservationsNumber;
-            set => SetProperty(ref reservationsNumber, value);
+            get => reservationNumber;
+            set => SetProperty(ref reservationNumber, value);
         }
 
         public DashboardVM(ReservationBusiness reservationBusiness)
         {
             this.reservationBusiness = reservationBusiness;
             currentTimeTimer.Elapsed += CurrentTimeTimer_Elapsed;
+            upcomingListTimer.Elapsed += UpcomingListTimer_Elapsed;
             LoadData();
+        }
+
+        private void UpcomingListTimer_Elapsed(object? sender, ElapsedEventArgs e)
+        {
+            LoadUpcomingLists();
         }
 
         private void CurrentTimeTimer_Elapsed(object? sender, ElapsedEventArgs e)
@@ -65,14 +78,21 @@ namespace HotelManagementSoftware.ViewModels
 
         private async void LoadData()
         {
-            List<Reservation> arrivalsToday = await reservationBusiness.GetArriveTodayReservations();
-            arrivalsToday.ForEach(i => ArrivalsToday.Add(i));
-            ArrivalNumber = arrivalsToday.Count();
-
-            List<Reservation> departuresToday = await reservationBusiness.GetDepartTodayReservations();
-            departuresToday.ForEach(i => DeparturesToday.Add(i));
-            ArrivalNumber = departuresToday.Count();
+            LoadUpcomingLists();
+            ReservationNumber = await reservationBusiness.GetTotalReservationNumber();
         }
 
+        private async void LoadUpcomingLists()
+        {
+            List<ReservationBusiness.UpcomingArrival> upcomingArrivals
+                = await reservationBusiness.GetUpcomingArrivals();
+            upcomingArrivals.ForEach(i => UpcomingArrivals.Add(i));
+            UpcomingArrivalNumber = upcomingArrivals.Count();
+
+            List<ReservationBusiness.UpcomingDeparture> upcomingDepartures
+                = await reservationBusiness.GetUpcomingDepartures();
+            upcomingDepartures.ForEach(i => upcomingDepartures.Add(i));
+            UpcomingDepartureNumber = upcomingDepartures.Count();
+        }
     }
 }
