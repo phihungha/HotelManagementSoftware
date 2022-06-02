@@ -429,16 +429,22 @@ namespace HotelManagementSoftware.Business
         /// <returns>Cancel fee</returns>
         public async Task<decimal> GetCancelFee(Database db, Reservation reservation)
         {
+            if (reservation.Order == null)
+                throw new ArgumentException("Reservation's order is null");
+
+            if (reservation.Room?.RoomType?.Rate == null)
+                throw new ArgumentException("Reservation's room or room type is null");
+
             int dayNumberBeforeArrival = (reservation.ArrivalTime - DateTime.Now).Days;
+            if (dayNumberBeforeArrival < 0)
+                dayNumberBeforeArrival = -1;
+
             ReservationCancelFeePercent? cancelFeePercent 
                 = await db.ReservationCancelFeePercents
                     .FirstOrDefaultAsync(i => i.DayNumberBeforeArrival == dayNumberBeforeArrival);
 
             if (cancelFeePercent == null)
                 return 0;
-
-            if (reservation.Room?.RoomType?.Rate == null)
-                throw new ArgumentException("Reservation's room or room type is null");
 
             decimal totalRentFee = reservation.Room.RoomType.Rate;
             return totalRentFee * cancelFeePercent.PercentOfTotal / 100;
