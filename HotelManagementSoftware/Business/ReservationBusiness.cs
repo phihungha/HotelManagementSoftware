@@ -45,11 +45,17 @@ namespace HotelManagementSoftware.Business
             }
         }
 
-        public async Task<int> GetTotalReservationNumber()
+        /// <summary>
+        /// Get number of reservations in reserved status.
+        /// </summary>
+        /// <returns>Result</returns>
+        public async Task<int> GetReservedReservationNumber()
         {
             using (var db = new Database())
             {
-                return await db.Reservations.CountAsync();
+                return await db.Reservations
+                    .Where(i => i.Status == ReservationStatus.Reserved)
+                    .CountAsync();
             }
         }
 

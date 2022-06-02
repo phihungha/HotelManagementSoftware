@@ -79,7 +79,7 @@ namespace HotelManagementSoftware.ViewModels
         private async void LoadData()
         {
             LoadUpcomingLists();
-            ReservationNumber = await reservationBusiness.GetTotalReservationNumber();
+            ReservationNumber = await reservationBusiness.GetReservedReservationNumber();
         }
 
         private async void LoadUpcomingLists()
