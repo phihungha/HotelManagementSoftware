@@ -145,6 +145,33 @@
         </DrawingImage.Drawing>
     </DrawingImage>
 
+    <DrawingImage x:Key="ReportsIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                <GeometryDrawing Geometry="F1 M24,24z M0,0z M3,22L21,22">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#FF292D32" Thickness="1.5" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" MiterLimit="1" />
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Geometry="F1 M24,24z M0,0z M4,8.375C3.45,8.375,3,8.825,3,9.375L3,17.995C3,18.545,3.45,18.995,4,18.995L5.59998,18.995C6.14998,18.995,6.59998,18.545,6.59998,17.995L6.59998,9.375C6.59998,8.825,6.14998,8.375,5.59998,8.375L4,8.375z">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#FF292D32" Thickness="1.5" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" MiterLimit="1" />
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Geometry="F1 M24,24z M0,0z M11.2,5.1875C10.65,5.1875,10.2,5.6375,10.2,6.1875L10.2,17.9975C10.2,18.5475,10.65,18.9975,11.2,18.9975L12.7999,18.9975C13.3499,18.9975,13.7999,18.5475,13.7999,17.9975L13.7999,6.1875C13.7999,5.6375,13.3499,5.1875,12.7999,5.1875L11.2,5.1875z">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#FF292D32" Thickness="1.5" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" MiterLimit="1" />
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Geometry="F1 M24,24z M0,0z M18.3999,2C17.8499,2,17.3999,2.45,17.3999,3L17.3999,18C17.3999,18.55,17.8499,19,18.3999,19L19.9999,19C20.5499,19,20.9999,18.55,20.9999,18L20.9999,3C20.9999,2.45,20.5499,2,19.9999,2L18.3999,2z">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#FF292D32" Thickness="1.5" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" MiterLimit="1" />
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
     <DrawingImage x:Key="OneButlerIcon">
         <DrawingImage.Drawing>
             <DrawingGroup ClipGeometry="M0,0 V35 H233 V0 H0 Z">

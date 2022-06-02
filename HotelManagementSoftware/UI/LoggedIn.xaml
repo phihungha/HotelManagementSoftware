@@ -47,6 +47,9 @@
         <DataTemplate DataType="{x:Type vm:EmployeesVM}">
             <ui:Employee />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ReportsVM}">
+            <ui:Reports />
+        </DataTemplate>
     </UserControl.Resources>
     
     <Grid>
@@ -74,10 +77,10 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Margin="8,10,8,10" Orientation="Horizontal">
-                            <Image VerticalAlignment="Center" Margin="15,0,0,0"
-                                Source="{Binding Converter={StaticResource SidebarPageNameToImageSourceConverter}}" />
+                            <Image VerticalAlignment="Center" Width="25" Margin="15,0,0,0"
+                                   Source="{Binding Converter={StaticResource SidebarPageNameToImageSourceConverter}}" />
                             <TextBlock VerticalAlignment="Center" Margin="20,0,0,0" FontSize="17"
-                                Text="{Binding Converter={StaticResource SidebarPageNameToStringConverter}}" />
+                                       Text="{Binding Converter={StaticResource SidebarPageNameToStringConverter}}" />
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

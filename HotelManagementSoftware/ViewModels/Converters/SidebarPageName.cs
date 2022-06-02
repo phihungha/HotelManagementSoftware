@@ -34,6 +34,8 @@ namespace HotelManagementSoftware.ViewModels.Converters
                     return "Maintenance";
                 case SidebarPageName.Employees:
                     return "Employees";
+                case SidebarPageName.Reports:
+                    return "Reports";
                 default:
                     return null;
             }
@@ -72,6 +74,8 @@ namespace HotelManagementSoftware.ViewModels.Converters
                     return App.Current.FindResource("MaintenanceIcon");
                 case SidebarPageName.Employees:
                     return App.Current.FindResource("EmployeesIcon");
+                case SidebarPageName.Reports:
+                    return App.Current.FindResource("ReportsIcon");
                 default:
                     return null;
             }

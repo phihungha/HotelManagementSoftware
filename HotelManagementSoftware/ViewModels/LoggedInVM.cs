@@ -19,7 +19,8 @@ namespace HotelManagementSoftware.ViewModels
         RoomTypes,
         Housekeeping,
         Maintenance,
-        Employees
+        Employees,
+        Reports
     }
 
     public class LoggedInVM : ObservableObject
@@ -118,7 +119,8 @@ namespace HotelManagementSoftware.ViewModels
                         SidebarPageName.RoomTypes,
                         SidebarPageName.Housekeeping,
                         SidebarPageName.Maintenance,
-                        SidebarPageName.Employees
+                        SidebarPageName.Employees,
+                        SidebarPageName.Reports
                     };
                     break;
             }
@@ -157,6 +159,9 @@ namespace HotelManagementSoftware.ViewModels
                     break;
                 case SidebarPageName.Employees:
                     CurrentPageVM = App.Current.Services.GetRequiredService<EmployeesVM>();
+                    break;
+                case SidebarPageName.Reports:
+                    CurrentPageVM = App.Current.Services.GetRequiredService<ReportsVM>();
                     break;
             }
         }
