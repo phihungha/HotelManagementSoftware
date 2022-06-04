@@ -4,15 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HotelManagementSoftware.UI"
+        xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels.WindowVMs"
         xmlns:ui="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d"
         Title="Create a new reservation">
+    <Window.DataContext>
+        <vm:ReservationEditWindowVM x:Name="ReservationEditWindowVM"/>
+    </Window.DataContext>
     <Window.Resources>
         <Style x:Key="BoxHeader" TargetType="Panel">
             <Setter Property="Margin" Value="0,0,0,10" />
         </Style>
     </Window.Resources>
-    
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -82,47 +86,44 @@
                         </StackPanel>
                         <Button Grid.Column="1" Content="Choose Guest" FontWeight="Bold"
                                 Background="#FF358AFF" Foreground="White"
-                                VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                VerticalAlignment="Center" HorizontalAlignment="Right" 
+                                Command="{Binding CommandChooseCustomer}"/>
                     </Grid>
 
                     <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
                         <TextBlock Style="{StaticResource Label}" Text="Identity number"/>
-                        <TextBlock Style="{StaticResource Value}" Text="123456789" />
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding CMND}" />
                     </StackPanel>
-                    
-                    <StackPanel Grid.Row="2">
-                        <TextBlock Style="{StaticResource Label}" Text="First name"/>
-                        <TextBlock Style="{StaticResource Value}" Text="John" />
+
+                    <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
+                        <TextBlock Style="{StaticResource Label}" Text="Name"/>
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding Name}" />
                     </StackPanel>
-                    
-                    <StackPanel Grid.Row="2" Grid.Column="1">
-                        <TextBlock Style="{StaticResource Label}" Text="Last name"/>
-                        <TextBlock Style="{StaticResource Value}" Text="Doe" />
-                    </StackPanel>
-                    
+
+
                     <StackPanel Grid.Row="3">
                         <TextBlock Style="{StaticResource Label}" Text="Gender"/>
-                        <TextBlock Style="{StaticResource Value}" Text="Male" />
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding Gender}" />
                     </StackPanel>
-                    
+
                     <StackPanel Grid.Row="3" Grid.Column="1">
                         <TextBlock Style="{StaticResource Label}" Text="Phone number"/>
-                        <TextBlock Style="{StaticResource Value}" Text="+84 1234567890" />
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding PhoneNumber}" />
                     </StackPanel>
-                    
+
                     <StackPanel Grid.Row="4">
                         <TextBlock Style="{StaticResource Label}" Text="Date of birth"/>
-                        <TextBlock Style="{StaticResource Value}" Text="12/05/2002" />
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding BirthDate}" />
                     </StackPanel>
-                    
+
                     <StackPanel Grid.Row="4" Grid.Column="1">
                         <TextBlock Style="{StaticResource Label}" Text="Email"/>
-                        <TextBlock Style="{StaticResource Value}" Text="johndoe@gmail.com" />
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding Email}" />
                     </StackPanel>
-                    
+
                     <StackPanel Grid.Row="5" Grid.ColumnSpan="2">
                         <TextBlock Style="{StaticResource Label}" Text="Address"/>
-                        <TextBlock Style="{StaticResource Value}" Text="123 Lê Đại Hành, Huế, Thừa thiên Huế, Việt Nam" />
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding Address}" />
                     </StackPanel>
                 </Grid>
             </Border>
@@ -148,12 +149,12 @@
 
                         <StackPanel Margin="0,0,15,0" >
                             <TextBlock Style="{StaticResource Label}" Text="Arrival"/>
-                            <DatePicker HorizontalAlignment="Stretch" />
+                            <DatePicker HorizontalAlignment="Stretch" DisplayDateEnd="{Binding DepartureTime}" SelectedDate="{Binding ArrivalTime}" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Margin="15,0,0,0">
                             <TextBlock Style="{StaticResource Label}" Text="Departure"/>
-                            <DatePicker HorizontalAlignment="Stretch"/>
+                            <DatePicker HorizontalAlignment="Stretch" DisplayDateEnd="{Binding ArrivalTime}" SelectedDate="{Binding DepartureTime}"/>
                         </StackPanel>
                     </Grid>
 
@@ -166,7 +167,7 @@
 
                         <StackPanel Margin="0,0,8,0">
                             <TextBlock Style="{StaticResource Label}" Text="No of Days"/>
-                            <ComboBox HorizontalAlignment="Stretch" />
+                            <ComboBox HorizontalAlignment="Stretch" SelectedValue="{Binding NumOfDay}" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Margin="8,0,8,0">
@@ -199,20 +200,20 @@
                         <TextBlock Style="{StaticResource DialogTitle}" Text="Payment option" />
                         <TextBlock Style="{StaticResource DialogSubtitle}" Text="Select payment option and information" />
                     </StackPanel>
-                    
+
                     <StackPanel Grid.Row="1" Margin="0,0,8,0">
                         <TextBlock Style="{StaticResource Label}" Text="Methods"/>
-                        <ComboBox HorizontalAlignment="Stretch" />
+                        <ComboBox HorizontalAlignment="Stretch" ItemsSource="{Binding PaymentMethod}" SelectedItem="{Binding SelectedPaymentMethod}"/>
                     </StackPanel>
-                    
+
                     <StackPanel Grid.Row="1" Grid.Column="1" Margin="8,0,8,0">
                         <TextBlock Style="{StaticResource Label}" Text="Card number"/>
-                        <TextBox Text="12345678" />
+                        <TextBox Text="{Binding CardNumber}" />
                     </StackPanel>
-                    
+
                     <StackPanel Grid.Row="1" Grid.Column="2" Margin="8,0,0,0">
                         <TextBlock FontSize="11"  Text="Expire date"/>
-                        <DatePicker HorizontalAlignment="Stretch" />
+                        <DatePicker HorizontalAlignment="Stretch" SelectedDate="{Binding ExpireDate}"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -241,41 +242,47 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*" />
                             <ColumnDefinition />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Margin="0">
                             <TextBlock Style="{StaticResource DialogTitle}" Text="Room information" />
                             <TextBlock Style="{StaticResource DialogSubtitle}" Text="Room and room type" />
                         </StackPanel>
-                        <Button Grid.Column="1" Content="Choose Room" FontWeight="Bold"
+                        <Button Grid.Column="1" Content="Choose Room Type" FontWeight="Bold"
                                 Background="#FF358AFF" Foreground="White"
-                                VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                VerticalAlignment="Center" HorizontalAlignment="Right" 
+                                Command="{Binding CommandChooseRoomType}"/>
+                        <Button Grid.Column="2" Content="Choose Room" FontWeight="Bold"
+                                Background="#FF358AFF" Foreground="White"
+                                VerticalAlignment="Center" HorizontalAlignment="Right" 
+                                Command="{Binding CommandChooseRoom}"/>
                     </Grid>
 
                     <StackPanel Grid.Row="1">
                         <TextBlock Style="{StaticResource Label}" Text="Room Type"/>
-                        <TextBlock Style="{StaticResource Value}" Text="Deluxe" />
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding RoomType.Name}" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="1" Grid.Column="1">
                         <TextBlock Style="{StaticResource Label}" Text="Room number"/>
-                        <TextBlock Style="{StaticResource Value}" Text="202" />
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding RoomNumber}" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
                         <TextBlock Style="{StaticResource Label}" Text="Room Description"/>
-                        <TextBlock Style="{StaticResource Value}" Text="One single-person bed" />
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding Note}" />
                     </StackPanel>
 
 
                     <StackPanel Grid.Row="3">
-                        <TextBlock Style="{StaticResource Label}" Text="Half-day room rate"/>
-                        <TextBlock Style="{StaticResource Value}" Text="250.000 đ" />
+                        <TextBlock Style="{StaticResource Label}" Text="Rate"/>
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding RoomType.Rate}" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="3" Grid.Column="1">
-                        <TextBlock Style="{StaticResource Label}" Text="Full-day room rate"/>
-                        <TextBlock Style="{StaticResource Value}" Text="500.000 đ" />
+                        <TextBlock Style="{StaticResource Label}" Text="Floor"/>
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding Floor}" />
                     </StackPanel>
                 </Grid>
             </Border>
@@ -291,8 +298,8 @@
                         <TextBlock Style="{StaticResource DialogTitle}" Text="Total Payment Amount"/>
                         <TextBlock Style="{StaticResource DialogSubtitle}" Text="Total amount to pay for a stay from 01/01/2022 to 01/03/2022 in a Deluxe room"/>
                     </StackPanel>
-                     <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="10,10,0,0" 
-                                TextWrapping="Wrap" FontWeight="Bold" Text="400.000 đ" FontSize="42"/>
+                    <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="10,10,0,0" 
+                                TextWrapping="Wrap" FontWeight="Bold" Text="{Binding TotalPayment}" FontSize="42"/>
                 </Grid>
             </Border>
         </Grid>
