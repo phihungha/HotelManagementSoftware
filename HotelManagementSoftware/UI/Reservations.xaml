@@ -4,9 +4,217 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HotelManagementSoftware.UI"
+             xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <vm:ReservationsVM x:Name="ReservationsVM" />
+    </UserControl.DataContext>
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Button Content="New reservation" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,5,10,5" FontSize="14" Command="{Binding CommandAdd}"/>
+        <DataGrid Grid.Row="1" HeadersVisibility="All" ItemsSource="{Binding Reservations}" 
+                  CanUserReorderColumns="False"
+                      CanUserResizeRows="False"
+                      AutoGenerateColumns="False"
+                      RowBackground="White"
+                      AlternatingRowBackground="AliceBlue"
+                      SelectionUnit="FullRow"
+                      FlowDirection="LeftToRight"
+                      VerticalScrollBarVisibility="Visible"
+                      Padding="16">
+            <DataGrid.Columns>
+
+                <DataGridTextColumn Header="Reservation ID" Width="Auto" Binding="{Binding ReservationId}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Customer" Width="Auto" Binding="{Binding Customer.Name}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Registration date" Width="Auto" Binding="{Binding Order.CreationTime}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Arrival" Width="Auto" Binding="{Binding ArrivalTime}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Departure" Width="Auto" Binding="{Binding DepartureTime}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Room" Width="Auto" Binding="{Binding Room.RoomNumber}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Status" Width="Auto" Binding="{Binding Status}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Background" Value="Black"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTemplateColumn Header="Action" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <StackPanel.Resources>
+                                    <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                        <Setter Property="Margin" Value="5,0,5,0" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}},
+                                                                                                          Path=IsMouseOver}"
+                                                         Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Resources>
+                                <Button Padding="5,1,5,1" Content="Sửa" Command="{Binding CommandEdit, ElementName=ReservationsVM}"/>
+                                <Button Padding="5,1,5,1" Content="Xóa" Command="{Binding CommandDelete, ElementName=ReservationsVM}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Expander Grid.Row="2" Background="White" Header="Filter">
+            <Grid Margin="15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,0,15" VerticalAlignment="Center">
+                    Search
+                </TextBlock>
+                <Grid Grid.Row="0" Grid.Column="1"
+                      VerticalAlignment="Center" Margin="15,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto " />
+                        <ColumnDefinition Width="Auto " />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0" Margin="0,0,15,0"
+                             Text="{Binding TextFilter , UpdateSourceTrigger=PropertyChanged}" />
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,15,0">
+                        <TextBlock VerticalAlignment="Center">Search by</TextBlock>
+                        <ComboBox ItemsSource="{Binding SearchOptions}" SelectedItem="{Binding SelectedSearchOption}"/>
+                    </StackPanel>
+                </Grid>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,0,15" VerticalAlignment="Center">
+                    Status
+                </TextBlock>
+                <Grid Grid.Row="1" Grid.Column="1"
+                      VerticalAlignment="Center" Margin="15,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto " />
+                        <ColumnDefinition Width="Auto " />
+                    </Grid.ColumnDefinitions>
+
+                    <ComboBox Grid.Column="0" Margin="0,0,15,0" HorizontalAlignment="Left" VerticalAlignment="Stretch"
+                              ItemsSource="{Binding status}"
+                              SelectedItem="{Binding selectedstatus}"/>
+                </Grid>
+
+                <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal"
+                            VerticalAlignment="Center" Margin="0,0,0,15">
+                    <CheckBox Margin="0,0,5,0" VerticalAlignment="Center" IsChecked="{Binding ArrivalTimeFilter.Enable}"/>
+                    <TextBlock VerticalAlignment="Center">Arrival time</TextBlock>
+                </StackPanel>
+                <Grid Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="15,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Min</TextBlock>
+                        <DatePicker IsEnabled="{Binding ArrivalTimeFilter.Enable}"
+                                    SelectedDate="{Binding ArrivalTimeFilter.low}"
+                                    DisplayDateEnd="{Binding ArrivalTimeFilter.high}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Max</TextBlock>
+                        <DatePicker IsEnabled="{Binding ArrivalTimeFilter.Enable}"
+                                    SelectedDate="{Binding ArrivalTimeFilter.high}"
+                                    DisplayDateStart="{Binding ArrivalTimeFilter.low}"/>
+                    </StackPanel>
+                </Grid>
+
+                <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <CheckBox Margin="0,0,5,0" VerticalAlignment="Center" IsChecked="{Binding EndTimeFilter.Enable}" />
+                    <TextBlock VerticalAlignment="Center">Departure time</TextBlock>
+                </StackPanel>
+                <Grid Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="15,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Min</TextBlock>
+                        <DatePicker IsEnabled="{Binding DepartureTimeFilter.Enable}"
+                                    SelectedDate="{Binding DepartureTimeFilter.low}"
+                                    DisplayDateEnd="{Binding DepartureTimeFilter.high}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Max</TextBlock>
+                        <DatePicker IsEnabled="{Binding DepartureTimeFilter.Enable}"
+                                    SelectedDate="{Binding DepartureTimeFilter.high}"
+                                    DisplayDateStart="{Binding DepartureTimeFilter.low}"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Expander>
     </Grid>
 </UserControl>
