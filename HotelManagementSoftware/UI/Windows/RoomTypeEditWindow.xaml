@@ -3,10 +3,56 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels.WindowVMs"
         xmlns:local="clr-namespace:HotelManagementSoftware.UI.Windows"
         mc:Ignorable="d"
         Title="RoomTypeEditWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:RoomTypeEditWindowVM x:Name="RoomTypeEditVM"/>
+    </Window.DataContext>
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <Style TargetType="StackPanel">
+                <Setter Property="Margin" Value="10,10,10,10" />
+            </Style>
+        </Grid.Resources>
+        <TextBlock Text="Room Type" Grid.ColumnSpan="2" FontSize="48" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" />
+        <StackPanel x:Name="RoomTypeName" Grid.Row="1" Grid.Column="0">
+            <TextBlock Text="Name" FontSize="15"/>
+            <TextBox  Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" FontSize="20" />
+        </StackPanel>
+        <StackPanel x:Name="NumberRoom" Grid.Row="1" Grid.Column="1">
+            <TextBlock  Text="Numbers of room" FontSize="15"/>
+            <TextBlock  Text="{Binding NumOfRooms}" FontSize="20" />
+        </StackPanel>
+        <StackPanel x:Name="Rate" Grid.Row="2" Grid.Column="0">
+            <TextBlock  Text="Rate" FontSize="15"/>
+            <TextBox  Text="{Binding Path=Rate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"  FontSize="20" />
+        </StackPanel>
+        <StackPanel x:Name="Capacity" Grid.Row="2" Grid.Column="1">
+            <TextBlock  Text="Capacity" FontSize="15"/>
+            <TextBox   Text="{Binding Path=Capacity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"  FontSize="20" />
+        </StackPanel>
+        <DockPanel x:Name="Description" Margin="10,10,10,10" LastChildFill="True" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+            <TextBlock DockPanel.Dock="Top" Text="Description" FontSize="15"/>
+            <TextBox   Text="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged}"  FontSize="20" VerticalAlignment="Stretch"/>
+        </DockPanel>
+        <Button Content="Cancel" FontWeight="Bold"
+                    Background="#FFF0241D" Foreground="White"  Grid.Column="0" Grid.Row="4"
+                Command="{Binding CommandCancel, ElementName=RoomTypeEditVM}"/>
+        <Button Content="Save" FontWeight="Bold"
+                    Background="#FF358AFF" Foreground="White" Grid.Column="1" Grid.Row="4" 
+                Command="{Binding CommandSave, ElementName=RoomTypeEditVM}"/>
     </Grid>
 </Window>
