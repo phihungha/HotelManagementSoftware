@@ -1,6 +1,4 @@
-﻿CREATE DATABASE HotelDB
-
--- Add countries --
+﻿-- Add countries --
 
 DELETE FROM Countries
 DBCC CHECKIDENT ('Countries', RESEED, 0)
