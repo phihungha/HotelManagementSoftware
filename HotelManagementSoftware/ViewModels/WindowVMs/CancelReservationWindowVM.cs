@@ -8,5 +8,6 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 {
     public class CancelReservationWindowVM
     {
+        public int CancelFee { get; set; }
     }
 }
