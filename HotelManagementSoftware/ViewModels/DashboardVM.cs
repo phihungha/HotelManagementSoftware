@@ -91,7 +91,7 @@ namespace HotelManagementSoftware.ViewModels
 
             List<ReservationBusiness.UpcomingDeparture> upcomingDepartures
                 = await reservationBusiness.GetUpcomingDepartures();
-            upcomingDepartures.ForEach(i => upcomingDepartures.Add(i));
+            upcomingDepartures.ForEach(i => UpcomingDepartures.Add(i));
             UpcomingDepartureNumber = upcomingDepartures.Count();
         }
     }
