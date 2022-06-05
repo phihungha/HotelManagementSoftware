@@ -4,9 +4,83 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HotelManagementSoftware.UI"
+        xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels.WindowVMs"
         mc:Ignorable="d"
         Title="ChooseRoomTypeWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:ChooseRoomTypeWindowVM x:Name="ChooseRoomTypeWindowVM"/>
+    </Window.DataContext>
     <Grid>
-        
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Margin="15,10,0,15" HorizontalAlignment="Left" Grid.Row="0" >
+            <TextBlock TextWrapping="Wrap" FontSize="22" FontWeight="Bold"
+                       Text="Choose Room Type"/>
+        </StackPanel>
+
+
+        <DataGrid Grid.Row="1" HeadersVisibility="All" ItemsSource="{Binding RoomTypes}"
+                  CanUserReorderColumns="False"
+                      CanUserResizeRows="False"
+                      AutoGenerateColumns="False"
+                      RowBackground="White"
+                      AlternatingRowBackground="AliceBlue"
+                      SelectionUnit="FullRow"
+                      FlowDirection="LeftToRight"
+                      VerticalScrollBarVisibility="Visible"
+                      Padding="16">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding RoomTypeId}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Name" Width="Auto" Binding="{Binding Name}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Capacity" Width="Auto" Binding="{Binding Capacity}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Rate" Width="Auto" Binding="{Binding Rate}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Number of rooms" Width="Auto" Binding="{Binding Rooms.Count}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Description" Width="Auto" Binding="{Binding Description}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

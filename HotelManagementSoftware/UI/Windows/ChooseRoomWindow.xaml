@@ -4,9 +4,78 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HotelManagementSoftware.UI"
+        xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels.WindowVMs"
         mc:Ignorable="d"
         Title="ChooseRoomWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:ChooseRoomWindowVM x:Name="ChooseRoomWindowVM"/>
+    </Window.DataContext>
     <Grid>
-        
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Margin="15,10,0,15" HorizontalAlignment="Left" Grid.Row="0">
+            <TextBlock TextWrapping="Wrap" FontSize="22" FontWeight="Bold"
+                       Text="Choose Room"/>
+        </StackPanel>
+
+
+        <DataGrid Grid.Row="1" HeadersVisibility="All" ItemsSource="{Binding Rooms}" 
+                   CanUserReorderColumns="False"
+                      CanUserResizeRows="False"
+                      AutoGenerateColumns="False"
+                      RowBackground="White"
+                      AlternatingRowBackground="AliceBlue"
+                      SelectionUnit="FullRow"
+                      FlowDirection="LeftToRight"
+                      VerticalScrollBarVisibility="Visible"
+                      Padding="16">
+            <DataGrid.Columns>
+
+                <DataGridTextColumn Header="Room ID" Width="Auto" Binding="{Binding RoomId}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Room Number" Width="Auto" Binding="{Binding RoomNumber}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Room Type" Width="Auto" Binding="{Binding RoomType}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Floor" Width="Auto" Binding="{Binding Floor}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Status" Width="Auto" Binding="{Binding Status}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Background" Value="Black"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>
