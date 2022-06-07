@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HotelManagementSoftware.ViewModels.WindowVMs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,13 @@ namespace HotelManagementSoftware.UI.Windows
         public EmployeeEditWindow()
         {
             InitializeComponent();
+
+            EmployeeEditWindowVM vm = new EmployeeEditWindowVM();
+            this.DataContext = vm;
+            if (vm.CloseAction == null)
+                vm.CloseAction = new Action(this.Close);
         }
+
     }
+
 }

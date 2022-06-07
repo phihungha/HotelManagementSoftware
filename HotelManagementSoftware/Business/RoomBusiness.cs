@@ -25,8 +25,6 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 List<Room> rooms = await db.Rooms
-                    .Include(i => i.RoomType)
-                    .Include(i => i.Reservations)
                     .Where(i => i.Floor == floorNumber)
                     .Where(i => i.RoomType != null && i.RoomType.Name == roomType)
                     .ToListAsync();
@@ -55,7 +53,7 @@ namespace HotelManagementSoftware.Business
         {
             using (var db = new Database())
             {
-                var request = db.Rooms.Include(i => i.RoomType);
+                var request = db.Rooms;
                 var filteredRequest = request.Where(i => true);
 
                 if (floorNumber != null)
@@ -138,7 +136,6 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 return await db.RoomTypes
-                    .Include(i => i.Rooms)
                     .FirstOrDefaultAsync(i => i.RoomTypeId == id);
             }
         }

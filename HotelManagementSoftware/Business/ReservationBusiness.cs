@@ -69,10 +69,6 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 return await db.Reservations
-                    .Include(i => i.Customer)
-                    .Include(i => i.Order)
-                    .Include(i => i.Room)
-                    .ThenInclude(room => room.RoomType)
                     .FirstOrDefaultAsync(i => i.ReservationId == id);
             }
         }
@@ -107,11 +103,7 @@ namespace HotelManagementSoftware.Business
         {
             using (var db = new Database())
             {
-                var request = db.Reservations
-                        .Include(i => i.Customer)
-                        .Include(i => i.Order)
-                        .Include(i => i.Room)
-                        .ThenInclude(room => room.RoomType);
+                var request = db.Reservations;
 
                 var filteredRequest = request.Where(i => true);
 
@@ -178,10 +170,6 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 var filteredRequest = db.Reservations
-                            .Include(i => i.Customer)
-                            .Include(i => i.Order)
-                            .Include(i => i.Room)
-                            .ThenInclude(room => room.RoomType)
                             .Where(i => i.ArrivalTime <= DateTime.Now.AddDays(1))
                             .Where(i => i.Status == ReservationStatus.Reserved);
 
@@ -213,10 +201,6 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 var filteredRequest = db.Reservations
-                            .Include(i => i.Customer)
-                            .Include(i => i.Order)
-                            .Include(i => i.Room)
-                            .ThenInclude(room => room.RoomType)
                             .Where(i => i.DepartureTime <= DateTime.Now.AddDays(1))
                             .Where(i => i.Status == ReservationStatus.CheckedIn);
 
@@ -453,7 +437,7 @@ namespace HotelManagementSoftware.Business
         public async Task<bool> CheckCollidedReservation(Database db, Reservation newReservation)
         {
             List<Reservation> collidedReservation =
-                await db.Reservations.Include(i => i.Room)
+                await db.Reservations
                             .Where(i => i.Room == newReservation.Room)
                             .ToListAsync();
             return collidedReservation.Any(

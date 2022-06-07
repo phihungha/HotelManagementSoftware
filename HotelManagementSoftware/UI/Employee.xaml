@@ -141,6 +141,7 @@
                       Background="Transparent"
                       CanUserReorderColumns="False"
                       CanUserResizeRows="False"
+                      CanUserAddRows="False"
                       AutoGenerateColumns="False"
                       RowBackground="White"
                       AlternatingRowBackground="AliceBlue"
@@ -204,7 +205,8 @@
                                         Binding="{Binding Address}"
                                         FontSize="12" />
 
-                    <DataGridTemplateColumn Header="Action">
+                    <DataGridTemplateColumn Header="Action"
+                                            Width="Auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">

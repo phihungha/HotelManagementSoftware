@@ -1,4 +1,5 @@
 ﻿using HotelManagementSoftware.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,6 +26,7 @@ namespace HotelManagementSoftware.UI
         public Employee()
         {
             InitializeComponent();
+            DataContext = App.Current.Services.GetRequiredService<EmployeesVM>();
         }
     }
 }

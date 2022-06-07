@@ -229,7 +229,8 @@
                     BorderBrush="{x:Null}"
                     Padding="8"
                     FontFamily="Poppins"
-                    Command="{Binding CommandCancel}" />
+                    Command="{Binding CommandCancel}"
+                    />
             <Button Content="Update"
                     FontWeight="Bold"
                     Background="#FF358AFF"

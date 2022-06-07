@@ -9,6 +9,7 @@ using HotelManagementSoftware.Data;
 using System.Windows.Input;
 using System.Windows;
 using System.ComponentModel.DataAnnotations;
+using HotelManagementSoftware.UI.Windows;
 
 namespace HotelManagementSoftware.ViewModels.WindowVMs
 {
@@ -99,32 +100,10 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         #region ctor
         public EmployeeEditWindowVM()
         {
-            Name = "name";
-            UserName = "username";
-            Gender = Gender.Male;
-            BirthDate = new DateTime(2002,1,1);
-            Cmnd = "012312";
-            PhoneNumber = "09921";
-            Email = "2222@gmail.com";
-            Address = "Truong DH CNTT";
-            hashedPassword = "1E2F";
             CommandCancel = new RelayCommand(cancel);
             CommandUpdate = new RelayCommand(updateEmployeeAction, canUpdateEmployee);
         }
 
-        public EmployeeEditWindowVM(string name, string userName, Gender gender, DateTime birthDate, string cmnd, string phoneNumber, string? email, string address)
-        {
-            Name = name;
-            UserName = userName;
-            Gender = gender;
-            BirthDate = birthDate;
-            Cmnd = cmnd;
-            PhoneNumber = phoneNumber;
-            Email = email;
-            Address = address;
-            CommandCancel = new RelayCommand(cancel);
-            CommandUpdate = new RelayCommand(updateEmployeeAction, canUpdateEmployee);
-        }
         #endregion
 
         #region command
@@ -140,13 +119,11 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         {
             return true;
         }
-
         public void cancel()
         {
-            MessageBox.Show("Cancel");
-
+            CloseAction();
         }
         #endregion
-
+        public Action CloseAction { get; set; }
     }
 }
