@@ -50,7 +50,7 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Command="{Binding CommandSearch}">
-                        <Image Source="\UI\Icons\ic_search.png"
+                        <Image Source="{StaticResource IconSearchButton}"
                                Stretch="Fill" />
                     </Button>
                 </Grid>
@@ -108,7 +108,7 @@
                 <Grid Grid.Column="2"
                       Margin="8 0 0 0">
                     <Button Command="{Binding CommandFilterIssue}">
-                        <Image Source="\UI\Icons\ic_filter.png"
+                        <Image Source="{StaticResource IconFilterButton}"
                                Stretch="Fill" />
                     </Button>
                 </Grid>
@@ -124,7 +124,7 @@
                         Margin="0 0 16 0"
                         Command="{Binding CommandAddNewIssue}">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="\UI\Icons\ic_add.png"
+                        <Image Source="{StaticResource AddIconWhite}"
                                Stretch="Fill" />
                         <TextBlock Text="Add"
                                    FontSize="12"
@@ -175,11 +175,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Width="Auto"
-                                           Height="Auto"
-                                           Source="\UI\Images\bg_issue_default.jpg"
-                                           Stretch="Fill"
-                                           Margin="8" />
+                               
                                     <TextBlock Margin="4 0 0 0"
                                                Text="{Binding Note}"
                                                TextWrapping="Wrap"
@@ -196,7 +192,7 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Image Width="18"
                                            Height="18"
-                                           Source="\UI\Icons\ic_male.png"
+                                           Source="{StaticResource IconPersonMale}"
                                            Stretch="Fill" />
                                     <TextBlock Margin="4 0 0 0"
                                                Text="{Binding CustomerName}"
@@ -216,19 +212,19 @@
                                             Width="Auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal">
                                     <Button Height="18"
                                             Width="18"
                                             Style="{StaticResource ResourceKey=ImageButton}"
                                             Command="{Binding CommandAddNewIssue, ElementName=maintenanceVM}">
-                                        <Image Source="\UI\Icons\ic_edit.png"
+                                        <Image Source="{StaticResource IconEditButton}"
                                                Stretch="Fill" />
                                     </Button>
                                     <Button Height="18"
                                             Width="18"
                                             Style="{StaticResource ResourceKey=ImageButton}"
                                             Command="{Binding CommandDeleteIssue, ElementName=maintenanceVM}">
-                                        <Image Source="\UI\Icons\ic_delete.png"
+                                        <Image Source="{StaticResource IconDeleteButton}"
                                                Stretch="Fill" />
                                     </Button>
 
