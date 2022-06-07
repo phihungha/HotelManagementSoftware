@@ -49,7 +49,7 @@ namespace HotelManagementSoftware.Business
         {
             using (var db = new Database())
             {
-                return await db.Employees.ToListAsync();
+                return await db.Employees.Include(i => i.EmployeeType).ToListAsync();
             }
         }
 

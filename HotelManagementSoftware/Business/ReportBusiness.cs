@@ -45,6 +45,8 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 return await db.Orders
+                    .Include(i => i.Reservation)
+                    .ThenInclude(r => r.Room)
                     .Where(i => i.CreationTime.Year == year 
                                 && i.CreationTime.Month == month)
                     .GroupBy(i => i.CreationTime.Day)

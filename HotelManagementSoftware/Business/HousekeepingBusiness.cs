@@ -28,6 +28,9 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 return await db.HousekeepingRequests
+                        .Include(i => i.OpenEmployee)
+                        .Include(i => i.CloseEmployee)
+                        .Include(i => i.Room)
                         .FirstOrDefaultAsync(i => i.HousekeepingRequestId == id);
             }
         }
@@ -62,7 +65,10 @@ namespace HotelManagementSoftware.Business
         {
             using (var db = new Database())
             {
-                var request = db.HousekeepingRequests;
+                var request = db.HousekeepingRequests
+                    .Include(i => i.OpenEmployee)
+                    .Include(i => i.CloseEmployee)
+                    .Include(i => i.Room);
 
                 var filteredRequest = request.Where(i => true);
 
