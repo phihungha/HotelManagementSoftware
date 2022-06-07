@@ -18,7 +18,7 @@ namespace HotelManagementSoftware.Business
         {
             using (var db = new Database())
             {
-                return await db.Customers.ToListAsync();
+                return await db.Customers.Include(i => i.Country).ToListAsync();
             }
         }
 
@@ -32,6 +32,7 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 return await db.Customers
+                    .Include(i => i.Country)
                     .FirstOrDefaultAsync(i => i.CustomerId == id);
             }
         }
@@ -46,6 +47,7 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 return await db.Customers
+                    .Include(i => i.Country)
                     .FirstOrDefaultAsync(i => i.IdNumber == idNumber);
             }
         }
@@ -60,6 +62,7 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 return await db.Customers
+                    .Include(i => i.Country)
                     .FirstOrDefaultAsync(i => i.PhoneNumber == phoneNumber);
             }
         }
@@ -74,6 +77,7 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 return await db.Customers
+                    .Include(i => i.Country)
                     .Where(i => i.Name.Contains(searchTerm))
                     .ToListAsync();
             }
@@ -89,6 +93,7 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 return await db.Customers
+                    .Include(i => i.Country)
                     .Where(i => i.Country == country)
                     .ToListAsync();
             }
