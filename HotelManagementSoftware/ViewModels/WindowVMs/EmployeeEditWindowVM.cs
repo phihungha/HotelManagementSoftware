@@ -13,7 +13,8 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
     public class EmployeeEditWindowVM : ObservableValidator
     {
         private EmployeesVM employeesVM;
-        private Employee? currentSelected;
+        private Employee? currentSelected; 
+        private Visibility hiddenWhenUpdate;
         public EmployeesVM EmployeesVM
         {
             get => employeesVM;
@@ -44,7 +45,15 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
             }
         }
+        public Visibility HiddenWhenUpdate {
+            get => hiddenWhenUpdate;
+            set
+            {
+                SetProperty(ref hiddenWhenUpdate, value, true);
+            }
+        }
 
+        public Visibility VisibilityUpdateForChangePassword { get; set; }
         private EmployeeBusiness? employeeBusiness;
         public EmployeeEditWindowType EmployeeEditWindowType { get; set; }
         public ObservableCollection<EmployeeType> EmployeeTypes { get; set; } = new();
@@ -147,6 +156,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         {
             this.employeeBusiness = employeeBusiness;
             setUpCombobox();
+            CommandChangePass = new RelayCommand(changePassword);
             CommandCancel = new RelayCommand(cancel);
             CommandUpdate = new RelayCommand(updateEmployeeAction);
         }
@@ -164,10 +174,15 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         #endregion
 
         #region command
+        public ICommand? CommandChangePass { get; }
         public ICommand? CommandUpdate { get; }
         public ICommand? CommandCancel { get; }
 
-        public void updateEmployeeAction()
+        private void changePassword()
+        {
+            HiddenWhenUpdate = Visibility.Visible;
+        }
+        private void updateEmployeeAction()
         {
             if (EmployeeEditWindowType.Equals(EmployeeEditWindowType.Add))
             {
@@ -197,7 +212,15 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
                 if (employeeBusiness != null && employee != null)
                 {
-                    await employeeBusiness.EditEmployee(employee);
+                    if (Password == null)
+                    {
+                        await employeeBusiness.EditEmployee(employee);
+
+                    }
+                    else
+                    {
+                        await employeeBusiness.ChangePassword(employee, Password);
+                    }
                     EmployeesVM.GetAllEmployees();
                     CloseAction();
                 }

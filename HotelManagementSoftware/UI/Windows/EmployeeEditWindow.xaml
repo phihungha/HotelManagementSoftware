@@ -88,18 +88,19 @@
                     </StackPanel>
                 </Grid>
 
-
-                <!--Username-->
-                <Grid Grid.Column="1"
-                      Grid.Row="0">
-                    <StackPanel Margin="16 0 8 0"
+                <!--DateOfBirth-->
+                <Grid Grid.Column="0"
+                      Grid.Row="2">
+                    <StackPanel Margin="8 0 16 0"
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource TextLabel}"
                                    FontSize="12"
-                                   Text="Username" />
-                        <ui:TextBox ShowClearButton="True"
-                                    Text="{Binding Path=UserName,UpdateSourceTrigger=PropertyChanged}"
-                                    ui:InfoElement.Placeholder="Enter username" />
+                                   Text="Date of birth" />
+                        <DatePicker HorizontalAlignment="Stretch"
+                                    SelectedDate="{Binding Path=BirthDate,UpdateSourceTrigger=PropertyChanged,
+                                   Mode=TwoWay,
+                                    ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                                    ui:InfoElement.Placeholder="Enter date of birth" />
                     </StackPanel>
                 </Grid>
 
@@ -117,26 +118,10 @@
                     </StackPanel>
                 </Grid>
 
-                <!--DateOfBirth-->
-                <Grid Grid.Column="0"
-                      Grid.Row="2">
-                    <StackPanel Margin="8 0 16 0"
-                                Orientation="Vertical">
-                        <TextBlock Style="{StaticResource TextLabel}"
-                                   FontSize="12"
-                                   Text="Date of birth" />
-                        <DatePicker HorizontalAlignment="Stretch"
-                                    SelectedDate="{Binding Path=BirthDate,UpdateSourceTrigger=PropertyChanged,
-                                   Mode=TwoWay,
-                                    ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
-                                    ui:InfoElement.Placeholder="Enter date of birth" />
-                    </StackPanel>
-                </Grid>
-
-
+              
                 <!--Gender-->
                 <Grid Grid.Column="1"
-                      Grid.Row="2">
+                      Grid.Row="0">
                     <StackPanel Margin="16 0 8 0"
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource TextLabel}"
@@ -152,7 +137,7 @@
 
                 <!--Email-->
                 <Grid Grid.Column="1"
-                      Grid.Row="3">
+                      Grid.Row="1">
                     <StackPanel Margin="16 0 8 0"
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource TextLabel}"
@@ -164,19 +149,35 @@
                     </StackPanel>
                 </Grid>
 
-                <!--Password-->
+                <!--Username-->
                 <Grid Grid.Column="1"
-                      Grid.Row="1">
+                      Grid.Row="2">
                     <StackPanel Margin="16 0 8 0"
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource TextLabel}"
                                    FontSize="12"
-                                   Text="Password" />
+                                   Text="Username" />
+                        <ui:TextBox ShowClearButton="True"
+                                    Text="{Binding Path=UserName,UpdateSourceTrigger=PropertyChanged}"
+                                    ui:InfoElement.Placeholder="Enter username" />
+                    </StackPanel>
+                </Grid>
+
+                <!--Password-->
+                <Grid Grid.Column="1"
+                      Grid.Row="3">
+                    <StackPanel Margin="16 0 8 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
+                                   Text="Password"
+                                   Visibility="{Binding HiddenWhenUpdate}" />
                         <ui:PasswordBox IsSafeEnabled="False"
                                         ShowEyeButton="True"
                                         UnsafePassword="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
                                         ShowClearButton="True"
-                                        ui:InfoElement.Placeholder="Password"
+                                        Visibility="{Binding HiddenWhenUpdate}"
+                                        ui:InfoElement.Placeholder="Enter password"
                                         Margin="0,0,0,20" />
                     </StackPanel>
                 </Grid>
@@ -234,6 +235,15 @@
                                 ItemWidth="139"
                                 Orientation="Horizontal"
                                 Margin="0 0 32 12">
+            <Button Content="Change Password"
+                    FontWeight="Bold"
+                    Background="DeepPink"
+                    Foreground="White"
+                    BorderBrush="{x:Null}"
+                    Padding="8"
+                    FontFamily="Poppins"
+                    Visibility="{Binding Path=VisibilityUpdateForChangePassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Command="{Binding CommandChangePass}" />
             <Button Content="Cancel"
                     FontWeight="Bold"
                     Background="#FFF0241D"

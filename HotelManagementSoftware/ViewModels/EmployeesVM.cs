@@ -130,6 +130,9 @@ namespace HotelManagementSoftware.ViewModels
             {
                 vm.CloseAction = new Action(employeeEditWindow.Close);
             }
+            vm.HiddenWhenUpdate = Visibility.Hidden;
+            vm.VisibilityUpdateForChangePassword=Visibility.Visible;
+
             employeeEditWindow.ShowDialog();
         }
         public void executeAddEmployeeAction()
@@ -144,6 +147,8 @@ namespace HotelManagementSoftware.ViewModels
             {
                 vm.CloseAction = new Action(employeeEditWindow.Close);
             }
+            vm.HiddenWhenUpdate = Visibility.Visible;
+            vm.VisibilityUpdateForChangePassword = Visibility.Hidden;
             employeeEditWindow.ShowDialog();
         }
         #endregion
