@@ -9,12 +9,7 @@
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800"
-             Padding="16"
-             >
-    <UserControl.DataContext>
-        <vm:HousekeepingVM x:Name="housekeepingVM" />
-    </UserControl.DataContext>
-    
+             Padding="16">
     <!--list-->
     <Grid>
 
@@ -62,8 +57,10 @@
                                 Padding="0 0 8 0"
                                 Width="Auto"
                                 FontFamily="Poppins"
-                                ui:InfoElement.Placeholder="Search..."
-                                Panel.ZIndex="2">
+                                ui:InfoElement.Placeholder="Search by room..."
+                                Panel.ZIndex="2"
+                                ShowClearButton="True"
+                                Text="{Binding TextFilter, UpdateSourceTrigger=PropertyChanged}">
                     </ui:TextBox>
                 </Grid>
 
@@ -76,36 +73,6 @@
                             BorderBrush="#9E9E9E"
                             Background="White">
                     </Border>
-                </Grid>
-            </Grid>
-
-            <!--Filter-->
-            <Grid Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <Grid Grid.Column="0"
-                      Margin="8 0 0 0">
-                    <TextBlock Text="Search by"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Style="{StaticResource ResourceKey=TextLabel}" />
-                </Grid>
-
-                <Grid Grid.Column="1"
-                      Margin="8 0 0 0">
-                    <ComboBox HorizontalAlignment="Stretch" />
-                </Grid>
-
-                <Grid Grid.Column="2"
-                      Margin="8 0 0 0">
-                    <Button Command="{Binding CommandFilterIssue}">
-                        <Image Source="{StaticResource IconFilterButton}"
-                               Stretch="Fill" />
-                    </Button>
                 </Grid>
             </Grid>
 
@@ -134,7 +101,8 @@
 
         <!--ListView-->
         <Grid Grid.Row="1">
-            <DataGrid ItemsSource="{Binding Path=HouseKeepingCustomLists}"
+            <DataGrid ItemsSource="{Binding Path=HouseKeepingLists, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding SelectedItemHouseKeepingRequest, Mode=TwoWay}"
                       Background="Transparent"
                       CanUserReorderColumns="False"
                       CanUserResizeRows="False"
@@ -145,6 +113,7 @@
                       FlowDirection="LeftToRight"
                       VerticalScrollBarVisibility="Visible"
                       Padding="16"
+                      SelectionMode="Single"
                       CellStyle="{StaticResource ResourceKey=gridCellStyle}"
                       ColumnHeaderStyle="{StaticResource ResourceKey=gridHeaderStyle}">
                 <DataGrid.Resources>
@@ -162,22 +131,14 @@
                     <DataGridTextColumn Header="Room"
                                         Width="Auto"
                                         IsReadOnly="True"
-                                        Binding="{Binding RoomNumber}"
+                                        Binding="{Binding Path=Room.RoomNumber}"
                                         FontSize="12" />
 
-                    <DataGridTemplateColumn Header="Issues"
-                                            Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <TextBlock Margin="4 0 0 0"
-                                               Text="{Binding Note}"
-                                               TextWrapping="Wrap"
-                                               VerticalAlignment="Center" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Issues"
+                                        Width="*"
+                                        IsReadOnly="True"
+                                        Binding="{Binding Note}"
+                                        FontSize="12" />
 
                     <DataGridTemplateColumn Header="Reporter"
                                             Width="*">
@@ -189,12 +150,47 @@
                                            Source="{StaticResource IconPersonFemale}"
                                            Stretch="Fill" />
                                     <TextBlock Margin="4 0 0 0"
-                                               Text="{Binding CustomerName}"
+                                               Text="{Binding OpenEmployee.Name}"
                                                VerticalAlignment="Center" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Close by"
+                                            Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="18"
+                                           Height="18"
+                                           Source="{StaticResource IconPersonMale}"
+                                           Stretch="Fill" />
+                                    <TextBlock Margin="4 0 0 0"
+                                               Text="{Binding CloseEmployee.Name}"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn Header="Start time"
+                                        Width="*"
+                                        IsReadOnly="True"
+                                        Binding="{Binding StartTime, StringFormat={}{0:dd}/{0:MM}/{0:yyyy}}"
+                                        FontSize="12" />
+                    
+                    <DataGridTextColumn Header="End time"
+                                        Width="*"
+                                        IsReadOnly="True"
+                                        Binding="{Binding EndTime, StringFormat={}{0:dd}/{0:MM}/{0:yyyy}}"
+                                        FontSize="12" />
+
+                    <DataGridTextColumn Header="Close time"
+                                        Width="*"
+                                        IsReadOnly="True"
+                                        Binding="{Binding CloseTime, StringFormat={}{0:dd}/{0:MM}/{0:yyyy}}"
+                                        FontSize="12" />
 
                     <DataGridTextColumn Header="Status"
                                         Width="*"
@@ -203,26 +199,19 @@
                                         FontSize="12" />
 
                     <DataGridTemplateColumn Header="Action"
-                                            Width="Auto">
+                                            Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <Button Height="18"
                                             Width="18"
                                             Style="{StaticResource ResourceKey=ImageButton}"
-                                            Command="{Binding CommandAddNewIssue, ElementName=housekeepingVM}">
+                                            Command="{Binding Path=DataContext.CommandEditNewIssue,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                            CommandParameter="{Binding}">
                                         <Image Source="{StaticResource IconEditButton}"
                                                Stretch="Fill" />
                                     </Button>
-                                    <Button Height="18"
-                                            Width="18"
-                                            Style="{StaticResource ResourceKey=ImageButton}"
-                                            Command="{Binding CommandDeleteIssue, ElementName=housekeepingVM}">
-                                        <Image Source="{StaticResource IconDeleteButton}"
-                                               Stretch="Fill" />
-                                    </Button>
-
-
+                              
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

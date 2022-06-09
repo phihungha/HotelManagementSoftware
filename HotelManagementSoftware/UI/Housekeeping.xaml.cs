@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HotelManagementSoftware.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,7 @@ namespace HotelManagementSoftware.UI
         public Housekeeping()
         {
             InitializeComponent();
+            DataContext = App.Current.Services.GetRequiredService<HousekeepingVM>();
         }
     }
 }

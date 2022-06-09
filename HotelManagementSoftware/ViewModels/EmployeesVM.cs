@@ -120,7 +120,7 @@ namespace HotelManagementSoftware.ViewModels
         public void executeEditEmployeeAction()
         {
             EmployeeEditWindow employeeEditWindow = new EmployeeEditWindow();
-            EmployeeEditWindowVM vm = new EmployeeEditWindowVM(employeeBusiness);
+            EmployeeEditWindowVM vm = App.Current.Services.GetRequiredService<EmployeeEditWindowVM>();
             vm.EmployeesVM = this;
             vm.Title = "Edit employee information window";
             vm.EmployeeEditWindowType = EmployeeEditWindowType.Edit;
@@ -134,8 +134,8 @@ namespace HotelManagementSoftware.ViewModels
         public void executeAddEmployeeAction()
         {
             EmployeeEditWindow employeeEditWindow = new EmployeeEditWindow();
-            EmployeeEditWindowVM vm = new EmployeeEditWindowVM(employeeBusiness);
-            vm.EmployeesVM = this;
+            EmployeeEditWindowVM vm = App.Current.Services.GetRequiredService<EmployeeEditWindowVM>();
+
             vm.Title = "Add employee window";
             vm.EmployeeEditWindowType = EmployeeEditWindowType.Add;
             employeeEditWindow.DataContext = vm;

@@ -173,34 +173,50 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         }
         private async void EditEmployee()
         {
-            Employee employee = EmployeesVM.SelectedEmployee;
-            employee.Name = Name;
-            employee.UserName = UserName;
-            employee.Gender = Gender;
-            employee.EmployeeType = EmployeeType;
-            employee.BirthDate = BirthDate;
-            employee.Cmnd = Cmnd;
-            employee.PhoneNumber = PhoneNumber;
-            employee.Email = Email;
-            employee.Address = Address;
-
-            if (employeeBusiness != null && employee != null)
+            try
             {
-                await employeeBusiness.EditEmployee(employee);
-                CloseAction();
-                EmployeesVM.GetAllEmployees();
+                Employee employee = EmployeesVM.SelectedEmployee;
+                employee.Name = Name;
+                employee.UserName = UserName;
+                employee.Gender = Gender;
+                employee.EmployeeType = EmployeeType;
+                employee.BirthDate = BirthDate;
+                employee.Cmnd = Cmnd;
+                employee.PhoneNumber = PhoneNumber;
+                employee.Email = Email;
+                employee.Address = Address;
+
+                if (employeeBusiness != null && employee != null)
+                {
+                    await employeeBusiness.EditEmployee(employee);
+                    CloseAction();
+                    EmployeesVM.GetAllEmployees();
+                }
             }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            
         }
         private async void AddEmployee()
         {
-            Employee employee = new Employee(Name, UserName, EmployeeType, Gender, BirthDate, Cmnd, PhoneNumber, Address, Email);
-
-            if (employeeBusiness != null && employee != null && Password != null)
+            try
             {
-                await employeeBusiness.CreateEmployee(employee, Password);
-                CloseAction();
-                EmployeesVM.GetAllEmployees();
+                Employee employee = new Employee(Name, UserName, EmployeeType, Gender, BirthDate, Cmnd, PhoneNumber, Address, Email);
+
+                if (employeeBusiness != null && employee != null && Password != null)
+                {
+                    await employeeBusiness.CreateEmployee(employee, Password);
+                    CloseAction();
+                    EmployeesVM.GetAllEmployees();
+                }
             }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+           
         }
         public void cancel()
         {
