@@ -101,6 +101,7 @@
                                          ui:InfoElement.Placeholder="Room number"
                                          ItemsSource="{Binding RoomLists}"
                                          DisplayMemberPath="RoomNumber"
+                                         SelectedIndex="0"
                                          Visibility="{Binding VisibilityCbx, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          SelectedItem="{Binding Room, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             </ui:ComboBox>
@@ -196,18 +197,20 @@
                                 ItemWidth="139"
                                 Orientation="Horizontal"
                                 Margin="0 0 32 12">
+            <Button Content="Close request"
+                    FontWeight="Bold"
+                    Background="Green"
+                    Foreground="White"
+                    FontFamily="Poppins"
+                    Visibility="{Binding VisibilityTextbox}"
+                    Command="{Binding CommandClose}" />
             <Button Content="Cancel"
                     FontWeight="Bold"
                     Background="#FFF0241D"
                     Foreground="White"
                     FontFamily="Poppins"
                     Command="{Binding CommandCancel}" />
-            <Button Content="Close request"
-                    FontWeight="Bold"
-                    Background="Green"
-                    Foreground="White"
-                    FontFamily="Poppins"
-                    Command="{Binding CommandClose}" />
+ 
             <Button Content="Save"
                     FontWeight="Bold"
                     Background="#FF358AFF"

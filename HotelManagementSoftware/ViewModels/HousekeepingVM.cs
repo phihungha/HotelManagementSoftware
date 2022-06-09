@@ -72,7 +72,7 @@ namespace HotelManagementSoftware.ViewModels
             HousekeepingEditWindow window = new HousekeepingEditWindow();
             HousekeepingEditWindowVM vm = App.Current.Services.GetRequiredService<HousekeepingEditWindowVM>();
             vm.HousekeepingVM = this;
-
+            vm.Current = SelectedItemHouseKeepingRequest;
             vm.Title = "Edit housekeeping request window";
             vm.HousekeepingRequestType = HousekeepingRequestType.Edit;
             window.DataContext = vm;
@@ -99,6 +99,8 @@ namespace HotelManagementSoftware.ViewModels
             HousekeepingEditWindow window = new HousekeepingEditWindow();
             HousekeepingEditWindowVM vm = App.Current.Services.GetRequiredService<HousekeepingEditWindowVM>();
 
+            vm.HousekeepingVM = this;
+            vm.Current = null;
             vm.Title = "Add housekeeping request window";
             vm.HousekeepingRequestType = HousekeepingRequestType.Add;
             window.DataContext = vm;

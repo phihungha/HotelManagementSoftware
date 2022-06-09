@@ -1,94 +1,144 @@
-﻿using HotelManagementSoftware.Data;
+﻿using HotelManagementSoftware.Business;
+using HotelManagementSoftware.Data;
+using HotelManagementSoftware.UI.Windows;
+using HotelManagementSoftware.ViewModels.WindowVMs;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using System.Windows;
-using System.Windows.Controls;
+
 using System.Windows.Input;
 
 namespace HotelManagementSoftware.ViewModels
 {
     public class MaintenanceVM : ObservableValidator
     {
-        public ObservableCollection<MaintenanceCustomItem> MaintenanceCustomLists { get; set; }
+        private MaintenanceBusiness? maintenanceBusiness;
+        public ObservableCollection<MaintenanceRequest> MaintenanceRequestLists { get; set; } = new();
+        public MaintenanceRequest SelectedItemMaintenanceRequest { get; set; }
+
+        private String? textFilter;
+        public String? TextFilter
+        {
+            get { return textFilter; }
+            set
+            {
+                textFilter = value;
+
+                if (!String.IsNullOrEmpty(textFilter))
+                {
+                    GetAllItemByRoom();
+                }
+                else
+                {
+                    GetAllItem();
+                }
+            }
+        }
 
         #region ctor
-        public MaintenanceVM()
+        public MaintenanceVM(MaintenanceBusiness? maintenanceBusiness)
         {
-            MaintenanceCustomLists = new ObservableCollection<MaintenanceCustomItem>();
-            addMaintenanceItem();
-
-            CommandAddNewIssue = new RelayCommand(executeAddIssueAction);
-            CommandDeleteIssue = new RelayCommand(executeDeleteIssueAction);
-            CommandSearch = new RelayCommand(executeSearchIssueAction);
-            CommandFilterIssue = new RelayCommand(executeFilterIssueAction);
+            this.maintenanceBusiness = maintenanceBusiness;
+            GetAllItem();
+            initCommand();
         }
-       
-        private void addMaintenanceItem()
+        private void initCommand()
         {
-            MaintenanceCustomLists.Add(new MaintenanceCustomItem(101, "note1", "customername1", MaintenanceRequestStatus.Opened));
-            MaintenanceCustomLists.Add(new MaintenanceCustomItem(102, "note2", "customername2", MaintenanceRequestStatus.Opened));
-            MaintenanceCustomLists.Add(new MaintenanceCustomItem(103, "note3", "customername3", MaintenanceRequestStatus.Opened));
-            MaintenanceCustomLists.Add(new MaintenanceCustomItem(104, "note4", "customername4", MaintenanceRequestStatus.Opened));
-            MaintenanceCustomLists.Add(new MaintenanceCustomItem(105, "note5", "customername5", MaintenanceRequestStatus.Opened));
-            MaintenanceCustomLists.Add(new MaintenanceCustomItem(106, "note6", "customername6", MaintenanceRequestStatus.Opened));
-            MaintenanceCustomLists.Add(new MaintenanceCustomItem(107, "note7", "customername7", MaintenanceRequestStatus.Opened));
-            MaintenanceCustomLists.Add(new MaintenanceCustomItem(108, "note8", "customername8", MaintenanceRequestStatus.Opened));
+            CommandAddNewIssue = new RelayCommand(executeAddIssueAction);
+            CommandSearch = new RelayCommand(executeSearchIssueAction);
+            CommandEditNewIssue = new RelayCommand(executeEditIssueAction);
         }
 
         #endregion
 
         #region command
-        public ICommand CommandFilterIssue { get; }
-        public ICommand CommandDeleteIssue { get; }
-        public ICommand CommandAddNewIssue { get; }
-        public ICommand CommandSearch { get; }
-
-        public void executeFilterIssueAction()
-        {
-            MessageBox.Show("Filter");
-        }
+        public ICommand? CommandEditNewIssue { get; set; }
+        public ICommand? CommandAddNewIssue { get; set; }
+        public ICommand? CommandSearch { get; set; }
         public void executeSearchIssueAction()
         {
-            MessageBox.Show("Search");
+            
         }
-        public void executeDeleteIssueAction()
+        public void executeEditIssueAction()
         {
-            MessageBox.Show("Open confirm delete message box");
+            MaintenanceEditWindow window = new MaintenanceEditWindow();
+            MaintenanceEditWindowVM vm = App.Current.Services.GetRequiredService<MaintenanceEditWindowVM>();
+            vm.MaintenanceVM = this;
+            vm.CurrentItem = SelectedItemMaintenanceRequest;
+            vm.Title = "Edit housekeeping request window";
+            vm.MaintenanceRequestType = MaintenanceRequestType.Edit;
+            window.DataContext = vm;
+            if (vm.CloseAction == null)
+            {
+                vm.CloseAction = new Action(window.Close);
+            }
+
+            vm.VisibilityCbx = Visibility.Hidden;
+            vm.VisibilityTextbox = Visibility.Visible;
+            if (SelectedItemMaintenanceRequest.Status.Equals(MaintenanceRequestStatus.Closed))
+            {
+                vm.IsEnabled = false;
+            }
+            else
+            {
+                vm.IsEnabled = true;
+            }
+
+
+            window.ShowDialog();
+
         }
         public void executeAddIssueAction()
         {
-            MessageBox.Show("Open add Issue edit window");
+            MaintenanceEditWindow window = new MaintenanceEditWindow();
+            MaintenanceEditWindowVM vm = App.Current.Services.GetRequiredService<MaintenanceEditWindowVM>();
+            vm.MaintenanceVM = this;
+            vm.Title = "Add housekeeping request window";
+            vm.MaintenanceRequestType = MaintenanceRequestType.Add;
+            window.DataContext = vm;
+            if (vm.CloseAction == null)
+            {
+                vm.CloseAction = new Action(window.Close);
+            }
+
+            vm.VisibilityCbx = Visibility.Visible;
+            vm.VisibilityTextbox = Visibility.Hidden;
+            vm.IsEnabled = true;
+
+            window.ShowDialog();
         }
         #endregion
-    }
 
-    /// <summary>
-    /// Item in main window Maintenance
-    /// </summary>
-    public class MaintenanceCustomItem
-    {
-        public int RoomNumber { get; set; }
-        public string Note { get; set; }
-        public string CustomerName { get; set; }
-        public MaintenanceRequestStatus Status { get; set; }
-
-        public MaintenanceCustomItem()
+        private async void GetAllItemByRoom()
         {
-
+            int room;
+            bool canConvert = Int32.TryParse(TextFilter, out room);
+            if (maintenanceBusiness != null && canConvert)
+            {
+                List<MaintenanceRequest> list = await maintenanceBusiness.GetMaintenanceRequests(roomNumber: room);
+                MaintenanceRequestLists.Clear();
+                list.ForEach(item =>
+                {
+                    MaintenanceRequestLists.Add(item);
+                });
+            }
         }
-
-        public MaintenanceCustomItem(int roomNumber, string note, string customerName, MaintenanceRequestStatus status)
+        public async void GetAllItem()
         {
-            RoomNumber = roomNumber;
-            Note = note;
-            CustomerName = customerName;
-            Status = status;
+            if (maintenanceBusiness != null)
+            {
+                List<MaintenanceRequest> list = await maintenanceBusiness.GetMaintenanceRequests();
+                MaintenanceRequestLists.Clear();
+                list.ForEach(item =>
+                {
+                    MaintenanceRequestLists.Add(item);
+                });
+            }
         }
     }
 }

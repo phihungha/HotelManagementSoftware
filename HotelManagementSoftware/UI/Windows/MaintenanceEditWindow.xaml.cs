@@ -1,4 +1,6 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using HotelManagementSoftware.ViewModels.WindowVMs;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,6 +26,7 @@ namespace HotelManagementSoftware.UI.Windows
         public MaintenanceEditWindow()
         {
             InitializeComponent();
+            DataContext = App.Current.Services.GetRequiredService<MaintenanceEditWindowVM>();
         } 
     }
 }

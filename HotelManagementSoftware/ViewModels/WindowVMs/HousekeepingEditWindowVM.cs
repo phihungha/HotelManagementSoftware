@@ -18,8 +18,30 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
     {
         private HousekeepingBusiness? housekeepingBusiness;
         private EmployeeBusiness? employeeBusiness;
-        private RoomBusiness? roomBusiness;
+        private RoomBusiness roomBusiness;
         private HousekeepingVM housekeepingVM;
+        private HousekeepingRequest? current;
+
+        public HousekeepingRequest? Current 
+        {
+            get => current;
+            set
+            {
+                SetProperty(ref current, value, true);
+                if (Current != null)
+                {
+                    Room = Current.Room;
+
+                    StartTime = Current.StartTime;
+                    EndTime = Current.EndTime;
+
+                    CloseTime = Current.CloseTime;
+                    Status = Current.Status;
+
+                    Note = Current.Note;
+                }
+            }
+        }
         public bool IsEnabled { get; set; }
         public Visibility VisibilityCbx { get; set; }
         public Visibility VisibilityTextbox { get; set; }
@@ -28,23 +50,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             get => housekeepingVM;
             set
             {
-                SetProperty(ref housekeepingVM, value);
-                if (HousekeepingVM != null)
-                {
-                    if (HousekeepingVM.SelectedItemHouseKeepingRequest != null)
-                    {
-
-                        Room = HousekeepingVM.SelectedItemHouseKeepingRequest.Room;
-
-                        StartTime=HousekeepingVM.SelectedItemHouseKeepingRequest.StartTime;
-                        EndTime=HousekeepingVM.SelectedItemHouseKeepingRequest.EndTime;
-
-                        CloseTime= HousekeepingVM.SelectedItemHouseKeepingRequest.CloseTime;
-                        Status=HousekeepingVM.SelectedItemHouseKeepingRequest.Status;
-
-                        Note=HousekeepingVM.SelectedItemHouseKeepingRequest.Note;
-                    }
-                }
+                SetProperty(ref housekeepingVM, value, true);
             }
         }
         public ObservableCollection<Room> RoomLists { get; set; } = new();
@@ -62,7 +68,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         #region property validation
 
         [Required(ErrorMessage = "Room cannot be empty")]
-        public Room? Room
+        public Room Room
         {
             get => room;
             set => SetProperty(ref room, value, true);
@@ -80,7 +86,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         }
 
         [Required(ErrorMessage = "End time cannot be empty")]
-       // [GreaterThan(nameof(StartTime), "End date should come after start date.")]
+        // [GreaterThan(nameof(StartTime), "End date should come after start date.")]
         public DateTime EndTime
         {
             get => endTime;
@@ -114,7 +120,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         {
             this.roomBusiness = roomBusiness;
             this.employeeBusiness = employeeBusiness;
-            this.housekeepingBusiness= housekeepingBusiness;
+            this.housekeepingBusiness = housekeepingBusiness;
             FillRoomCombobox();
 
             CommandCancel = new RelayCommand(executeCancelAction);
@@ -166,6 +172,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         {
             try
             {
+                ValidateAllProperties();
                 if (employeeBusiness == null || housekeepingBusiness == null) return;
 
                 Employee? current = employeeBusiness.CurrentEmployee;
@@ -174,7 +181,8 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 HousekeepingRequest request = new HousekeepingRequest(current.EmployeeId, current, Room, StartTime, EndTime, Note);
 
                 await housekeepingBusiness.CreateHousekeepingRequest(request);
-                housekeepingVM.GetAllItem();
+                HousekeepingVM.GetAllItem();
+                CloseAction();
             }
             catch (Exception e)
             {
@@ -186,13 +194,15 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         {
             try
             {
-                if (housekeepingBusiness == null) return;
-                HousekeepingRequest request = housekeepingVM.SelectedItemHouseKeepingRequest;
+                ValidateAllProperties();
+                if (housekeepingBusiness == null || Current==null) return;
+                HousekeepingRequest request = Current;
                 request.StartTime = StartTime;
                 request.EndTime = EndTime;
                 request.Note = Note;
                 await housekeepingBusiness.EditHousekeepingRequest(request);
-                housekeepingVM.GetAllItem();
+                HousekeepingVM.GetAllItem();
+                CloseAction();
             }
             catch (Exception e)
             {
@@ -203,28 +213,29 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         {
             try
             {
-                if (housekeepingBusiness == null || employeeBusiness == null) return;
+                ValidateAllProperties();
+                if (housekeepingBusiness == null || employeeBusiness == null || Current == null) return;
                 Employee? current = employeeBusiness.CurrentEmployee;
-                HousekeepingRequest request = housekeepingVM.SelectedItemHouseKeepingRequest;
+                HousekeepingRequest request = Current;
                 request.StartTime = StartTime;
                 request.EndTime = EndTime;
                 request.Note = Note;
 
                 if (current == null) return;
                 await housekeepingBusiness.CloseHousekeepingRequest(request, DateTime.Now, current);
-                housekeepingVM.GetAllItem();
+                HousekeepingVM.GetAllItem();
+                CloseAction();
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }
-          
         }
-         
+
     }
 
     public enum HousekeepingRequestType
     {
-        Add,Edit
+        Add, Edit
     }
 }

@@ -13,30 +13,38 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
     public class EmployeeEditWindowVM : ObservableValidator
     {
         private EmployeesVM employeesVM;
+        private Employee? currentSelected;
         public EmployeesVM EmployeesVM
         {
             get => employeesVM;
             set
             {
-                SetProperty(ref employeesVM, value);
-                if (EmployeesVM != null)
-                {
-                    if (EmployeesVM.SelectedEmployee != null)
-                    {
-                        Name = EmployeesVM.SelectedEmployee.Name;
-                        UserName = EmployeesVM.SelectedEmployee.UserName;
-                        Gender = EmployeesVM.SelectedEmployee.Gender;
-                        EmployeeType = EmployeesVM.SelectedEmployee.EmployeeType;
-                        BirthDate = EmployeesVM.SelectedEmployee.BirthDate;
-                        Cmnd = EmployeesVM.SelectedEmployee.Cmnd;
-                        PhoneNumber = EmployeesVM.SelectedEmployee.PhoneNumber;
-                        Email = EmployeesVM.SelectedEmployee.Email;
-                        Address = EmployeesVM.SelectedEmployee.Address;
-
-                    }
-                }
+                SetProperty(ref employeesVM, value, true);
             }
         }
+        public Employee? CurrentSelected
+        {
+            get => currentSelected;
+            set
+            {
+                SetProperty(ref currentSelected, value, true);
+                if (CurrentSelected != null)
+                {
+                    Name = CurrentSelected.Name;
+                    UserName = CurrentSelected.UserName;
+                    Gender = CurrentSelected.Gender;
+                    EmployeeType = CurrentSelected.EmployeeType;
+                    BirthDate = CurrentSelected.BirthDate;
+                    Cmnd = CurrentSelected.Cmnd;
+                    PhoneNumber = CurrentSelected.PhoneNumber;
+                    Email = CurrentSelected.Email;
+                    Address = CurrentSelected.Address;
+
+                }
+
+            }
+        }
+
         private EmployeeBusiness? employeeBusiness;
         public EmployeeEditWindowType EmployeeEditWindowType { get; set; }
         public ObservableCollection<EmployeeType> EmployeeTypes { get; set; } = new();
@@ -161,7 +169,6 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
         public void updateEmployeeAction()
         {
-            ValidateAllProperties();
             if (EmployeeEditWindowType.Equals(EmployeeEditWindowType.Add))
             {
                 AddEmployee();
@@ -175,7 +182,9 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         {
             try
             {
-                Employee employee = EmployeesVM.SelectedEmployee;
+                ValidateAllProperties();
+                if (CurrentSelected == null) return;
+                Employee employee = CurrentSelected;
                 employee.Name = Name;
                 employee.UserName = UserName;
                 employee.Gender = Gender;
@@ -189,34 +198,35 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 if (employeeBusiness != null && employee != null)
                 {
                     await employeeBusiness.EditEmployee(employee);
-                    CloseAction();
                     EmployeesVM.GetAllEmployees();
+                    CloseAction();
                 }
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }
-            
+
         }
         private async void AddEmployee()
         {
             try
             {
+                ValidateAllProperties();
                 Employee employee = new Employee(Name, UserName, EmployeeType, Gender, BirthDate, Cmnd, PhoneNumber, Address, Email);
 
                 if (employeeBusiness != null && employee != null && Password != null)
                 {
                     await employeeBusiness.CreateEmployee(employee, Password);
-                    CloseAction();
                     EmployeesVM.GetAllEmployees();
+                    CloseAction();
+
                 }
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }
-           
         }
         public void cancel()
         {

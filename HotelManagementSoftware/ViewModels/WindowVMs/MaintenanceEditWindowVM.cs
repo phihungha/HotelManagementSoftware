@@ -1,4 +1,5 @@
-﻿using HotelManagementSoftware.Data;
+﻿using HotelManagementSoftware.Business;
+using HotelManagementSoftware.Data;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
@@ -15,32 +16,61 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 {
     public class MaintenanceEditWindowVM : ObservableValidator
     {
+        private MaintenanceBusiness? maintenanceBusiness;
+        private EmployeeBusiness? employeeBusiness;
+        private RoomBusiness? roomBusiness;
+        private MaintenanceVM maintenanceVM;
+        private MaintenanceRequest? currentItem;
+        public bool IsEnabled { get; set; }
+        public Visibility VisibilityCbx { get; set; }
+        public Visibility VisibilityTextbox { get; set; }
+        public MaintenanceRequest? CurrentItem
+        {
+            get => currentItem;
+            set
+            {
+                SetProperty(ref currentItem, value, true);
+                if (CurrentItem != null)
+                {
+                    Room = CurrentItem.Room;
+
+                    StartTime = CurrentItem.StartTime;
+                    EndTime = CurrentItem.EndTime;
+
+                    CloseTime = CurrentItem.CloseTime;
+                    Status = CurrentItem.Status;
+
+                    Note = CurrentItem.Note;
+                }
+            }
+        }
+        public MaintenanceVM MaintenanceVM
+        {
+            get => maintenanceVM;
+            set
+            {
+                SetProperty(ref maintenanceVM, value);
+            }
+        }
+        public ObservableCollection<Room> RoomLists { get; set; } = new();
+        public String Title { get; set; }
+        public MaintenanceRequestType MaintenanceRequestType { get; set; }
         #region private variables
-        private int issueID;
-        private int roomID;
+        private Room? room;
         private DateTime startTime;
         private DateTime endTime;
-        private DateTime closeTime;
+        private DateTime? closeTime;
         private MaintenanceRequestStatus status;
         private string? note;
-
-        private string? itemName;
-        private int itemQuantity;
-        private string? itemDescription;
         #endregion
 
         #region property validation
-        public int IssueID
-        {
-            get => issueID;
-            set => SetProperty(ref issueID, value, true);
-        }
 
         [Required(ErrorMessage = "Room cannot be empty")]
-        public int RoomID
+        public Room? Room
         {
-            get => roomID;
-            set => SetProperty(ref roomID, value, true);
+            get => room;
+            set => SetProperty(ref room, value, true);
         }
 
         [Required(ErrorMessage = "Start time cannot be empty")]
@@ -55,17 +85,17 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         }
 
         [Required(ErrorMessage = "End time cannot be empty")]
-        [GreaterThan(nameof(StartTime),"End date should come after start date.")]
+        // [GreaterThan(nameof(StartTime), "End date should come after start date.")]
         public DateTime EndTime
         {
             get => endTime;
             set
             {
-                SetProperty(ref endTime, value, EndTime>StartTime);
+                SetProperty(ref endTime, value, EndTime > StartTime);
             }
         }
 
-        public DateTime CloseTime
+        public DateTime? CloseTime
         {
             get => closeTime;
             set => SetProperty(ref closeTime, value, true);
@@ -83,151 +113,139 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             get => note;
             set => SetProperty(ref note, value, true);
         }
-
-        [Required(ErrorMessage = "Item name cannot be empty")]
-        public string? ItemName
-        {
-            get => itemName;
-            set => SetProperty(ref itemName, value, true);
-        }
-
-        public string? ItemDescription
-        {
-            get => itemDescription;
-            set => SetProperty(ref itemDescription, value, true);
-        }
-        [Required(ErrorMessage = "Item quantity cannot be empty")]
-        public int ItemQuantity
-        {
-            get => itemQuantity;
-            set => SetProperty(ref itemQuantity, value, true);
-        }
         #endregion
 
-        public ObservableCollection<Item> Items { get; set; }
-
-        #region ctor
-        public MaintenanceEditWindowVM()
+        public MaintenanceEditWindowVM(MaintenanceBusiness? maintenanceBusiness, EmployeeBusiness? employeeBusiness, RoomBusiness roomBusiness)
         {
-            Items = new ObservableCollection<Item>();
-            Items.Add(new Item("1Lightbulb", 3, "20W lightbulb"));
-            Items.Add(new Item("2TV", 1, "Samsung TV"));
-            Items.Add(new Item("3Lightbulb", 3, "20W lightbulb"));
-            Items.Add(new Item("4Lightbulb", 3, "20W lightbulb"));
-            Items.Add(new Item("5TV", 1, "Samsung TV"));
-            Items.Add(new Item("6TV", 1, "Samsung TV"));
+            this.roomBusiness = roomBusiness;
+            this.employeeBusiness = employeeBusiness;
+            this.maintenanceBusiness = maintenanceBusiness;
+            FillRoomCombobox();
 
-            IssueID = 1;
-            RoomID = 404;
-            StartTime = new DateTime(2020, 1, 1);
-            EndTime = new DateTime(2019, 1, 2);
-            CloseTime = new DateTime(2020, 1, 3);
-            Status = MaintenanceRequestStatus.Opened;
-            Note = "note";
-            ItemName = "Item name";
-            ItemQuantity = 2;
-            ItemDescription = "Description";
-
-            CommandAddNewItem = new RelayCommand(executeAddItemAction, canAddItem);
             CommandCancel = new RelayCommand(executeCancelAction);
-            CommandUpdate = new RelayCommand(executeUpdateAction, canUpdate);
-            CommandAddImage = new RelayCommand(executeAddImageAction);
-            CommandEditItem = new RelayCommand(executeEditItem);
-            CommandDeleteItem = new RelayCommand(executeDeleteItem);
+            CommandUpdate = new RelayCommand(executeUpdateAction);
+            CommandClose = new RelayCommand(executeCloseAction);
+            CommandEditItem = new RelayCommand(executeEditItemAction);
+            CommandDeleteItem = new RelayCommand(executeDeleteItemAction);
         }
 
-        #endregion
+        private async void FillRoomCombobox()
+        {
+            if (roomBusiness != null)
+            {
+                List<Room> rooms = await roomBusiness.GetRooms();
+                RoomLists.Clear();
+                rooms.ForEach(room =>
+                {
+                    RoomLists.Add(room);
+                });
+
+            }
+        }
 
         #region command
-        public ICommand CommandAddImage { get; }
         public ICommand CommandDeleteItem { get; }
         public ICommand CommandEditItem { get; }
-        public ICommand CommandAddNewItem { get; }
         public ICommand CommandCancel { get; }
+        public ICommand CommandClose { get; }
         public ICommand CommandUpdate { get; }
-        public void executeDeleteItem()
+        public void executeUpdateAction()
         {
-            MessageBox.Show("Delete item");
+            if (MaintenanceRequestType.Equals(MaintenanceRequestType.Add))
+            {
+                AddRequest();
+            }
+            else
+            {
+                UpdateRequest();
+            }
         }
-        public void executeEditItem()
+        public void executeCloseAction()
+        {
+            CloseRequest();
+        }
+        public void executeEditItemAction()
         {
             MessageBox.Show("Edit item");
         }
-
-        public bool canUpdate()
+        public void executeDeleteItemAction()
         {
-            return true;
-        }
-
-        public bool canAddItem()
-        {
-            return true;
-        }
-
-        public void executeAddImageAction()
-        {
-            MessageBox.Show("Add image");
-        }
-        public void executeUpdateAction()
-        {
-            MessageBox.Show("Update");
+            MessageBox.Show("Delete");
         }
         public void executeCancelAction()
         {
-            MessageBox.Show("Cancel");
-        }
-        public void executeAddItemAction()
-        {
-            MessageBox.Show("Add item");
+            CloseAction();
         }
         #endregion
-    }
+        public Action CloseAction { get; set; }
 
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public sealed class GreaterThanAttribute : ValidationAttribute
-    {
-        private string _errorMessage;
-
-        public GreaterThanAttribute(string propertyName, string errorMessage)
+        private async void AddRequest()
         {
-            PropertyName = propertyName;
-            _errorMessage = errorMessage;
+            try
+            {
+                ValidateAllProperties();
+                if (employeeBusiness == null || maintenanceBusiness == null) return;
+
+                Employee? current = employeeBusiness.CurrentEmployee;
+
+                if (current == null || Room == null) return;
+                MaintenanceRequest request = new MaintenanceRequest(current.EmployeeId, current, Room, StartTime, EndTime, Note);
+
+                await maintenanceBusiness.CreateMaintenanceRequest(request);
+                maintenanceVM.GetAllItem();
+                CloseAction();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
 
-        public string PropertyName { get; set; }
-
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        private async void UpdateRequest()
         {
-            if (value == null)
+            try
             {
-                return ValidationResult.Success;
+                ValidateAllProperties();
+                if (maintenanceBusiness == null || CurrentItem==null) return;
+                MaintenanceRequest request = CurrentItem;
+                request.StartTime = StartTime;
+                request.EndTime = EndTime;
+                request.Note = Note;
+                await maintenanceBusiness.EditMaintenanceRequest(request);
+                maintenanceVM.GetAllItem();
+                CloseAction();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+        private async void CloseRequest()
+        {
+            try
+            {
+                ValidateAllProperties();
+                if (maintenanceBusiness == null || employeeBusiness == null || CurrentItem == null) return;
+                Employee? current = employeeBusiness.CurrentEmployee;
+                MaintenanceRequest request = CurrentItem;
+                request.StartTime = StartTime;
+                request.EndTime = EndTime;
+                request.Note = Note;
+
+                if (current == null) return;
+                await maintenanceBusiness.CloseMaintenanceRequest(request, DateTime.Now, current);
+                maintenanceVM.GetAllItem();
+                CloseAction();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
             }
 
-            var instance = validationContext.ObjectInstance;
-
-            var otherValue = instance.GetType()
-                .GetProperty(PropertyName)
-                .GetValue(instance);
-
-            if (((IComparable)value).CompareTo(otherValue) > 0)
-            {
-                return ValidationResult.Success;
-            }
-
-            return new ValidationResult(_errorMessage);
         }
     }
-    public class Item
+    public enum MaintenanceRequestType
     {
-        public string? Name { get; set; }
-        public int Quantity { get; set; }
-        public string? Description { get; set; }
-
-        public Item(string? name, int quantity, string? description)
-        {
-            Name = name;
-            Quantity = quantity;
-            Description = description;
-        }
+        Add, Edit
     }
 }
