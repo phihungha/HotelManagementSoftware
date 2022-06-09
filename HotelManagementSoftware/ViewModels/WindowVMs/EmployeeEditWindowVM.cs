@@ -18,6 +18,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
     public class EmployeeEditWindowVM : ObservableValidator
     {
         public EmployeesVM EmployeesVM { get; set; }
+        public Employee Employee { get; set; }
 
         private EmployeeBusiness? employeeBusiness;
         public ObservableCollection<EmployeeType> EmployeeTypes { get; set; } = new();
@@ -119,6 +120,19 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             setUpCombobox();
             CommandCancel = new RelayCommand(cancel);
             CommandUpdate = new RelayCommand(updateEmployeeAction);
+
+            if (Employee != null)
+            {
+                name = Employee.Name;
+                userName = Employee.UserName;
+                gender = Employee.Gender;
+                employeeType = Employee.EmployeeType;
+                birthDate = Employee.BirthDate;
+                cmnd = Employee.Cmnd;
+                phoneNumber = Employee.PhoneNumber;
+                email = Employee.Email;
+                address = Employee.Address;
+            }
         }
 
         private void setUpCombobox()

@@ -122,6 +122,7 @@ namespace HotelManagementSoftware.ViewModels
             EmployeeEditWindow employeeEditWindow = new EmployeeEditWindow();
             EmployeeEditWindowVM vm = App.Current.Services.GetRequiredService<EmployeeEditWindowVM>();
             vm.EmployeesVM = this;
+            vm.Employee = SelectedEmployee;
             vm.Title = "Edit employee information window";
             employeeEditWindow.DataContext = vm;
             if (vm.CloseAction == null)
