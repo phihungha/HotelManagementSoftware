@@ -24,6 +24,7 @@ namespace HotelManagementSoftware.UI.Windows
         public EmployeeEditWindow()
         {
             InitializeComponent();
+            DataContext= App.Current.Services.GetRequiredService<EmployeeEditWindowVM>(); 
         }
     }
 }

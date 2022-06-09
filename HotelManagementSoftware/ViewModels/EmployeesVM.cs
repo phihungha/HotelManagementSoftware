@@ -120,30 +120,29 @@ namespace HotelManagementSoftware.ViewModels
         public void executeEditEmployeeAction()
         {
             EmployeeEditWindow employeeEditWindow = new EmployeeEditWindow();
-            EmployeeEditWindowVM vm = App.Current.Services.GetRequiredService<EmployeeEditWindowVM>();
+            EmployeeEditWindowVM vm = new EmployeeEditWindowVM(employeeBusiness);
             vm.EmployeesVM = this;
-            vm.Employee = SelectedEmployee;
             vm.Title = "Edit employee information window";
+            vm.EmployeeEditWindowType = EmployeeEditWindowType.Edit;
             employeeEditWindow.DataContext = vm;
             if (vm.CloseAction == null)
             {
                 vm.CloseAction = new Action(employeeEditWindow.Close);
             }
-
             employeeEditWindow.ShowDialog();
         }
         public void executeAddEmployeeAction()
         {
             EmployeeEditWindow employeeEditWindow = new EmployeeEditWindow();
-            EmployeeEditWindowVM vm = App.Current.Services.GetRequiredService<EmployeeEditWindowVM>();
+            EmployeeEditWindowVM vm = new EmployeeEditWindowVM(employeeBusiness);
             vm.EmployeesVM = this;
             vm.Title = "Add employee window";
+            vm.EmployeeEditWindowType = EmployeeEditWindowType.Add;
             employeeEditWindow.DataContext = vm;
             if (vm.CloseAction == null)
             {
                 vm.CloseAction = new Action(employeeEditWindow.Close);
             }
-
             employeeEditWindow.ShowDialog();
         }
         #endregion

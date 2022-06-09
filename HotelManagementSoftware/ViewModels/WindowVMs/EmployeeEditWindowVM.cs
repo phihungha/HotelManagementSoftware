@@ -1,26 +1,44 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Toolkit.Mvvm.Input;
 using HotelManagementSoftware.Data;
 using System.Windows.Input;
-using System.Windows;
 using System.ComponentModel.DataAnnotations;
-using HotelManagementSoftware.UI.Windows;
 using HotelManagementSoftware.Business;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace HotelManagementSoftware.ViewModels.WindowVMs
 {
     public class EmployeeEditWindowVM : ObservableValidator
     {
-        public EmployeesVM EmployeesVM { get; set; }
-        public Employee Employee { get; set; }
+        private EmployeesVM employeesVM;
+        public EmployeesVM EmployeesVM
+        {
+            get => employeesVM;
+            set
+            {
+                SetProperty(ref employeesVM, value);
+                if (EmployeesVM != null)
+                {
+                    if (EmployeesVM.SelectedEmployee != null)
+                    {
+                        Name = EmployeesVM.SelectedEmployee.Name;
+                        UserName = EmployeesVM.SelectedEmployee.UserName;
+                        Gender = EmployeesVM.SelectedEmployee.Gender;
+                        EmployeeType = EmployeesVM.SelectedEmployee.EmployeeType;
+                        BirthDate = EmployeesVM.SelectedEmployee.BirthDate;
+                        Cmnd = EmployeesVM.SelectedEmployee.Cmnd;
+                        PhoneNumber = EmployeesVM.SelectedEmployee.PhoneNumber;
+                        Email = EmployeesVM.SelectedEmployee.Email;
+                        Address = EmployeesVM.SelectedEmployee.Address;
 
+                    }
+                }
+            }
+        }
         private EmployeeBusiness? employeeBusiness;
+        public EmployeeEditWindowType EmployeeEditWindowType { get; set; }
         public ObservableCollection<EmployeeType> EmployeeTypes { get; set; } = new();
         public ObservableCollection<Gender> Genders { get; set; } = new();
         public String Title { get; set; }
@@ -39,7 +57,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
         #region Property Validation
         [Required(ErrorMessage = "Name cannot be empty")]
-        [MinLength(2,ErrorMessage = "Name cannot be shorter than 2 character")]
+        [MinLength(2, ErrorMessage = "Name cannot be shorter than 2 character")]
         [MaxLength(100, ErrorMessage = "Name should be shorter than 100 character")]
         public string Name
         {
@@ -50,7 +68,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         [Required(ErrorMessage = "Username cannot be empty")]
         [MinLength(5, ErrorMessage = "Username cannot be shorter than 5 character")]
         [MaxLength(100, ErrorMessage = "Username should be shorter than 100 character")]
-        [RegularExpression(@"^[a-zA-Z][a-zA-Z0-9]+$", ErrorMessage= "Username should be a letter")]
+        [RegularExpression(@"^[a-zA-Z][a-zA-Z0-9]+$", ErrorMessage = "Username should be a letter")]
         public string UserName
         {
             get => userName;
@@ -80,27 +98,30 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
         [Required(ErrorMessage = "ID cannot be empty")]
         [RegularExpression(@"^(\d{9}|\d{12})$", ErrorMessage = "Invalid ID")]
-        public string Cmnd {
+        public string Cmnd
+        {
             get => cmnd;
             set => SetProperty(ref cmnd, value, true);
         }
 
         [Required(ErrorMessage = "Phone cannot be empty")]
         [RegularExpression(@"^(03|05|07|08|09|01[2|6|8|9])([0-9]{8})\b$", ErrorMessage = "Invalid phone")]
-        public string PhoneNumber {
+        public string PhoneNumber
+        {
             get => phoneNumber;
             set => SetProperty(ref phoneNumber, value, true);
         }
 
         [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "Invalid email")]
-        public string? Email {
+        public string? Email
+        {
             get => email;
             set => SetProperty(ref email, value, true);
         }
 
         [Required(ErrorMessage = "Address cannot be empty")]
-        [RegularExpression(@"^[A-Za-z0-9]+(?:\s[A-Za-z0-9'_-]+)+$", ErrorMessage = "Invalid address")]
-        public string Address {
+        public string Address
+        {
             get => address;
             set => SetProperty(ref address, value, true);
         }
@@ -120,19 +141,6 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             setUpCombobox();
             CommandCancel = new RelayCommand(cancel);
             CommandUpdate = new RelayCommand(updateEmployeeAction);
-
-            if (Employee != null)
-            {
-                name = Employee.Name;
-                userName = Employee.UserName;
-                gender = Employee.Gender;
-                employeeType = Employee.EmployeeType;
-                birthDate = Employee.BirthDate;
-                cmnd = Employee.Cmnd;
-                phoneNumber = Employee.PhoneNumber;
-                email = Employee.Email;
-                address = Employee.Address;
-            }
         }
 
         private void setUpCombobox()
@@ -153,15 +161,42 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
         public void updateEmployeeAction()
         {
-            //ValidateAllProperties();
-            AddEmployee();
+            ValidateAllProperties();
+            if (EmployeeEditWindowType.Equals(EmployeeEditWindowType.Add))
+            {
+                AddEmployee();
+            }
+            else
+            {
+                EditEmployee();
+            }
         }
+        private async void EditEmployee()
+        {
+            Employee employee = EmployeesVM.SelectedEmployee;
+            employee.Name = Name;
+            employee.UserName = UserName;
+            employee.Gender = Gender;
+            employee.EmployeeType = EmployeeType;
+            employee.BirthDate = BirthDate;
+            employee.Cmnd = Cmnd;
+            employee.PhoneNumber = PhoneNumber;
+            employee.Email = Email;
+            employee.Address = Address;
 
+            if (employeeBusiness != null && employee != null)
+            {
+                await employeeBusiness.EditEmployee(employee);
+                CloseAction();
+                EmployeesVM.GetAllEmployees();
+            }
+        }
         private async void AddEmployee()
-        {          
+        {
             Employee employee = new Employee(Name, UserName, EmployeeType, Gender, BirthDate, Cmnd, PhoneNumber, Address, Email);
 
-            if (employeeBusiness != null && employee!=null && Password!=null) {
+            if (employeeBusiness != null && employee != null && Password != null)
+            {
                 await employeeBusiness.CreateEmployee(employee, Password);
                 CloseAction();
                 EmployeesVM.GetAllEmployees();
@@ -173,5 +208,10 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         }
         #endregion
         public Action CloseAction { get; set; }
+    }
+
+    public enum EmployeeEditWindowType
+    {
+        Add, Edit
     }
 }
