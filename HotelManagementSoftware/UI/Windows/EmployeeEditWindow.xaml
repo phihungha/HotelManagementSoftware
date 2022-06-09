@@ -12,9 +12,7 @@
         WindowStartupLocation="CenterScreen"
         Height="420"
         Width="800">
-    <Window.DataContext>
-        <vm:EmployeeEditWindowVM />
-    </Window.DataContext>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -31,7 +29,7 @@
                            FontSize="24"
                            FontWeight="Bold"
                            Style="{StaticResource TextLabel}"
-                           Text="Edit employee infomation" />
+                           Text="{Binding Title}" />
             </StackPanel>
             <Border Width="Auto"
                     BorderThickness="1"
@@ -64,7 +62,7 @@
 
                 <!--ID-->
                 <Grid Grid.Column="0">
-                    <StackPanel  Margin="8 0 8 0"
+                    <StackPanel  Margin="8 0 16 0"
                                  Orientation="Vertical">
                         <TextBlock Style="{StaticResource TextLabel}"
                                    FontSize="12"
@@ -146,9 +144,8 @@
                                    Text="Gender" />
                         <ui:ComboBox HorizontalAlignment="Stretch"
                                      ui:InfoElement.Placeholder="Enter gender"
-                                     Text="{Binding Path=Gender,UpdateSourceTrigger=PropertyChanged}">
-                            <TextBlock Text="Male"></TextBlock>
-                            <TextBlock Text="Female"></TextBlock>
+                                     ItemsSource="{Binding Genders}"
+                                     SelectedItem="{Binding Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         </ui:ComboBox>
                     </StackPanel>
                 </Grid>
@@ -177,7 +174,7 @@
                                    Text="Password" />
                         <ui:PasswordBox IsSafeEnabled="False"
                                         ShowEyeButton="True"
-                                        UnsafePassword="{Binding HashedPassword, UpdateSourceTrigger=PropertyChanged}"
+                                        UnsafePassword="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
                                         ShowClearButton="True"
                                         ui:InfoElement.Placeholder="Password"
                                         Margin="0,0,0,20" />
@@ -189,22 +186,37 @@
             <!--Right table-->
             <Grid Grid.Column="1"
                   Grid.Row="0"
-                  Grid.ColumnSpan="4">
+                  >
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
+
+                <StackPanel Margin="16 0 16 16"
+                            Orientation="Vertical">
+                    <TextBlock Style="{StaticResource TextLabel}"
+                               FontSize="12"
+                               Text="Employee type" />
+                    <ui:ComboBox HorizontalAlignment="Stretch"
+                                 ui:InfoElement.Placeholder="Enter employee type"
+                                 ItemsSource="{Binding EmployeeTypes}"
+                                 SelectedItem="{Binding EmployeeType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 >
+                    </ui:ComboBox>
+                </StackPanel>
                 <!--Address-->
 
-                <Grid Grid.Row="0"
+                <Grid Grid.Row="2"
                       Margin="16 0 16 0">
                     <TextBlock Style="{StaticResource TextLabel}"
                                FontSize="12"
                                Text="Address" />
                 </Grid>
 
-                <Grid Grid.Row="1"
-                      Margin="16 0 16 0">
+                <Grid Grid.Row="3"
+                      Margin="16 0 16 16">
                     <ui:TextBox HorizontalContentAlignment="Left"
                                 VerticalContentAlignment="Top"
                                 ui:InfoElement.Placeholder="Enter address"
@@ -231,7 +243,7 @@
                     FontFamily="Poppins"
                     Command="{Binding CommandCancel}"
                     />
-            <Button Content="Update"
+            <Button Content="Save"
                     FontWeight="Bold"
                     Background="#FF358AFF"
                     Foreground="White"

@@ -10,22 +10,30 @@ using System.Windows.Input;
 using System.Windows;
 using System.ComponentModel.DataAnnotations;
 using HotelManagementSoftware.UI.Windows;
+using HotelManagementSoftware.Business;
+using System.Collections.ObjectModel;
 
 namespace HotelManagementSoftware.ViewModels.WindowVMs
 {
-
     public class EmployeeEditWindowVM : ObservableValidator
     {
+        public EmployeesVM EmployeesVM { get; set; }
+
+        private EmployeeBusiness? employeeBusiness;
+        public ObservableCollection<EmployeeType> EmployeeTypes { get; set; } = new();
+        public ObservableCollection<Gender> Genders { get; set; } = new();
+        public String Title { get; set; }
         #region private variables
         private string name;
         private string userName;
         private Gender gender;
+        private EmployeeType employeeType;
         private DateTime birthDate;
         private string cmnd;
         private string phoneNumber;
         private string? email;
         private string address;
-        private string? hashedPassword;
+        private string password;
         #endregion
 
         #region Property Validation
@@ -53,6 +61,13 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         {
             get => gender;
             set => SetProperty(ref gender, value, true);
+        }
+
+        [Required(ErrorMessage = "Employee type cannot be empty")]
+        public EmployeeType EmployeeType
+        {
+            get => employeeType;
+            set => SetProperty(ref employeeType, value, true);
         }
 
         [Required(ErrorMessage = "Date of birth cannot be empty")]
@@ -90,34 +105,53 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         }
 
         [Required(ErrorMessage = "Password cannot be empty")]
-        public string? HashedPassword
+        public string Password
         {
-            get => hashedPassword;
-            set => SetProperty(ref hashedPassword, value, true);
+            get => password;
+            set => SetProperty(ref password, value, true);
         }
         #endregion
 
         #region ctor
-        public EmployeeEditWindowVM()
+        public EmployeeEditWindowVM(EmployeeBusiness? employeeBusiness)
         {
+            this.employeeBusiness = employeeBusiness;
+            setUpCombobox();
             CommandCancel = new RelayCommand(cancel);
-            CommandUpdate = new RelayCommand(updateEmployeeAction, canUpdateEmployee);
+            CommandUpdate = new RelayCommand(updateEmployeeAction);
         }
 
+        private void setUpCombobox()
+        {
+            EmployeeTypes.Add(EmployeeType.MaintenanceManager);
+            EmployeeTypes.Add(EmployeeType.HousekeepingManager);
+            EmployeeTypes.Add(EmployeeType.Receptionist);
+            EmployeeTypes.Add(EmployeeType.Manager);
+
+            Genders.Add(Gender.Male);
+            Genders.Add(Gender.Female);
+        }
         #endregion
 
         #region command
-        public ICommand CommandUpdate { get; }
-        public ICommand CommandCancel { get; }
+        public ICommand? CommandUpdate { get; }
+        public ICommand? CommandCancel { get; }
 
         public void updateEmployeeAction()
         {
-            MessageBox.Show("Update");
+            //ValidateAllProperties();
+            AddEmployee();
         }
 
-        public bool canUpdateEmployee()
-        {
-            return true;
+        private async void AddEmployee()
+        {          
+            Employee employee = new Employee(Name, UserName, EmployeeType, Gender, BirthDate, Cmnd, PhoneNumber, Address, Email);
+
+            if (employeeBusiness != null && employee!=null && Password!=null) {
+                await employeeBusiness.CreateEmployee(employee, Password);
+                CloseAction();
+                EmployeesVM.GetAllEmployees();
+            }
         }
         public void cancel()
         {
