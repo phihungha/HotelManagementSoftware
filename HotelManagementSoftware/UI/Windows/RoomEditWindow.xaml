@@ -4,9 +4,55 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HotelManagementSoftware.UI.Windows"
+        xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels.WindowVMs" xmlns:ui="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d"
         Title="RoomEditWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:RoomEditWindowVM x:Name="RoomEditWindowVM"/>
+    </Window.DataContext>
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <Style TargetType="StackPanel">
+                <Setter Property="Margin" Value="10,10,10,10" />
+            </Style>
+        </Grid.Resources>
+        <TextBlock Text="Room" Grid.ColumnSpan="2" FontSize="48" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" />
+        <StackPanel x:Name="Number" Grid.Row="1" Grid.Column="0">
+            <TextBlock Text="Number" FontSize="15"/>
+            <TextBox  Text="{Binding Number, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" FontSize="20" />
+        </StackPanel>
+        <StackPanel x:Name="Type" Grid.Row="1" Grid.Column="1">
+            <TextBlock  Text="Type" FontSize="15"/>
+            <ComboBox ItemsSource="{Binding RoomTypes}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedRoomType}" FontSize="20" />
+        </StackPanel>
+        <StackPanel x:Name="Floor" Grid.Row="2" Grid.Column="0">
+            <TextBlock  Text="Floor" FontSize="15"/>
+            <ui:NumericUpDown HorizontalAlignment="Stretch" FontSize="20" Value="{Binding Floor}"/>
+        </StackPanel>
+        <StackPanel x:Name="Status" Grid.Row="2" Grid.Column="1">
+            <TextBlock  Text="Status" FontSize="15"/>
+            <ComboBox  ItemsSource="{Binding Status}" SelectedItem="{Binding selectedstatus}" FontSize="20" />
+        </StackPanel>
+        <DockPanel x:Name="Notes" Margin="10,10,10,10" LastChildFill="True" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+            <TextBlock DockPanel.Dock="Top" Text="Notes" FontSize="15"/>
+            <TextBox  Text="{Binding Note, UpdateSourceTrigger=PropertyChanged}"  FontSize="20" VerticalAlignment="Stretch"/>
+        </DockPanel>
+        <Button Content="Cancel" FontWeight="Bold"
+                    Background="#FFF0241D" Foreground="White"  Grid.Column="0" Grid.Row="4"
+                Command="{Binding CommandCancel, ElementName=RoomEditWindowVM}"/>
+        <Button Content="Save" FontWeight="Bold"
+                    Background="#FF358AFF" Foreground="White" Grid.Column="1" Grid.Row="4" 
+                Command="{Binding CommandSave, ElementName=RoomEditWindowVM}"/>
     </Grid>
 </Window>

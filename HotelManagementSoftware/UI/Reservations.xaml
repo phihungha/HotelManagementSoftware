@@ -16,7 +16,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Button Content="New reservation" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,5,10,5" FontSize="14" Command="{Binding CommandAdd}"/>
+        <Button Content="New reservation" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,5,10,5" FontSize="14" Command="{Binding CommandAdd}" Click="Button_Click"/>
         <DataGrid Grid.Row="1" HeadersVisibility="All" ItemsSource="{Binding Reservations}" SelectedItem="{Binding SelectedReservations}"
                   CanUserReorderColumns="False"
                       CanUserResizeRows="False"
