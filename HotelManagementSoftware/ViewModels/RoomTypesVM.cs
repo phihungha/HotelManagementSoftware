@@ -40,12 +40,7 @@ namespace HotelManagementSoftware.ViewModels
         public ICommand CommandEdit { get; }
         public void executeAddAction()
         {
-            RoomTypeEditWindow roomTypeEditWindow = new RoomTypeEditWindow();
-            RoomTypeEditWindowVM vm = new RoomTypeEditWindowVM(roomTypeBusiness);
-            vm.RoomTypesVM = this;
-            vm.type = RoomTypeEditWindowType.Add;
-            roomTypeEditWindow.DataContext = vm;
-            roomTypeEditWindow.ShowDialog();
+
         }
         public void executeDeleteAction()
         {

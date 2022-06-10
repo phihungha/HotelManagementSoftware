@@ -83,12 +83,8 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
         public async void executeSaveAction()
         {
-            if (type == RoomTypeEditWindowType.Add)
-            {
-                RoomType roomType = new RoomType(Name, Capacity, Rate, Description);
-                roomTypeBusiness.AddRoomType(roomType);
-            }
-            else if (type == RoomTypeEditWindowType.Edit)
+            
+             if (type == RoomTypeEditWindowType.Edit)
             {
                 RoomType roomType = RoomTypesVM.SelectedRoomType;
                 roomType.Name = Name;
@@ -96,6 +92,11 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 roomType.Capacity = Capacity;
                 roomType.Description = Description;
                 roomTypeBusiness.EditRoomType(roomType);
+            }
+            else 
+            {
+                RoomType roomType = new RoomType(Name, Capacity, Rate, Description);
+                roomTypeBusiness.AddRoomType(roomType);
             }
             CloseAction();
             RoomTypesVM.GetAllRoomType();
