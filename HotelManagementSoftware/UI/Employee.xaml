@@ -17,9 +17,6 @@
                     Value="Poppins" />
         </Style>
     </UserControl.Resources>
-    <UserControl.DataContext>
-        <vm:EmployeesVM x:Name="employeeVM" />
-    </UserControl.DataContext>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -48,7 +45,8 @@
                             Background="Transparent"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Command="{Binding CommandSearch}">
+                            Command="{Binding CommandSearch}"
+                            >
                         <Image Source="{StaticResource IconSearchButton}"
                                Stretch="Fill" />
                     </Button>
@@ -66,7 +64,10 @@
                                 Padding="0 0 8 0"
                                 Width="Auto"
                                 ui:InfoElement.Placeholder="Search..."
-                                Panel.ZIndex="2">
+                                Panel.ZIndex="2"
+                                ShowClearButton="True"
+                                Text="{Binding TextFilter, UpdateSourceTrigger=PropertyChanged}"
+                                >
                     </ui:TextBox>
                 </Grid>
 
@@ -100,12 +101,17 @@
 
                 <Grid Grid.Column="1"
                       Margin="8 0 0 0">
-                    <ComboBox HorizontalAlignment="Stretch" />
+                    <ui:ComboBox 
+                        ItemsSource="{Binding ComboboxFilterItems}"
+                              SelectedItem="{Binding SelectedComboboxItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              HorizontalAlignment="Stretch"
+                              >
+                    </ui:ComboBox>
                 </Grid>
 
                 <Grid Grid.Column="2"
                       Margin="8 0 0 0">
-                    <Button Command="{Binding CommandFilterEmployee}">
+                    <Button BorderThickness="0">
                         <Image Source="{StaticResource IconFilterButton}"
                                Stretch="Fill" />
                     </Button>
@@ -137,7 +143,8 @@
 
         <!--ListView-->
         <Grid Grid.Row="1">
-            <DataGrid ItemsSource="{Binding Path=Employees}"
+            <DataGrid ItemsSource="{Binding Employees, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}"
                       Background="Transparent"
                       CanUserReorderColumns="False"
                       CanUserResizeRows="False"
@@ -149,6 +156,7 @@
                       FlowDirection="LeftToRight"
                       VerticalScrollBarVisibility="Visible"
                       Padding="16"
+                      SelectionMode="Single"
                       CellStyle="{StaticResource ResourceKey=gridCellStyle}"
                       ColumnHeaderStyle="{StaticResource ResourceKey=gridHeaderStyle}"
                       >
@@ -179,6 +187,12 @@
                                         Width="*"
                                         IsReadOnly="True"
                                         Binding="{Binding Gender}"
+                                        FontSize="12" />
+
+                    <DataGridTextColumn Header="Type"
+                                        Width="*"
+                                        IsReadOnly="True"
+                                        Binding="{Binding EmployeeType}"
                                         FontSize="12" />
 
                     <DataGridTextColumn Header="Date of birth"
@@ -213,14 +227,16 @@
                                     <Button Height="18"
                                             Width="18"
                                             Style="{StaticResource ResourceKey=ImageButton}"
-                                            Command="{Binding CommandAddNewEmployee, ElementName=employeeVM}">
+                                            Command="{Binding Path=DataContext.CommandEditEmployee,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                            CommandParameter="{Binding}">
                                         <Image Source="{StaticResource IconEditButton}"
                                                Stretch="Fill" />
                                     </Button>
                                     <Button Height="18"
                                             Width="18"
                                             Style="{StaticResource ResourceKey=ImageButton}"
-                                            Command="{Binding CommandDeleteEmployee, ElementName=employeeVM}">
+                                            Command="{Binding Path=DataContext.CommandDeleteEmployee,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                            CommandParameter="{Binding}">
                                         <Image Source="{StaticResource IconDeleteButton}"
                                                Stretch="Fill" />
                                     </Button>

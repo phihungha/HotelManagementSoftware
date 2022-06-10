@@ -13,16 +13,12 @@
         Height="350"
         Width="800">
 
-    <Window.DataContext>
-        <vm:HousekeepingEditWindowVM />
-    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
 
         <!--Title-->
         <StackPanel Grid.Row="0">
@@ -33,7 +29,7 @@
                            FontSize="24"
                            Style="{StaticResource ResourceKey=TextLabel}"
                            FontWeight="Bold"
-                           Text="Issues" />
+                           Text="{Binding Title}" />
 
 
             </StackPanel>
@@ -73,7 +69,7 @@
                                 HorizontalContentAlignment="Left"
                                 VerticalContentAlignment="Top"
                                 ui:InfoElement.Placeholder="Note detail"
-                                Text="{Binding Path=Note,UpdateSourceTrigger=PropertyChanged}"
+                                Text="{Binding Note,UpdateSourceTrigger=PropertyChanged}"
                                 ShowClearButton="True" />
                 </Grid>
             </Grid>
@@ -91,34 +87,33 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <!--IssueID-->
+                <!--Room-->
                 <Grid Grid.Column="0"
                       Grid.Row="0">
                     <StackPanel Margin="8 0 16 0"
                                 Orientation="Vertical">
-                        <TextBlock  Style="{StaticResource ResourceKey=TextLabel}"
-                                    FontSize="12"
-                                   Text="Issue ID" />
-                        <ui:TextBox  ui:InfoElement.Placeholder="ID auto generate"
-                                     Text="{Binding Path=IssueID,UpdateSourceTrigger=PropertyChanged}"
-                                     ShowClearButton="True"
-                                     IsEnabled="False" />
-                    </StackPanel>
-                </Grid>
-
-
-                <!--Room-->
-                <Grid Grid.Column="1"
-                      Grid.Row="0">
-                    <StackPanel Margin="16 0 8 0"
-                                Orientation="Vertical">
                         <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
                                    FontSize="12"
                                    Text="Room" />
-                        <ui:ComboBox HorizontalAlignment="Stretch"
-                                     ui:InfoElement.Placeholder="Room ID"
-                                     Text="{Binding Path=RoomID,UpdateSourceTrigger=PropertyChanged}">
-                        </ui:ComboBox>
+                        <Grid>
+                            <ui:ComboBox x:Name="cb_room"
+                                         HorizontalAlignment="Stretch"
+                                         ui:InfoElement.Placeholder="Room number"
+                                         ItemsSource="{Binding RoomLists}"
+                                         DisplayMemberPath="RoomNumber"
+                                         SelectedIndex="0"
+                                         Visibility="{Binding VisibilityCbx, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         SelectedItem="{Binding Room, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            </ui:ComboBox>
+
+                            <ui:TextBox x:Name="tb_room"
+                                        HorizontalAlignment="Stretch"
+                                        ui:InfoElement.Placeholder="Room number"
+                                        Visibility="{Binding VisibilityTextbox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        IsEnabled="False"
+                                        Text="{Binding Room.RoomNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            </ui:TextBox>
+                        </Grid>
                     </StackPanel>
                 </Grid>
 
@@ -131,6 +126,7 @@
                                    FontSize="12"
                                    Text="Start day" />
                         <DatePicker HorizontalAlignment="Stretch"
+                                    IsEnabled="{Binding IsEnabled}"
                                     SelectedDate="{Binding Path=StartTime,UpdateSourceTrigger=PropertyChanged,
                             Mode=TwoWay,
                             ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
@@ -152,7 +148,8 @@
                             UpdateSourceTrigger=PropertyChanged,
                             Mode=TwoWay,
                             ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
-                                    ui:InfoElement.Placeholder="Enter close time" />
+                                    ui:InfoElement.Placeholder="Close time"
+                                    IsEnabled="False" />
                     </StackPanel>
                 </Grid>
 
@@ -165,6 +162,7 @@
                                    FontSize="12"
                                    Text="End day" />
                         <DatePicker HorizontalAlignment="Stretch"
+                                    IsEnabled="{Binding IsEnabled}"
                                     SelectedDate="{Binding Path=EndTime,
                             UpdateSourceTrigger=PropertyChanged,
                             Mode=TwoWay,
@@ -181,10 +179,11 @@
                         <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
                                    FontSize="12"
                                    Text="Status" />
-                        <ui:ComboBox HorizontalAlignment="Stretch"
-                                     ui:InfoElement.Placeholder="Status"
-                                     Text="{Binding Path=Status,UpdateSourceTrigger=PropertyChanged}">
-                        </ui:ComboBox>
+                        <ui:TextBox HorizontalAlignment="Stretch"
+                                    ui:InfoElement.Placeholder="Status"
+                                    Text="{Binding Path=Status,UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="False">
+                        </ui:TextBox>
                     </StackPanel>
                 </Grid>
             </Grid>
@@ -198,18 +197,26 @@
                                 ItemWidth="139"
                                 Orientation="Horizontal"
                                 Margin="0 0 32 12">
+            <Button Content="Close request"
+                    FontWeight="Bold"
+                    Background="Green"
+                    Foreground="White"
+                    FontFamily="Poppins"
+                    Visibility="{Binding VisibilityTextbox}"
+                    Command="{Binding CommandClose}" />
             <Button Content="Cancel"
                     FontWeight="Bold"
                     Background="#FFF0241D"
                     Foreground="White"
                     FontFamily="Poppins"
-                    Command="{Binding CommandCancel}"/>
-            <Button Content="Update"
+                    Command="{Binding CommandCancel}" />
+ 
+            <Button Content="Save"
                     FontWeight="Bold"
                     Background="#FF358AFF"
                     Foreground="White"
                     FontFamily="Poppins"
-                    Command="{Binding CommandUpdate}"/>
+                    Command="{Binding CommandUpdate}" />
         </ui:UniformSpacingPanel>
     </Grid>
 </Window>

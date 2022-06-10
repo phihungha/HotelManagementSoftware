@@ -1,4 +1,5 @@
-﻿using HotelManagementSoftware.ViewModels;
+﻿using HotelManagementSoftware.Business;
+using HotelManagementSoftware.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;

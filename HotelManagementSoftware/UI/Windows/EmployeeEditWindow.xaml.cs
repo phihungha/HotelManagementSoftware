@@ -1,4 +1,5 @@
 ﻿using HotelManagementSoftware.ViewModels.WindowVMs;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,13 +24,7 @@ namespace HotelManagementSoftware.UI.Windows
         public EmployeeEditWindow()
         {
             InitializeComponent();
-
-            EmployeeEditWindowVM vm = new EmployeeEditWindowVM();
-            this.DataContext = vm;
-            if (vm.CloseAction == null)
-                vm.CloseAction = new Action(this.Close);
+            DataContext= App.Current.Services.GetRequiredService<EmployeeEditWindowVM>(); 
         }
-
     }
-
 }
