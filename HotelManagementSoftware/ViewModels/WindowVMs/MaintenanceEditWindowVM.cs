@@ -20,18 +20,9 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         private EmployeeBusiness? employeeBusiness;
         private RoomBusiness? roomBusiness;
 
-        private MaintenanceVM maintenanceVM;
         private int? currentRequestId;
         private MaintenanceRequestType maintenanceRequestType;
 
-        public MaintenanceVM MaintenanceVM
-        {
-            get => maintenanceVM;
-            set
-            {
-                SetProperty(ref maintenanceVM, value, true);
-            }
-        }
         public int? CurrentRequestId
         {
             get => currentRequestId;
@@ -66,6 +57,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             }
         }
 
+        public MaintenanceVM MaintenanceVM { get; set; }
         public ObservableCollection<MaintenanceItem> Items { get; set; } = new();
         public MaintenanceItem SelectedItem { get; set; }
         public bool IsEnabled { get; set; }
@@ -242,7 +234,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 request.MaintenanceItems = listItem;
 
                 await maintenanceBusiness.CreateMaintenanceRequest(request);
-                maintenanceVM.GetAllItem();
+                MaintenanceVM.GetAllItem();
                 CloseAction();
             }
             catch (Exception e)
@@ -268,7 +260,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 request.MaintenanceItems = listItem;
 
                 await maintenanceBusiness.EditMaintenanceRequest(request);
-                maintenanceVM.GetAllItem();
+                MaintenanceVM.GetAllItem();
                 CloseAction();
             }
             catch (Exception e)
@@ -294,7 +286,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
                 if (current == null) return;
                 await maintenanceBusiness.CloseMaintenanceRequest(request, DateTime.Now, current);
-                maintenanceVM.GetAllItem();
+                MaintenanceVM.GetAllItem();
                 CloseAction();
             }
             catch (Exception e)

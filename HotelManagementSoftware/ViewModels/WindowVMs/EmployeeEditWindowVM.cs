@@ -13,8 +13,9 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
     public class EmployeeEditWindowVM : ObservableValidator
     {
         private EmployeesVM employeesVM;
-        private Employee? currentSelected; 
-        private Visibility hiddenWhenUpdate;
+        private EmployeeBusiness? employeeBusiness;
+        private EmployeeEditWindowType employeeEditWindowType;
+        private int? currentSelectedEmployeeId;
         public EmployeesVM EmployeesVM
         {
             get => employeesVM;
@@ -23,39 +24,40 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 SetProperty(ref employeesVM, value, true);
             }
         }
-        public Employee? CurrentSelected
+        public int? CurrentSelectedEmployeeId
         {
-            get => currentSelected;
+            get => currentSelectedEmployeeId;
             set
             {
-                SetProperty(ref currentSelected, value, true);
-                if (CurrentSelected != null)
+                SetProperty(ref currentSelectedEmployeeId, value, true);
+                if (CurrentSelectedEmployeeId != null)
                 {
-                    Name = CurrentSelected.Name;
-                    UserName = CurrentSelected.UserName;
-                    Gender = CurrentSelected.Gender;
-                    EmployeeType = CurrentSelected.EmployeeType;
-                    BirthDate = CurrentSelected.BirthDate;
-                    Cmnd = CurrentSelected.Cmnd;
-                    PhoneNumber = CurrentSelected.PhoneNumber;
-                    Email = CurrentSelected.Email;
-                    Address = CurrentSelected.Address;
-
+                    GetCurrentEmployee();
                 }
-
             }
         }
-        public Visibility HiddenWhenUpdate {
-            get => hiddenWhenUpdate;
+        public EmployeeEditWindowType EmployeeEditWindowType {
+            get => employeeEditWindowType;
             set
             {
-                SetProperty(ref hiddenWhenUpdate, value, true);
+                SetProperty(ref employeeEditWindowType, value, true);
+                if (EmployeeEditWindowType.Equals(EmployeeEditWindowType.Add))
+                {
+                    Title = "Add employee window";
+                    HiddenWhenUpdate = Visibility.Visible;
+                    VisibilityUpdateForChangePassword = Visibility.Hidden;
+                }
+                else
+                {
+                    Title = "Edit employee information window";
+                    HiddenWhenUpdate = Visibility.Hidden;
+                    VisibilityUpdateForChangePassword=Visibility.Visible;
+                }
             }
         }
-
+        public Employee? CurrentSelected { get; set; }
+        public Visibility HiddenWhenUpdate { get;set;}
         public Visibility VisibilityUpdateForChangePassword { get; set; }
-        private EmployeeBusiness? employeeBusiness;
-        public EmployeeEditWindowType EmployeeEditWindowType { get; set; }
         public ObservableCollection<EmployeeType> EmployeeTypes { get; set; } = new();
         public ObservableCollection<Gender> Genders { get; set; } = new();
         public String Title { get; set; }
@@ -192,6 +194,23 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             {
                 EditEmployee();
             }
+        }
+        private async void GetCurrentEmployee()
+        {
+            if (employeeBusiness == null || CurrentSelectedEmployeeId == null) return;
+            CurrentSelected = await employeeBusiness.GetEmployeeById(CurrentSelectedEmployeeId.Value);
+            
+            if (CurrentSelected == null) return;
+            
+            Name = CurrentSelected.Name;
+            UserName = CurrentSelected.UserName;
+            Gender = CurrentSelected.Gender;
+            EmployeeType = CurrentSelected.EmployeeType;
+            BirthDate = CurrentSelected.BirthDate;
+            Cmnd = CurrentSelected.Cmnd;
+            PhoneNumber = CurrentSelected.PhoneNumber;
+            Email = CurrentSelected.Email;
+            Address = CurrentSelected.Address;
         }
         private async void EditEmployee()
         {

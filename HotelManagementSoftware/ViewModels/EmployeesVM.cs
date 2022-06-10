@@ -122,17 +122,13 @@ namespace HotelManagementSoftware.ViewModels
             EmployeeEditWindow employeeEditWindow = new EmployeeEditWindow();
             EmployeeEditWindowVM vm = App.Current.Services.GetRequiredService<EmployeeEditWindowVM>();
             vm.EmployeesVM = this;
-            vm.CurrentSelected = SelectedEmployee;
-            vm.Title = "Edit employee information window";
             vm.EmployeeEditWindowType = EmployeeEditWindowType.Edit;
-            employeeEditWindow.DataContext = vm;
+            vm.CurrentSelectedEmployeeId = SelectedEmployee.EmployeeId;
             if (vm.CloseAction == null)
             {
                 vm.CloseAction = new Action(employeeEditWindow.Close);
             }
-            vm.HiddenWhenUpdate = Visibility.Hidden;
-            vm.VisibilityUpdateForChangePassword=Visibility.Visible;
-
+            employeeEditWindow.DataContext = vm;
             employeeEditWindow.ShowDialog();
         }
         public void executeAddEmployeeAction()
@@ -140,15 +136,14 @@ namespace HotelManagementSoftware.ViewModels
             EmployeeEditWindow employeeEditWindow = new EmployeeEditWindow();
             EmployeeEditWindowVM vm = App.Current.Services.GetRequiredService<EmployeeEditWindowVM>();
             vm.EmployeesVM = this;
-            vm.Title = "Add employee window";
             vm.EmployeeEditWindowType = EmployeeEditWindowType.Add;
-            employeeEditWindow.DataContext = vm;
+            vm.CurrentSelectedEmployeeId = null;
             if (vm.CloseAction == null)
             {
                 vm.CloseAction = new Action(employeeEditWindow.Close);
             }
-            vm.HiddenWhenUpdate = Visibility.Visible;
-            vm.VisibilityUpdateForChangePassword = Visibility.Hidden;
+
+            employeeEditWindow.DataContext = vm;
             employeeEditWindow.ShowDialog();
         }
         #endregion
