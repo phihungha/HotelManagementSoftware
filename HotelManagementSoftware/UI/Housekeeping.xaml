@@ -145,10 +145,10 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Width="18"
+                                    <!--<Image Width="18"
                                            Height="18"
                                            Source="{StaticResource IconPersonFemale}"
-                                           Stretch="Fill" />
+                                           Stretch="Fill" />-->
                                     <TextBlock Margin="4 0 0 0"
                                                Text="{Binding OpenEmployee.Name}"
                                                VerticalAlignment="Center" />
@@ -162,10 +162,10 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Width="18"
+                                    <!--<Image Width="18"
                                            Height="18"
                                            Source="{StaticResource IconPersonMale}"
-                                           Stretch="Fill" />
+                                           Stretch="Fill" />-->
                                     <TextBlock Margin="4 0 0 0"
                                                Text="{Binding CloseEmployee.Name}"
                                                VerticalAlignment="Center" />
@@ -175,31 +175,31 @@
                     </DataGridTemplateColumn>
 
                     <DataGridTextColumn Header="Start time"
-                                        Width="*"
+                                        Width="Auto"
                                         IsReadOnly="True"
                                         Binding="{Binding StartTime, StringFormat={}{0:dd}/{0:MM}/{0:yyyy}}"
                                         FontSize="12" />
                     
                     <DataGridTextColumn Header="End time"
-                                        Width="*"
+                                        Width="Auto"
                                         IsReadOnly="True"
                                         Binding="{Binding EndTime, StringFormat={}{0:dd}/{0:MM}/{0:yyyy}}"
                                         FontSize="12" />
 
                     <DataGridTextColumn Header="Close time"
-                                        Width="*"
+                                        Width="Auto"
                                         IsReadOnly="True"
                                         Binding="{Binding CloseTime, StringFormat={}{0:dd}/{0:MM}/{0:yyyy}}"
                                         FontSize="12" />
 
                     <DataGridTextColumn Header="Status"
-                                        Width="*"
+                                        Width="Auto"
                                         IsReadOnly="True"
                                         Binding="{Binding Status}"
                                         FontSize="12" />
 
                     <DataGridTemplateColumn Header="Action"
-                                            Width="*">
+                                            Width="Auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">

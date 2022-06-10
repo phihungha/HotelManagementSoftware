@@ -120,7 +120,6 @@
 
             <!--Button new employee-->
             <Grid Grid.Column="2">
-
                 <Button Background="#369FFF"
                         BorderBrush="Transparent"
                         HorizontalAlignment="Right"
@@ -148,6 +147,7 @@
                       Background="Transparent"
                       CanUserReorderColumns="False"
                       CanUserResizeRows="False"
+                      CanUserResizeColumns="True"
                       CanUserAddRows="False"
                       AutoGenerateColumns="False"
                       RowBackground="White"
@@ -178,43 +178,43 @@
                                         Binding="{Binding Name}"
                                         FontSize="12" />
                     <DataGridTextColumn Header="User name"
-                                        Width="*"
+                                        Width="Auto"
                                         IsReadOnly="True"
                                         Binding="{Binding UserName}"
                                         FontSize="12" />
 
                     <DataGridTextColumn Header="Gender"
-                                        Width="*"
+                                        Width="Auto"
                                         IsReadOnly="True"
                                         Binding="{Binding Gender}"
                                         FontSize="12" />
 
                     <DataGridTextColumn Header="Type"
-                                        Width="*"
+                                        Width="Auto"
                                         IsReadOnly="True"
                                         Binding="{Binding EmployeeType}"
                                         FontSize="12" />
 
                     <DataGridTextColumn Header="Date of birth"
-                                        Width="*"
+                                        Width="Auto"
                                         IsReadOnly="True"
                                         Binding="{Binding BirthDate, StringFormat={}{0:dd}/{0:MM}/{0:yyyy}}"
                                         FontSize="12" />
 
                     <DataGridTextColumn Header="CMND"
-                                        Width="*"
+                                        Width="Auto"
                                         IsReadOnly="True"
                                         Binding="{Binding Cmnd}"
                                         FontSize="12" />
 
                     <DataGridTextColumn Header="Phone"
-                                        Width="*"
+                                        Width="Auto"
                                         IsReadOnly="True"
                                         Binding="{Binding PhoneNumber}"
                                         FontSize="12" />
 
                     <DataGridTextColumn Header="Address"
-                                        Width="*"
+                                        Width="Auto"
                                         IsReadOnly="True"
                                         Binding="{Binding Address}"
                                         FontSize="12" />

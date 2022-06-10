@@ -19,42 +19,62 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         private MaintenanceBusiness? maintenanceBusiness;
         private EmployeeBusiness? employeeBusiness;
         private RoomBusiness? roomBusiness;
+
         private MaintenanceVM maintenanceVM;
-        private MaintenanceRequest? currentItem;
-        public bool IsEnabled { get; set; }
-        public Visibility VisibilityCbx { get; set; }
-        public Visibility VisibilityTextbox { get; set; }
-        public MaintenanceRequest? CurrentItem
-        {
-            get => currentItem;
-            set
-            {
-                SetProperty(ref currentItem, value, true);
-                if (CurrentItem != null)
-                {
-                    Room = CurrentItem.Room;
+        private int? currentRequestId;
+        private MaintenanceRequestType maintenanceRequestType;
 
-                    StartTime = CurrentItem.StartTime;
-                    EndTime = CurrentItem.EndTime;
-
-                    CloseTime = CurrentItem.CloseTime;
-                    Status = CurrentItem.Status;
-
-                    Note = CurrentItem.Note;
-                }
-            }
-        }
         public MaintenanceVM MaintenanceVM
         {
             get => maintenanceVM;
             set
             {
-                SetProperty(ref maintenanceVM, value);
+                SetProperty(ref maintenanceVM, value, true);
             }
         }
+        public int? CurrentRequestId
+        {
+            get => currentRequestId;
+            set
+            {
+                SetProperty(ref currentRequestId, value, true);
+                if (CurrentRequestId != null)
+                {
+                    GetCurrentRequest();
+                }
+            }
+        }
+        public MaintenanceRequestType MaintenanceRequestType
+        {
+            get => maintenanceRequestType;
+            set
+            {
+                SetProperty(ref maintenanceRequestType, value, true);
+                if (MaintenanceRequestType.Equals(MaintenanceRequestType.Add))
+                {
+                    Title = "Add maintenance request window";
+                    VisibilityCbx = Visibility.Visible;
+                    VisibilityTextbox = Visibility.Hidden;
+                    IsEnabled = true;
+                }
+                else
+                {
+                    Title = "Edit maintenance request window";
+                    VisibilityCbx = Visibility.Hidden;
+                    VisibilityTextbox = Visibility.Visible;
+                }
+            }
+        }
+
+        public ObservableCollection<MaintenanceItem> Items { get; set; } = new();
+        public MaintenanceItem SelectedItem { get; set; }
+        public bool IsEnabled { get; set; }
+        public Visibility VisibilityCbx { get; set; }
+        public Visibility VisibilityTextbox { get; set; }
         public ObservableCollection<Room> RoomLists { get; set; } = new();
         public String Title { get; set; }
-        public MaintenanceRequestType MaintenanceRequestType { get; set; }
+        public MaintenanceRequest? CurrentItem { get; set; }
+
         #region private variables
         private Room? room;
         private DateTime startTime;
@@ -125,8 +145,29 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             CommandCancel = new RelayCommand(executeCancelAction);
             CommandUpdate = new RelayCommand(executeUpdateAction);
             CommandClose = new RelayCommand(executeCloseAction);
-            CommandEditItem = new RelayCommand(executeEditItemAction);
             CommandDeleteItem = new RelayCommand(executeDeleteItemAction);
+            CommandAddRow = new RelayCommand(executeAddRowAction);
+        }
+        private async void GetCurrentRequest()
+        {
+            if (maintenanceBusiness == null || CurrentRequestId==null) return;
+            CurrentItem = await maintenanceBusiness.GetMaintenanceRequestById(CurrentRequestId.Value);
+
+            if (CurrentItem == null) return;
+            MaintenanceRequest request = CurrentItem;
+            Room = request.Room;
+            StartTime = request.StartTime;
+            EndTime = request.EndTime;
+            CloseTime = request.CloseTime;
+            Status = request.Status;
+            Note = request.Note;
+
+            List<MaintenanceItem> listItem = CurrentItem.MaintenanceItems;
+            Items.Clear();
+            listItem.ForEach(item =>
+            {
+                Items.Add(item);
+            });
         }
 
         private async void FillRoomCombobox()
@@ -145,7 +186,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
         #region command
         public ICommand CommandDeleteItem { get; }
-        public ICommand CommandEditItem { get; }
+        public ICommand CommandAddRow { get; }
         public ICommand CommandCancel { get; }
         public ICommand CommandClose { get; }
         public ICommand CommandUpdate { get; }
@@ -160,17 +201,22 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 UpdateRequest();
             }
         }
+        public void executeAddRowAction()
+        {
+            Items.Add(new MaintenanceItem("name", 0));
+        }
         public void executeCloseAction()
         {
             CloseRequest();
         }
-        public void executeEditItemAction()
-        {
-            MessageBox.Show("Edit item");
-        }
         public void executeDeleteItemAction()
         {
-            MessageBox.Show("Delete");
+            MessageBoxResult result = MessageBox.Show("Delete this item", "Warning", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.Yes && SelectedItem != null)
+            {
+                Items.Remove(SelectedItem);   
+            }
         }
         public void executeCancelAction()
         {
@@ -190,6 +236,10 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
                 if (current == null || Room == null) return;
                 MaintenanceRequest request = new MaintenanceRequest(current.EmployeeId, current, Room, StartTime, EndTime, Note);
+
+                //add item
+                List<MaintenanceItem> listItem = Items.ToList();
+                request.MaintenanceItems = listItem;
 
                 await maintenanceBusiness.CreateMaintenanceRequest(request);
                 maintenanceVM.GetAllItem();
@@ -211,6 +261,12 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 request.StartTime = StartTime;
                 request.EndTime = EndTime;
                 request.Note = Note;
+
+                //add item
+                List<MaintenanceItem> listItem = Items.ToList();
+                MessageBox.Show(Items.Count.ToString());
+                request.MaintenanceItems = listItem;
+
                 await maintenanceBusiness.EditMaintenanceRequest(request);
                 maintenanceVM.GetAllItem();
                 CloseAction();
@@ -231,6 +287,10 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 request.StartTime = StartTime;
                 request.EndTime = EndTime;
                 request.Note = Note;
+
+                //add item
+                List<MaintenanceItem> listItem = Items.ToList();
+                request.MaintenanceItems = listItem;
 
                 if (current == null) return;
                 await maintenanceBusiness.CloseMaintenanceRequest(request, DateTime.Now, current);

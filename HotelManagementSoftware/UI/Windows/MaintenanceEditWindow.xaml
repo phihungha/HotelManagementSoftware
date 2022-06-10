@@ -31,7 +31,7 @@
                            FontSize="24"
                            Style="{StaticResource TextLabel}"
                            FontWeight="Bold"
-                           Text="Issues" />
+                           Text="{Binding Title}" />
 
 
             </StackPanel>
@@ -221,23 +221,43 @@
                            Text="Items" />
             </StackPanel>
 
+            <Button Background="#369FFF"
+                    BorderBrush="Transparent"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Margin="16 8 0 0"
+                    Command="{Binding CommandAddRow}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource AddIconWhite}"
+                           Stretch="Fill" />
+                    <TextBlock Text="New row"
+                               FontSize="12"
+                               Style="{Binding TextLabel}"
+                               Foreground="White"
+                               Margin="4 0 0 0" />
+                </StackPanel>
+            </Button>
         </StackPanel>
 
         <!--Body-->
         <Grid Grid.Row="3"
-              Margin="16 16 32 32">
-            <DataGrid ItemsSource="{Binding Path=Items}"
+              Margin="16 0 32 8">
+            <DataGrid ItemsSource="{Binding Items,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Background="Transparent"
                       CanUserReorderColumns="False"
-                      CanUserResizeRows="False"
+                      CanUserResizeColumns="True"
                       AutoGenerateColumns="False"
+                      
                       RowBackground="White"
                       AlternatingRowBackground="AliceBlue"
+                      
                       SelectionUnit="FullRow"
                       FlowDirection="LeftToRight"
                       VerticalScrollBarVisibility="Visible"
                       Margin="0 8 8 8"
                       SelectionMode="Single"
+                      
                       CanUserAddRows="True"
                       ColumnHeaderStyle="{StaticResource ResourceKey=gridHeaderStyle}"
                       CellStyle="{StaticResource ResourceKey=gridCellStyle}">
@@ -255,38 +275,27 @@
 
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name"
-                                        Width="*"
-                                        IsReadOnly="True"
+                                        Width="Auto"
                                         Binding="{Binding Name}"
                                         FontSize="12" />
                     <DataGridTextColumn Header="Quantity"
-                                        Width="*"
-                                        IsReadOnly="True"
+                                        Width="Auto"
                                         Binding="{Binding Quantity}"
                                         FontSize="12" />
 
                     <DataGridTextColumn Header="Description"
                                         Width="*"
-                                        IsReadOnly="True"
                                         Binding="{Binding Description}"
                                         FontSize="12" />
                     <DataGridTemplateColumn Header="Action"
-                                            Width="*">
+                                            Width="Auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
+                                <StackPanel>
                                     <Button Height="18"
                                             Width="18"
                                             Style="{StaticResource ResourceKey=ImageButton}"
-                                            Command="{Binding Path=DataContext.CommandEditEmployee,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                                            CommandParameter="{Binding}">
-                                        <Image Source="{StaticResource IconEditButton}"
-                                               Stretch="Fill" />
-                                    </Button>
-                                    <Button Height="18"
-                                            Width="18"
-                                            Style="{StaticResource ResourceKey=ImageButton}"
-                                            Command="{Binding Path=DataContext.CommandDeleteEmployee,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                            Command="{Binding Path=DataContext.CommandDeleteItem,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
                                             CommandParameter="{Binding}">
                                         <Image Source="{StaticResource IconDeleteButton}"
                                                Stretch="Fill" />

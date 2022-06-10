@@ -27,6 +27,6 @@ namespace HotelManagementSoftware.UI.Windows
         {
             InitializeComponent();
             DataContext = App.Current.Services.GetRequiredService<MaintenanceEditWindowVM>();
-        } 
+        }
     }
 }

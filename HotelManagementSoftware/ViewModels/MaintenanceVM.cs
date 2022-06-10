@@ -69,17 +69,15 @@ namespace HotelManagementSoftware.ViewModels
             MaintenanceEditWindow window = new MaintenanceEditWindow();
             MaintenanceEditWindowVM vm = App.Current.Services.GetRequiredService<MaintenanceEditWindowVM>();
             vm.MaintenanceVM = this;
-            vm.CurrentItem = SelectedItemMaintenanceRequest;
-            vm.Title = "Edit housekeeping request window";
+
             vm.MaintenanceRequestType = MaintenanceRequestType.Edit;
-            window.DataContext = vm;
+            vm.CurrentRequestId = SelectedItemMaintenanceRequest.MaintenanceRequestId;
+
             if (vm.CloseAction == null)
             {
                 vm.CloseAction = new Action(window.Close);
             }
 
-            vm.VisibilityCbx = Visibility.Hidden;
-            vm.VisibilityTextbox = Visibility.Visible;
             if (SelectedItemMaintenanceRequest.Status.Equals(MaintenanceRequestStatus.Closed))
             {
                 vm.IsEnabled = false;
@@ -89,7 +87,7 @@ namespace HotelManagementSoftware.ViewModels
                 vm.IsEnabled = true;
             }
 
-
+            window.DataContext = vm;
             window.ShowDialog();
 
         }
@@ -98,17 +96,15 @@ namespace HotelManagementSoftware.ViewModels
             MaintenanceEditWindow window = new MaintenanceEditWindow();
             MaintenanceEditWindowVM vm = App.Current.Services.GetRequiredService<MaintenanceEditWindowVM>();
             vm.MaintenanceVM = this;
-            vm.Title = "Add housekeeping request window";
+
             vm.MaintenanceRequestType = MaintenanceRequestType.Add;
-            window.DataContext = vm;
+            vm.CurrentRequestId = null;
+
             if (vm.CloseAction == null)
             {
                 vm.CloseAction = new Action(window.Close);
             }
-
-            vm.VisibilityCbx = Visibility.Visible;
-            vm.VisibilityTextbox = Visibility.Hidden;
-            vm.IsEnabled = true;
+            window.DataContext = vm;
 
             window.ShowDialog();
         }
