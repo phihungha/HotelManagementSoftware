@@ -19,43 +19,53 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         private HousekeepingBusiness? housekeepingBusiness;
         private EmployeeBusiness? employeeBusiness;
         private RoomBusiness roomBusiness;
-        private HousekeepingVM housekeepingVM;
-        private HousekeepingRequest? current;
+        private HousekeepingRequestType housekeepingRequestType;
+        private int? currentRequestId;
 
-        public HousekeepingRequest? Current 
+        public HousekeepingRequestType HousekeepingRequestType
         {
-            get => current;
+            get => housekeepingRequestType;
             set
             {
-                SetProperty(ref current, value, true);
-                if (Current != null)
+                SetProperty(ref housekeepingRequestType, value, true);
+                if (HousekeepingRequestType.Equals(HousekeepingRequestType.Add))
                 {
-                    Room = Current.Room;
-
-                    StartTime = Current.StartTime;
-                    EndTime = Current.EndTime;
-
-                    CloseTime = Current.CloseTime;
-                    Status = Current.Status;
-
-                    Note = Current.Note;
+                    Title = "Add housekeeping request window";
+                    VisibilityCbx = Visibility.Visible;
+                    VisibilityTextbox = Visibility.Hidden;
+                    IsEnabled = true;
+                }
+                else
+                {
+                    Title = "Edit housekeeping request window";
+                    VisibilityCbx = Visibility.Hidden;
+                    VisibilityTextbox = Visibility.Visible;
                 }
             }
         }
+        public int? CurrentRequestId
+        {
+            get => currentRequestId;
+            set
+            {
+                SetProperty(ref currentRequestId, value, true);
+                if (CurrentRequestId != null)
+                {
+                    GetCurrentRequest();
+                }
+            }
+        }
+
+
+
         public bool IsEnabled { get; set; }
         public Visibility VisibilityCbx { get; set; }
         public Visibility VisibilityTextbox { get; set; }
-        public HousekeepingVM HousekeepingVM
-        {
-            get => housekeepingVM;
-            set
-            {
-                SetProperty(ref housekeepingVM, value, true);
-            }
-        }
+        public HousekeepingVM HousekeepingVM { get; set; }
         public ObservableCollection<Room> RoomLists { get; set; } = new();
         public String Title { get; set; }
-        public HousekeepingRequestType HousekeepingRequestType { get; set; }
+        public HousekeepingRequest? Current { get; set; }
+
         #region private variables
         private Room? room;
         private DateTime startTime;
@@ -140,6 +150,20 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 });
 
             }
+        }
+        private async void GetCurrentRequest()
+        {
+            if (housekeepingBusiness == null || CurrentRequestId == null) return;
+            Current = await housekeepingBusiness.GetHousekeepingRequestById(CurrentRequestId.Value);
+
+            if (Current == null) return;
+            HousekeepingRequest request = Current;
+            Room = request.Room;
+            StartTime = request.StartTime;
+            EndTime = request.EndTime;
+            CloseTime = request.CloseTime;
+            Status = request.Status;
+            Note = request.Note;
         }
 
         #region command

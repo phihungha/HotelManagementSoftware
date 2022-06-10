@@ -72,17 +72,13 @@ namespace HotelManagementSoftware.ViewModels
             HousekeepingEditWindow window = new HousekeepingEditWindow();
             HousekeepingEditWindowVM vm = App.Current.Services.GetRequiredService<HousekeepingEditWindowVM>();
             vm.HousekeepingVM = this;
-            vm.Current = SelectedItemHouseKeepingRequest;
-            vm.Title = "Edit housekeeping request window";
             vm.HousekeepingRequestType = HousekeepingRequestType.Edit;
-            window.DataContext = vm;
+            vm.CurrentRequestId = SelectedItemHouseKeepingRequest.HousekeepingRequestId;
             if (vm.CloseAction == null)
             {
                 vm.CloseAction = new Action(window.Close);
             }
 
-            vm.VisibilityCbx = Visibility.Hidden;
-            vm.VisibilityTextbox = Visibility.Visible;
             if (SelectedItemHouseKeepingRequest.Status.Equals(HousekeepingRequestStatus.Closed))
             {
                 vm.IsEnabled = false;
@@ -90,29 +86,21 @@ namespace HotelManagementSoftware.ViewModels
             {
                 vm.IsEnabled = true;
             }
-
-
+            window.DataContext = vm;
             window.ShowDialog();
         }
         public void executeAddIssueAction()
         {
             HousekeepingEditWindow window = new HousekeepingEditWindow();
             HousekeepingEditWindowVM vm = App.Current.Services.GetRequiredService<HousekeepingEditWindowVM>();
-
             vm.HousekeepingVM = this;
-            vm.Current = null;
-            vm.Title = "Add housekeeping request window";
             vm.HousekeepingRequestType = HousekeepingRequestType.Add;
-            window.DataContext = vm;
+            vm.CurrentRequestId = null;
             if (vm.CloseAction == null)
             {
                 vm.CloseAction = new Action(window.Close);
             }
-
-            vm.VisibilityCbx = Visibility.Visible;
-            vm.VisibilityTextbox = Visibility.Hidden;
-            vm.IsEnabled = true;
-
+            window.DataContext = vm;
             window.ShowDialog();
         }
         #endregion
