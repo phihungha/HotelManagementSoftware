@@ -16,7 +16,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Button Content="New Room Type" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,5,10,5" FontSize="14" Command="{Binding CommandAdd}"/>
+        <Button Content="New Room Type" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="667,0,0,5" FontSize="14" Command="{Binding CommandAdd}" Click="Button_Click"/>
         <DataGrid Grid.Row="1" HeadersVisibility="All" ItemsSource="{Binding RoomTypes}" SelectedItem="{Binding SelectedRoomType}"
                   CanUserReorderColumns="False"
                       CanUserResizeRows="False"
