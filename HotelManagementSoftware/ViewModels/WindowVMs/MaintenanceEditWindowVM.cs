@@ -47,12 +47,18 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                     VisibilityCbx = Visibility.Visible;
                     VisibilityTextbox = Visibility.Hidden;
                     IsEnabled = true;
+                    setUpDatePicker();
+                    StartTime = MaxStartDay;
+                    MinEndDay = StartTime.AddDays(1);
+                    EndTime = MinEndDay;
                 }
                 else
                 {
                     Title = "Edit maintenance request window";
                     VisibilityCbx = Visibility.Hidden;
                     VisibilityTextbox = Visibility.Visible;
+                    setUpDatePicker();
+
                 }
             }
         }
@@ -66,6 +72,10 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         public ObservableCollection<Room> RoomLists { get; set; } = new();
         public String Title { get; set; }
         public MaintenanceRequest? CurrentItem { get; set; }
+        public DateTime MinStartDay { get; set; }
+        public DateTime MaxStartDay { get; set; }
+        public DateTime MinEndDay { get; set; }
+        public DateTime DefaultDate { get; set; }
 
         #region private variables
         private Room? room;
@@ -92,7 +102,6 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             set
             {
                 SetProperty(ref startTime, value, true);
-                ValidateProperty(EndTime, nameof(EndTime));
             }
         }
 
@@ -139,6 +148,12 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             CommandClose = new RelayCommand(executeCloseAction);
             CommandDeleteItem = new RelayCommand(executeDeleteItemAction);
             CommandAddRow = new RelayCommand(executeAddRowAction);
+        }
+        private void setUpDatePicker()
+        {
+            MinStartDay = new DateTime(1990, 1, 1);
+            MaxStartDay = new DateTime(DateTime.Now.Year - 18, 1, 1);
+            DefaultDate = DateTime.Now;
         }
         private async void GetCurrentRequest()
         {

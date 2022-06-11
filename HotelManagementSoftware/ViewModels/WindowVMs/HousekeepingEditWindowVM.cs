@@ -28,18 +28,24 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             set
             {
                 SetProperty(ref housekeepingRequestType, value, true);
+
                 if (HousekeepingRequestType.Equals(HousekeepingRequestType.Add))
                 {
                     Title = "Add housekeeping request window";
                     VisibilityCbx = Visibility.Visible;
                     VisibilityTextbox = Visibility.Hidden;
                     IsEnabled = true;
+                    setUpDatePicker();
+                    StartTime = MaxStartDay;
+                    MinEndDay = StartTime.AddDays(1);
+                    EndTime = MinEndDay;
                 }
                 else
                 {
                     Title = "Edit housekeeping request window";
                     VisibilityCbx = Visibility.Hidden;
                     VisibilityTextbox = Visibility.Visible;
+                    setUpDatePicker();
                 }
             }
         }
@@ -56,8 +62,6 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             }
         }
 
-
-
         public bool IsEnabled { get; set; }
         public Visibility VisibilityCbx { get; set; }
         public Visibility VisibilityTextbox { get; set; }
@@ -65,7 +69,10 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         public ObservableCollection<Room> RoomLists { get; set; } = new();
         public String Title { get; set; }
         public HousekeepingRequest? Current { get; set; }
-
+        public DateTime MinStartDay { get; set; }
+        public DateTime MaxStartDay { get; set; }
+        public DateTime MinEndDay { get; set; }
+        public DateTime DefaultDate { get; set; }
         #region private variables
         private Room? room;
         private DateTime startTime;
@@ -91,12 +98,10 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             set
             {
                 SetProperty(ref startTime, value, true);
-                ValidateProperty(EndTime, nameof(EndTime));
             }
         }
 
         [Required(ErrorMessage = "End time cannot be empty")]
-        // [GreaterThan(nameof(StartTime), "End date should come after start date.")]
         public DateTime EndTime
         {
             get => endTime;
@@ -112,7 +117,6 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             set => SetProperty(ref closeTime, value, true);
         }
 
-        [Required(ErrorMessage = "Status time cannot be empty")]
         public HousekeepingRequestStatus Status
         {
             get => status;
@@ -132,10 +136,16 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             this.employeeBusiness = employeeBusiness;
             this.housekeepingBusiness = housekeepingBusiness;
             FillRoomCombobox();
-
             CommandCancel = new RelayCommand(executeCancelAction);
             CommandUpdate = new RelayCommand(executeUpdateAction);
             CommandClose = new RelayCommand(executeCloseAction);
+        }
+
+        private void setUpDatePicker()
+        {
+            MinStartDay = new DateTime(1990, 1, 1);
+            MaxStartDay = new DateTime(DateTime.Now.Year - 18, 1, 1);
+            DefaultDate = DateTime.Now;
         }
 
         private async void FillRoomCombobox()

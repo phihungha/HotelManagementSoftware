@@ -126,6 +126,9 @@
                                    FontSize="12"
                                    Text="Start day" />
                         <DatePicker HorizontalAlignment="Stretch"
+                                    DisplayDateStart="{Binding Path=MinStartDay,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                    DisplayDateEnd="{Binding Path=MaxStartDay,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                    DisplayDate="{Binding Path=DefaultDate,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                     IsEnabled="{Binding IsEnabled}"
                                     SelectedDate="{Binding Path=StartTime,UpdateSourceTrigger=PropertyChanged,
                             Mode=TwoWay,
@@ -162,6 +165,8 @@
                                    FontSize="12"
                                    Text="End day" />
                         <DatePicker HorizontalAlignment="Stretch"
+                                    DisplayDateStart="{Binding Path=MinEndDay,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                    DisplayDate="{Binding Path=DefaultDate,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                     IsEnabled="{Binding IsEnabled}"
                                     SelectedDate="{Binding Path=EndTime,
                             UpdateSourceTrigger=PropertyChanged,
