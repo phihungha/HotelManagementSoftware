@@ -182,7 +182,8 @@ namespace HotelManagementSoftware.Business
                             .Include(i => i.Order)
                             .Include(i => i.Room)
                             .ThenInclude(room => room.RoomType)
-                            .Where(i => i.ArrivalTime <= DateTime.Now.AddDays(1))
+                            .Where(i => i.ArrivalTime <= DateTime.Now.AddDays(1) 
+                                        && i.ArrivalTime >= DateTime.Now.Date)
                             .Where(i => i.Status == ReservationStatus.Reserved);
 
                 if (customerName != null)
@@ -217,7 +218,8 @@ namespace HotelManagementSoftware.Business
                             .Include(i => i.Order)
                             .Include(i => i.Room)
                             .ThenInclude(room => room.RoomType)
-                            .Where(i => i.DepartureTime <= DateTime.Now.AddDays(1))
+                            .Where(i => i.DepartureTime <= DateTime.Now.AddDays(1)
+                                        && i.ArrivalTime >= DateTime.Now.Date)
                             .Where(i => i.Status == ReservationStatus.CheckedIn);
 
                 if (customerName != null)
