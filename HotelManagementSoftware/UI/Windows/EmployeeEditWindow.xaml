@@ -15,7 +15,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
@@ -55,9 +55,8 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <!--ID-->
                 <Grid Grid.Column="0">
-                    <StackPanel  Margin="8 0 16 0"
+                    <StackPanel  Margin="8 0 16 20"
                                  Orientation="Vertical">
                         <TextBlock Style="{StaticResource TextLabel}"
                                    FontSize="12"
@@ -71,7 +70,7 @@
                 <!--Name-->
                 <Grid Grid.Column="1"
                       Grid.Row="0">
-                    <StackPanel Margin="16 0 8 0"
+                    <StackPanel Margin="16 0 8 20"
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource TextLabel}"
                                    FontSize="12"
@@ -86,7 +85,7 @@
                 <!--DateOfBirth-->
                 <Grid Grid.Column="1"
                       Grid.Row="1">
-                    <StackPanel Margin="16 0 8 0"
+                    <StackPanel Margin="16 0 8 20"
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource TextLabel}"
                                    FontSize="12"
@@ -95,6 +94,7 @@
                                     SelectedDate="{Binding BirthDate,
                                                    ValidatesOnDataErrors=True, 
                                                    NotifyOnValidationError=True}"
+                                    DisplayDateEnd="{Binding MinimumBirthDate, Mode=OneWay}"
                                     ui:InfoElement.Placeholder="Enter date of birth" />
                     </StackPanel>
                 </Grid>
@@ -102,7 +102,7 @@
                 <!--Phone-->
                 <Grid Grid.Column="1"
                       Grid.Row="2">
-                    <StackPanel Margin="16 0 8 0"
+                    <StackPanel Margin="16 0 8 20"
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource TextLabel}"
                                    FontSize="12"
@@ -117,7 +117,7 @@
                 <!--Gender-->
                 <Grid Grid.Column="0"
                       Grid.Row="1">
-                    <StackPanel Margin="8 0 16 0"
+                    <StackPanel Margin="8 0 16 10"
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource TextLabel}"
                                    FontSize="12"
@@ -132,7 +132,7 @@
                 <!--Email-->
                 <Grid Grid.Column="0"
                       Grid.Row="2">
-                    <StackPanel Margin="8 0 16 0"
+                    <StackPanel Margin="8 0 16 20"
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource TextLabel}"
                                    FontSize="12"

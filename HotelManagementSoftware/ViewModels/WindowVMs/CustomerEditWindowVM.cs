@@ -137,10 +137,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             set => SetProperty(ref province, value, true);
         }
 
-        public DateTime MinimumBirthDate
-        {
-            get => DateTime.Now.AddYears(-18);
-        }
+        public DateTime MinimumBirthDate => DateTime.Now.AddYears(-18);
 
         public DateTime BirthDate
         {

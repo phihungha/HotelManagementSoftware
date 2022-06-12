@@ -67,6 +67,8 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             set => SetProperty(ref employeeType, value, true);
         }
 
+        public DateTime MinimumBirthDate => DateTime.Now.AddYears(-18);
+
         public DateTime BirthDate
         {
             get => birthDate;
