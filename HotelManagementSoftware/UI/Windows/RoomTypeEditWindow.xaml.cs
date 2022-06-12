@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using HotelManagementSoftware.ViewModels.WindowVMs;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace HotelManagementSoftware.UI.Windows
         public RoomTypeEditWindow()
         {
             InitializeComponent();
-            DataContext = App.Current.Services.GetRequiredService<RoomTypeEditWindow>();
+            DataContext = App.Current.Services.GetRequiredService<RoomTypeEditWindowVM>();
         }
     }
 }
