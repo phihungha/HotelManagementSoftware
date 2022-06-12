@@ -4,9 +4,100 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HotelManagementSoftware.UI"
+             xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <vm:RoomsVM x:Name="RoomsVM" />
+    </UserControl.DataContext>
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Button Content="New room" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,5,10,5" FontSize="14" Command="{Binding CommandAdd}" Click="Button_Click"/>
+
+        <DataGrid Grid.Row="1" HeadersVisibility="All" ItemsSource="{Binding Rooms}" SelectedItem="{Binding SelectedRoom}" 
+                  CanUserReorderColumns="False"
+                      CanUserResizeRows="False"
+                      AutoGenerateColumns="False"
+                      RowBackground="White"
+                      AlternatingRowBackground="AliceBlue"
+                      SelectionUnit="FullRow"
+                      FlowDirection="LeftToRight"
+                      VerticalScrollBarVisibility="Visible"
+                      Padding="16">
+            <DataGrid.Columns>
+
+                <DataGridTextColumn Header="Room ID" Width="Auto" Binding="{Binding RoomId}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Room Number" Width="Auto" Binding="{Binding RoomNumber}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Room Type" Width="Auto" Binding="{Binding RoomType}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Floor" Width="Auto" Binding="{Binding Floor}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Status" Width="Auto" Binding="{Binding Status}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Background" Value="Black"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTemplateColumn Header="Action" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <StackPanel.Resources>
+                                    <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                        <Setter Property="Margin" Value="5,0,5,0" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}},
+                                                                                                          Path=IsMouseOver}"
+                                                         Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Resources>
+                                <Button Padding="5,1,5,1" Content="Sửa" Command="{Binding CommandEdit, ElementName=RoomsVM}" />
+                                <Button Padding="5,1,5,1" Content="Xóa" Command="{Binding CommandDelete, ElementName=RoomsVM}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

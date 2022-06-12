@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HotelManagementSoftware.UI.Windows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,12 @@ namespace HotelManagementSoftware.UI
         public Rooms()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var createRoomDialog = new RoomEditWindow();
+            createRoomDialog.Show();
         }
     }
 }
