@@ -7,8 +7,6 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using HotelManagementSoftware.Business;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
-using Microsoft.Toolkit.Mvvm.Input;
 using HotelManagementSoftware.ViewModels.Validators;
 
 namespace HotelManagementSoftware.ViewModels.WindowVMs
@@ -17,15 +15,16 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
     {
         private CustomerBusiness customerBusiness;
         private CountryBusiness countryBusiness;
+        private EmployeeBusiness employeeBusiness;
 
         private Customer? customer;
 
-        private bool editMode = false;
+        private bool canDelete = false;
 
-        public bool EditMode
+        public bool CanDelete
         {
-            get => editMode;
-            set => SetProperty(ref editMode, value);
+            get => canDelete;
+            set => SetProperty(ref canDelete, value);
         }
 
         private bool isUsingBankCard = false;
@@ -176,10 +175,14 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             set => SetProperty(ref expireDate, value, true);
         }
 
-        public CustomerEditWindowVM(CustomerBusiness customerBusiness, CountryBusiness countryBusiness)
+        public CustomerEditWindowVM(CustomerBusiness customerBusiness,
+                                    CountryBusiness countryBusiness,
+                                    EmployeeBusiness employeeBusiness)
         {
             this.customerBusiness = customerBusiness;
             this.countryBusiness = countryBusiness;
+            this.employeeBusiness = employeeBusiness;
+
         }
 
         private async Task Populate()
@@ -192,7 +195,6 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         public async void CreateCustomer()
         {
             await Populate();
-            editMode = false;
         }
 
         public async void LoadCustomerFromId(int customerId)
@@ -205,7 +207,12 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 return;
 
             this.customer = customer;
-            EditMode = true;
+
+            if (employeeBusiness.CurrentEmployee != null
+                && employeeBusiness.CurrentEmployee.EmployeeType != EmployeeType.Manager)
+                CanDelete = false;
+            else
+                CanDelete = true;
 
             if (customer.Country != null)
                 Country = Countries.First(i => i.CountryCode == customer.Country.CountryCode);

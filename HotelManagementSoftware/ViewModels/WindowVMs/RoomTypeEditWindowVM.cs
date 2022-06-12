@@ -13,11 +13,11 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
         private RoomType? roomType;
 
-        private bool editMode = false;
-        public bool EditMode
+        private bool canDelete = false;
+        public bool CanDelete
         {
-            get => editMode;
-            set => SetProperty(ref editMode, value);
+            get => canDelete;
+            set => SetProperty(ref canDelete, value);
         }
 
         private decimal rate = 100000;
@@ -65,7 +65,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 return;
 
             this.roomType = roomType;
-            EditMode = true;
+            CanDelete = true;
 
             Name = roomType.Name;
             Rate = roomType.Rate;

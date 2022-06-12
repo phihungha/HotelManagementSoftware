@@ -235,7 +235,7 @@
                     Background="Red"
                     Foreground="White"
                     FontFamily="Poppins"
-                    Visibility="{Binding EditMode, 
+                    Visibility="{Binding CanDelete, 
                                  Converter={StaticResource BooleanToVisibilityConverter}}"  />
             <Button Content="Save"
                     Click="SaveButton_Click"
