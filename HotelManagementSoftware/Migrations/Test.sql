@@ -267,6 +267,7 @@ select * from Orders
 select * from HousekeepingRequests
 select * from MaintenanceRequests
 select * from MaintenanceItems
+select * from Configurations
 
 -- Delete data
 delete from Countries

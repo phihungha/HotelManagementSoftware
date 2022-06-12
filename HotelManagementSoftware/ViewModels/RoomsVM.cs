@@ -18,13 +18,15 @@ namespace HotelManagementSoftware.ViewModels
 {
     public class RoomsVM: ObservableValidator
     {
-        public ObservableCollection<Room> Rooms { get; set; }
-        private RoomBusiness? roomBusiness;
+        public ObservableCollection<Room> Rooms { get; set; } = new();
+        private RoomBusiness roomBusiness;
+        private FloorBusiness floorBusiness;
         public Room SelectedRoom { get; set; }
 
-        public RoomsVM(RoomBusiness? _roomBusiness)
+        public RoomsVM(RoomBusiness roomBusiness, FloorBusiness floorBusiness)
         {
-            roomBusiness = _roomBusiness;
+            this.roomBusiness = roomBusiness;
+            this.floorBusiness = floorBusiness;
             Rooms = new ObservableCollection<Room>();
             GetAllRoom();
             CommandAdd = new RelayCommand(executeAddAction);
@@ -64,6 +66,8 @@ namespace HotelManagementSoftware.ViewModels
         #endregion
         public async void GetAllRoom()
         {
+            int i = await floorBusiness.GetMaxFloorNumber();
+
             if (roomBusiness != null)
             {
                 List<Room> roomTypes = await roomBusiness.GetRooms(null, null, null);

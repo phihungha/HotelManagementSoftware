@@ -21,8 +21,14 @@ namespace HotelManagementSoftware.Business
         {
             using (var db = new Database())
             {
-                Configuration config = await db.Configurations.FirstAsync(i => i.Name == name);
-                config.Value = value;
+                Configuration? config = await db.Configurations.FirstOrDefaultAsync(i => i.Name == name);
+                if (config == null)
+                {
+                    config = new Configuration() { Name = name, Value = value };
+                    db.Add(config);
+                }
+                else
+                    config.Value = value;
                 await db.SaveChangesAsync();
             }
         }
