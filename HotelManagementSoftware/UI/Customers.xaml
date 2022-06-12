@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
              xmlns:converters="clr-namespace:HotelManagementSoftware.ViewModels.Converters"
-             xmlns:ui="https://handyorg.github.io/handycontrol"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              d:DesignHeight="720"
              d:DesignWidth="1290">
@@ -29,7 +28,7 @@
                      Margin="0,0,5,0"
                      FontSize="14"
                      Text="{Binding SearchTerm}"
-                     ui:InfoElement.Placeholder="Search..." />
+                     hc:InfoElement.Placeholder="Search..." />
 
             <Button Grid.Column="1" Margin="5,0,5,0"
                     Background="{StaticResource PrimaryColorSolid}"
@@ -59,10 +58,14 @@
                           SelectedValue="{Binding SearchBy}" />
             </Grid>
 
-            <Button Grid.Column="3" Name="AddCustomerButton" Click="AddCustomerButton_Click"
-                    Height="35" Background="{StaticResource PrimaryColorSolid}"
-                    HorizontalAlignment="Right" VerticalAlignment="Stretch"
-                    Margin="0 0 16 0" Command="{Binding AddCustomerCommand}">
+            <Button Grid.Column="3" 
+                    Name="AddCustomerButton" 
+                    Click="AddCustomerButton_Click"
+                    Height="35" 
+                    Background="{StaticResource PrimaryColorSolid}"
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Stretch"
+                    Margin="0 0 16 0">
                 <hc:UniformSpacingPanel Orientation="Horizontal" Spacing="5">
                     <Image Source="{StaticResource AddIconWhite}" />
                     <TextBlock FontWeight="Bold" FontSize="14" 
@@ -75,57 +78,55 @@
         </Grid>
 
         <!--List-->
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5*"/>
-                <ColumnDefinition Width="12*"/>
-            </Grid.ColumnDefinitions>
-            
-            <DataGrid ItemsSource="{Binding Customers}"
-                      AutoGenerateColumns="False"
-                      IsReadOnly="True"
-                      Grid.ColumnSpan="2">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name"
-                                        Width="*"
-                                        Binding="{Binding Name}"
-                                        FontSize="14" />
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding Customers}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name"
+                                    Width="*"
+                                    Binding="{Binding Name}"
+                                    FontSize="14" />
 
-                    <DataGridTextColumn Header="Gender"
-                                        Width="*"
-                                        Binding="{Binding Gender}"
-                                        FontSize="14" />
+                <DataGridTextColumn Header="Gender"
+                                    Width="*"
+                                    Binding="{Binding Gender}"
+                                    FontSize="14" />
                     
-                    <DataGridTextColumn Header="Date of birth"
-                                        Width="*"
-                                        Binding="{Binding BirthDate, StringFormat={}{0:dd}/{0:MM}/{0:yyyy}}"
-                                        FontSize="14" />
+                <DataGridTextColumn Header="Date of birth"
+                                    Width="*"
+                                    Binding="{Binding BirthDate, StringFormat={}{0:dd}/{0:MM}/{0:yyyy}}"
+                                    FontSize="14" />
 
-                    <DataGridTextColumn Header="Phone number"
-                                        Width="*"
-                                        Binding="{Binding PhoneNumber}"
-                                        FontSize="14" />
+                <DataGridTextColumn Header="Phone number"
+                                    Width="*"
+                                    Binding="{Binding PhoneNumber}"
+                                    FontSize="14" />
 
-                    <DataGridTextColumn Header="Country"
-                                        Width="*"
-                                        Binding="{Binding Country.Name}"
-                                        FontSize="14" />
+                <DataGridTextColumn Header="Identity number"
+                                    Width="*"
+                                    Binding="{Binding IdNumber}"
+                                    FontSize="14" />
 
-                    <DataGridTemplateColumn Width="Auto">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button x:Name="EditButton" Click="EditButton_Click"
-                                            Margin="0,0,10,0"
-                                            Tag="{Binding CustomerId}">
-                                        <Image Source="{StaticResource EditIcon}" />
-                                    </Button>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
+                <DataGridTextColumn Header="Country"
+                                    Width="*"
+                                    Binding="{Binding Country.Name}"
+                                    FontSize="14" />
+
+                <DataGridTemplateColumn Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="EditButton" Click="EditButton_Click"
+                                        Margin="0,0,10,0"
+                                        Tag="{Binding CustomerId}">
+                                    <Image Source="{StaticResource EditIcon}" />
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

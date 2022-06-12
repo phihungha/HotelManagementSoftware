@@ -11,7 +11,7 @@ using System.ComponentModel;
 
 namespace HotelManagementSoftware.ViewModels
 {
-    public enum SearchBy
+    public enum CustomersSearchBy
     {
         [Description("Name")]
         Name,
@@ -23,10 +23,11 @@ namespace HotelManagementSoftware.ViewModels
 
     public class CustomersVM : ObservableValidator
     {
+
         private CustomerBusiness customerBusiness;
 
         private string searchTerm = "";
-        private SearchBy searchBy = SearchBy.Name;
+        private CustomersSearchBy searchBy = CustomersSearchBy.Name;
 
         public ObservableCollection<Customer> Customers { get; } = new();
 
@@ -36,7 +37,7 @@ namespace HotelManagementSoftware.ViewModels
             set => SetProperty(ref searchTerm, value);
         }
 
-        public SearchBy SearchBy
+        public CustomersSearchBy SearchBy
         {
             get => searchBy;
             set => SetProperty(ref searchBy, value);
@@ -83,14 +84,14 @@ namespace HotelManagementSoftware.ViewModels
 
             switch (SearchBy)
             {
-                case SearchBy.Name:
+                case CustomersSearchBy.Name:
                     (await customerBusiness.GetCustomersByName(SearchTerm))
                         .ForEach(i => Customers.Add(i));
                     break;
-                case SearchBy.IdNumber:
+                case CustomersSearchBy.IdNumber:
                     customer = await customerBusiness.GetCustomerByIdNumber(SearchTerm);
                     break;
-                case SearchBy.PhoneNumber:
+                case CustomersSearchBy.PhoneNumber:
                     customer = await customerBusiness.GetCustomerByPhoneNumber(SearchTerm);
                     break;
             }
