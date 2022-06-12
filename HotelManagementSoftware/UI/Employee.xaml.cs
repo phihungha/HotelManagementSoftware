@@ -15,7 +15,6 @@ namespace HotelManagementSoftware.UI
         public Employee()
         {
             InitializeComponent();
-            DataContext = App.Current.Services.GetRequiredService<EmployeesVM>();
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
