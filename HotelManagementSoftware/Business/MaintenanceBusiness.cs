@@ -185,6 +185,10 @@ namespace HotelManagementSoftware.Business
             }
         }
 
+        /// <summary>
+        /// Delete maintenance items
+        /// </summary>
+        /// <param name="items">Maintenance items</param>
         public async Task DeleteMaintenanceItems(List<MaintenanceItem> items)
         {
             using (var db = new Database())
