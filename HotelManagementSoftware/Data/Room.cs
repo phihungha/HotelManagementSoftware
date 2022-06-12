@@ -70,4 +70,14 @@ namespace HotelManagementSoftware.Data
             Description = description;
         }
     }
+
+    public class Configuration
+    {
+        public int ConfigurationId { get; set; }
+
+        public string Name { get; set; } = "";
+
+        public int Value { get; set; }
+
+    }
 }

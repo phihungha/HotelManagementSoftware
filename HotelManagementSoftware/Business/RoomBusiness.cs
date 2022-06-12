@@ -7,6 +7,45 @@ using System.Threading.Tasks;
 
 namespace HotelManagementSoftware.Business
 {
+    public class FloorBusiness
+    {
+        private const string CONFIG_NAME = "MaxFloorNumber";
+
+        private ConfigurationBusiness configurationBusiness;
+
+        /// <summary>
+        /// Get maximum floor number.
+        /// </summary>
+        public async Task<int> GetMaxFloorNumber()
+        {
+            int? maxFloorNumber = await configurationBusiness.GetConfig(CONFIG_NAME);
+            if (maxFloorNumber == null)
+            {
+                await SetMaxFloorNumber(5);
+                maxFloorNumber = 5;
+            }
+            return (int)maxFloorNumber;
+        }
+
+        /// <summary>
+        /// Set maximum floor number
+        /// </summary>
+        /// <param name="maxFloorNumber">Max floor number</param>
+        /// <exception cref="ArgumentException"></exception>
+        public async Task SetMaxFloorNumber(int maxFloorNumber)
+        {
+            if (maxFloorNumber < 1)
+                throw new ArgumentException("Floor number cannot be smaller than 1");
+
+            await configurationBusiness.SetConfig(CONFIG_NAME, maxFloorNumber);
+        }
+
+        public FloorBusiness(ConfigurationBusiness configurationBusiness)
+        {
+            this.configurationBusiness = configurationBusiness;
+        }
+    }
+
     public class RoomBusiness
     {
         /// <summary>
