@@ -47,9 +47,15 @@
     <Style x:Key="TextLabel"
            TargetType="{x:Type TextBlock}">
         <Setter Property="FontSize"
-                Value="16" />
+                Value="12" />
         <Setter Property="FontFamily"
                 Value="Poppins" />
+    </Style>
+
+    <Style x:Key="WindowTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Poppins" />
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontWeight" Value="Bold" />
     </Style>
 
     <Style x:Key="textBlockHeader"

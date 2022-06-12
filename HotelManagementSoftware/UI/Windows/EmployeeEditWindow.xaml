@@ -3,15 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HotelManagementSoftware.UI.Windows"
         xmlns:ui="https://handyorg.github.io/handycontrol"
-        xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels.WindowVMs"
+        xmlns:converters="clr-namespace:HotelManagementSoftware.ViewModels.Converters"
         mc:Ignorable="d"
         Title="Employee Edit Window"
-        WindowStyle="None"
-        WindowStartupLocation="CenterScreen"
-        Height="420"
-        Width="800">
+        Style="{StaticResource PoppinsFont}"
+        SizeToContent="Height"
+        Width="1000"
+        ResizeMode="NoResize">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -22,15 +21,11 @@
 
         <!--Title-->
         <StackPanel Grid.Row="0">
-            <StackPanel Margin="16 32 0 0"
-                        HorizontalAlignment="Left"
-                        Orientation="Vertical">
-                <TextBlock TextWrapping="Wrap"
-                           FontSize="24"
-                           FontWeight="Bold"
-                           Style="{StaticResource TextLabel}"
-                           Text="{Binding Title}" />
-            </StackPanel>
+                <TextBlock Margin="16 32 0 0" HorizontalAlignment="Left" 
+                           Style="{StaticResource WindowTitle}">
+                    Employee details
+                </TextBlock>
+            
             <Border Width="Auto"
                     BorderThickness="1"
                     Margin="16 12 16 0"
@@ -68,97 +63,96 @@
                                    FontSize="12"
                                    Text="Identity number" />
                         <ui:TextBox  ui:InfoElement.Placeholder="Enter identity number"
-                                     Text="{Binding Path=Cmnd,UpdateSourceTrigger=PropertyChanged}"
+                                     Text="{Binding Cmnd}"
                                      ShowClearButton="True" />
                     </StackPanel>
                 </Grid>
 
                 <!--Name-->
-                <Grid Grid.Column="0"
-                      Grid.Row="1">
-                    <StackPanel Margin="8 0 16 0"
-                                Orientation="Vertical">
-                        <TextBlock Style="{StaticResource TextLabel}"
-                                   FontSize="12"
-                                   Text="Name" />
-                        <ui:TextBox ui:InfoElement.Placeholder="Enter name"
-                                    Text="{Binding Path=Name,UpdateSourceTrigger=PropertyChanged}"
-                                    ShowClearButton="True" />
-
-                    </StackPanel>
-                </Grid>
-
-                <!--DateOfBirth-->
-                <Grid Grid.Column="0"
-                      Grid.Row="2">
-                    <StackPanel Margin="8 0 16 0"
-                                Orientation="Vertical">
-                        <TextBlock Style="{StaticResource TextLabel}"
-                                   FontSize="12"
-                                   Text="Date of birth" />
-                        <DatePicker HorizontalAlignment="Stretch"
-                                    SelectedDate="{Binding Path=BirthDate,UpdateSourceTrigger=PropertyChanged,
-                                   Mode=TwoWay,
-                                    ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
-                                    ui:InfoElement.Placeholder="Enter date of birth" />
-                    </StackPanel>
-                </Grid>
-
-                <!--Phone-->
-                <Grid Grid.Column="0"
-                      Grid.Row="3">
-                    <StackPanel Margin="8 0 16 0"
-                                Orientation="Vertical">
-                        <TextBlock Style="{StaticResource TextLabel}"
-                                   FontSize="12"
-                                   Text="Phone number" />
-                        <ui:TextBox  ShowClearButton="True"
-                                     Text="{Binding Path=PhoneNumber,UpdateSourceTrigger=PropertyChanged}"
-                                     ui:InfoElement.Placeholder="Enter phone number" />
-                    </StackPanel>
-                </Grid>
-
-              
-                <!--Gender-->
                 <Grid Grid.Column="1"
                       Grid.Row="0">
                     <StackPanel Margin="16 0 8 0"
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource TextLabel}"
                                    FontSize="12"
-                                   Text="Gender" />
-                        <ui:ComboBox HorizontalAlignment="Stretch"
-                                     ui:InfoElement.Placeholder="Enter gender"
-                                     ItemsSource="{Binding Genders}"
-                                     SelectedItem="{Binding Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                        </ui:ComboBox>
+                                   Text="Name" />
+                        <ui:TextBox ui:InfoElement.Placeholder="Enter name"
+                                    Text="{Binding Name}"
+                                    ShowClearButton="True" />
+
                     </StackPanel>
                 </Grid>
 
-                <!--Email-->
+                <!--DateOfBirth-->
                 <Grid Grid.Column="1"
                       Grid.Row="1">
                     <StackPanel Margin="16 0 8 0"
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource TextLabel}"
                                    FontSize="12"
-                                   Text="Email" />
-                        <ui:TextBox  ui:InfoElement.Placeholder="Enter email"
-                                     ShowClearButton="True"
-                                     Text="{Binding Path=Email,UpdateSourceTrigger=PropertyChanged}" />
+                                   Text="Date of birth" />
+                        <DatePicker HorizontalAlignment="Stretch"
+                                    SelectedDate="{Binding BirthDate,
+                                                   ValidatesOnDataErrors=True, 
+                                                   NotifyOnValidationError=True}"
+                                    ui:InfoElement.Placeholder="Enter date of birth" />
                     </StackPanel>
                 </Grid>
 
-                <!--Username-->
+                <!--Phone-->
                 <Grid Grid.Column="1"
                       Grid.Row="2">
                     <StackPanel Margin="16 0 8 0"
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource TextLabel}"
                                    FontSize="12"
+                                   Text="Phone number" />
+                        <ui:TextBox  ShowClearButton="True"
+                                     Text="{Binding PhoneNumber}"
+                                     ui:InfoElement.Placeholder="Enter phone number" />
+                    </StackPanel>
+                </Grid>
+
+              
+                <!--Gender-->
+                <Grid Grid.Column="0"
+                      Grid.Row="1">
+                    <StackPanel Margin="8 0 16 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
+                                   Text="Gender" />
+                        <ComboBox ItemsSource="{Binding Gender, Converter={converters:EnumToCollection}, Mode=OneTime}"
+                                  SelectedValuePath="Value"
+                                  DisplayMemberPath="Description"
+                                  SelectedValue="{Binding Gender}" />
+                    </StackPanel>
+                </Grid>
+
+                <!--Email-->
+                <Grid Grid.Column="0"
+                      Grid.Row="2">
+                    <StackPanel Margin="8 0 16 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
+                                   Text="Email" />
+                        <ui:TextBox  ui:InfoElement.Placeholder="Enter email"
+                                     ShowClearButton="True"
+                                     Text="{Binding Email}" />
+                    </StackPanel>
+                </Grid>
+
+                <!--Username-->
+                <Grid Grid.Column="0"
+                      Grid.Row="3">
+                    <StackPanel Margin="8 0 16 0"
+                                Orientation="Vertical">
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
                                    Text="Username" />
                         <ui:TextBox ShowClearButton="True"
-                                    Text="{Binding Path=UserName,UpdateSourceTrigger=PropertyChanged}"
+                                    Text="{Binding UserName}"
                                     ui:InfoElement.Placeholder="Enter username" />
                     </StackPanel>
                 </Grid>
@@ -170,13 +164,11 @@
                                 Orientation="Vertical">
                         <TextBlock Style="{StaticResource TextLabel}"
                                    FontSize="12"
-                                   Text="Password"
-                                   Visibility="{Binding HiddenWhenUpdate}" />
+                                   Text="New password" />
                         <ui:PasswordBox IsSafeEnabled="False"
                                         ShowEyeButton="True"
-                                        UnsafePassword="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
+                                        UnsafePassword="{Binding Password}"
                                         ShowClearButton="True"
-                                        Visibility="{Binding HiddenWhenUpdate}"
                                         ui:InfoElement.Placeholder="Enter password"
                                         Margin="0,0,0,20" />
                     </StackPanel>
@@ -200,12 +192,10 @@
                     <TextBlock Style="{StaticResource TextLabel}"
                                FontSize="12"
                                Text="Employee type" />
-                    <ui:ComboBox HorizontalAlignment="Stretch"
-                                 ui:InfoElement.Placeholder="Enter employee type"
-                                 ItemsSource="{Binding EmployeeTypes}"
-                                 SelectedItem="{Binding EmployeeType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                 >
-                    </ui:ComboBox>
+                    <ComboBox ItemsSource="{Binding EmployeeType, Converter={converters:EnumToCollection}, Mode=OneTime}"
+                              SelectedValuePath="Value"
+                              DisplayMemberPath="Description"
+                              SelectedValue="{Binding EmployeeType}" />
                 </StackPanel>
                 <!--Address-->
 
@@ -221,7 +211,7 @@
                     <ui:TextBox HorizontalContentAlignment="Left"
                                 VerticalContentAlignment="Top"
                                 ui:InfoElement.Placeholder="Enter address"
-                                Text="{Binding Path=Address,UpdateSourceTrigger=PropertyChanged}"
+                                Text="{Binding Address}"
                                 ShowClearButton="True" />
                 </Grid>
             </Grid>
@@ -232,33 +222,23 @@
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
                                 Spacing="10"
-                                ItemWidth="139"
-                                Orientation="Horizontal"
-                                Margin="0 0 32 12">
-            <Button Content="Change Password"
+                                ItemWidth="140"
+                                Margin="0,0,15,15"
+                                Orientation="Horizontal">
+            <Button x:Name="DeleteButton"
+                    Content="Delete"
+                    Click="DeleteButton_Click"
                     FontWeight="Bold"
-                    Background="DeepPink"
+                    Background="Red"
                     Foreground="White"
-                    BorderBrush="{x:Null}"
-                    Padding="8"
                     FontFamily="Poppins"
-                    Visibility="{Binding Path=VisibilityUpdateForChangePassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Command="{Binding CommandChangePass}" />
-            <Button Content="Cancel"
-                    FontWeight="Bold"
-                    Background="#FFF0241D"
-                    Foreground="White"
-                    BorderBrush="{x:Null}"
-                    Padding="8"
-                    FontFamily="Poppins"
-                    Command="{Binding CommandCancel}"
-                    />
+                    IsEnabled="{Binding EditMode}" />
             <Button Content="Save"
+                    Click="SaveButton_Click"
                     FontWeight="Bold"
-                    Background="#FF358AFF"
+                    Background="{StaticResource PrimaryColorSolid}"
                     Foreground="White"
-                    FontFamily="Poppins"
-                    Command="{Binding CommandUpdate}" />
+                    FontFamily="Poppins" />
         </ui:UniformSpacingPanel>
 
     </Grid>

@@ -19,17 +19,13 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!--Title-->
+        <!--Window title-->
         <StackPanel Grid.Row="0">
-            <StackPanel Margin="16 12 0 0"
-                        HorizontalAlignment="Left"
-                        Orientation="Vertical">
-                <TextBlock TextWrapping="Wrap"
-                           FontSize="24"
-                           FontWeight="Bold"
-                           Style="{StaticResource TextLabel}"
-                           Text="Customer details" />
-            </StackPanel>
+            <TextBlock Margin="16 32 0 0" HorizontalAlignment="Left" 
+                       Style="{StaticResource WindowTitle}">
+                    Customer details
+            </TextBlock>
+
             <Border Width="Auto"
                     BorderThickness="1"
                     Margin="16 12 16 0"
@@ -222,8 +218,8 @@
                 <!--Address-->
                 <StackPanel Grid.Column="1" Grid.Row="0" >
                     <TextBlock Style="{StaticResource TextLabel}"
-                                FontSize="12"
-                                Text="Address" />
+                               FontSize="12"
+                               Text="Address" />
                     <ui:TextBox  ui:InfoElement.Placeholder="Enter address"
                                     ShowClearButton="True"
                                     Text="{Binding Address}" />
