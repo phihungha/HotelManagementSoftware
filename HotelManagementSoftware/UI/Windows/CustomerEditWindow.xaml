@@ -6,7 +6,7 @@
         xmlns:ui="https://handyorg.github.io/handycontrol"
         xmlns:converters="clr-namespace:HotelManagementSoftware.ViewModels.Converters"
         mc:Ignorable="d"
-        Title="Employee Details"
+        Title="Customer Details"
         Style="{StaticResource PoppinsFont}"
         SizeToContent="Height"
         Width="1000"
@@ -130,7 +130,7 @@
                                 SelectedDate="{Binding BirthDate,
                                                Mode=TwoWay,
                                                ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
-                                DisplayDateEnd="{Binding MinimumBirthDate, Mode=OneTime}" />
+                                DisplayDateEnd="{Binding MinimumBirthDate, Mode=OneWay}" />
                     </StackPanel>
 
                 </Grid>
@@ -192,6 +192,7 @@
                                 Text="Expire date" />
                         <DatePicker HorizontalAlignment="Stretch"
                                     IsEnabled="{Binding IsUsingBankCard}"
+                                    DisplayDateStart="{Binding MinimumExpireDate, Mode=OneWay}"
                                     SelectedDate="{Binding ExpireDate,
                                                    Mode=TwoWay,
                                                    ValidatesOnDataErrors=True, 
@@ -250,16 +251,15 @@
                 </StackPanel>
 
                 <!--Country-->
-                <StackPanel Grid.Column="1" Grid.Row="4"
-                            Orientation="Vertical">
+                <StackPanel Grid.Column="1" Grid.Row="4">
                     <TextBlock Style="{StaticResource TextLabel}"
                                 FontSize="12" 
                                 Text="Country" />
-                    <ui:ComboBox HorizontalAlignment="Stretch"
-                                 ItemsSource="{Binding Countries}"
-                                 DisplayMemberPath="Name"
-                                 SelectedItem="{Binding Country}">
-                    </ui:ComboBox>
+                    <ComboBox HorizontalAlignment="Stretch"
+                              ItemsSource="{Binding Countries}"
+                              DisplayMemberPath="Name"
+                              SelectedItem="{Binding Country}">
+                    </ComboBox>
                 </StackPanel>
             </Grid>
         </Grid>

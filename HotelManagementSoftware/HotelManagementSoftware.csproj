@@ -72,8 +72,4 @@
     </Resource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewModels\Validators\" />
-  </ItemGroup>
-
 </Project>

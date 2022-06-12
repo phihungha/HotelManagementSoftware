@@ -9,29 +9,39 @@ namespace HotelManagementSoftware.UI.Windows
     /// </summary>
     public partial class CustomerEditWindow : Window
     {
-        private CustomerEditWindowVM viewModel;
 
         public CustomerEditWindow()
         {
             InitializeComponent();
             DataContext = App.Current.Services.GetRequiredService<CustomerEditWindowVM>();
-            viewModel = ((CustomerEditWindowVM)DataContext);
+            ((CustomerEditWindowVM)DataContext).CreateCustomer();
         }
 
         public CustomerEditWindow(int customerId)
-            : this()
         {
-            viewModel.LoadCustomerFromId(customerId);
+            InitializeComponent();
+            DataContext = App.Current.Services.GetRequiredService<CustomerEditWindowVM>();
+            ((CustomerEditWindowVM)DataContext).LoadCustomerFromId(customerId);
         }
 
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
-        {
 
+        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show(
+                "Are you sure that you want to delete this customer? This action cannot be undone.",
+                "Delete this customer?",
+                MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                await ((CustomerEditWindowVM)DataContext).DeleteCustomer();
+                Close();
+            }
         }
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (await viewModel.SaveCustomer())
+            if (await ((CustomerEditWindowVM)DataContext).SaveCustomer())
                 Close();
         }
     }
