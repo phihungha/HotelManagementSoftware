@@ -24,8 +24,8 @@ namespace HotelManagementSoftware.ViewModels
     {
         private EmployeeBusiness employeeBusiness;
 
-        private CustomersSearchBy searchBy = CustomersSearchBy.Name;
-        public CustomersSearchBy SearchBy
+        private EmployeesSearchBy searchBy = EmployeesSearchBy.Name;
+        public EmployeesSearchBy SearchBy
         {
             get => searchBy;
             set => SetProperty(ref searchBy, value);
@@ -67,13 +67,13 @@ namespace HotelManagementSoftware.ViewModels
             {
                 switch (SearchBy)
                 {
-                    case CustomersSearchBy.Name:
+                    case EmployeesSearchBy.Name:
                         await GetEmployeesFilterByName();
                         break;
-                    case CustomersSearchBy.IdNumber:
+                    case EmployeesSearchBy.IdNumber:
                         await GetEmployeesFilterByIDCard();
                         break;
-                    case CustomersSearchBy.PhoneNumber:
+                    case EmployeesSearchBy.PhoneNumber:
                         await GetEmployeesFilterByPhone();
                         break;
                 }
