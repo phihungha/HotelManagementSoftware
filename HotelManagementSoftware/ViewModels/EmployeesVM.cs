@@ -1,167 +1,86 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using System;
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Input;
 using HotelManagementSoftware.Data;
 using Microsoft.Toolkit.Mvvm.Input;
-using HotelManagementSoftware.UI.Windows;
 using HotelManagementSoftware.Business;
 using System.Collections.Generic;
-using HotelManagementSoftware.ViewModels.WindowVMs;
-using Microsoft.Extensions.DependencyInjection;
+using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace HotelManagementSoftware.ViewModels
 {
+    public enum EmployeesSearchBy
+    {
+        [Description("Name")]
+        Name,
+        [Description("Identity number")]
+        IdNumber,
+        [Description("Phone number")]
+        PhoneNumber
+    }
+
     public class EmployeesVM : ObservableValidator
     {
-        private EmployeeBusiness? employeeBusiness;
-        //public ICollectionView EmployeeCollection { get; set; }
+        private EmployeeBusiness employeeBusiness;
 
-        private String? textFilter;
-        public String? TextFilter
+        private CustomersSearchBy searchBy = CustomersSearchBy.Name;
+        public CustomersSearchBy SearchBy
+        {
+            get => searchBy;
+            set => SetProperty(ref searchBy, value);
+        }
+
+        private string textFilter = "";
+        public string TextFilter
         {
             get { return textFilter; }
-            set
-            {
-                textFilter = value;
-  
-
-                if (!String.IsNullOrEmpty(textFilter))
-                {
-                    if (SelectedComboboxItem.Equals(ComboboxFilterItem.Name))
-                    {
-                        GetEmployeesFilterByName();
-                    }
-                    else if (SelectedComboboxItem.Equals(ComboboxFilterItem.IDCardNumbers))
-                    {
-                        GetEmployeesFilterByIDCard();
-                    }
-                    else if (SelectedComboboxItem.Equals(ComboboxFilterItem.PhoneNumbers))
-                    {
-                        GetEmployeesFilterByPhone();
-                    }
-
-                }
-                else 
-                {
-                    GetAllEmployees();
-                }
-            }
+            set => SetProperty(ref textFilter, value);
         }
 
-        public ComboboxFilterItem SelectedComboboxItem { get; set; }
-        public ObservableCollection<ComboboxFilterItem> ComboboxFilterItems { get; set; } = new();
-        public ObservableCollection<Employee> Employees { get; set; } = new();
-        public Employee SelectedEmployee { get; set; }
+        public ObservableCollection<Employee> Employees { get; } = new();
 
-        #region ctor
-        public EmployeesVM()
+        public ICommand SearchCommand { get; }
+
+        public EmployeesVM(EmployeeBusiness employeeBusiness)
         {
-            initCommand();
-        }
-        public EmployeesVM(EmployeeBusiness? _employeeBusiness)
-        {   
-            employeeBusiness = _employeeBusiness;
-            // EmployeeCollection = CollectionViewSource.GetDefaultView(Employees);
-            setUpCombobox();
-            //EmployeeCollection.Filter = FilterByName;
+            this.employeeBusiness = employeeBusiness;
+            SearchCommand = new AsyncRelayCommand(Search);
             GetAllEmployees();
-            initCommand();
         }
-        private void setUpCombobox()
-        {
-            ComboboxFilterItems.Add(ComboboxFilterItem.Name);
-            ComboboxFilterItems.Add(ComboboxFilterItem.IDCardNumbers);
-            ComboboxFilterItems.Add(ComboboxFilterItem.PhoneNumbers);
-        }
-        private void initCommand()
-        {
-            CommandEditEmployee = new RelayCommand(executeEditEmployeeAction);
-            CommandAddNewEmployee = new RelayCommand(executeAddEmployeeAction);
-            CommandDeleteEmployee = new RelayCommand(executeDeleteEmployeeAction);
-            CommandSearch = new RelayCommand(executeSearchEmployeeAction);
-            CommandFilterEmployee = new RelayCommand(executeFilterEmployeeAction);
-        }
+
         public async void GetAllEmployees()
         {
-            if (employeeBusiness != null)
+            List<Employee> employees = await employeeBusiness.GetAllEmloyees();
+            Employees.Clear();
+            employees.ForEach(employee =>
             {
-                List<Employee> employees = await employeeBusiness.GetAllEmloyees();
-                Employees.Clear();
-                employees.ForEach(employee =>
-                {
-                    Employees.Add(employee);
-                });
-
-            }
+                Employees.Add(employee);
+            });
         }
-        #endregion
 
-        #region command
-        public ICommand? CommandFilterEmployee { get; set; }
-        public ICommand? CommandDeleteEmployee { get; set; }
-        public ICommand? CommandEditEmployee { get; set; }
-        public ICommand? CommandAddNewEmployee { get; set; }
-        public ICommand? CommandSearch { get; set; }
-
-        public void executeFilterEmployeeAction()
+        private async Task Search()
         {
-           
-        }
-        public void executeSearchEmployeeAction()
-        {
-
-        }
-        public void executeDeleteEmployeeAction()
-        {
-            DeleteSelectedEmployee();
-        }
-        public void executeEditEmployeeAction()
-        {
-            EmployeeEditWindow employeeEditWindow = new EmployeeEditWindow();
-            EmployeeEditWindowVM vm = App.Current.Services.GetRequiredService<EmployeeEditWindowVM>();
-            vm.EmployeesVM = this;
-            vm.EmployeeEditWindowType = EmployeeEditWindowType.Edit;
-            vm.CurrentSelectedEmployeeId = SelectedEmployee.EmployeeId;
-            if (vm.CloseAction == null)
-            {
-                vm.CloseAction = new Action(employeeEditWindow.Close);
-            }
-            employeeEditWindow.DataContext = vm;
-            employeeEditWindow.ShowDialog();
-        }
-        public void executeAddEmployeeAction()
-        {
-            EmployeeEditWindow employeeEditWindow = new EmployeeEditWindow();
-            EmployeeEditWindowVM vm = App.Current.Services.GetRequiredService<EmployeeEditWindowVM>();
-            vm.EmployeesVM = this;
-            vm.EmployeeEditWindowType = EmployeeEditWindowType.Add;
-            vm.CurrentSelectedEmployeeId = null;
-            if (vm.CloseAction == null)
-            {
-                vm.CloseAction = new Action(employeeEditWindow.Close);
-            }
-
-            employeeEditWindow.DataContext = vm;
-            employeeEditWindow.ShowDialog();
-        }
-        #endregion
-        private async void DeleteSelectedEmployee()
-        {
-            MessageBoxResult result = MessageBox.Show("Delete this employee","Warning", MessageBoxButton.YesNo);
-
-            if (result == MessageBoxResult.Yes)
-            {
-                if (employeeBusiness != null && SelectedEmployee != null)
-                {
-                    await employeeBusiness.DeleteEmployee(SelectedEmployee);
-                }
+            if (textFilter == "")
                 GetAllEmployees();
+            else
+            {
+                switch (SearchBy)
+                {
+                    case CustomersSearchBy.Name:
+                        await GetEmployeesFilterByName();
+                        break;
+                    case CustomersSearchBy.IdNumber:
+                        await GetEmployeesFilterByIDCard();
+                        break;
+                    case CustomersSearchBy.PhoneNumber:
+                        await GetEmployeesFilterByPhone();
+                        break;
+                }
             }
-          
         }
-        private async void GetEmployeesFilterByName()
+
+        private async Task GetEmployeesFilterByName()
         {
             if (employeeBusiness != null && TextFilter != null)
             {
@@ -173,7 +92,8 @@ namespace HotelManagementSoftware.ViewModels
                 });
             }
         }
-        private async void GetEmployeesFilterByIDCard()
+
+        private async Task GetEmployeesFilterByIDCard()
         {
             if (employeeBusiness != null && TextFilter != null)
             {
@@ -186,7 +106,8 @@ namespace HotelManagementSoftware.ViewModels
                 }
             }
         }
-        private async void GetEmployeesFilterByPhone()
+
+        private async Task GetEmployeesFilterByPhone()
         {
             if (employeeBusiness != null && TextFilter != null)
             {
@@ -197,15 +118,7 @@ namespace HotelManagementSoftware.ViewModels
                 {
                     Employees.Add(employee);
                 }
-                    
             }
         }
-    }
-
-    public enum ComboboxFilterItem
-    {
-        Name,
-        IDCardNumbers,
-        PhoneNumbers
     }
 }

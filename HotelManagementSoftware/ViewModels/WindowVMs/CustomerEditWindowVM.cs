@@ -1,29 +1,67 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using HotelManagementSoftware.Data;
-using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-
-
+using HotelManagementSoftware.Business;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
+using Microsoft.Toolkit.Mvvm.Input;
+using HotelManagementSoftware.ViewModels.Validators;
 
 namespace HotelManagementSoftware.ViewModels.WindowVMs
 {
     public class CustomerEditWindowVM : ObservableValidator
     {
-        private string idNumber;
-        private string name;
-        private Gender gender;
-        private DateTime birthDate;
-        private string phoneNumber;
-        private string? email;
-        private string address;
-        private string city;
-        private string province;
-        private Country country;
+        private CustomerBusiness customerBusiness;
+        private CountryBusiness countryBusiness;
+
+        private Customer? customer;
+
+        private bool editMode = false;
+
+        public bool EditMode
+        {
+            get => editMode;
+            set => SetProperty(ref editMode, value);
+        }
+
+        private bool isUsingBankCard = false;
+        public bool IsUsingBankCard
+        {
+            get => isUsingBankCard;
+            set
+            {
+                SetProperty(ref isUsingBankCard, value);
+                if (value == true)
+                {
+                    CardNumber = "";
+                    ExpireDate = DateTime.Now.Date.AddYears(5);
+                }
+                else
+                {
+                    CardNumber = "";
+                    ExpireDate = null;
+                }
+            } 
+        }
+
+        private string idNumber = "";
+        private IdNumberType idNumberType = IdNumberType.Cmnd;
+        private string name = "";
+        private Gender gender = Gender.Male;
+        private DateTime birthDate = new DateTime(1970, 1, 1);
+        private string phoneNumber = "";
+        private string? email = "";
+        private string address = "";
+        private string city = "";
+        private string province = "";
+        private Country? country = null;
+        private PaymentMethod paymentMethod = PaymentMethod.Cash;
+        private string? cardNumber = null;
+        private DateTime? expireDate = null;
 
         [Required(ErrorMessage = "Name cannot be empty")]
         [MinLength(2, ErrorMessage = "Name cannot be shorter than 2 character")]
@@ -34,31 +72,43 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             set => SetProperty(ref name, value, true);
         }
 
-        [Required(ErrorMessage = "ID cannot be empty")]
-        [RegularExpression(@"^(\d{9}|\d{12})$", ErrorMessage = "Invalid ID")]
+        public IdNumberType IdNumberType
+        {
+            get => idNumberType;
+            set => SetProperty(ref idNumberType, value, true);
+        }
+
+        [IdentityNumberCheck(nameof(IdNumberType))]
         public string IdNumber
         {
             get => idNumber;
             set => SetProperty(ref idNumber, value, true);
         }
 
-
-        [Required(ErrorMessage = "Gender cannot be empty")]
         public Gender Gender
         {
             get => gender;
             set => SetProperty(ref gender, value, true);
         }
 
-        [Required(ErrorMessage = "Phone cannot be empty")]
-        [RegularExpression(@"^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$", ErrorMessage = "Invalid phone")]
+        public ObservableCollection<Country> Countries { get; } = new();
+
+        public Country? Country
+        {
+            get => country;
+            set => SetProperty(ref country, value, true);
+        }
+
+        public string CountryCode => Country.CountryCode;
+
+        [PhoneNumberCheck(nameof(CountryCode))]
         public string PhoneNumber
         {
             get => phoneNumber;
             set => SetProperty(ref phoneNumber, value, true);
         }
 
-        [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "Invalid email")]
+        [EmailAddress]
         public string? Email
         {
             get => email;
@@ -66,7 +116,6 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         }
 
         [Required(ErrorMessage = "Address cannot be empty")]
-        [RegularExpression(@"^[A-Za-z0-9]+(?:\s[A-Za-z0-9'_-]+)+$", ErrorMessage = "Invalid address")]
         public string Address
         {
             get => address;
@@ -74,7 +123,6 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         }
 
         [Required(ErrorMessage = "City cannot be empty")]
-        [RegularExpression(@"^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$", ErrorMessage = "Invalid city")]
         public string City
         {
             get => city;
@@ -83,28 +131,149 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
 
         [Required(ErrorMessage = "Province/State cannot be empty")]
-        [RegularExpression(@"^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$", ErrorMessage = "Invalid Province/State")]
         public string Province
         {
             get => province;
             set => SetProperty(ref province, value, true);
         }
 
+        public DateTime MinimumBirthDate => DateTime.Now.AddYears(-18);
 
-        [Required(ErrorMessage = "Country cannot be empty")]
-        public Country Country
-        {
-            get => country;
-            set => SetProperty(ref country, value, true);
-        }
-
-        [Required(ErrorMessage = "Date of birth cannot be empty")]
         public DateTime BirthDate
         {
             get => birthDate;
             set => SetProperty(ref birthDate, value, true);
         }
 
+        public PaymentMethod PaymentMethod
+        {
+            get => paymentMethod;
+            set
+            {
+                SetProperty(ref paymentMethod, value, true);
+                if (value != PaymentMethod.Cash)
+                    IsUsingBankCard = true;
+                else
+                    IsUsingBankCard = false;
+            }
+        }
 
+        [CardNumberCheck(nameof(PaymentMethod))]
+        public string? CardNumber
+        {
+            get => cardNumber;
+            set => SetProperty(ref cardNumber, value, true);
+        }
+
+        public DateTime MinimumExpireDate
+        {
+            get => DateTime.Now.Date.AddDays(7);
+        }
+
+        public DateTime? ExpireDate
+        {
+            get => expireDate;
+            set => SetProperty(ref expireDate, value, true);
+        }
+
+        public CustomerEditWindowVM(CustomerBusiness customerBusiness, CountryBusiness countryBusiness)
+        {
+            this.customerBusiness = customerBusiness;
+            this.countryBusiness = countryBusiness;
+        }
+
+        private async Task Populate()
+        {
+            List<Country> result = await countryBusiness.GetAllCountries();
+            result.ForEach(i => Countries.Add(i));
+            Country = result.First(i => i.CountryCode == "VN");
+        }
+
+        public async void CreateCustomer()
+        {
+            await Populate();
+            editMode = false;
+        }
+
+        public async void LoadCustomerFromId(int customerId)
+        {
+            await Populate();
+
+            Customer? customer = await customerBusiness.GetCustomerById(customerId);
+
+            if (customer == null)
+                return;
+
+            this.customer = customer;
+            EditMode = true;
+
+            if (customer.Country != null)
+                Country = Countries.First(i => i.CountryCode == customer.Country.CountryCode);
+
+            IdNumberType = customer.IdNumberType;
+            IdNumber = customer.IdNumber;
+            Name = customer.Name;
+            Gender = customer.Gender;
+            BirthDate = customer.BirthDate;
+            PhoneNumber = customer.PhoneNumber;
+            Email = customer.Email;
+            Address = customer.Address;
+            City = customer.City;
+            Province = customer.Province;
+            PaymentMethod = customer.PaymentMethod;
+            ExpireDate = customer.ExpireDate;
+            CardNumber = customer.CardNumber;
+        }
+
+        public async Task<bool> SaveCustomer()
+        {
+            ValidateAllProperties();
+            if (GetErrors().Count() != 0)
+                return false;
+
+            if (customer != null)
+            {
+                customer.IdNumber = IdNumber;
+                customer.IdNumberType = IdNumberType;
+                customer.Name = Name;
+                customer.Gender = Gender;
+                customer.BirthDate = BirthDate;
+                customer.PhoneNumber = PhoneNumber;
+                customer.Email = Email;
+                customer.Address = Address;
+                customer.City = City;
+                customer.Province = Province;
+                customer.Country = Country;
+                customer.PaymentMethod = PaymentMethod;
+                customer.ExpireDate = ExpireDate;
+                customer.CardNumber = CardNumber;
+
+                await customerBusiness.EditCustomer(customer);
+            }
+            else
+            {
+                var newCustomer = new Customer(Name,
+                                               BirthDate,
+                                               IdNumberType,
+                                               IdNumber,
+                                               Gender,
+                                               PhoneNumber,
+                                               Address,
+                                               City,
+                                               Province,
+                                               Country,
+                                               PaymentMethod,
+                                               CardNumber,
+                                               ExpireDate);
+                await customerBusiness.CreateCustomer(newCustomer);
+            }
+            return true;
+        }
+
+        public async Task DeleteCustomer()
+        {
+            if (customer != null)
+                await customerBusiness.DeleteCustomer(customer);
+        }
     }
 }

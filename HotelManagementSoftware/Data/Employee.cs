@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace HotelManagementSoftware.Data
 {
@@ -74,9 +75,13 @@ namespace HotelManagementSoftware.Data
 
     public enum EmployeeType
     {
+        [Description("Receptionist")]
         Receptionist,
+        [Description("Manager")]
         Manager,
+        [Description("Housekeeping Manager")]
         HousekeepingManager,
+        [Description("Maintenance Manager")]
         MaintenanceManager
     }
 }

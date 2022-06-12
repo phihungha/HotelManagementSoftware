@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace HotelManagementSoftware.Data
 {
@@ -94,20 +95,27 @@ namespace HotelManagementSoftware.Data
 
     public enum PaymentMethod
     {
+        [Description("Cash")]
         Cash,
+        [Description("Visa")]
         Visa,
+        [Description("Mastercard")]
         Mastercard
     }
 
     public enum IdNumberType
     {
+        [Description("CMND")]
         Cmnd,
+        [Description("Passport")]
         Passport
     }
 
     public enum Gender
     {
+        [Description("Male")]
         Male,
+        [Description("Female")]
         Female
     }
 

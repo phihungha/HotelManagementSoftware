@@ -1,21 +1,9 @@
-﻿using HotelManagementSoftware.Business;
+﻿using HotelManagementSoftware.UI.Windows;
 using HotelManagementSoftware.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace HotelManagementSoftware.UI
 {
@@ -28,6 +16,27 @@ namespace HotelManagementSoftware.UI
         {
             InitializeComponent();
             DataContext = App.Current.Services.GetRequiredService<EmployeesVM>();
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+            int customerId = (int)button.Tag;
+            EmployeeEditWindow window = new EmployeeEditWindow(customerId);
+            window.Show();
+            window.Closed += Window_Closed;
+        }
+
+        private void AddEmployeeButton_Click(object sender, RoutedEventArgs e)
+        {
+            EmployeeEditWindow window = new EmployeeEditWindow();
+            window.Show();
+            window.Closed += Window_Closed;
+        }
+
+        private void Window_Closed(object? sender, EventArgs e)
+        {
+            ((EmployeesVM)DataContext).GetAllEmployees();
         }
     }
 }

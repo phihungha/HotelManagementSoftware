@@ -1,6 +1,7 @@
 ﻿using HandyControl.Controls;
 using HotelManagementSoftware.Business;
 using HotelManagementSoftware.Data;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using System.Windows.Input;
 
 namespace HotelManagementSoftware.ViewModels.WindowVMs
 {
-    public class ReservationEditWindowVM
+    public class ReservationEditWindowVM : ObservableValidator
     {
         private ReservationBusiness? reservationBusiness;
         public Room SelectedRoom { get; set; }
@@ -62,7 +63,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         public RoomType? RoomType { get; set; }
         public string? Note { get; set; }
         public int Floor { get; set; }
-        public int TotalPayment { get; set; }
+        public decimal TotalPayment { get; set; }
         // Stay info
         public DateTime ArrivalTime { get; set; }
         public DateTime DepartureTime { get; set; }

@@ -8,9 +8,6 @@
         xmlns:ui="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d"
         Title="Create a new reservation">
-    <Window.DataContext>
-        <vm:ReservationEditWindowVM x:Name="ReservationEditWindowVM"/>
-    </Window.DataContext>
     <Window.Resources>
         <Style x:Key="BoxHeader" TargetType="Panel">
             <Setter Property="Margin" Value="0,0,0,10" />
