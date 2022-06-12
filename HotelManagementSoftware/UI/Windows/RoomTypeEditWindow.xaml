@@ -5,52 +5,130 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels.WindowVMs"
         xmlns:local="clr-namespace:HotelManagementSoftware.UI.Windows"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:converters="clr-namespace:HotelManagementSoftware.ViewModels.Converters"
+        Title="Room type details"
         Style="{StaticResource PoppinsFont}"
-        mc:Ignorable="d"
-        Title="RoomTypeEditWindow" Height="450" Width="800">
+        SizeToContent="Height"
+        Width="600"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
+
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid.Resources>
-            <Style TargetType="StackPanel">
-                <Setter Property="Margin" Value="10,10,10,10" />
-            </Style>
-        </Grid.Resources>
-        <TextBlock Text="Room Type" Grid.ColumnSpan="2" FontSize="48" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" />
-        <StackPanel x:Name="RoomTypeName" Grid.Row="1" Grid.Column="0">
-            <TextBlock Text="Name" FontSize="15"/>
-            <TextBox  Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" FontSize="20" />
+
+        <!--Title-->
+        <StackPanel Grid.Row="0">
+            <TextBlock Margin="16 32 0 0" HorizontalAlignment="Left" 
+                           Style="{StaticResource WindowTitle}">
+                    Room type details
+            </TextBlock>
+
+            <Border Width="Auto"
+                    BorderThickness="1"
+                    Margin="16 12 16 0"
+                    BorderBrush="Black"
+                    Opacity=".1" />
         </StackPanel>
-        <StackPanel x:Name="NumberRoom" Grid.Row="1" Grid.Column="1">
-            <TextBlock  Text="Numbers of room" FontSize="15"/>
-            <TextBlock  Text="{Binding NumOfRooms}" FontSize="20" />
-        </StackPanel>
-        <StackPanel x:Name="Rate" Grid.Row="2" Grid.Column="0">
-            <TextBlock  Text="Rate" FontSize="15"/>
-            <TextBox  Text="{Binding Path=Rate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"  FontSize="20" />
-        </StackPanel>
-        <StackPanel x:Name="Capacity" Grid.Row="2" Grid.Column="1">
-            <TextBlock  Text="Capacity" FontSize="15"/>
-            <TextBox   Text="{Binding Path=Capacity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"  FontSize="20" />
-        </StackPanel>
-        <DockPanel x:Name="Description" Margin="10,10,10,10" LastChildFill="True" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
-            <TextBlock DockPanel.Dock="Top" Text="Description" FontSize="15"/>
-            <TextBox   Text="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged}"  FontSize="20" VerticalAlignment="Stretch"/>
-        </DockPanel>
-        <Button Content="Cancel" FontWeight="Bold"
-                    Background="#FFF0241D" Foreground="White"  Grid.Column="0" Grid.Row="4"
-                Command="{Binding CommandCancel, ElementName=RoomTypeEditVM}"/>
-        <Button Content="Save" FontWeight="Bold"
-                    Background="#FF358AFF" Foreground="White" Grid.Column="1" Grid.Row="4" 
-                Command="{Binding CommandSave, ElementName=RoomTypeEditVM}"/>
+
+        <Grid Grid.Row="1"
+            Margin="32 16 32 10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <!--Name-->
+            <Grid Grid.Column="0" Grid.ColumnSpan="2">
+                <StackPanel  Margin="8 0 8 20"
+                                Orientation="Vertical">
+                    <TextBlock Style="{StaticResource TextLabel}"
+                                FontSize="12"
+                                Text="Name" />
+                    <hc:TextBox  hc:InfoElement.Placeholder="Enter name"
+                                 Text="{Binding Name}"
+                                 ShowClearButton="True" />
+                </StackPanel>
+            </Grid>
+
+            <!--Capacity-->
+            <Grid Grid.Column="1"
+                    Grid.Row="1">
+                <StackPanel Margin="16 0 8 20"
+                            Orientation="Vertical">
+                    <TextBlock Style="{StaticResource TextLabel}"
+                                FontSize="12"
+                                Text="Capacity" />
+                    <hc:NumericUpDown hc:InfoElement.Placeholder="Set capacity"
+                                      Minimum="1"
+                                      Value="{Binding Capacity}" />
+                </StackPanel>
+            </Grid>
+
+            <!--Rate-->
+            <Grid Grid.Column="0"
+                    Grid.Row="1">
+                <StackPanel Margin="8 0 16 20"
+                            Orientation="Vertical">
+                    <TextBlock Style="{StaticResource TextLabel}"
+                                FontSize="12"
+                                Text="Rate" />
+                    <hc:TextBox  hc:InfoElement.Placeholder="Enter rate"
+                                 ShowClearButton="True"
+                                 Text="{Binding Rate}" />
+                </StackPanel>
+            </Grid>
+
+            <!--Email-->
+            <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                <StackPanel Margin="8 0 8 20"
+                            Orientation="Vertical">
+                    <TextBlock Style="{StaticResource TextLabel}"
+                               Text="Description" />
+                    <hc:TextBox  hc:InfoElement.Placeholder="Enter description"
+                                 ShowClearButton="True"
+                                 Text="{Binding Description}" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <!--Button-->
+        <hc:UniformSpacingPanel Grid.Row="2"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Spacing="10"
+                                ItemWidth="140"
+                                Margin="0,0,15,15"
+                                Orientation="Horizontal">
+            <Button x:Name="DeleteButton"
+                    Content="Delete"
+                    Click="DeleteButton_Click"
+                    FontWeight="Bold"
+                    Background="Red"
+                    Foreground="White"
+                    FontFamily="Poppins"
+                    Visibility="{Binding EditMode, 
+                                 Converter={StaticResource BooleanToVisibilityConverter}}"  />
+            <Button Content="Save"
+                    Click="SaveButton_Click"
+                    FontWeight="Bold"
+                    Background="{StaticResource PrimaryColorSolid}"
+                    Foreground="White"
+                    FontFamily="Poppins" />
+        </hc:UniformSpacingPanel>
+
     </Grid>
+
 </Window>
