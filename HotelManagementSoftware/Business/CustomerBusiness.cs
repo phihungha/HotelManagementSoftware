@@ -14,7 +14,7 @@ namespace HotelManagementSoftware.Business
         /// Get all customers.
         /// </summary>
         /// <returns>List of customers</returns>
-        public async Task<List<Customer>> GetAllCustomers()
+        public async Task<List<Customer>> GetCustomers()
         {
             using (var db = new Database())
             {
