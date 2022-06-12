@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HotelManagementSoftware.ViewModels.WindowVMs;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace HotelManagementSoftware.UI.Windows
 {
@@ -19,9 +9,30 @@ namespace HotelManagementSoftware.UI.Windows
     /// </summary>
     public partial class CustomerEditWindow : Window
     {
+        private CustomerEditWindowVM viewModel;
+
         public CustomerEditWindow()
         {
             InitializeComponent();
+            DataContext = App.Current.Services.GetRequiredService<CustomerEditWindowVM>();
+            viewModel = ((CustomerEditWindowVM)DataContext);
+        }
+
+        public CustomerEditWindow(int customerId)
+            : this()
+        {
+            viewModel.LoadCustomerFromId(customerId);
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private async void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (await viewModel.SaveCustomer())
+                Close();
         }
     }
 }

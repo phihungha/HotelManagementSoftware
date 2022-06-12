@@ -7,9 +7,6 @@
              xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.DataContext>
-        <vm:RoomTypesVM x:Name="RoomTypesVM" />
-    </UserControl.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

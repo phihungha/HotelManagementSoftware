@@ -1,29 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using HotelManagementSoftware.Data;
-using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-
-
+using HotelManagementSoftware.Business;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace HotelManagementSoftware.ViewModels.WindowVMs
 {
     public class CustomerEditWindowVM : ObservableValidator
     {
-        private string idNumber;
-        private string name;
-        private Gender gender;
+        private CustomerBusiness customerBusiness;
+        private CountryBusiness countryBusiness;
+
+        private Customer? customer;
+
+        private bool editMode = false;
+
+        public bool EditMode
+        {
+            get => editMode;
+            set => SetProperty(ref editMode, value);
+        }
+
+        private string idNumber = "";
+        private IdNumberType idNumberType = IdNumberType.Cmnd;
+        private string name = "";
+        private Gender gender = Gender.Male;
         private DateTime birthDate;
-        private string phoneNumber;
-        private string? email;
-        private string address;
-        private string city;
-        private string province;
-        private Country country;
+        private string phoneNumber = "";
+        private string? email = "";
+        private string address = "";
+        private string city = "";
+        private string province = "";
+        private Country country = new Country("", "");
 
         [Required(ErrorMessage = "Name cannot be empty")]
         [MinLength(2, ErrorMessage = "Name cannot be shorter than 2 character")]
@@ -34,16 +48,20 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             set => SetProperty(ref name, value, true);
         }
 
-        [Required(ErrorMessage = "ID cannot be empty")]
-        [RegularExpression(@"^(\d{9}|\d{12})$", ErrorMessage = "Invalid ID")]
+        [Required(ErrorMessage = "Identity number cannot be empty")]
+        [RegularExpression(@"^(\d{9}|\d{12})$", ErrorMessage = "Invalid Identity number")]
         public string IdNumber
         {
             get => idNumber;
             set => SetProperty(ref idNumber, value, true);
         }
 
+        public IdNumberType IdNumberType
+        {
+            get => idNumberType;
+            set => SetProperty(ref idNumberType, value, true);
+        }
 
-        [Required(ErrorMessage = "Gender cannot be empty")]
         public Gender Gender
         {
             get => gender;
@@ -90,21 +108,106 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             set => SetProperty(ref province, value, true);
         }
 
+        public ObservableCollection<Country> Countries { get; } = new();
 
-        [Required(ErrorMessage = "Country cannot be empty")]
         public Country Country
         {
             get => country;
             set => SetProperty(ref country, value, true);
         }
 
-        [Required(ErrorMessage = "Date of birth cannot be empty")]
+        public DateTime MinimumBirthDate
+        {
+            get => DateTime.Now.AddYears(-18);
+        }
+
         public DateTime BirthDate
         {
             get => birthDate;
             set => SetProperty(ref birthDate, value, true);
         }
 
+        public CustomerEditWindowVM(CustomerBusiness customerBusiness, CountryBusiness countryBusiness)
+        {
+            this.customerBusiness = customerBusiness;
+            this.countryBusiness = countryBusiness;
 
+            Populate();
+        }
+
+        private async void Populate()
+        {
+            List<Country> result = await countryBusiness.GetAllCountries();
+            result.ForEach(i => Countries.Add(i));
+            Country = result.First(i => i.CountryCode == "VN");
+        }
+
+        public async void LoadCustomerFromId(int customerId)
+        {
+            Customer? customer = await customerBusiness.GetCustomerById(customerId);
+
+            if (customer == null)
+                return;
+
+            this.customer = customer;
+            EditMode = true;
+
+            IdNumber = customer.IdNumber;
+            IdNumberType = customer.IdNumberType;
+            Name = customer.Name;
+            Gender = customer.Gender;
+            BirthDate = customer.BirthDate;
+            PhoneNumber = customer.PhoneNumber;
+            Email = customer.Email;
+            Address = customer.Address;
+            City = customer.City;
+            Province = customer.Province;
+            Country = customer.Country ?? Country;
+        }
+
+        public async Task<bool> SaveCustomer()
+        {
+            ValidateAllProperties();
+            if (GetErrors().Count() != 0)
+                return false;
+
+            if (customer != null)
+            {
+                customer.IdNumber = IdNumber;
+                customer.IdNumberType = IdNumberType;
+                customer.Name = Name;
+                customer.Gender = Gender;
+                customer.BirthDate = BirthDate;
+                customer.PhoneNumber = PhoneNumber;
+                customer.Email = Email;
+                customer.Address = Address;
+                customer.City = City;
+                customer.Province = Province;
+                customer.Country = Country;
+
+                await customerBusiness.EditCustomer(customer);
+            }
+            else
+            {
+                var newCustomer = new Customer(Name,
+                                               BirthDate,
+                                               IdNumberType,
+                                               IdNumber,
+                                               Gender,
+                                               PhoneNumber,
+                                               Address,
+                                               City,
+                                               Province,
+                                               Country);
+                await customerBusiness.CreateCustomer(newCustomer);
+            }
+            return true;
+        }
+
+        public async Task DeleteCustomer()
+        {
+            if (customer != null)
+                await customerBusiness.DeleteCustomer(customer);
+        }
     }
 }

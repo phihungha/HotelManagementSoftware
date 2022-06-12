@@ -3,18 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HotelManagementSoftware.UI.Windows"
         xmlns:ui="https://handyorg.github.io/handycontrol"
-        xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels.WindowVMs"
+        xmlns:converters="clr-namespace:HotelManagementSoftware.ViewModels.Converters"
         mc:Ignorable="d"
-        Title="Employee Edit Window"
-        WindowStyle="None"
-        WindowStartupLocation="CenterScreen"
-        Height="450"
-        Width="820">
-    <Window.DataContext>
-        <vm:CustomerEditWindowVM />
-    </Window.DataContext>
+        Title="Employee Details"
+        Style="{StaticResource PoppinsFont}"
+        SizeToContent="Height"
+        Width="900"
+        ResizeMode="NoResize">
+   
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -24,14 +21,14 @@
 
         <!--Title-->
         <StackPanel Grid.Row="0">
-            <StackPanel Margin="16 32 0 0"
+            <StackPanel Margin="16 12 0 0"
                         HorizontalAlignment="Left"
                         Orientation="Vertical">
                 <TextBlock TextWrapping="Wrap"
                            FontSize="24"
                            FontWeight="Bold"
                            Style="{StaticResource TextLabel}"
-                           Text="Edit customer infomation" />
+                           Text="Customer details" />
             </StackPanel>
             <Border Width="Auto"
                     BorderThickness="1"
@@ -70,102 +67,96 @@
                 </Grid.Resources>
 
                 <!--ID-->
-                <Grid Grid.Column="0">
-                    <StackPanel  
-                                 Orientation="Vertical">
+                <Grid Grid.Column="0" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.3*" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource TextLabel}"
+                                   FontSize="12"
+                                   Text="Identity number" />
+                        <ComboBox ItemsSource="{Binding IdNumberType, Converter={converters:EnumToCollection}, Mode=OneTime}"
+                                  SelectedValuePath="Value"
+                                  DisplayMemberPath="Description"
+                                  SelectedValue="{Binding IdNumberType}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
                         <TextBlock Style="{StaticResource TextLabel}"
                                    FontSize="12"
                                    Text="Identity number" />
                         <ui:TextBox  ui:InfoElement.Placeholder="Enter identity number"
-                                     Text="{Binding Path=IdNumber,UpdateSourceTrigger=PropertyChanged}"
+                                     Text="{Binding IdNumber}"
                                      ShowClearButton="True" />
                     </StackPanel>
                 </Grid>
 
                 <!--Name-->
-                <Grid Grid.Column="0"
-                      Grid.Row="1">
-                    <StackPanel
-                                Orientation="Vertical">
-                        <TextBlock Style="{StaticResource TextLabel}"
-                                   FontSize="12"
-                                   Text="Name" />
-                        <ui:TextBox ui:InfoElement.Placeholder="Enter name"
-                                    Text="{Binding Path=Name,UpdateSourceTrigger=PropertyChanged}"
-                                    ShowClearButton="True" />
+                <StackPanel Grid.Column="0" Grid.Row="1"
+                            Orientation="Vertical">
+                    <TextBlock Style="{StaticResource TextLabel}"
+                                FontSize="12"
+                                Text="Name" />
+                    <ui:TextBox ui:InfoElement.Placeholder="Enter name"
+                                Text="{Binding Name}"
+                                ShowClearButton="True" />
 
-                    </StackPanel>
-                </Grid>
+                </StackPanel>
 
-                <!--Phone-->
-                <Grid Grid.Column="0"
-                      Grid.Row="3">
-                    <StackPanel
-                                Orientation="Vertical">
-                        <TextBlock Style="{StaticResource TextLabel}"
-                                   FontSize="12"
-                                   Text="Phone number" />
-                        <ui:TextBox  ShowClearButton="True"
-                                     Text="{Binding Path=PhoneNumber,UpdateSourceTrigger=PropertyChanged}"
-                                     ui:InfoElement.Placeholder="Enter phone number" />
-                    </StackPanel>
-                </Grid>
+                <!-- Phone number -->
+                <StackPanel Grid.Column="1" Grid.Row="2"
+                            Orientation="Vertical">
+                    <TextBlock Style="{StaticResource TextLabel}"
+                                FontSize="12"
+                                Text="Phone number" />
+                    <ui:TextBox  ShowClearButton="True"
+                                 Text="{Binding PhoneNumber}"
+                                 ui:InfoElement.Placeholder="Enter phone number" />
+                </StackPanel>
 
-                <!--DateOfBirth-->
-                <Grid Grid.Column="0"
-                      Grid.Row="2">
-                    <StackPanel 
-                                Orientation="Vertical">
-                        <TextBlock Style="{StaticResource TextLabel}"
-                                   FontSize="12"
-                                   Text="Date of birth" />
-                        <DatePicker HorizontalAlignment="Stretch"
-                                    SelectedDate="{Binding Path=BirthDate,UpdateSourceTrigger=PropertyChanged,
-                                   Mode=TwoWay,
-                                    ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
-                                    ui:InfoElement.Placeholder="Enter date of birth" />
-                    </StackPanel>
-                </Grid>
+                <StackPanel Grid.Column="0" Grid.Row="2"
+                            Orientation="Vertical">
+                    <TextBlock Style="{StaticResource TextLabel}"
+                                FontSize="12"
+                                Text="Date of birth" />
+                    <DatePicker HorizontalAlignment="Stretch"
+                                SelectedDate="{Binding BirthDate,
+                                Mode=TwoWay,
+                                ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                                ui:InfoElement.Placeholder="Enter date of birth" />
+                </StackPanel>
 
+                <!-- Gender -->
+                <StackPanel Grid.Column="1" Grid.Row="1"
+                            Orientation="Vertical">
+                    
+                    <TextBlock Style="{StaticResource TextLabel}"
+                                FontSize="12"
+                                Text="Gender" />
 
-                <!--Gender-->
-                <Grid Grid.Column="1"
-                      Grid.Row="2">
-                    <StackPanel 
-                                Orientation="Vertical">
-                        <TextBlock Style="{StaticResource TextLabel}"
-                                   FontSize="12"
-                                   Text="Gender" />
-                        <ui:ComboBox HorizontalAlignment="Stretch"
-                                     ui:InfoElement.Placeholder="Enter gender"
-                                     Text="{Binding Path=Gender,UpdateSourceTrigger=PropertyChanged}">
-                            <TextBlock Text="Male"></TextBlock>
-                            <TextBlock Text="Female"></TextBlock>
-                        </ui:ComboBox>
-                    </StackPanel>
-                </Grid>
+                    <ComboBox ItemsSource="{Binding Gender, Converter={converters:EnumToCollection}, Mode=OneTime}"
+                                  SelectedValuePath="Value"
+                                  DisplayMemberPath="Description"
+                                  SelectedValue="{Binding Gender}" />
 
-                <!--Email-->
-                <Grid Grid.Column="1"
-                      Grid.Row="3">
-                    <StackPanel 
-                                Orientation="Vertical">
-                        <TextBlock Style="{StaticResource TextLabel}"
-                                   FontSize="12"
-                                   Text="Email" />
-                        <ui:TextBox  ui:InfoElement.Placeholder="Enter email"
-                                     ShowClearButton="True"
-                                     Text="{Binding Path=Email,UpdateSourceTrigger=PropertyChanged}" />
-                    </StackPanel>
-                </Grid>
+                </StackPanel>
 
+                <StackPanel Grid.Row="3" Grid.ColumnSpan="2"
+                            Orientation="Vertical">
+                    <TextBlock Style="{StaticResource TextLabel}"
+                                FontSize="12"
+                                Text="Email" />
+                    <ui:TextBox  ui:InfoElement.Placeholder="Enter email"
+                                    ShowClearButton="True"
+                                    Text="{Binding Email}" />
+                </StackPanel>
 
             </Grid>
 
             <!--Right table-->
-            <Grid Grid.Column="1"
-                  Grid.Row="1"
-                  Grid.ColumnSpan="1">
+            <Grid Grid.Column="1">
 
                 <Grid.Resources>
                     <Style TargetType="StackPanel">
@@ -180,74 +171,49 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-
-
                 <!--Address-->
-                <Grid Grid.Column="1"
-                      Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="91*"/>
-                        <ColumnDefinition Width="158*"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel 
-                                Orientation="Vertical" Grid.ColumnSpan="2" >
-                        <TextBlock Style="{StaticResource TextLabel}"
-                                   FontSize="12"
-                                   Text="Address" />
-                        <ui:TextBox  ui:InfoElement.Placeholder="Enter address"
-                                     ShowClearButton="True"
-                                     Text="{Binding Path=Address,UpdateSourceTrigger=PropertyChanged}" />
-                    </StackPanel>
-                </Grid>
+                <StackPanel Grid.Column="1" Grid.Row="0" >
+                    <TextBlock Style="{StaticResource TextLabel}"
+                                FontSize="12"
+                                Text="Address" />
+                    <ui:TextBox  ui:InfoElement.Placeholder="Enter address"
+                                    ShowClearButton="True"
+                                    Text="{Binding Address}" />
+                </StackPanel>
 
                 <!--City-->
-                <Grid Grid.Column="1"
-                      Grid.Row="1">
-                    <StackPanel
-                                Orientation="Vertical">
-                        <TextBlock Style="{StaticResource TextLabel}"
-                                   FontSize="12"
-                                   Text="City" />
-                        <ui:TextBox  ui:InfoElement.Placeholder="Enter city"
-                                     ShowClearButton="True"
-                                     Text="{Binding Path=City,UpdateSourceTrigger=PropertyChanged}" />
-                    </StackPanel>
-                </Grid>
+                <StackPanel Grid.Column="1" Grid.Row="1">
+                    <TextBlock Style="{StaticResource TextLabel}"
+                                FontSize="12"
+                                Text="City" />
+                    <ui:TextBox  ui:InfoElement.Placeholder="Enter city"
+                                    ShowClearButton="True"
+                                    Text="{Binding City}" />
+                </StackPanel>
 
                 <!--Province/State-->
-                <Grid Grid.Column="1"
-                      Grid.Row="2">
-                    <StackPanel 
-                                Orientation="Vertical">
-                        <TextBlock Style="{StaticResource TextLabel}"
-                                   FontSize="12"
-                                   Text="Province/State" />
-                        <ui:TextBox  ui:InfoElement.Placeholder="Enter province or state"
-                                     ShowClearButton="True"
-                                     Text="{Binding Path=Province,UpdateSourceTrigger=PropertyChanged}" />
-                    </StackPanel>
-                </Grid>
-
-
+                <StackPanel Grid.Column="1" Grid.Row="2"
+                            Orientation="Vertical">
+                    <TextBlock Style="{StaticResource TextLabel}"
+                                FontSize="12"
+                                Text="Province/State" />
+                    <ui:TextBox  ui:InfoElement.Placeholder="Enter province or state"
+                                    ShowClearButton="True"
+                                    Text="{Binding Province}" />
+                </StackPanel>
 
                 <!--Country-->
-                <Grid Grid.Column="1"
-                      Grid.Row="4">
-                    <StackPanel 
-                                Orientation="Vertical">
-                        <TextBlock Style="{StaticResource TextLabel}"
-                                   FontSize="12" 
-                                   Text="Country" />
-                        <ui:ComboBox HorizontalAlignment="Stretch"
-                                     ui:InfoElement.Placeholder="Select country"
-                                     Text="{    Binding Path=Country,UpdateSourceTrigger=PropertyChanged}">
-
-                        </ui:ComboBox>
-                    </StackPanel>
-                </Grid>
-
-
-
+                <StackPanel Grid.Column="1" Grid.Row="4"
+                            Orientation="Vertical">
+                    <TextBlock Style="{StaticResource TextLabel}"
+                                FontSize="12" 
+                                Text="Country" />
+                    <ui:ComboBox HorizontalAlignment="Stretch"
+                                 ItemsSource="{Binding Countries}"
+                                 DisplayMemberPath="Name"
+                                 SelectedItem="{Binding Country}">
+                    </ui:ComboBox>
+                </StackPanel>
             </Grid>
         </Grid>
 
@@ -256,24 +222,23 @@
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
                                 Spacing="10"
-                                ItemWidth="139"
-                                Orientation="Horizontal"
-                                Margin="0 0 32 12">
-            <Button Content="Cancel"
+                                ItemWidth="140"
+                                Margin="0,0,15,15"
+                                Orientation="Horizontal">
+            <Button x:Name="DeleteButton"
+                    Content="Delete"
+                    Click="DeleteButton_Click"
                     FontWeight="Bold"
-                    Background="#FFF0241D"
-                    Foreground="White"
-                    BorderBrush="{x:Null}"
-                    Padding="8"
-                    FontFamily="Poppins"
-                    Command="{Binding CommandCancel}"
-                    />
-            <Button Content="Update"
-                    FontWeight="Bold"
-                    Background="#FF358AFF"
+                    Background="Red"
                     Foreground="White"
                     FontFamily="Poppins"
-                    Command="{Binding CommandUpdate}" />
+                    IsEnabled="{Binding EditMode}" />
+            <Button Content="Save"
+                    Click="SaveButton_Click"
+                    FontWeight="Bold"
+                    Background="{StaticResource PrimaryColorSolid}"
+                    Foreground="White"
+                    FontFamily="Poppins" />
         </ui:UniformSpacingPanel>
 
     </Grid>

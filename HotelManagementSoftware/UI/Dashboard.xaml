@@ -47,7 +47,7 @@
 
                 <Button Name="NewReservationBtn" Click="NewReservationBtn_Click"
                         Grid.Column="1" HorizontalAlignment="Right" Height="50"
-                        hc:BorderElement.CornerRadius="10"
+                        hc:BorderElement.CornerRadius="6"
                         Foreground="White" Background="{StaticResource PrimaryColorSolid}">
                     <hc:UniformSpacingPanel Orientation="Horizontal" Spacing="5">
                         <Image Source="{StaticResource AddIconWhite}" Width="25" />

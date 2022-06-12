@@ -124,10 +124,7 @@
                       SelectionUnit="FullRow"
                       FlowDirection="LeftToRight"
                       VerticalScrollBarVisibility="Visible"
-                      Padding="16"
-                      CellStyle="{StaticResource ResourceKey=gridCellStyle}"
-                      ColumnHeaderStyle="{StaticResource ResourceKey=gridHeaderStyle}"
-                      >
+                      Padding="16">
                 <DataGrid.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                                      Color="LightGray" />
