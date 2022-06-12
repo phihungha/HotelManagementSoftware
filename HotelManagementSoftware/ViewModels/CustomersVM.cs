@@ -13,11 +13,11 @@ namespace HotelManagementSoftware.ViewModels
 {
     public enum SearchBy
     {
-        [DescriptionAttribute("Name")]
+        [Description("Name")]
         Name,
-        [DescriptionAttribute("Identity number")]
+        [Description("Identity number")]
         IdNumber,
-        [DescriptionAttribute("Phone number")]
+        [Description("Phone number")]
         PhoneNumber
     }
 
