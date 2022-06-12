@@ -185,6 +185,15 @@ namespace HotelManagementSoftware.Business
             }
         }
 
+        public async Task DeleteMaintenanceItems(List<MaintenanceItem> items)
+        {
+            using (var db = new Database())
+            {
+                db.Remove(items);
+                await db.SaveChangesAsync();
+            }
+        }
+
         /// <summary>
         /// Validate maintenance request's info before adding or updating.
         /// </summary>
