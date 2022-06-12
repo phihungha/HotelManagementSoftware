@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels.WindowVMs"
         xmlns:local="clr-namespace:HotelManagementSoftware.UI.Windows"
+        Style="{StaticResource PoppinsFont}"
         mc:Ignorable="d"
         Title="RoomTypeEditWindow" Height="450" Width="800">
     <Grid>

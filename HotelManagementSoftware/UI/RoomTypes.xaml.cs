@@ -26,10 +26,14 @@ namespace HotelManagementSoftware.UI
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            var createRoomTypeDialog = new RoomTypeEditWindow();
-            createRoomTypeDialog.Show();
+
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
