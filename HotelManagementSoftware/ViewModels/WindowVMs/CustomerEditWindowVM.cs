@@ -27,17 +27,40 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             set => SetProperty(ref editMode, value);
         }
 
+        private bool isUsingBankCard = false;
+        public bool IsUsingBankCard
+        {
+            get => isUsingBankCard;
+            set
+            {
+                SetProperty(ref isUsingBankCard, value);
+                if (value == true)
+                {
+                    CardNumber = "";
+                    ExpireDate = DateTime.Now.Date.AddYears(5);
+                }
+                else
+                {
+                    CardNumber = "";
+                    ExpireDate = null;
+                }
+            } 
+        }
+
         private string idNumber = "";
         private IdNumberType idNumberType = IdNumberType.Cmnd;
         private string name = "";
         private Gender gender = Gender.Male;
-        private DateTime birthDate;
+        private DateTime birthDate = new DateTime(1970, 1, 1);
         private string phoneNumber = "";
         private string? email = "";
         private string address = "";
         private string city = "";
         private string province = "";
         private Country country = new Country("", "");
+        private PaymentMethod paymentMethod = PaymentMethod.Cash;
+        private string? cardNumber = null;
+        private DateTime? expireDate = null;
 
         [Required(ErrorMessage = "Name cannot be empty")]
         [MinLength(2, ErrorMessage = "Name cannot be shorter than 2 character")]
@@ -127,6 +150,31 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             set => SetProperty(ref birthDate, value, true);
         }
 
+        public PaymentMethod PaymentMethod
+        {
+            get => paymentMethod;
+            set
+            {
+                SetProperty(ref paymentMethod, value, true);
+                if (value != PaymentMethod.Cash)
+                    IsUsingBankCard = true;
+                else
+                    IsUsingBankCard = false;
+            }
+        }
+
+        public string? CardNumber
+        {
+            get => cardNumber;
+            set => SetProperty(ref cardNumber, value, true);
+        }
+
+        public DateTime? ExpireDate
+        {
+            get => expireDate;
+            set => SetProperty(ref expireDate, value, true);
+        }
+
         public CustomerEditWindowVM(CustomerBusiness customerBusiness, CountryBusiness countryBusiness)
         {
             this.customerBusiness = customerBusiness;
@@ -163,6 +211,9 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             City = customer.City;
             Province = customer.Province;
             Country = customer.Country ?? Country;
+            PaymentMethod = customer.PaymentMethod;
+            ExpireDate = customer.ExpireDate;
+            CardNumber = customer.CardNumber;
         }
 
         public async Task<bool> SaveCustomer()
@@ -184,6 +235,9 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 customer.City = City;
                 customer.Province = Province;
                 customer.Country = Country;
+                customer.PaymentMethod = PaymentMethod;
+                customer.ExpireDate = ExpireDate;
+                customer.CardNumber = CardNumber;
 
                 await customerBusiness.EditCustomer(customer);
             }
@@ -198,7 +252,10 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                                                Address,
                                                City,
                                                Province,
-                                               Country);
+                                               Country,
+                                               PaymentMethod,
+                                               CardNumber,
+                                               ExpireDate);
                 await customerBusiness.CreateCustomer(newCustomer);
             }
             return true;

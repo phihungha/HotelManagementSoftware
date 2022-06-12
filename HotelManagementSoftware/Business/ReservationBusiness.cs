@@ -409,7 +409,7 @@ namespace HotelManagementSoftware.Business
         /// <param name="reservation">Reservation info</param>
         /// <returns>Total rent fee</returns>
         /// <exception cref="ArgumentNullException">Reservation's room or room type is null</exception>
-        private decimal GetTotalRentFee(Reservation reservation)
+        public decimal GetTotalRentFee(Reservation reservation)
         {
             if (reservation?.Room?.RoomType?.Rate == null)
                 throw new ArgumentException("Reservation's room or room type is null");
