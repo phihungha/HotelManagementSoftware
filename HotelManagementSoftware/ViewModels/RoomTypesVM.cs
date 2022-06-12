@@ -10,12 +10,18 @@ namespace HotelManagementSoftware.ViewModels
     {
         private RoomTypeBusiness roomTypeBusiness;
 
+        public bool CanEdit { get; } = false;
+
         public ObservableCollection<RoomType> RoomTypes { get; } = new();
 
-        public RoomTypesVM(RoomTypeBusiness roomTypeBusiness)
+        public RoomTypesVM(RoomTypeBusiness roomTypeBusiness, EmployeeBusiness employeeBusiness)
         {
             this.roomTypeBusiness = roomTypeBusiness;
             LoadAllRoomTypes();
+
+            if (employeeBusiness.CurrentEmployee != null
+                && employeeBusiness.CurrentEmployee.EmployeeType == EmployeeType.Manager)
+                CanEdit = true;
         }
 
         public async void LoadAllRoomTypes()

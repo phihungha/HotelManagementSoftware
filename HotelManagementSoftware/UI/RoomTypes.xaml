@@ -6,6 +6,10 @@
              xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -14,6 +18,8 @@
 
         <Button Name="AddButton" 
                 Click="AddButton_Click"
+                Visibility="{Binding CanEdit,
+                             Converter={StaticResource BooleanToVisibilityConverter}}"
                 Height="35" 
                 Background="{StaticResource PrimaryColorSolid}"
                 HorizontalAlignment="Right" 
@@ -61,6 +67,9 @@
                             <StackPanel Orientation="Horizontal">
                                 <Button x:Name="EditButton" Click="EditButton_Click"
                                         Margin="0,0,10,0"
+                                        Visibility="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},
+                                                             Path=DataContext.CanEdit, 
+                                                             Converter={StaticResource BooleanToVisibilityConverter}}"
                                         Tag="{Binding RoomTypeId}">
                                     <Image Source="{StaticResource EditIcon}" />
                                 </Button>
