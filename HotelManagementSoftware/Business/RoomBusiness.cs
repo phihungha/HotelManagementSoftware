@@ -148,7 +148,6 @@ namespace HotelManagementSoftware.Business
                 }
                 catch (DbUpdateException err)
                 {
-                    db.Entry(room).State = EntityState.Detached;
                     if (err.InnerException != null 
                         && err.InnerException.Message.Contains("duplicate"))
                         throw new ArgumentException("There is already a room with the same number");
@@ -168,7 +167,19 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 db.Update(room);
-                await db.SaveChangesAsync();
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (DbUpdateException err)
+                {
+                    if (err.InnerException != null
+                        && err.InnerException.Message.Contains("duplicate"))
+                        throw new ArgumentException("There is already a room with the same number");
+                    else
+                        throw err;
+                }
             }
         }
 
@@ -266,7 +277,18 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 db.Add(roomType);
-                await db.SaveChangesAsync();
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (DbUpdateException err)
+                {
+                    if (err.InnerException != null
+                        && err.InnerException.Message.Contains("duplicate"))
+                        throw new ArgumentException("There is already a room type with the same name");
+                    else
+                        throw err;
+                }
             }
         }
 
@@ -280,7 +302,19 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 db.Update(roomType);
-                await db.SaveChangesAsync();
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (DbUpdateException err)
+                {
+                    if (err.InnerException != null
+                        && err.InnerException.Message.Contains("duplicate"))
+                        throw new ArgumentException("There is already a room type with the same name");
+                    else
+                        throw err;
+                }
             }
         }
 

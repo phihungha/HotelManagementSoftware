@@ -1,5 +1,6 @@
 ﻿using HotelManagementSoftware.ViewModels.WindowVMs;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Windows;
 
 namespace HotelManagementSoftware.UI.Windows
@@ -37,8 +38,18 @@ namespace HotelManagementSoftware.UI.Windows
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (await ((RoomTypeEditWindowVM)DataContext).SaveRoomType())
-                Close();
+            try
+            {
+                if (await ((RoomTypeEditWindowVM)DataContext).SaveRoomType())
+                    Close();
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message,
+                                "Error",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+            }
         }
     }
 }

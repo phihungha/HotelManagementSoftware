@@ -47,7 +47,7 @@ namespace HotelManagementSoftware.UI.Windows
                 if (await ((CustomerEditWindowVM)DataContext).SaveCustomer())
                     Close();
             }
-            catch (ArgumentException err)
+            catch (Exception err)
             {
                 MessageBox.Show(err.Message,
                                 "Error",

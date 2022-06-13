@@ -125,7 +125,24 @@ namespace HotelManagementSoftware.Business
                 employee.Salt = Convert.ToBase64String(salt);
 
                 db.Employees.Add(employee);
-                await db.SaveChangesAsync();
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (DbUpdateException err)
+                {
+                    if (err.InnerException != null
+                        && err.InnerException.Message.Contains("duplicate"))
+                    {
+                        if (err.InnerException.Message.Contains("IdNumber"))
+                            throw new ArgumentException("There is already a customer with the same identity number");
+                        else if (err.InnerException.Message.Contains("PhoneNumber"))
+                            throw new ArgumentException("There is already a customer with the same phone number");
+                    }
+                    else
+                        throw err;
+                }
             }
         }
 
@@ -139,7 +156,24 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 db.Employees.Update(employee);
-                await db.SaveChangesAsync();
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (DbUpdateException err)
+                {
+                    if (err.InnerException != null
+                        && err.InnerException.Message.Contains("duplicate"))
+                    {
+                        if (err.InnerException.Message.Contains("IdNumber"))
+                            throw new ArgumentException("There is already a customer with the same identity number");
+                        else if (err.InnerException.Message.Contains("PhoneNumber"))
+                            throw new ArgumentException("There is already a customer with the same phone number");
+                    }
+                    else
+                        throw err;
+                }
             }
         }
 
