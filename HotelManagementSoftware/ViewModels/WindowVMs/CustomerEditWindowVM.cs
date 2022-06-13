@@ -98,7 +98,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             set => SetProperty(ref country, value, true);
         }
 
-        public string CountryCode => Country.CountryCode;
+        public string CountryCode => Country?.CountryCode;
 
         [PhoneNumberCheck(nameof(CountryCode))]
         public string PhoneNumber
@@ -182,7 +182,11 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             this.customerBusiness = customerBusiness;
             this.countryBusiness = countryBusiness;
             this.employeeBusiness = employeeBusiness;
+        }
 
+        public async void CreateCustomer()
+        {
+            await Populate();
         }
 
         private async Task Populate()
@@ -190,11 +194,6 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             List<Country> result = await countryBusiness.GetAllCountries();
             result.ForEach(i => Countries.Add(i));
             Country = result.First(i => i.CountryCode == "VN");
-        }
-
-        public async void CreateCustomer()
-        {
-            await Populate();
         }
 
         public async void LoadCustomerFromId(int customerId)
@@ -259,6 +258,9 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             }
             else
             {
+                if (Country == null)
+                    return false;
+
                 var newCustomer = new Customer(Name,
                                                BirthDate,
                                                IdNumberType,

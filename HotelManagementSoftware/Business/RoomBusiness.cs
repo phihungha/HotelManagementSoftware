@@ -49,6 +49,21 @@ namespace HotelManagementSoftware.Business
     public class RoomBusiness
     {
         /// <summary>
+        /// Get a room by its id.
+        /// </summary>
+        /// <param name="id">Room Id</param>
+        /// <returns>A room</returns>
+        public async Task<Room?> GetRoomById(int id)
+        {
+            using (var db = new Database())
+            {
+                return await db.Rooms
+                    .Include(i => i.RoomType)
+                    .FirstOrDefaultAsync(i => i.RoomId == id);
+            }
+        }
+
+        /// <summary>
         /// Get usable rooms in provided stay period, room type, and floor.
         /// </summary>
         /// <param name="roomType">Room type name</param>
@@ -107,7 +122,9 @@ namespace HotelManagementSoftware.Business
                 if (status != null)
                     filteredRequest = filteredRequest.Where(i => i.Status == status);
 
-                return await filteredRequest.ToListAsync();
+                return await filteredRequest
+                    .OrderBy(i => i.RoomNumber)
+                    .ToListAsync();
             }
         }
 
@@ -124,7 +141,20 @@ namespace HotelManagementSoftware.Business
                     throw new ArgumentException("Room type cannot be empty");
                 db.Attach(room.RoomType);
                 db.Add(room);
-                await db.SaveChangesAsync();
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (DbUpdateException err)
+                {
+                    db.Entry(room).State = EntityState.Detached;
+                    if (err.InnerException != null 
+                        && err.InnerException.Message.Contains("duplicate"))
+                        throw new ArgumentException("There is already a room with the same number");
+                    else
+                        throw err;
+                }
             }
         }
 

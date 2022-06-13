@@ -64,8 +64,7 @@
                     Height="35" 
                     Background="{StaticResource PrimaryColorSolid}"
                     HorizontalAlignment="Right" 
-                    VerticalAlignment="Stretch"
-                    Margin="0 0 16 0">
+                    VerticalAlignment="Stretch">
                 <hc:UniformSpacingPanel Orientation="Horizontal" Spacing="5">
                     <Image Source="{StaticResource AddIconWhite}" />
                     <TextBlock FontWeight="Bold" FontSize="14" 

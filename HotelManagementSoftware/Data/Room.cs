@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotelManagementSoftware.Data
@@ -43,7 +44,9 @@ namespace HotelManagementSoftware.Data
 
     public enum RoomStatus
     {
+        [Description("Usable")]
         Usable,
+        [Description("Closed")]
         Closed
     }
 
@@ -78,6 +81,5 @@ namespace HotelManagementSoftware.Data
         public string Name { get; set; } = "";
 
         public int Value { get; set; }
-
     }
 }

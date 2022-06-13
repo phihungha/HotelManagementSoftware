@@ -1,83 +1,62 @@
-﻿using HandyControl.Controls;
-using HotelManagementSoftware.Business;
+﻿using HotelManagementSoftware.Business;
 using HotelManagementSoftware.Data;
-using HotelManagementSoftware.UI.Windows;
-using HotelManagementSoftware.ViewModels.WindowVMs;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
 
 namespace HotelManagementSoftware.ViewModels
 {
     public class RoomsVM: ObservableValidator
     {
-        public ObservableCollection<Room> Rooms { get; set; } = new();
         private RoomBusiness roomBusiness;
         private FloorBusiness floorBusiness;
-        public Room SelectedRoom { get; set; }
 
-        public RoomsVM(RoomBusiness roomBusiness, FloorBusiness floorBusiness)
+        public bool CanEdit { get; } = false;
+
+        public ObservableCollection<Room> Rooms { get; } = new();
+        public ObservableCollection<string> FloorOptions { get; } = new();
+
+        private string floorOption = "All";
+        public string FloorOption
+        {
+            get => floorOption;
+            set
+            {
+                SetProperty(ref floorOption, value);
+                LoadRooms();
+            }
+        }
+
+        public RoomsVM(RoomBusiness roomBusiness, FloorBusiness floorBusiness, EmployeeBusiness employeeBusiness)
         {
             this.roomBusiness = roomBusiness;
             this.floorBusiness = floorBusiness;
-            Rooms = new ObservableCollection<Room>();
-            GetAllRoom();
-            CommandAdd = new RelayCommand(executeAddAction);
-            CommandDelete = new RelayCommand(executeDeleteAction);
-            CommandEdit = new RelayCommand(executeEditAction);
-        }
-        #region command
-        public ICommand CommandAdd { get; }
-        public ICommand CommandDelete { get; }
-        public ICommand CommandEdit { get; }
-        public void executeAddAction()
-        {
 
-        }
-        public async void executeDeleteAction()
-        {
-            MessageBoxResult result = HandyControl.Controls.MessageBox.Show("Delete this employee", "Warning", MessageBoxButton.YesNo);
+            if (employeeBusiness.CurrentEmployee != null
+                && employeeBusiness.CurrentEmployee.EmployeeType == EmployeeType.Manager)
+                CanEdit = true;
 
-            if (result == MessageBoxResult.Yes)
-            {
-                if (roomBusiness != null && SelectedRoom != null)
-                {
-                    roomBusiness.RemoveRoom(SelectedRoom);
-                }
-                GetAllRoom();
-            }
+            SetFloorValues();
+            LoadRooms();
         }
-        public void executeEditAction()
+
+        public async void SetFloorValues()
         {
-            RoomEditWindow roomEditWindow = new RoomEditWindow();
-            RoomEditWindowVM vm = new RoomEditWindowVM(roomBusiness);
-            vm.RoomsVM = this;
-            vm.roomEditWindowType = RoomEditWindowVM.RoomEditWindowType.Edit;
-            roomEditWindow.DataContext = vm;
-            roomEditWindow.ShowDialog();
+            int maxFloorNumber = await floorBusiness.GetMaxFloorNumber();
+            FloorOptions.Add("All");
+            for (int i = 1; i <= maxFloorNumber; i++)
+                FloorOptions.Add(i.ToString());
         }
-        #endregion
-        public async void GetAllRoom()
+
+        public async void LoadRooms()
         {
-            int i = await floorBusiness.GetMaxFloorNumber();
+            int? floorNumberToLoad = null;
+            if (floorOption != "All")
+                floorNumberToLoad = int.Parse(floorOption);
 
-            if (roomBusiness != null)
-            {
-                List<Room> roomTypes = await roomBusiness.GetRooms(null, null, null);
-                Rooms.Clear();
-                roomTypes.ForEach(roomtype =>
-                {
-                    Rooms.Add(roomtype);
-                });
-
-            }
+            Rooms.Clear();
+            List<Room> rooms = await roomBusiness.GetRooms(floorNumberToLoad, null, null);
+            rooms.ForEach(roomtype => Rooms.Add(roomtype));
         }
     }
 }

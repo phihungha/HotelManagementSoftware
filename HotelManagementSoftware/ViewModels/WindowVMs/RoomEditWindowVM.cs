@@ -1,114 +1,148 @@
-﻿using HandyControl.Controls;
-using HotelManagementSoftware.Business;
+﻿using HotelManagementSoftware.Business;
 using HotelManagementSoftware.Data;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace HotelManagementSoftware.ViewModels.WindowVMs
 {
     public class RoomEditWindowVM : ObservableValidator
     {
-        #region private variables
+        private RoomBusiness roomBusiness;
+        private RoomTypeBusiness roomTypeBusiness;
+        private FloorBusiness floorBusiness;
+
+        private Room? room;
+
+        private bool canDelete = false;
+        public bool CanDelete
+        {
+            get => canDelete;
+            set => SetProperty(ref canDelete, value);
+        }
+
+        private int maxFloor;
+        public int MaxFloor
+        {
+            get => maxFloor;
+            private set => SetProperty(ref maxFloor, value);
+        }
+
         private int number;
         private int floor;
-        public RoomStatus[] Status { get; set; }
-        private RoomBusiness? roomBusiness;
-        public RoomEditWindowType roomEditWindowType { get; set; }
-
+        private RoomType? roomType;
+        private RoomStatus status;
         private string? note;
-        #endregion
-        #region property validation
-        private RoomsVM roomsVM;
-        public RoomsVM RoomsVM
-        {
-            get => roomsVM;
-            set
-            {
-                SetProperty(ref roomsVM, value);
-                if (RoomsVM != null)
-                {
-                    if (RoomsVM.SelectedRoom != null)
-                    {
-                        Number = RoomsVM.SelectedRoom.RoomNumber;
-                        Note = RoomsVM.SelectedRoom.Note;
-                        selectedstatus = RoomsVM.SelectedRoom.Status;
-                        SelectedRoomType = RoomsVM.SelectedRoom.RoomType;
 
-                    }
-                }
-            }
-        }
+        public ObservableCollection<RoomType> RoomTypes { get; } = new();
+
         [Required(ErrorMessage = "Number cannot be empty")]
         public int Number
         {
             get => number;
             set => SetProperty(ref number, value, true);
         }
-        [Required(ErrorMessage = "Floor cannot be empty")]
+
         public int Floor
         {
             get => floor;
             set => SetProperty(ref floor, value, true);
         }
+
         public string? Note
         {
             get => note;
             set => SetProperty(ref note, value, true);
         }
-        #endregion
-        public ObservableCollection<RoomType> RoomTypes { get; set; }
-        public RoomType? SelectedRoomType { get; set; }
-        public RoomStatus selectedstatus { get; set; }
-        public RoomEditWindowVM(RoomBusiness? roomBusiness)
-        {
 
-            this.roomBusiness = roomBusiness;
-            CommandCancel = new RelayCommand(executeCancelAction);
-            CommandSave = new RelayCommand(executeCancelAction);
+        public RoomStatus Status
+        {
+            get => status;
+            set => SetProperty(ref status, value, true);
         }
 
-        #region command
-        public ICommand CommandCancel { get; }
-        public ICommand CommandSave { get; }
-
-        public void executeSaveAction()
+        public RoomType? RoomType
         {
+            get => roomType;
+            set => SetProperty(ref roomType, value, true);
+        }
 
-            if (roomEditWindowType == RoomEditWindowType.Edit)
+        public RoomEditWindowVM(RoomBusiness roomBusiness, RoomTypeBusiness roomTypeBusiness, FloorBusiness floorBusiness)
+        {
+            this.roomBusiness = roomBusiness;
+            this.roomTypeBusiness = roomTypeBusiness;
+            this.floorBusiness = floorBusiness;
+        }
+
+        public async void CreateRoom()
+        {
+            await Populate();
+        }
+
+        private async Task Populate()
+        {
+            MaxFloor = await floorBusiness.GetMaxFloorNumber();
+
+            List<RoomType> result = await roomTypeBusiness.GetRoomTypes();
+            result.ForEach(i => RoomTypes.Add(i));
+            RoomType = result.FirstOrDefault();
+        }
+
+        public async void LoadRoomFromId(int roomId)
+        {
+            await Populate();
+
+            Room? room = await roomBusiness.GetRoomById(roomId);
+
+            if (room == null)
+                return;
+
+            this.room = room;
+            CanDelete = true;
+
+            if (room.RoomType != null)
+                RoomType = RoomTypes.First(i => i.Name == room.RoomType.Name);
+
+            Number = room.RoomNumber;
+            Floor = room.Floor;
+            Status = room.Status;
+            Note = room.Note;
+        }
+
+        public async Task<bool> SaveRoom()
+        {
+            ValidateAllProperties();
+            if (GetErrors().Count() != 0)
+                return false;
+
+            if (room != null)
             {
-                Room room = RoomsVM.SelectedRoom;
                 room.RoomNumber = Number;
-                room.RoomType = SelectedRoomType;
+                room.RoomType = RoomType;
                 room.Floor = Floor;
+                room.Status = Status;
                 room.Note = Note;
-                roomBusiness.EditRoom(room);
+                await roomBusiness.EditRoom(room);
             }
             else
             {
-                Room room = new Room(Number, SelectedRoomType, Floor, selectedstatus, Note);
-                roomBusiness.AddRoom(room);
-            }
-            CloseAction();
-            RoomsVM.GetAllRoom();
-        }
-        public void executeCancelAction()
-        {
-            CloseAction();
-        }
-        #endregion
-        public Action CloseAction { get; set; }
+                if (RoomType == null)
+                    return false;
 
-        public enum RoomEditWindowType
+                Room room = new Room(Number, RoomType, Floor, Status, Note);
+                await roomBusiness.AddRoom(room);
+            }
+
+            return true;
+        }
+
+        public async Task DeleteRoom()
         {
-            Add, Edit
+            if (room != null)
+                await roomBusiness.RemoveRoom(room);
         }
     }
 }

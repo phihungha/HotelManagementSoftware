@@ -19,8 +19,8 @@ namespace HotelManagementSoftware.UI
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
-            int customerId = (int)button.Tag;
-            RoomTypeEditWindow window = new RoomTypeEditWindow(customerId);
+            int roomTypeId = (int)button.Tag;
+            RoomTypeEditWindow window = new RoomTypeEditWindow(roomTypeId);
             window.Show();
             window.Closed += Window_Closed;
         }
