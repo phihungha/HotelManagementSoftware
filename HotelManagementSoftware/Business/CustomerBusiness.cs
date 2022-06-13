@@ -112,7 +112,24 @@ namespace HotelManagementSoftware.Business
                     throw new ArgumentException("Country cannot be empty");
                 db.Attach(customer.Country);
                 db.Customers.Add(customer);
-                await db.SaveChangesAsync();
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (DbUpdateException err)
+                {
+                    if (err.InnerException != null
+                        && err.InnerException.Message.Contains("duplicate"))
+                    {
+                        if (err.InnerException.Message.Contains("IdNumber"))
+                            throw new ArgumentException("There is already a customer with the same identity number");
+                        else if (err.InnerException.Message.Contains("PhoneNumber"))
+                            throw new ArgumentException("There is already a customer with the same phone number");
+                    }
+                    else
+                        throw err;
+                }
             }
         }
 
@@ -126,7 +143,24 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 db.Customers.Update(customer);
-                await db.SaveChangesAsync();
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (DbUpdateException err)
+                {
+                    if (err.InnerException != null
+                        && err.InnerException.Message.Contains("duplicate"))
+                    {
+                        if (err.InnerException.Message.Contains("IdNumber"))
+                            throw new ArgumentException("There is already a customer with the same identity number");
+                        else if (err.InnerException.Message.Contains("PhoneNumber"))
+                            throw new ArgumentException("There is already a customer with the same phone number");
+                    }
+                    else
+                        throw err;
+                }
             }
         }
 

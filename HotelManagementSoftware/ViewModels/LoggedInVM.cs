@@ -160,9 +160,6 @@ namespace HotelManagementSoftware.ViewModels
                 case SidebarPageName.Employees:
                     CurrentPageVM = App.Current.Services.GetRequiredService<EmployeesVM>();
                     break;
-                case SidebarPageName.Reports:
-                    CurrentPageVM = App.Current.Services.GetRequiredService<ReportsVM>();
-                    break;
             }
         }
     }

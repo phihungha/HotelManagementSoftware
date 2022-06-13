@@ -3,99 +3,81 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HotelManagementSoftware.UI" 
-             xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
 
-        <Button Content="New Room Type" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="667,0,0,5" FontSize="14" Command="{Binding CommandAdd}" Click="Button_Click"/>
-        <DataGrid Grid.Row="1" HeadersVisibility="All" ItemsSource="{Binding RoomTypes}" SelectedItem="{Binding SelectedRoomType}"
-                  CanUserReorderColumns="False"
-                      CanUserResizeRows="False"
-                      AutoGenerateColumns="False"
-                      RowBackground="White"
-                      AlternatingRowBackground="AliceBlue"
-                      SelectionUnit="FullRow"
-                      FlowDirection="LeftToRight"
-                      VerticalScrollBarVisibility="Visible"
-                      Padding="16">
+        <Button Name="AddButton" 
+                Click="AddButton_Click"
+                Visibility="{Binding CanEdit,
+                             Converter={StaticResource BooleanToVisibilityConverter}}"
+                Height="35" 
+                Background="{StaticResource PrimaryColorSolid}"
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Stretch"
+                Margin="0,0,0,15">
+            <hc:UniformSpacingPanel Orientation="Horizontal" Spacing="5">
+                <Image Source="{StaticResource AddIconWhite}" />
+                <TextBlock FontWeight="Bold" FontSize="14" 
+                               Margin="0,0,0,0" Foreground="White">
+                        New room type
+                </TextBlock>
+            </hc:UniformSpacingPanel>
+        </Button>
+
+        <!--List-->
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding RoomTypes}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding RoomTypeId}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
+                
+                <DataGridTextColumn Header="Name" 
+                                    Width="*" 
+                                    FontSize="14"
+                                    Binding="{Binding Name}" />
 
-                <DataGridTextColumn Header="Name" Width="Auto" Binding="{Binding Name}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
+                <DataGridTextColumn Header="Capacity" 
+                                    Width="*" 
+                                    FontSize="14"
+                                    Binding="{Binding Capacity}" />
 
-                <DataGridTextColumn Header="Capacity" Width="Auto" Binding="{Binding Capacity}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
+                <DataGridTextColumn Header="Rate" 
+                                    Width="*" 
+                                    FontSize="14"
+                                    Binding="{Binding Rate}" />
 
-                <DataGridTextColumn Header="Rate" Width="Auto" Binding="{Binding Rate}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-
-                <DataGridTextColumn Header="Number of rooms" Width="Auto" Binding="{Binding Rooms.Count}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-
-                <DataGridTextColumn Header="Description" Width="Auto" Binding="{Binding Description}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-
-                <DataGridTemplateColumn Header="Action" Width="Auto">
+                <DataGridTextColumn Header="Description" 
+                                    Width="3*" 
+                                    FontSize="14"
+                                    Binding="{Binding Description}" />
+                
+                <DataGridTemplateColumn Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <StackPanel.Resources>
-                                    <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
-                                        <Setter Property="Visibility" Value="Hidden" />
-                                        <Setter Property="Margin" Value="5,0,5,0" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}},
-                                                                                                          Path=IsMouseOver}"
-                                                         Value="True">
-                                                <Setter Property="Visibility" Value="Visible" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </StackPanel.Resources>
-                                <Button Padding="5,1,5,1" Content="Sửa" Command="{Binding CommandEdit, ElementName=RoomTypesVM}"/>
-                                <Button Padding="5,1,5,1" Content="Xóa" Command="{Binding CommandDelete, ElementName=RoomTypesVM}"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="EditButton" Click="EditButton_Click"
+                                        Margin="0,0,10,0"
+                                        Visibility="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},
+                                                             Path=DataContext.CanEdit, 
+                                                             Converter={StaticResource BooleanToVisibilityConverter}}"
+                                        Tag="{Binding RoomTypeId}">
+                                    <Image Source="{StaticResource EditIcon}" />
+                                </Button>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

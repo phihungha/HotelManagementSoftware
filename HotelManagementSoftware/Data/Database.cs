@@ -15,6 +15,7 @@ namespace HotelManagementSoftware.Data
         public DbSet<Employee> Employees => Set<Employee>();
         public DbSet<Room> Rooms => Set<Room>();
         public DbSet<RoomType> RoomTypes => Set<RoomType>();
+        public DbSet<Configuration> Configurations => Set<Configuration>();
 
         public Database()
         {

@@ -58,7 +58,8 @@ namespace HotelManagementSoftware
             services.AddSingleton<MaintenanceBusiness>();
             services.AddSingleton<RoomBusiness>();
             services.AddSingleton<RoomTypeBusiness>();
-            services.AddSingleton<ReportBusiness>();
+            services.AddSingleton<FloorBusiness>();
+            services.AddSingleton<ConfigurationBusiness>();
 
             // View models
             services.AddTransient<MainWindowVM>();
@@ -74,7 +75,6 @@ namespace HotelManagementSoftware
             services.AddTransient<RoomsVM>();
             services.AddTransient<RoomTypesVM>();
             services.AddTransient<EmployeesVM>();
-            services.AddTransient<ReportsVM>();
 
             services.AddTransient<CancelReservationWindowVM>();
             services.AddTransient<CheckinWindowVM>();

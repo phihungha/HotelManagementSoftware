@@ -18,11 +18,11 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
         private Employee? employee;
 
-        private bool editMode = false;
-        public bool EditMode
+        private bool canDelete = false;
+        public bool CanDelete
         {
-            get => editMode;
-            set => SetProperty(ref editMode, value);
+            get => canDelete;
+            set => SetProperty(ref canDelete, value);
         }
 
         private string name = "";
@@ -126,7 +126,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 return;
 
             this.employee = employee;
-            EditMode = true;
+            CanDelete = true;
 
             Cmnd = employee.Cmnd;
             Name = employee.Name;

@@ -7,8 +7,6 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using HotelManagementSoftware.Business;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
-using Microsoft.Toolkit.Mvvm.Input;
 using HotelManagementSoftware.ViewModels.Validators;
 
 namespace HotelManagementSoftware.ViewModels.WindowVMs
@@ -17,15 +15,16 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
     {
         private CustomerBusiness customerBusiness;
         private CountryBusiness countryBusiness;
+        private EmployeeBusiness employeeBusiness;
 
         private Customer? customer;
 
-        private bool editMode = false;
+        private bool canDelete = false;
 
-        public bool EditMode
+        public bool CanDelete
         {
-            get => editMode;
-            set => SetProperty(ref editMode, value);
+            get => canDelete;
+            set => SetProperty(ref canDelete, value);
         }
 
         private bool isUsingBankCard = false;
@@ -99,7 +98,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             set => SetProperty(ref country, value, true);
         }
 
-        public string CountryCode => Country.CountryCode;
+        public string CountryCode => Country?.CountryCode;
 
         [PhoneNumberCheck(nameof(CountryCode))]
         public string PhoneNumber
@@ -176,10 +175,18 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             set => SetProperty(ref expireDate, value, true);
         }
 
-        public CustomerEditWindowVM(CustomerBusiness customerBusiness, CountryBusiness countryBusiness)
+        public CustomerEditWindowVM(CustomerBusiness customerBusiness,
+                                    CountryBusiness countryBusiness,
+                                    EmployeeBusiness employeeBusiness)
         {
             this.customerBusiness = customerBusiness;
             this.countryBusiness = countryBusiness;
+            this.employeeBusiness = employeeBusiness;
+        }
+
+        public async void CreateCustomer()
+        {
+            await Populate();
         }
 
         private async Task Populate()
@@ -187,12 +194,6 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             List<Country> result = await countryBusiness.GetAllCountries();
             result.ForEach(i => Countries.Add(i));
             Country = result.First(i => i.CountryCode == "VN");
-        }
-
-        public async void CreateCustomer()
-        {
-            await Populate();
-            editMode = false;
         }
 
         public async void LoadCustomerFromId(int customerId)
@@ -205,7 +206,12 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 return;
 
             this.customer = customer;
-            EditMode = true;
+
+            if (employeeBusiness.CurrentEmployee != null
+                && employeeBusiness.CurrentEmployee.EmployeeType != EmployeeType.Manager)
+                CanDelete = false;
+            else
+                CanDelete = true;
 
             if (customer.Country != null)
                 Country = Countries.First(i => i.CountryCode == customer.Country.CountryCode);
@@ -252,6 +258,9 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             }
             else
             {
+                if (Country == null)
+                    return false;
+
                 var newCustomer = new Customer(Name,
                                                BirthDate,
                                                IdNumberType,

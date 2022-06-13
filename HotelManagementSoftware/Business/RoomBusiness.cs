@@ -7,8 +7,62 @@ using System.Threading.Tasks;
 
 namespace HotelManagementSoftware.Business
 {
+    public class FloorBusiness
+    {
+        private const string CONFIG_NAME = "MaxFloorNumber";
+
+        private ConfigurationBusiness configurationBusiness;
+
+        /// <summary>
+        /// Get maximum floor number.
+        /// </summary>
+        public async Task<int> GetMaxFloorNumber()
+        {
+            int? maxFloorNumber = await configurationBusiness.GetConfig(CONFIG_NAME);
+            if (maxFloorNumber == null)
+            {
+                await SetMaxFloorNumber(5);
+                maxFloorNumber = 5;
+            }
+            return (int)maxFloorNumber;
+        }
+
+        /// <summary>
+        /// Set maximum floor number
+        /// </summary>
+        /// <param name="maxFloorNumber">Max floor number</param>
+        /// <exception cref="ArgumentException"></exception>
+        public async Task SetMaxFloorNumber(int maxFloorNumber)
+        {
+            if (maxFloorNumber < 1)
+                throw new ArgumentException("Floor number cannot be smaller than 1");
+
+            await configurationBusiness.SetConfig(CONFIG_NAME, maxFloorNumber);
+        }
+
+        public FloorBusiness(ConfigurationBusiness configurationBusiness)
+        {
+            this.configurationBusiness = configurationBusiness;
+        }
+    }
+
     public class RoomBusiness
     {
+        /// <summary>
+        /// Get a room by its id.
+        /// </summary>
+        /// <param name="id">Room Id</param>
+        /// <returns>A room</returns>
+        public async Task<Room?> GetRoomById(int id)
+        {
+            using (var db = new Database())
+            {
+                return await db.Rooms
+                    .Include(i => i.RoomType)
+                    .FirstOrDefaultAsync(i => i.RoomId == id);
+            }
+        }
+
         /// <summary>
         /// Get usable rooms in provided stay period, room type, and floor.
         /// </summary>
@@ -68,7 +122,9 @@ namespace HotelManagementSoftware.Business
                 if (status != null)
                     filteredRequest = filteredRequest.Where(i => i.Status == status);
 
-                return await filteredRequest.ToListAsync();
+                return await filteredRequest
+                    .OrderBy(i => i.RoomNumber)
+                    .ToListAsync();
             }
         }
 
@@ -85,7 +141,19 @@ namespace HotelManagementSoftware.Business
                     throw new ArgumentException("Room type cannot be empty");
                 db.Attach(room.RoomType);
                 db.Add(room);
-                await db.SaveChangesAsync();
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (DbUpdateException err)
+                {
+                    if (err.InnerException != null 
+                        && err.InnerException.Message.Contains("duplicate"))
+                        throw new ArgumentException("There is already a room with the same number");
+                    else
+                        throw err;
+                }
             }
         }
 
@@ -99,7 +167,19 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 db.Update(room);
-                await db.SaveChangesAsync();
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (DbUpdateException err)
+                {
+                    if (err.InnerException != null
+                        && err.InnerException.Message.Contains("duplicate"))
+                        throw new ArgumentException("There is already a room with the same number");
+                    else
+                        throw err;
+                }
             }
         }
 
@@ -197,7 +277,18 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 db.Add(roomType);
-                await db.SaveChangesAsync();
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (DbUpdateException err)
+                {
+                    if (err.InnerException != null
+                        && err.InnerException.Message.Contains("duplicate"))
+                        throw new ArgumentException("There is already a room type with the same name");
+                    else
+                        throw err;
+                }
             }
         }
 
@@ -211,7 +302,19 @@ namespace HotelManagementSoftware.Business
             using (var db = new Database())
             {
                 db.Update(roomType);
-                await db.SaveChangesAsync();
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (DbUpdateException err)
+                {
+                    if (err.InnerException != null
+                        && err.InnerException.Message.Contains("duplicate"))
+                        throw new ArgumentException("There is already a room type with the same name");
+                    else
+                        throw err;
+                }
             }
         }
 
