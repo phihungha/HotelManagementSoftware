@@ -1,30 +1,51 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using HotelManagementSoftware.Data;
+using HotelManagementSoftware.Business;
+using System.Collections.Generic;
+using System.Windows.Input;
+using Microsoft.Toolkit.Mvvm.Input;
+using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace HotelManagementSoftware.ViewModels
 {
     public class DeparturesVM : ObservableValidator
     {
         public ObservableCollection<Reservation> Departure { get; set; }
+        private ReservationBusiness reservationBusiness;
+        private CustomerBusiness customerBusiness;
 
+        private string searchTerm = "";
+        private DeparturesSearchBy searchBy = DeparturesSearchBy.Name;
+
+       
+        public enum DeparturesSearchBy
+        {
+            [Description("Name")]
+            Name,
+            [Description("Identity number")]
+            IdNumber,
+            [Description("Phone number")]
+            PhoneNumber
+        }
+   
         public DeparturesVM()
         {
             Departure = new ObservableCollection<Reservation>();
-            addArrival();
-        }
-        private void addArrival()
-        {
-            Departure.Add(new Reservation(
-                   new DateTime(2020, 2, 13), new DateTime(2020, 2, 15), 2, ReservationStatus.Reserved
-                   ));
+            //SearchCommand = new AsyncRelayCommand(Search);
+
         }
 
-       
+
+        public async void LoadDepartures()
+        {
+            Departure.Clear();
+            List<Reservation> reservations = await reservationBusiness.GetReservations();
+            reservations.ForEach(i => Departure.Add(i));
+
+        }
     }
 }
+

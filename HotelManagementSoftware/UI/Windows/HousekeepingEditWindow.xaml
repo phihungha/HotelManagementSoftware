@@ -7,6 +7,7 @@
         xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels.WindowVMs"
         mc:Ignorable="d"
         xmlns:ui="https://handyorg.github.io/handycontrol"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
         Title="HousekeepingEditWindow"
         Style="{StaticResource PoppinsFont}"
         SizeToContent="Height"
@@ -130,6 +131,12 @@
                         <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
                                    FontSize="12"
                                    Text="Start day" />
+                        <hc:DateTimePicker ShowClearButton="True"
+                                           Style="{StaticResource DateTimePickerExtend}"
+                                           SelectedDateTime="{Binding StartTime, StringFormat={}{0:dd/MM/yyyy hh:mm:ss}}"
+                                           hc:InfoElement.Title="This is the title"
+                                           hc:InfoElement.Placeholder="Please enter the content" />
+
                         <DatePicker HorizontalAlignment="Stretch"
                                     DisplayDateStart="{Binding Path=MinStartDay,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                     DisplayDateEnd="{Binding Path=MaxStartDay,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"

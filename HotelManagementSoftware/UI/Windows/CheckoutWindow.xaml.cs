@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HotelManagementSoftware.ViewModels.WindowVMs;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace HotelManagementSoftware.UI
 {
@@ -22,6 +13,15 @@ namespace HotelManagementSoftware.UI
         public CheckoutWindow()
         {
             InitializeComponent();
+            DataContext = App.Current.Services.GetRequiredService<CheckoutWindowVM>();
+
         }
+
+        //public CheckoutWindow(int ReservationId)
+        //{
+        //    InitializeComponent();
+        //    DataContext = App.Current.Services.GetRequiredService<CheckoutWindowVM>(ReservationId);
+                
+        //}
     }
 }

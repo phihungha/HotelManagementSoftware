@@ -21,6 +21,13 @@ namespace HotelManagementSoftware.ViewModels
         [Description("Room number")]
         Room
     }
+    public enum MaintenanceFilterBy
+    {
+        [Description("Opened status")]
+        OpenedStatus,
+        [Description("Closed status")]
+        ClosedStatus
+    }
     public class MaintenanceVM : ObservableValidator
     {
         private MaintenanceBusiness maintenanceBusiness;
@@ -31,6 +38,13 @@ namespace HotelManagementSoftware.ViewModels
             set => SetProperty(ref searchBy, value);
         }
 
+        private MaintenanceFilterBy filterBy = MaintenanceFilterBy.OpenedStatus;
+        public MaintenanceFilterBy FilterBy
+        {
+            get => filterBy;
+            set => SetProperty(ref filterBy, value);
+        }
+
         private string textFilter = "";
         public string TextFilter
         {
@@ -38,6 +52,7 @@ namespace HotelManagementSoftware.ViewModels
             set => SetProperty(ref textFilter, value);
         }
         public ICommand SearchCommand { get; }
+        public ICommand FilterCommand { get; }
 
         public ObservableCollection<MaintenanceRequest> MaintenanceRequestLists { get; } = new();
 
@@ -45,8 +60,47 @@ namespace HotelManagementSoftware.ViewModels
         {
             this.maintenanceBusiness = maintenanceBusiness;
             GetAllItem();
-
+            FilterCommand = new AsyncRelayCommand(Filter);
             SearchCommand = new AsyncRelayCommand(Search);
+        }
+
+
+        private async Task Filter()
+        {
+            switch (FilterBy)
+            {
+                case MaintenanceFilterBy.OpenedStatus:
+                    await GetAllItemByOpenedStatus();
+                    break;
+                case MaintenanceFilterBy.ClosedStatus:
+                    await GetAllItemByClosedStatus();
+                    break;
+            }
+        }
+        private async Task GetAllItemByOpenedStatus()
+        {
+            if (maintenanceBusiness != null)
+            {
+                List<MaintenanceRequest> list = await maintenanceBusiness.GetMaintenanceRequests(status: MaintenanceRequestStatus.Opened);
+                MaintenanceRequestLists.Clear();
+                list.ForEach(item =>
+                {
+                    MaintenanceRequestLists.Add(item);
+                });
+            }
+        }
+
+        private async Task GetAllItemByClosedStatus()
+        {
+            if (maintenanceBusiness != null)
+            {
+                List<MaintenanceRequest> list = await maintenanceBusiness.GetMaintenanceRequests(status: MaintenanceRequestStatus.Closed);
+                MaintenanceRequestLists.Clear();
+                list.ForEach(item =>
+                {
+                    MaintenanceRequestLists.Add(item);
+                });
+            }
         }
         private async Task Search()
         {

@@ -26,6 +26,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="4*" />
                 <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <TextBox HorizontalContentAlignment="Left"
@@ -65,8 +66,36 @@
                           DisplayMemberPath="Description"
                           SelectedValue="{Binding SearchBy}" />
             </Grid>
+            <Grid Grid.Column="3"
+                  Margin="5,0,5,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="3"
+                <Button Margin="4 0 4 0"
+                        Padding="4"
+                        BorderThickness="0"
+                        Background="{StaticResource PrimaryColorSolid}"
+                        Command="{Binding FilterCommand}">
+                    <TextBlock Text="Filter by"
+                               Foreground="White"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Margin="0,0,5,0"
+                               FontSize="15" />
+                </Button>
+
+
+                <ComboBox Grid.Column="1"
+                          FontSize="14"
+                          ItemsSource="{Binding FilterBy, Converter={converters:EnumToCollection}, Mode=OneTime}"
+                          SelectedValuePath="Value"
+                          DisplayMemberPath="Description"
+                          SelectedValue="{Binding FilterBy}" />
+            </Grid>
+
+            <Button Grid.Column="4"
                     Name="AddMaintenanceRequest"
                     Click="AddMaintenanceRequest_Click"
                     Height="35"
