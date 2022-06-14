@@ -7,12 +7,15 @@
         xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels.WindowVMs"
         mc:Ignorable="d"
         xmlns:ui="https://handyorg.github.io/handycontrol"
-        WindowStartupLocation="CenterScreen"
-        WindowStyle="None"
         Title="MaintenanceEditWindow"
-        Height="600"
-        Width="900">
-
+        Style="{StaticResource PoppinsFont}"
+        SizeToContent="Height"
+        Width="800"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -31,7 +34,7 @@
                            FontSize="24"
                            Style="{StaticResource TextLabel}"
                            FontWeight="Bold"
-                           Text="{Binding Title}" />
+                           Text="Maintenance request details" />
 
 
             </StackPanel>
@@ -116,16 +119,18 @@
                                          ItemsSource="{Binding RoomLists}"
                                          DisplayMemberPath="RoomNumber"
                                          SelectedIndex="0"
-                                         Visibility="{Binding VisibilityCbx, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Visibility="{Binding CanNotClose, 
+                                 Converter={StaticResource BooleanToVisibilityConverter}}"
                                          SelectedItem="{Binding Room, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             </ui:ComboBox>
 
                             <ui:TextBox x:Name="tb_room"
                                         HorizontalAlignment="Stretch"
                                         ui:InfoElement.Placeholder="Room number"
-                                        Visibility="{Binding VisibilityTextbox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Visibility="{Binding CanClose, 
+                                 Converter={StaticResource BooleanToVisibilityConverter}}"
                                         IsEnabled="False"
-                                        Text="{Binding Room.RoomNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        Text="{Binding RoomNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             </ui:TextBox>
                         </Grid>
                     </StackPanel>
@@ -143,7 +148,7 @@
                                     DisplayDateStart="{Binding Path=MinStartDay,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                     DisplayDateEnd="{Binding Path=MaxStartDay,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                     DisplayDate="{Binding Path=DefaultDate,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
-                                    IsEnabled="{Binding IsEnabled}"
+                                    IsEnabled="{Binding Path=IsEnabled, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                     SelectedDate="{Binding Path=StartTime,UpdateSourceTrigger=PropertyChanged,
                             Mode=TwoWay,
                             ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
@@ -181,7 +186,7 @@
                         <DatePicker HorizontalAlignment="Stretch"
                                     DisplayDateStart="{Binding Path=MinEndDay,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                     DisplayDate="{Binding Path=DefaultDate,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
-                                    IsEnabled="{Binding IsEnabled}"
+                                    IsEnabled="{Binding Path=IsEnabled, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                     SelectedDate="{Binding Path=EndTime,
                             UpdateSourceTrigger=PropertyChanged,
                             Mode=TwoWay,
@@ -200,7 +205,7 @@
                                    Text="Status" />
                         <ui:TextBox HorizontalAlignment="Stretch"
                                     ui:InfoElement.Placeholder="Status"
-                                    Text="{Binding Path=Status,UpdateSourceTrigger=PropertyChanged}"
+                                    Text="{Binding Path=Status,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                     IsEnabled="False">
                         </ui:TextBox>
                     </StackPanel>
@@ -245,65 +250,41 @@
         </StackPanel>
 
         <!--Body-->
+        <!--List-->
         <Grid Grid.Row="3"
               Margin="16 0 32 8">
-            <DataGrid ItemsSource="{Binding Items,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      Background="Transparent"
-                      CanUserReorderColumns="False"
-                      CanUserResizeColumns="True"
+            <DataGrid Grid.Row="1"
+                      ItemsSource="{Binding Items}"
                       AutoGenerateColumns="False"
-                      
-                      RowBackground="White"
-                      AlternatingRowBackground="AliceBlue"
-                      
-                      SelectionUnit="FullRow"
-                      FlowDirection="LeftToRight"
-                      VerticalScrollBarVisibility="Visible"
-                      Margin="0 8 8 8"
-                      SelectionMode="Single"
-                      
+                      IsReadOnly="False"
                       CanUserAddRows="True"
-                      ColumnHeaderStyle="{StaticResource ResourceKey=gridHeaderStyle}"
-                      CellStyle="{StaticResource ResourceKey=gridCellStyle}">
-                <DataGrid.Resources>
-
-                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                                     Color="LightGray" />
-                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
-                                     Color="LightGray" />
-                    <!--<SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
-                                     Color="LightGray" />
-                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}"
-                                     Color="LightGray" />-->
-                </DataGrid.Resources>
-
+                      SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name"
-                                        Width="Auto"
+                                        Width="*"
                                         Binding="{Binding Name}"
-                                        FontSize="12" />
+                                        FontSize="14" />
+
+
                     <DataGridTextColumn Header="Quantity"
-                                        Width="Auto"
+                                        Width="*"
                                         Binding="{Binding Quantity}"
-                                        FontSize="12" />
+                                        FontSize="14" />
 
                     <DataGridTextColumn Header="Description"
                                         Width="*"
                                         Binding="{Binding Description}"
-                                        FontSize="12" />
-                    <DataGridTemplateColumn Header="Action"
-                                            Width="Auto">
+                                        FontSize="14" />
+
+                    <DataGridTemplateColumn Width="Auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel>
-                                    <Button Height="18"
-                                            Width="18"
-                                            Style="{StaticResource ResourceKey=ImageButton}"
-                                            Command="{Binding Path=DataContext.CommandDeleteItem,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                                            CommandParameter="{Binding}">
-                                        <Image Source="{StaticResource IconDeleteButton}"
-                                               Stretch="Fill" />
+                                <StackPanel Orientation="Horizontal">
+                                    <Button x:Name="DeleteItemButton"
+                                            Click="DeleteItemButton_Click"
+                                            Margin="0,0,10,0"
+                                            Tag="{Binding EmployeeId}">
+                                        <Image Source="{StaticResource DeleteIcon}" />
                                     </Button>
                                 </StackPanel>
                             </DataTemplate>
@@ -326,20 +307,17 @@
                     Background="Green"
                     Foreground="White"
                     FontFamily="Poppins"
-                    Visibility="{Binding VisibilityTextbox}"
-                    Command="{Binding CommandClose}" />
-            <Button Content="Cancel"
-                    FontWeight="Bold"
-                    Background="#FFF0241D"
-                    Foreground="White"
-                    FontFamily="Poppins"
-                    Command="{Binding CommandCancel}" />
+                    Name="CloseRequest"
+                    Click="CloseRequest_Click"
+                    Visibility="{Binding CanClose, 
+                                 Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button Content="Save"
+                    Name="SaveButton"
+                    Click="SaveButton_Click"
                     FontWeight="Bold"
-                    Background="#FF358AFF"
+                    Background="{StaticResource PrimaryColorSolid}"
                     Foreground="White"
-                    FontFamily="Poppins"
-                    Command="{Binding CommandUpdate}" />
+                    FontFamily="Poppins" />
         </ui:UniformSpacingPanel>
     </Grid>
 </Window>

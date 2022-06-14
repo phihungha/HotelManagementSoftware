@@ -12,7 +12,7 @@
         SizeToContent="Height"
         Width="800"
         ResizeMode="NoResize"
-        WindowStartupLocation="CenterOwner">
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
@@ -32,7 +32,7 @@
                            FontSize="24"
                            Style="{StaticResource ResourceKey=TextLabel}"
                            FontWeight="Bold"
-                           Text="Request details" />
+                           Text="Housekeeping request details" />
 
 
             </StackPanel>

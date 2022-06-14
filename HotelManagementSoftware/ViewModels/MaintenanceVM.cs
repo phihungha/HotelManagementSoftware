@@ -8,109 +8,106 @@ using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
+using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 
 using System.Windows.Input;
 
 namespace HotelManagementSoftware.ViewModels
 {
+    public enum MaintenanceSearchBy
+    {
+        [Description("Room number")]
+        Room
+    }
     public class MaintenanceVM : ObservableValidator
     {
-        private MaintenanceBusiness? maintenanceBusiness;
-        public ObservableCollection<MaintenanceRequest> MaintenanceRequestLists { get; set; } = new();
-        public MaintenanceRequest SelectedItemMaintenanceRequest { get; set; }
-
-        private String? textFilter;
-        public String? TextFilter
+        private MaintenanceBusiness maintenanceBusiness;
+        private MaintenanceSearchBy searchBy = MaintenanceSearchBy.Room;
+        public MaintenanceSearchBy SearchBy
         {
-            get { return textFilter; }
-            set
-            {
-                textFilter = value;
-
-                if (!String.IsNullOrEmpty(textFilter))
-                {
-                    GetAllItemByRoom();
-                }
-                else
-                {
-                    GetAllItem();
-                }
-            }
+            get => searchBy;
+            set => SetProperty(ref searchBy, value);
         }
 
-        #region ctor
-        public MaintenanceVM(MaintenanceBusiness? maintenanceBusiness)
+        private string textFilter = "";
+        public string TextFilter
+        {
+            get { return textFilter; }
+            set => SetProperty(ref textFilter, value);
+        }
+        public ICommand SearchCommand { get; }
+
+        public ObservableCollection<MaintenanceRequest> MaintenanceRequestLists { get; } = new();
+
+        public MaintenanceVM(MaintenanceBusiness maintenanceBusiness)
         {
             this.maintenanceBusiness = maintenanceBusiness;
             GetAllItem();
-            initCommand();
+
+            SearchCommand = new AsyncRelayCommand(Search);
         }
-        private void initCommand()
+        private async Task Search()
         {
-            CommandAddNewIssue = new RelayCommand(executeAddIssueAction);
-            CommandSearch = new RelayCommand(executeSearchIssueAction);
-            CommandEditNewIssue = new RelayCommand(executeEditIssueAction);
-        }
-
-        #endregion
-
-        #region command
-        public ICommand? CommandEditNewIssue { get; set; }
-        public ICommand? CommandAddNewIssue { get; set; }
-        public ICommand? CommandSearch { get; set; }
-        public void executeSearchIssueAction()
-        {
-            
-        }
-        public void executeEditIssueAction()
-        {
-            MaintenanceEditWindow window = new MaintenanceEditWindow();
-            MaintenanceEditWindowVM vm = App.Current.Services.GetRequiredService<MaintenanceEditWindowVM>();
-            vm.MaintenanceVM = this;
-
-            vm.MaintenanceRequestType = MaintenanceRequestType.Edit;
-            vm.CurrentRequestId = SelectedItemMaintenanceRequest.MaintenanceRequestId;
-
-            if (vm.CloseAction == null)
-            {
-                vm.CloseAction = new Action(window.Close);
-            }
-
-            if (SelectedItemMaintenanceRequest.Status.Equals(MaintenanceRequestStatus.Closed))
-            {
-                vm.IsEnabled = false;
-            }
+            if (textFilter == "")
+                GetAllItem();
             else
             {
-                vm.IsEnabled = true;
+                switch (SearchBy)
+                {
+                    case MaintenanceSearchBy.Room:
+                        await GetAllItemByRoom();
+                        break;
+                }
             }
-
-            window.DataContext = vm;
-            window.ShowDialog();
-
         }
-        public void executeAddIssueAction()
-        {
-            MaintenanceEditWindow window = new MaintenanceEditWindow();
-            MaintenanceEditWindowVM vm = App.Current.Services.GetRequiredService<MaintenanceEditWindowVM>();
-            vm.MaintenanceVM = this;
+        /*   public void executeEditIssueAction()
+           {
+               MaintenanceEditWindow window = new MaintenanceEditWindow();
+               MaintenanceEditWindowVM vm = App.Current.Services.GetRequiredService<MaintenanceEditWindowVM>();
+               vm.MaintenanceVM = this;
 
-            vm.MaintenanceRequestType = MaintenanceRequestType.Add;
-            vm.CurrentRequestId = null;
+               vm.MaintenanceRequestType = MaintenanceRequestType.Edit;
+               vm.CurrentRequestId = SelectedItemMaintenanceRequest.MaintenanceRequestId;
 
-            if (vm.CloseAction == null)
-            {
-                vm.CloseAction = new Action(window.Close);
-            }
-            window.DataContext = vm;
+               if (vm.CloseAction == null)
+               {
+                   vm.CloseAction = new Action(window.Close);
+               }
 
-            window.ShowDialog();
-        }
-        #endregion
+               if (SelectedItemMaintenanceRequest.Status.Equals(MaintenanceRequestStatus.Closed))
+               {
+                   vm.IsEnabled = false;
+               }
+               else
+               {
+                   vm.IsEnabled = true;
+               }
 
-        private async void GetAllItemByRoom()
+               window.DataContext = vm;
+               window.ShowDialog();
+
+           }
+           public void executeAddIssueAction()
+           {
+               MaintenanceEditWindow window = new MaintenanceEditWindow();
+               MaintenanceEditWindowVM vm = App.Current.Services.GetRequiredService<MaintenanceEditWindowVM>();
+               vm.MaintenanceVM = this;
+
+               vm.MaintenanceRequestType = MaintenanceRequestType.Add;
+               vm.CurrentRequestId = null;
+
+               if (vm.CloseAction == null)
+               {
+                   vm.CloseAction = new Action(window.Close);
+               }
+               window.DataContext = vm;
+
+               window.ShowDialog();
+           }*/
+
+        public async Task GetAllItemByRoom()
         {
             int room;
             bool canConvert = Int32.TryParse(TextFilter, out room);
@@ -124,6 +121,7 @@ namespace HotelManagementSoftware.ViewModels
                 });
             }
         }
+
         public async void GetAllItem()
         {
             if (maintenanceBusiness != null)

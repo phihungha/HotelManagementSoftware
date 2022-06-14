@@ -22,7 +22,6 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         private HousekeepingRequest? housekeeping = null;
 
         private bool canClose = false;
-
         public bool CanClose
         {
             get => canClose;
@@ -31,10 +30,8 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 SetProperty(ref canClose, value);
             }
         }
+
         private bool canNotClose = true;
-        /*        private bool isEnabled = false;
-                private Visibility visibilityCbx = Visibility.
-                private Visibility visibilityTextbox = Visibility.Hidden;*/
         public bool CanNotClose
         {
             get => canNotClose;
@@ -152,7 +149,6 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             this.employeeBusiness = employeeBusiness;
             this.housekeepingBusiness = housekeepingBusiness;
             FillRoomCombobox();
-          
         }
 
         public void setUpDatePicker()

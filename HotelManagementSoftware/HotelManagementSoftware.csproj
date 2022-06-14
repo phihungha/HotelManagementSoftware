@@ -83,6 +83,9 @@
     <Compile Update="ViewModels\Converters\HousekeepingType.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Update="ViewModels\Converters\MaintenanceType.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
   </ItemGroup>
 
 </Project>
