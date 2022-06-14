@@ -55,6 +55,37 @@ namespace HotelManagementSoftware.UI
         {
             ((ReservationEditWindowVM)DataContext).LoadCustomerFromId(e.Id);
         }
- 
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var chooseRoom = new ChooseRoomWindow();
+            chooseRoom.DialogFinished += ChooseRoomWindow_DialogFinished;
+            chooseRoom.ShowDialog();
+        }
+        void ChooseRoomWindow_DialogFinished(object sender, WindowEventArgs e)
+        {
+            ((ReservationEditWindowVM)DataContext).LoadRoomFromId(e.Id);
+        }
+
+        private async void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (await ((ReservationEditWindowVM)DataContext).Save())
+                    Close();
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message,
+                                "Error",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+            }
+        }
+
+        private async void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

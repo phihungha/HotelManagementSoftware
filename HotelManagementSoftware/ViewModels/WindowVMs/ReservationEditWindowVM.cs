@@ -18,9 +18,10 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         private ReservationBusiness? reservationBusiness;
         private RoomBusiness? roomBusiness;
         private CustomerBusiness? customerBusiness;
+        private EmployeeBusiness? employeeBusiness;
         private Customer? customer;
+        private Reservation? reservation1;
         private Room? room;
-        public Room SelectedRoom { get; set; }
         public ReservationEditWindowType reservationEditWindowType { get; set; }
 
         //Guest info
@@ -49,16 +50,25 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         public PaymentMethod SelectedPaymentMethod { get; set; }
         public string? CardNumber { get; set; }
         public DateTime? ExpireDate { get; set; }
-        public ReservationEditWindowVM(RoomBusiness? roomBusiness, CustomerBusiness? customerBusiness, ReservationBusiness? reservationBusiness)
+        public ReservationEditWindowVM(RoomBusiness? roomBusiness, CustomerBusiness? customerBusiness, ReservationBusiness? reservationBusiness, EmployeeBusiness? employeeBusiness)
         {
             this.roomBusiness = roomBusiness;
             this.customerBusiness = customerBusiness;
             this.reservationBusiness = reservationBusiness;
-            CommandChooseRoom = new RelayCommand(executeChooseRoom);
-            CommandChooseCustomer = new RelayCommand(executeChooseCustomer);
-            CommandChooseRoomType = new RelayCommand(executeChooseRoomType);
-            CommandCancel = new RelayCommand(executeCancel);
-            CommandSave = new RelayCommand(executeSave);
+            this.employeeBusiness = employeeBusiness;
+        }
+        public async void LoadReservationFromId(int reservationId)
+        {
+            Reservation? reservation = await reservationBusiness.GetReservationById(reservationId);
+            this.reservation1 = reservation;
+            this.room = reservation.Room;
+            LoadRoomFromId(reservation.Room.RoomId);
+            this.customer = reservation.Customer;
+            LoadCustomerFromId(reservation.Customer.CustomerId);
+            Person = reservation.NumberOfPeople;
+            ArrivalTime = reservation.ArrivalTime;
+            DepartureTime = reservation.DepartureTime;
+            TotalPayment = reservationBusiness.GetTotalRentFee(reservation);
         }
         public async void LoadRoomFromId(int RoomId)
         {
@@ -85,32 +95,40 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             CardNumber = customer.CardNumber;
         }
         #region command
-        public ICommand CommandChooseRoom { get; }
-        public ICommand CommandChooseCustomer { get; }
-        public ICommand CommandChooseRoomType { get; }
         public ICommand CommandSave { get; }
         public ICommand CommandCancel { get; }
 
-        public void executeSave()
+        public async Task<bool> Save()
         {
+            if(reservation1 != null)
+            {
+                reservation1.ArrivalTime = ArrivalTime;
+                reservation1.DepartureTime = DepartureTime;
+                reservation1.NumberOfPeople = Person;
+                reservation1.Room = room;
+                reservation1.Customer = customer;
+                reservationBusiness.EditReservation(reservation1);
+                return true;
+            }
+            else
+            {
+                Reservation reservation = new Reservation(ArrivalTime, DepartureTime, Person, room, customer, employeeBusiness.CurrentEmployee);
+                var result = HandyControl.Controls.MessageBox.Show(
+    "Are you sure that you want to check in this Reservation now? This action cannot be undone.",
+    "check in this Reservation?",
+    MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    reservationBusiness.CreateReservation(reservation,true);
+                }else
+                {
+                    reservationBusiness.CreateReservation(reservation, false);
+                }
+                return true;  
+            }
+        }
 
-        }
-        public void executeCancel()
-        {
-            CloseAction();
-        }
-        public void executeChooseRoom()
-        {
-
-        }
-        public void executeChooseCustomer()
-        {
-
-        }
-        public void executeChooseRoomType()
-        {
-
-        }
+        
         public Action CloseAction { get; set; }
         #endregion
         public enum ReservationEditWindowType

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using HotelManagementSoftware.ViewModels.Utils;
+using HotelManagementSoftware.ViewModels.WindowVMs;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +22,29 @@ namespace HotelManagementSoftware.UI
     /// </summary>
     public partial class ChooseRoomWindow : Window
     {
+        public event EventHandler<WindowEventArgs> DialogFinished;
         public ChooseRoomWindow()
         {
             InitializeComponent();
-            DataContext = App.Current.Services.GetRequiredService<ChooseRoomWindow>();
+            DataContext = App.Current.Services.GetRequiredService<ChooseRoomWindowVM>();
+        }
+        private void ChooseRoomTypeButton_Click(object sender, RoutedEventArgs e)
+        {
+            var chooseRoomType = new ChooseRoomTypeWindow();
+            chooseRoomType.DialogFinished += ChooseRoomTypeWindow_DialogFinished;
+            chooseRoomType.ShowDialog();
+            this.Close();
+        }
+        void ChooseRoomTypeWindow_DialogFinished(object sender, WindowEventArgs e)
+        {
+            ((ChooseRoomWindowVM)DataContext).GetUsableRoom(e.Id);
+        }
+        private void ChooseButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+            int RoomId = (int)button.Tag;
+            DialogFinished?.Invoke(this, new WindowEventArgs(RoomId));
+            this.Close();
         }
     }
 }

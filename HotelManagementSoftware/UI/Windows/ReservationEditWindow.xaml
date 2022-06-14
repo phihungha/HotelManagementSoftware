@@ -197,17 +197,17 @@
 
                     <StackPanel Grid.Row="1" Margin="0,0,8,0">
                         <TextBlock Style="{StaticResource Label}" Text="Methods"/>
-                        <ComboBox HorizontalAlignment="Stretch" ItemsSource="{Binding PaymentMethod}" SelectedItem="{Binding SelectedPaymentMethod}"/>
+                        <TextBlock Text="{Binding SelectedPaymentMethod}" HorizontalAlignment="Stretch" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="1" Grid.Column="1" Margin="8,0,8,0">
                         <TextBlock Style="{StaticResource Label}" Text="Card number"/>
-                        <TextBox Text="{Binding CardNumber}" />
+                        <TextBlock Text="{Binding CardNumber}" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="1" Grid.Column="2" Margin="8,0,0,0">
                         <TextBlock FontSize="11"  Text="Expire date"/>
-                        <DatePicker HorizontalAlignment="Stretch" SelectedDate="{Binding ExpireDate}"/>
+                        <TextBlock HorizontalAlignment="Stretch" Text="{Binding ExpireDate}"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -243,14 +243,11 @@
                             <TextBlock Style="{StaticResource DialogTitle}" Text="Room information" />
                             <TextBlock Style="{StaticResource DialogSubtitle}" Text="Room and room type" />
                         </StackPanel>
-                        <Button Grid.Column="1" Content="Choose Room Type" FontWeight="Bold"
-                                Background="#FF358AFF" Foreground="White"
-                                VerticalAlignment="Center" HorizontalAlignment="Right" 
-                                Command="{Binding CommandChooseRoomType}"/>
+                        
                         <Button Grid.Column="2" Content="Choose Room" FontWeight="Bold"
                                 Background="#FF358AFF" Foreground="White"
                                 VerticalAlignment="Center" HorizontalAlignment="Right" 
-                                Command="{Binding CommandChooseRoom}"/>
+                                Click="ChooseCustomer_Click"/>
                     </Grid>
 
                     <StackPanel Grid.Row="1">
@@ -302,9 +299,9 @@
                                 Spacing="10" ItemWidth="139"
                                 Orientation="Horizontal" Margin="0,15,32,5">
             <Button Content="Cancel Reservation" FontWeight="Bold"
-                    Background="#FFF0241D" Foreground="White"  Command="{Binding CommandCancel}"/>
+                    Background="#FFF0241D" Foreground="White"  Command="{Binding CommandCancel}" Click="Button_Click_3"/>
             <Button Content="Update" FontWeight="Bold"
-                    Background="#FF358AFF" Foreground="White" Command="{Binding CommandSave}" />
+                    Background="#FF358AFF" Foreground="White" Command="{Binding CommandSave}" Click="Button_Click_2" />
         </ui:UniformSpacingPanel>
     </Grid>
 </Window>
