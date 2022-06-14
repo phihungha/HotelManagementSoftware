@@ -28,7 +28,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 LoadRooms();
             }else
             {
-                GetUsableRoom(SelectedRoomType.RoomTypeId)
+                GetUsableRoom(SelectedRoomType.RoomTypeId);
             }    
             
         }

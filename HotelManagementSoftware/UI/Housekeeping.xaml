@@ -132,7 +132,7 @@
 
                 <DataGridTextColumn Header="Status"
                                     Width="*"
-                                    Binding="{Binding HousekeepingRequestStatus, 
+                                    Binding="{Binding Status, 
                                               Converter={StaticResource HousekeepingStatusToStringConverter}}"
                                     FontSize="14" />
 
