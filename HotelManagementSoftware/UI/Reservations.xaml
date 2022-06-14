@@ -11,7 +11,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <converters:RoomStatusToString x:Key="RoomStatusToStringConverter" />
+        <converters:ReservationStatusToString x:Key="ReservationStatusToStringConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -67,6 +67,12 @@
                 <DataGridTextColumn Header="Room"
                                     Width="Auto"
                                     Binding="{Binding Room.RoomNumber}"
+                                    FontSize="14" />
+                
+                <DataGridTextColumn Header="Status"
+                                    Width="Auto"
+                                    Binding="{Binding Status,
+                                              Converter={StaticResource ReservationStatusToStringConverter }}"
                                     FontSize="14" />
 
                 <DataGridTemplateColumn Width="Auto">
