@@ -88,6 +88,7 @@ namespace HotelManagementSoftware
             services.AddTransient<ReservationEditWindowVM>();
             services.AddTransient<RoomEditWindowVM>();
             services.AddTransient<RoomTypeEditWindowVM>();
+            services.AddTransient<ChooseCustomerWindowVM>();
 
             return services.BuildServiceProvider();
         }
