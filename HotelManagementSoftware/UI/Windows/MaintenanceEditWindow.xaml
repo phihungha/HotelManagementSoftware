@@ -7,6 +7,7 @@
         xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels.WindowVMs"
         mc:Ignorable="d"
         xmlns:ui="https://handyorg.github.io/handycontrol"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
         Title="MaintenanceEditWindow"
         Style="{StaticResource PoppinsFont}"
         SizeToContent="Height"
@@ -49,8 +50,8 @@
         <Grid Grid.Row="1"
               Margin="32 16 32 32">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="10*"/>
             </Grid.ColumnDefinitions>
 
             <!--Left table-->
@@ -141,18 +142,12 @@
                       Grid.Row="1">
                     <StackPanel Margin="8 0 16 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
-                                   FontSize="12"
-                                   Text="Start day" />
-                        <DatePicker HorizontalAlignment="Stretch"
-                                    DisplayDateStart="{Binding Path=MinStartDay,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
-                                    DisplayDateEnd="{Binding Path=MaxStartDay,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
-                                    DisplayDate="{Binding Path=DefaultDate,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
-                                    IsEnabled="{Binding Path=IsEnabled, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                    SelectedDate="{Binding Path=StartTime,UpdateSourceTrigger=PropertyChanged,
-                            Mode=TwoWay,
-                            ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
-                                    ui:InfoElement.Placeholder="Enter start time" />
+                        <hc:DateTimePicker ShowClearButton="True"
+                                           Style="{StaticResource DateTimePickerExtend}"
+                                           SelectedDateTime="{Binding EndTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                           DateTimeFormat="dd/MM/yyyy hh:mm:ss tt"
+                                           hc:InfoElement.Title="End day"
+                                           hc:InfoElement.Placeholder="Enter end time" />
                     </StackPanel>
                 </Grid>
 
@@ -162,16 +157,13 @@
                       Grid.Row="2">
                     <StackPanel Margin="8 0 16 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
-                                   FontSize="12"
-                                   Text="Close day" />
-                        <DatePicker HorizontalAlignment="Stretch"
-                                    SelectedDate="{Binding Path=CloseTime,
-                            UpdateSourceTrigger=PropertyChanged,
-                            Mode=TwoWay,
-                            ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
-                                    ui:InfoElement.Placeholder="Close time"
-                                    IsEnabled="False" />
+                        <hc:DateTimePicker ShowClearButton="True"
+                                           Style="{StaticResource DateTimePickerExtend}"
+                                           SelectedDateTime="{Binding CloseTime}"
+                                           DateTimeFormat="dd/MM/yyyy hh:mm:ss tt"
+                                           hc:InfoElement.Title="Close day"
+                                           hc:InfoElement.Placeholder="Enter close time"
+                                           IsEnabled="False" />
                     </StackPanel>
                 </Grid>
 
@@ -180,18 +172,12 @@
                       Grid.Row="1">
                     <StackPanel Margin="16 0 8 0"
                                 Orientation="Vertical">
-                        <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
-                                   FontSize="12"
-                                   Text="End day" />
-                        <DatePicker HorizontalAlignment="Stretch"
-                                    DisplayDateStart="{Binding Path=MinEndDay,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
-                                    DisplayDate="{Binding Path=DefaultDate,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
-                                    IsEnabled="{Binding Path=IsEnabled, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                    SelectedDate="{Binding Path=EndTime,
-                            UpdateSourceTrigger=PropertyChanged,
-                            Mode=TwoWay,
-                            ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
-                                    ui:InfoElement.Placeholder="Enter end time" />
+                        <hc:DateTimePicker ShowClearButton="True"
+                                           Style="{StaticResource DateTimePickerExtend}"
+                                           SelectedDateTime="{Binding EndTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                           DateTimeFormat="dd/MM/yyyy hh:mm:ss tt"
+                                           hc:InfoElement.Title="End day"
+                                           hc:InfoElement.Placeholder="Enter end time" />
                     </StackPanel>
                 </Grid>
 
@@ -199,7 +185,8 @@
                 <Grid Grid.Column="1"
                       Grid.Row="2">
                     <StackPanel Margin="16 0 8 0"
-                                Orientation="Vertical">
+                                Orientation="Vertical"
+                                VerticalAlignment="Bottom">
                         <TextBlock Style="{StaticResource ResourceKey=TextLabel}"
                                    FontSize="12"
                                    Text="Status" />
@@ -236,6 +223,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Margin="16 8 0 0"
+                    IsEnabled="{Binding IsEnabled}"
                     Command="{Binding CommandAddRow}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{StaticResource AddIconWhite}"
@@ -258,6 +246,7 @@
                       AutoGenerateColumns="False"
                       IsReadOnly="False"
                       CanUserAddRows="True"
+                      SelectionMode="Single"
                       SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name"
@@ -317,6 +306,7 @@
                     FontWeight="Bold"
                     Background="{StaticResource PrimaryColorSolid}"
                     Foreground="White"
+                    IsEnabled="{Binding IsEnabled}"
                     FontFamily="Poppins" />
         </ui:UniformSpacingPanel>
     </Grid>

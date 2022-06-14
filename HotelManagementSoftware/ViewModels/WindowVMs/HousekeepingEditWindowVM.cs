@@ -257,13 +257,9 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
             if (housekeepingBusiness == null || employeeBusiness == null || housekeeping == null) return false;
             Employee? current = employeeBusiness.CurrentEmployee;
-            HousekeepingRequest request = housekeeping;
-            request.StartTime = StartTime;
-            request.EndTime = EndTime;
-            request.Note = Note;
 
             if (current == null) return false;
-            await housekeepingBusiness.CloseHousekeepingRequest(request, DateTime.Now, current);
+            await housekeepingBusiness.CloseHousekeepingRequest(housekeeping, DateTime.Now, current);
 
             return true;
         }
