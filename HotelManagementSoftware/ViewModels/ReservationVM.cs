@@ -44,6 +44,7 @@ namespace HotelManagementSoftware.ViewModels
             this.reservationBusiness = reservationBusiness;
             Reservations = new ObservableCollection<Reservation>();
             GetAllReservation();
+            SearchCommand = new AsyncRelayCommand(Search);
         }
         #region command
         public ICommand CommandAdd { get; }
@@ -90,6 +91,7 @@ namespace HotelManagementSoftware.ViewModels
 
             }
         }
+        public ICommand SearchCommand { get; }
         public async Task Search()
         {
             if (ArrivalTimeFilter.Enable == false)
