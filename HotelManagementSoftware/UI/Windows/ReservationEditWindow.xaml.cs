@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using HotelManagementSoftware.UI.Windows;
+using HotelManagementSoftware.ViewModels.Utils;
+using HotelManagementSoftware.ViewModels.WindowVMs;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +26,7 @@ namespace HotelManagementSoftware.UI
         public ReservationEditWindow()
         {
             InitializeComponent();
-            DataContext = App.Current.Services.GetRequiredService<ReservationEditWindow>();
+            DataContext = App.Current.Services.GetRequiredService<ReservationEditWindowVM>();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -40,5 +43,18 @@ namespace HotelManagementSoftware.UI
         {
 
         }
+
+        private void ChooseCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            var chooseCustomer = new ChooseCustomerWindow();
+            chooseCustomer.DialogFinished += ChooseCustomerWindow_DialogFinished;
+            chooseCustomer.ShowDialog();
+
+        }
+        void ChooseCustomerWindow_DialogFinished(object sender, WindowEventArgs e)
+        {
+            ((ReservationEditWindowVM)DataContext).LoadCustomerFromId(e.Id);
+        }
+ 
     }
 }

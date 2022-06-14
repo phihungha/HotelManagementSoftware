@@ -84,7 +84,7 @@
                         <Button Grid.Column="1" Content="Choose Guest" FontWeight="Bold"
                                 Background="#FF358AFF" Foreground="White"
                                 VerticalAlignment="Center" HorizontalAlignment="Right" 
-                                Command="{Binding CommandChooseCustomer}"/>
+                                Click="ChooseCustomer_Click"/>
                     </Grid>
 
                     <StackPanel Grid.Row="1" Grid.ColumnSpan="2">

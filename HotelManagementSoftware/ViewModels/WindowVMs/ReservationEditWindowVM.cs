@@ -16,39 +16,13 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
     public class ReservationEditWindowVM : ObservableValidator
     {
         private ReservationBusiness? reservationBusiness;
+        private RoomBusiness? roomBusiness;
+        private CustomerBusiness? customerBusiness;
+        private Customer? customer;
+        private Room? room;
         public Room SelectedRoom { get; set; }
         public ReservationEditWindowType reservationEditWindowType { get; set; }
-        private ReservationsVM reservationsVM;
-        public ReservationsVM ReservationsVM
-        {
-            get => reservationsVM;
-            set
-            {
-                SetProperty(ref reservationsVM, value);
-                if (ReservationsVM != null)
-                {
-                    if (ReservationsVM.SelectedReservations != null)
-                    {
-                        CMND = ReservationsVM.SelectedReservations.Customer.IdNumber;
-                        Name = ReservationsVM.SelectedReservations.Customer.Name;
-                        Gender = ReservationsVM.SelectedReservations.Customer.Gender;
-                        PhoneNumber = ReservationsVM.SelectedReservations.Customer.PhoneNumber;
-                        Email = ReservationsVM.SelectedReservations.Customer.Email;
-                        BirthDate = ReservationsVM.SelectedReservations.Customer.BirthDate;
-                        Address = ReservationsVM.SelectedReservations.Customer.Address;
-                        RoomNumber = ReservationsVM.SelectedReservations.Room.RoomNumber;
-                        RoomType = ReservationsVM.SelectedReservations.Room.RoomType;
-                        Note = ReservationsVM.SelectedReservations.Room.Note;
-                        Floor = ReservationsVM.SelectedReservations.Room.Floor;
-                        TotalPayment = ReservationsVM.reservationBusiness.GetTotalRentFee(ReservationsVM.SelectedReservations);
-                        ArrivalTime = ReservationsVM.SelectedReservations.ArrivalTime;
-                        DepartureTime = ReservationsVM.SelectedReservations.DepartureTime;
-                        SelectedPaymentMethod = ReservationsVM.SelectedReservations.Customer.PaymentMethod;
-                        CardNumber = ReservationsVM.SelectedReservations.Customer.CardNumber;
-                    }
-                }
-            }
-        }
+
         //Guest info
         public string CMND { get; set; }
         public string Name { get; set; }
@@ -75,13 +49,40 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         public PaymentMethod SelectedPaymentMethod { get; set; }
         public string? CardNumber { get; set; }
         public DateTime? ExpireDate { get; set; }
-        public ReservationEditWindowVM()
+        public ReservationEditWindowVM(RoomBusiness? roomBusiness, CustomerBusiness? customerBusiness, ReservationBusiness? reservationBusiness)
         {
+            this.roomBusiness = roomBusiness;
+            this.customerBusiness = customerBusiness;
+            this.reservationBusiness = reservationBusiness;
             CommandChooseRoom = new RelayCommand(executeChooseRoom);
             CommandChooseCustomer = new RelayCommand(executeChooseCustomer);
             CommandChooseRoomType = new RelayCommand(executeChooseRoomType);
             CommandCancel = new RelayCommand(executeCancel);
             CommandSave = new RelayCommand(executeSave);
+        }
+        public async void LoadRoomFromId(int RoomId)
+        {
+            Room? room = await roomBusiness.GetRoomById(RoomId);
+            this.room = room;
+            RoomNumber = room.RoomNumber;
+            RoomType = room.RoomType;
+            Note = room.Note;
+            Floor = room.Floor;
+        }
+        public async void LoadCustomerFromId(int customerId)
+        {
+            Customer? customer = await customerBusiness.GetCustomerById(customerId);
+            this.customer = customer;
+            CMND = customer.IdNumber;
+            Name = customer.Name;
+            Gender = customer.Gender;
+            BirthDate = customer.BirthDate;
+            PhoneNumber = customer.PhoneNumber;
+            Email = customer.Email;
+            Address = customer.Address;
+            SelectedPaymentMethod = customer.PaymentMethod;
+            ExpireDate = customer.ExpireDate;
+            CardNumber = customer.CardNumber;
         }
         #region command
         public ICommand CommandChooseRoom { get; }
@@ -92,40 +93,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
         public void executeSave()
         {
-            if (reservationEditWindowType == ReservationEditWindowType.Edit)
-            {
-                Reservation reservation = ReservationsVM.SelectedReservations;
-                reservation.NumberOfPeople = Person;
-                reservation.Customer.Email = Email;
-                reservation.Customer.IdNumber = CMND;
-                reservation.Customer.PhoneNumber = PhoneNumber;
-                reservation.Customer.Address = Address;
-                reservation.Customer.Name = Name;
-                reservation.Customer.Gender = Gender;
-                reservation.Customer.BirthDate = BirthDate;
 
-                reservation.Room.RoomType = RoomType;
-                reservation.Room.RoomNumber = RoomNumber;
-                reservation.Room.Floor = Floor;
-                reservation.Room.Note = Note;
-
-                reservation.ArrivalTime = ArrivalTime;
-                reservation.DepartureTime = DepartureTime;
-                reservation.NumberOfPeople = Person;
-
-                reservation.Customer.CardNumber = CardNumber;
-                reservation.Customer.PaymentMethod = SelectedPaymentMethod;
-
-                reservationBusiness.EditReservation(reservation);
-
-            }
-            else
-            {
-
-                
-            }
-            ReservationsVM.GetAllReservation();
-            CloseAction();
         }
         public void executeCancel()
         {
