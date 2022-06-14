@@ -25,6 +25,14 @@ namespace HotelManagementSoftware.ViewModels
         Room
     }
 
+    public enum HouseKeepingFilterBy
+    {
+        [Description("Opened status")]
+        OpenedStatus,
+        [Description("Closed status")]
+        ClosedStatus
+    }
+
     public class HousekeepingVM : ObservableValidator
     {
         private HousekeepingBusiness housekeepingBusiness;
@@ -34,6 +42,14 @@ namespace HotelManagementSoftware.ViewModels
             get => searchBy;
             set => SetProperty(ref searchBy, value);
         }
+
+        private HouseKeepingFilterBy filterBy = HouseKeepingFilterBy.OpenedStatus;
+        public HouseKeepingFilterBy FilterBy
+        {
+            get => filterBy;
+            set => SetProperty(ref filterBy, value);
+        }
+
         public ObservableCollection<HousekeepingRequest> HouseKeepingLists { get; } = new();
 
         private string textFilter = "";
@@ -43,13 +59,55 @@ namespace HotelManagementSoftware.ViewModels
             set => SetProperty(ref textFilter, value);
         }
         public ICommand SearchCommand { get; }
+        public ICommand FilterCommand { get; }
         public HousekeepingVM(HousekeepingBusiness housekeepingBusiness)
         {
             this.housekeepingBusiness = housekeepingBusiness;
             GetAllItem();
 
             SearchCommand = new AsyncRelayCommand(Search);
+            FilterCommand = new AsyncRelayCommand(Filter);
         }
+
+        private async Task Filter()
+        {
+            switch (FilterBy)
+            {
+                case HouseKeepingFilterBy.OpenedStatus:
+                    await GetAllItemByOpenedStatus();
+                    break;
+                case HouseKeepingFilterBy.ClosedStatus:
+                    await GetAllItemByClosedStatus();
+                    break;
+            }
+        }
+
+        private async Task GetAllItemByOpenedStatus()
+        {
+            if (housekeepingBusiness != null)
+            {
+                List<HousekeepingRequest> list = await housekeepingBusiness.GetHousekeepingRequests(status: HousekeepingRequestStatus.Opened);
+                HouseKeepingLists.Clear();
+                list.ForEach(item =>
+                {
+                    HouseKeepingLists.Add(item);
+                });
+            }
+        }
+
+        private async Task GetAllItemByClosedStatus()
+        {
+            if (housekeepingBusiness != null)
+            {
+                List<HousekeepingRequest> list = await housekeepingBusiness.GetHousekeepingRequests(status: HousekeepingRequestStatus.Closed);
+                HouseKeepingLists.Clear();
+                list.ForEach(item =>
+                {
+                    HouseKeepingLists.Add(item);
+                });
+            }
+        }
+
         private async Task Search()
         {
             if (textFilter == "")
@@ -64,7 +122,6 @@ namespace HotelManagementSoftware.ViewModels
                 }
             }
         }
-
         public async Task GetAllItemByRoom()
         {
             int room;

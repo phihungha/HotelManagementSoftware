@@ -22,34 +22,201 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         private Customer? customer;
         private Reservation? reservation1;
         private Room? room;
+
         public ReservationEditWindowType reservationEditWindowType { get; set; }
 
         //Guest info
-        public string CMND { get; set; }
-        public string Name { get; set; }
-        public Gender Gender { get; set; }
-        public string PhoneNumber { get; set; }
-        public DateTime BirthDate { get; set; }
-        public string? Email { get; set; }
-        public string Address { get; set; }
+        #region Guest info
+        private string cmnd;
+        private string name;
+        private Gender gender;
+        private string phoneNumber;
+        private DateTime birthDate;
+        private string? email;
+        private string address;
+
+        public string CMND
+        {
+            get => cmnd;
+            set
+            {
+                SetProperty(ref cmnd, value,true );
+            }
+        }
+        public string Name
+        {
+            get => name;
+            set
+            {
+                SetProperty(ref name, value, true);
+            }
+        }
+        public Gender Gender
+        {
+            get => gender;
+            set
+            {
+                SetProperty(ref gender, value, true);
+            }
+        }
+        public string PhoneNumber
+        {
+            get => phoneNumber;
+            set
+            {
+                SetProperty(ref phoneNumber, value, true);
+            }
+        }
+        public DateTime BirthDate
+        {
+            get => birthDate;
+            set
+            {
+                SetProperty(ref birthDate, value, true);
+            }
+        }
+        public string? Email
+        {
+            get => email;
+            set
+            {
+                SetProperty(ref email, value, true);
+            }
+        }
+        public string Address
+        {
+            get => address;
+            set
+            {
+                SetProperty(ref address, value, true);
+            }
+        }
+        #endregion
 
         //Room info
-        public int RoomNumber { get; set; }
-        public RoomType? RoomType { get; set; }
-        public string? Note { get; set; }
-        public int Floor { get; set; }
-        public decimal TotalPayment { get; set; }
+        #region Room info
+        private int roomNumber;
+        private RoomType? roomType;
+        private string? note;
+        private int floor;
+        private decimal totalPayment;
+
+        public int RoomNumber
+        {
+            get => roomNumber;
+            set
+            {
+                SetProperty(ref roomNumber, value, true);
+            }
+        }
+        public RoomType? RoomType
+        {
+            get => roomType;
+            set
+            {
+                SetProperty(ref roomType, value, true);
+            }
+        }
+        public string? Note
+        {
+            get => note;
+            set
+            {
+                SetProperty(ref note, value, true);
+            }
+        }
+        public int Floor
+        {
+            get => floor;
+            set
+            {
+                SetProperty(ref floor, value, true);
+            }
+        }
+        public decimal TotalPayment
+        {
+            get => totalPayment;
+            set
+            {
+                SetProperty(ref totalPayment, value, true);
+            }
+        }
+        #endregion
+
         // Stay info
-        public DateTime ArrivalTime { get; set; }
-        public DateTime DepartureTime { get; set; }
-        public int NumOfDay { get; set; }
-        public int Person { get; set; }
+        #region Stay info
+        private DateTime arrivalTime;
+        private DateTime departureTime;
+        private int numOfDay;
+        private int person;
+        public DateTime ArrivalTime {
+            get => arrivalTime;
+            set
+            {
+                SetProperty(ref arrivalTime, value, true);
+            }
+        }
+        public DateTime DepartureTime {
+            get => departureTime;
+            set
+            {
+                SetProperty(ref departureTime, value, true);
+            }
+        }
+        public int NumOfDay {
+            get => numOfDay;
+            set
+            {
+                SetProperty(ref numOfDay, value, true);
+            }
+        }
+        public int Person {
+            get => person;
+            set
+            {
+                SetProperty(ref person, value, true);
+            }
+        }
+        #endregion
 
         //Payment info
-        public PaymentMethod[] PaymentMethod { get; set; }
-        public PaymentMethod SelectedPaymentMethod { get; set; }
-        public string? CardNumber { get; set; }
-        public DateTime? ExpireDate { get; set; }
+        private PaymentMethod[] paymentMethod;
+        private PaymentMethod selectedPaymentMethod;
+        private string? cardNumber;
+        private DateTime? expireDate;
+
+        public PaymentMethod[] PaymentMethod
+        {
+            get => paymentMethod;
+            set
+            {
+                SetProperty(ref paymentMethod, value, true);
+            }
+        }
+        public PaymentMethod SelectedPaymentMethod
+        {
+            get => selectedPaymentMethod;
+            set
+            {
+                SetProperty(ref selectedPaymentMethod, value, true);
+            }
+        }
+        public string? CardNumber
+        {
+            get => cardNumber;
+            set
+            {
+                SetProperty(ref cardNumber, value, true);
+            }
+        }
+        public DateTime? ExpireDate
+        {
+            get => expireDate;
+            set
+            {
+                SetProperty(ref expireDate, value, true);
+            }
+        }
         public ReservationEditWindowVM(RoomBusiness? roomBusiness, CustomerBusiness? customerBusiness, ReservationBusiness? reservationBusiness, EmployeeBusiness? employeeBusiness)
         {
             this.roomBusiness = roomBusiness;
@@ -100,32 +267,39 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
         public async Task<bool> Save()
         {
-            if(reservation1 != null)
+            if (reservationBusiness != null)
             {
-                reservation1.ArrivalTime = ArrivalTime;
-                reservation1.DepartureTime = DepartureTime;
-                reservation1.NumberOfPeople = Person;
-                reservation1.Room = room;
-                reservation1.Customer = customer;
-                reservationBusiness.EditReservation(reservation1);
-                return true;
-            }
-            else
-            {
-                Reservation reservation = new Reservation(ArrivalTime, DepartureTime, Person, room, customer, employeeBusiness.CurrentEmployee);
-                var result = HandyControl.Controls.MessageBox.Show(
-    "Are you sure that you want to check in this Reservation now? This action cannot be undone.",
-    "check in this Reservation?",
-    MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (result == MessageBoxResult.Yes)
+                if (reservation1 != null)
                 {
-                    reservationBusiness.CreateReservation(reservation,true);
-                }else
-                {
-                    reservationBusiness.CreateReservation(reservation, false);
+                    reservation1.ArrivalTime = ArrivalTime;
+                    reservation1.DepartureTime = DepartureTime;
+                    reservation1.NumberOfPeople = Person;
+                    reservation1.Room = room;
+                    reservation1.Customer = customer;
+                    await reservationBusiness.EditReservation(reservation1);
+                    return true;
                 }
-                return true;  
+                else
+                {
+                    Reservation reservation = new Reservation(ArrivalTime, DepartureTime, Person, room, customer, employeeBusiness.CurrentEmployee);
+                    var result = HandyControl.Controls.MessageBox.Show(
+        "Are you sure that you want to check in this Reservation now? This action cannot be undone.",
+        "check in this Reservation?",
+        MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        await reservationBusiness.CreateReservation(reservation, true);
+                    }
+                    else
+                    {
+                        await reservationBusiness.CreateReservation(reservation, false);
+                    }
+                    return true;
+                }
             }
+            else 
+                 return false;
+           
         }
 
         

@@ -124,14 +124,17 @@ namespace HotelManagementSoftware.Business
             ValidateHousekeepingRequest(request);
             using (var db = new Database())
             {
+                Room _room = await db.Rooms.FirstAsync(i => i.RoomId == request.Room.RoomId);
+                Employee _openEmployee = await db.Employees.FirstAsync(i => i.EmployeeId == request.OpenEmployeeId);
+                
                 if (request.Room == null)
                     throw new ArgumentException("Room cannot be empty");
 
                 if (request.OpenEmployee == null)
                     throw new ArgumentException("Open employee cannot be empty");
 
-                db.Attach(request.Room);
-                db.Attach(request.OpenEmployee);
+                request.Room = _room;
+                request.OpenEmployee = _openEmployee;
 
                 db.Add(request);
                 await db.SaveChangesAsync();
@@ -163,6 +166,12 @@ namespace HotelManagementSoftware.Business
             ValidateHousekeepingRequest(request);
             using (var db = new Database())
             {
+                HousekeepingRequest _request
+                    = await db.HousekeepingRequests.FirstAsync(
+                                i => i.HousekeepingRequestId  == request.HousekeepingRequestId);
+                Employee _closeEmployee = await db.Employees.FirstAsync(i => i.EmployeeId == closeEmployee.EmployeeId);
+                Room _room = await db.Rooms.FirstAsync(i => i.RoomId == request.Room.RoomId);
+
                 if (request.Status == HousekeepingRequestStatus.Closed)
                     throw new ArgumentException("Request already closed");
 
@@ -170,10 +179,10 @@ namespace HotelManagementSoftware.Business
                     && closeEmployee.EmployeeType != EmployeeType.HousekeepingManager)
                     throw new ArgumentException("Close employee needs to be a manager or housekeeping manager");
 
-                request.Status = HousekeepingRequestStatus.Closed;
-                request.CloseTime = closeTime;
-                request.CloseEmployee = closeEmployee;
-                db.Update(request);
+                _request.Status = HousekeepingRequestStatus.Closed;
+                _request.CloseTime = closeTime;
+                _request.Room = _room;
+                _request.CloseEmployee = _closeEmployee;
                 await db.SaveChangesAsync();
             }
         }

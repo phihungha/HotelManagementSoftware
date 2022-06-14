@@ -89,8 +89,10 @@
                             <Button x:Name="ChooseButton" Click="ChooseButton_Click"
                                     Margin="0,0,10,0"
                                     Visibility="Visible"
-                                    Tag="{Binding RoomId}">
-                                <Image Source="{StaticResource EditIcon}" />
+                                    Tag="{Binding RoomId}"
+                                    BorderThickness="0"
+                                    Background="{StaticResource PrimaryColorSolid}">
+                                <Image Source="{StaticResource AddIconWhite}" />
                             </Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
