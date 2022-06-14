@@ -17,7 +17,7 @@ namespace HotelManagementSoftware.ViewModels
     {
         public ObservableCollection<Reservation> Reservations { get; private set; }
         public Reservation SelectedReservations { get; set; }
-        public ReservationBusiness reservationBusiness;
+        public ReservationBusiness? reservationBusiness;
         public TimeFilter ArrivalTimeFilter { get; private set; }
         public TimeFilter DepartureTimeFilter { get; private set; }
         public ReservationStatus[] status { get; private set; }
@@ -26,12 +26,11 @@ namespace HotelManagementSoftware.ViewModels
         public SearchOption SelectedSearchOption { get; private set; }
         public string TextFilter { get; set; }
 
-        public ReservationsVM()
+        public ReservationsVM(ReservationBusiness? reservationBusiness)
         {
+            this.reservationBusiness = reservationBusiness;
             Reservations = new ObservableCollection<Reservation>();
-            CommandAdd = new RelayCommand(executeAddAction);
-            CommandDelete = new RelayCommand(executeDeleteAction);
-            CommandEdit = new RelayCommand(executeEditAction);
+            GetAllReservation();
         }
         #region command
         public ICommand CommandAdd { get; }

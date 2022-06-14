@@ -16,39 +16,14 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
     public class ReservationEditWindowVM : ObservableValidator
     {
         private ReservationBusiness? reservationBusiness;
-        public Room SelectedRoom { get; set; }
+        private RoomBusiness? roomBusiness;
+        private CustomerBusiness? customerBusiness;
+        private EmployeeBusiness? employeeBusiness;
+        private Customer? customer;
+        private Reservation? reservation1;
+        private Room? room;
         public ReservationEditWindowType reservationEditWindowType { get; set; }
-        private ReservationsVM reservationsVM;
-        public ReservationsVM ReservationsVM
-        {
-            get => reservationsVM;
-            set
-            {
-                SetProperty(ref reservationsVM, value);
-                if (ReservationsVM != null)
-                {
-                    if (ReservationsVM.SelectedReservations != null)
-                    {
-                        CMND = ReservationsVM.SelectedReservations.Customer.IdNumber;
-                        Name = ReservationsVM.SelectedReservations.Customer.Name;
-                        Gender = ReservationsVM.SelectedReservations.Customer.Gender;
-                        PhoneNumber = ReservationsVM.SelectedReservations.Customer.PhoneNumber;
-                        Email = ReservationsVM.SelectedReservations.Customer.Email;
-                        BirthDate = ReservationsVM.SelectedReservations.Customer.BirthDate;
-                        Address = ReservationsVM.SelectedReservations.Customer.Address;
-                        RoomNumber = ReservationsVM.SelectedReservations.Room.RoomNumber;
-                        RoomType = ReservationsVM.SelectedReservations.Room.RoomType;
-                        Note = ReservationsVM.SelectedReservations.Room.Note;
-                        Floor = ReservationsVM.SelectedReservations.Room.Floor;
-                        TotalPayment = ReservationsVM.reservationBusiness.GetTotalRentFee(ReservationsVM.SelectedReservations);
-                        ArrivalTime = ReservationsVM.SelectedReservations.ArrivalTime;
-                        DepartureTime = ReservationsVM.SelectedReservations.DepartureTime;
-                        SelectedPaymentMethod = ReservationsVM.SelectedReservations.Customer.PaymentMethod;
-                        CardNumber = ReservationsVM.SelectedReservations.Customer.CardNumber;
-                    }
-                }
-            }
-        }
+
         //Guest info
         public string CMND { get; set; }
         public string Name { get; set; }
@@ -75,74 +50,85 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         public PaymentMethod SelectedPaymentMethod { get; set; }
         public string? CardNumber { get; set; }
         public DateTime? ExpireDate { get; set; }
-        public ReservationEditWindowVM()
+        public ReservationEditWindowVM(RoomBusiness? roomBusiness, CustomerBusiness? customerBusiness, ReservationBusiness? reservationBusiness, EmployeeBusiness? employeeBusiness)
         {
-            CommandChooseRoom = new RelayCommand(executeChooseRoom);
-            CommandChooseCustomer = new RelayCommand(executeChooseCustomer);
-            CommandChooseRoomType = new RelayCommand(executeChooseRoomType);
-            CommandCancel = new RelayCommand(executeCancel);
-            CommandSave = new RelayCommand(executeSave);
+            this.roomBusiness = roomBusiness;
+            this.customerBusiness = customerBusiness;
+            this.reservationBusiness = reservationBusiness;
+            this.employeeBusiness = employeeBusiness;
+        }
+        public async void LoadReservationFromId(int reservationId)
+        {
+            Reservation? reservation = await reservationBusiness.GetReservationById(reservationId);
+            this.reservation1 = reservation;
+            this.room = reservation.Room;
+            LoadRoomFromId(reservation.Room.RoomId);
+            this.customer = reservation.Customer;
+            LoadCustomerFromId(reservation.Customer.CustomerId);
+            Person = reservation.NumberOfPeople;
+            ArrivalTime = reservation.ArrivalTime;
+            DepartureTime = reservation.DepartureTime;
+            TotalPayment = reservationBusiness.GetTotalRentFee(reservation);
+        }
+        public async void LoadRoomFromId(int RoomId)
+        {
+            Room? room = await roomBusiness.GetRoomById(RoomId);
+            this.room = room;
+            RoomNumber = room.RoomNumber;
+            RoomType = room.RoomType;
+            Note = room.Note;
+            Floor = room.Floor;
+        }
+        public async void LoadCustomerFromId(int customerId)
+        {
+            Customer? customer = await customerBusiness.GetCustomerById(customerId);
+            this.customer = customer;
+            CMND = customer.IdNumber;
+            Name = customer.Name;
+            Gender = customer.Gender;
+            BirthDate = customer.BirthDate;
+            PhoneNumber = customer.PhoneNumber;
+            Email = customer.Email;
+            Address = customer.Address;
+            SelectedPaymentMethod = customer.PaymentMethod;
+            ExpireDate = customer.ExpireDate;
+            CardNumber = customer.CardNumber;
         }
         #region command
-        public ICommand CommandChooseRoom { get; }
-        public ICommand CommandChooseCustomer { get; }
-        public ICommand CommandChooseRoomType { get; }
         public ICommand CommandSave { get; }
         public ICommand CommandCancel { get; }
 
-        public void executeSave()
+        public async Task<bool> Save()
         {
-            if (reservationEditWindowType == ReservationEditWindowType.Edit)
+            if(reservation1 != null)
             {
-                Reservation reservation = ReservationsVM.SelectedReservations;
-                reservation.NumberOfPeople = Person;
-                reservation.Customer.Email = Email;
-                reservation.Customer.IdNumber = CMND;
-                reservation.Customer.PhoneNumber = PhoneNumber;
-                reservation.Customer.Address = Address;
-                reservation.Customer.Name = Name;
-                reservation.Customer.Gender = Gender;
-                reservation.Customer.BirthDate = BirthDate;
-
-                reservation.Room.RoomType = RoomType;
-                reservation.Room.RoomNumber = RoomNumber;
-                reservation.Room.Floor = Floor;
-                reservation.Room.Note = Note;
-
-                reservation.ArrivalTime = ArrivalTime;
-                reservation.DepartureTime = DepartureTime;
-                reservation.NumberOfPeople = Person;
-
-                reservation.Customer.CardNumber = CardNumber;
-                reservation.Customer.PaymentMethod = SelectedPaymentMethod;
-
-                reservationBusiness.EditReservation(reservation);
-
+                reservation1.ArrivalTime = ArrivalTime;
+                reservation1.DepartureTime = DepartureTime;
+                reservation1.NumberOfPeople = Person;
+                reservation1.Room = room;
+                reservation1.Customer = customer;
+                reservationBusiness.EditReservation(reservation1);
+                return true;
             }
             else
             {
-
-                
+                Reservation reservation = new Reservation(ArrivalTime, DepartureTime, Person, room, customer, employeeBusiness.CurrentEmployee);
+                var result = HandyControl.Controls.MessageBox.Show(
+    "Are you sure that you want to check in this Reservation now? This action cannot be undone.",
+    "check in this Reservation?",
+    MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    reservationBusiness.CreateReservation(reservation,true);
+                }else
+                {
+                    reservationBusiness.CreateReservation(reservation, false);
+                }
+                return true;  
             }
-            ReservationsVM.GetAllReservation();
-            CloseAction();
         }
-        public void executeCancel()
-        {
-            CloseAction();
-        }
-        public void executeChooseRoom()
-        {
 
-        }
-        public void executeChooseCustomer()
-        {
-
-        }
-        public void executeChooseRoomType()
-        {
-
-        }
+        
         public Action CloseAction { get; set; }
         #endregion
         public enum ReservationEditWindowType

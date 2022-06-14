@@ -13,23 +13,28 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
     {
         public ObservableCollection<Room> Rooms { get; set; }
         private RoomBusiness? roomBusiness;
+        private RoomTypeBusiness? roomTypeBusiness;
+        private FloorBusiness? floorBusiness;
         public Room SelectedRoom { get; set; }
         public RoomType SelectedRoomType { get; set; }
-        public ChooseRoomWindowVM(RoomBusiness? roomBusiness)
+        public ChooseRoomWindowVM(RoomBusiness? roomBusiness, RoomTypeBusiness? roomTypeBusiness, FloorBusiness? floorBusiness)
         {
             this.roomBusiness = roomBusiness;
+            this.roomTypeBusiness = roomTypeBusiness;
+            this.floorBusiness = floorBusiness;
             Rooms = new ObservableCollection<Room>();
-            GetUsableRoom();
         }
-        public async void GetUsableRoom()
+        public async void GetUsableRoom(int id)
         {
+            RoomType roomType = await roomTypeBusiness.GetRoomTypeById(id);
+            this.SelectedRoomType = roomType;
             if (roomBusiness != null)
             {
-                List<Room> rooms = await roomBusiness.GetUsableRooms(SelectedRoomType.Name, 1, DateTime.Now, DateTime.Now.AddYears(1));
+                List<Room> rooms = await roomBusiness.GetUsableRooms(SelectedRoomType.Name, await floorBusiness.GetMaxFloorNumber(), DateTime.Now, DateTime.Now.AddYears(1));
                 Rooms.Clear();
-                rooms.ForEach(roomtype =>
+                rooms.ForEach(room =>
                 {
-                    Rooms.Add(roomtype);
+                    Rooms.Add(room);
                 });
 
             }

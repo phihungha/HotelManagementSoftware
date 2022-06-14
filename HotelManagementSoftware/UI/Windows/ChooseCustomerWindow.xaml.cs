@@ -15,25 +15,26 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HotelManagementSoftware.UI
+namespace HotelManagementSoftware.UI.Windows
 {
     /// <summary>
-    /// Interaction logic for ChooseRoomTypeWindow.xaml
+    /// Interaction logic for ChooseCustomerWindow.xaml
     /// </summary>
-    public partial class ChooseRoomTypeWindow : Window
+    public partial class ChooseCustomerWindow : Window
     {
         public event EventHandler<WindowEventArgs> DialogFinished;
-        public ChooseRoomTypeWindow()
+        public ChooseCustomerWindow()
         {
             InitializeComponent();
-            DataContext = App.Current.Services.GetRequiredService<ChooseRoomTypeWindowVM>();
+            DataContext = App.Current.Services.GetRequiredService<ChooseCustomerWindowVM>();
         }
         private void ChooseButton_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
-            int RoomTypeId = (int)button.Tag;
-            DialogFinished?.Invoke(this, new WindowEventArgs(RoomTypeId));
+            int customerId = (int)button.Tag;
+            DialogFinished?.Invoke(this, new WindowEventArgs(customerId));
             this.Close();
         }
+
     }
 }
