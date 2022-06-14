@@ -131,14 +131,17 @@ namespace HotelManagementSoftware.Business
             ValidateMaintenanceRequest(request);
             using (var db = new Database())
             {
+                Room _room = await db.Rooms.FirstAsync(i => i.RoomId == request.Room.RoomId);
+                Employee _openEmployee = await db.Employees.FirstAsync(i => i.EmployeeId == request.OpenEmployeeId);
+
                 if (request.Room == null)
                     throw new ArgumentException("Room cannot be empty");
 
                 if (request.OpenEmployee == null)
                     throw new ArgumentException("Open employee cannot be empty");
 
-                db.Attach(request.Room);
-                db.Attach(request.OpenEmployee);
+                request.Room = _room;
+                request.OpenEmployee = _openEmployee;
 
                 db.Add(request);
                 await db.SaveChangesAsync();
