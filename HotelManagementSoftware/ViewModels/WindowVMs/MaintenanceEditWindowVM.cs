@@ -145,7 +145,6 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             set => SetProperty(ref roomNumber, value, true);
         }
         #endregion
-
         public MaintenanceEditWindowVM(MaintenanceBusiness maintenanceBusiness, EmployeeBusiness employeeBusiness, RoomBusiness roomBusiness)
         {
             this.roomBusiness = roomBusiness;
@@ -155,7 +154,6 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             FillRoomCombobox();
             CommandAddRow = new RelayCommand(AddRow);
         }
-
         public ICommand CommandAddRow { get; set; } 
         private void AddRow()
         {
