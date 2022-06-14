@@ -236,6 +236,8 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             ArrivalTime = reservation.ArrivalTime;
             DepartureTime = reservation.DepartureTime;
             TotalPayment = reservationBusiness.GetTotalRentFee(reservation);
+            TimeSpan stayPeriod = reservation.DepartureTime - reservation.ArrivalTime;
+            NumOfDay = (int)Math.Ceiling(stayPeriod.TotalDays);
         }
         public async void LoadRoomFromId(int RoomId)
         {
@@ -276,6 +278,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                     reservation1.NumberOfPeople = Person;
                     reservation1.Room = room;
                     reservation1.Customer = customer;
+                    reservation1.Employee = employeeBusiness.CurrentEmployee;
                     await reservationBusiness.EditReservation(reservation1);
                     return true;
                 }

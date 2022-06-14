@@ -30,106 +30,6 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         private DateTime? expireDate;
 
 
-        private bool isUsingBankCard = false;
-        public bool IsUsingBankCard
-        {
-            get => isUsingBankCard;
-            set
-            {
-                SetProperty(ref isUsingBankCard, value);
-                if (value == true)
-                {
-                    CardNumber = "";
-                    ExpireDate = DateTime.Now.Date.AddYears(5);
-                }
-                else
-                {
-                    CardNumber = "";
-                    ExpireDate = null;
-                }
-            }
-        }
-
-        public string Name
-        {
-            get => name;
-            set => SetProperty(ref name, value, true);
-        }
-
-        public IdNumberType IdNumberType
-        {
-            get => idNumberType;
-            set => SetProperty(ref idNumberType, value, true);
-        }
-
-
-        public string IdNumber
-        {
-            get => idNumber;
-            set => SetProperty(ref idNumber, value, true);
-        }
-
-        public Gender Gender
-        {
-            get => gender;
-            set => SetProperty(ref gender, value, true);
-        }
-
-
-        public string PhoneNumber
-        {
-            get => phoneNumber;
-            set => SetProperty(ref phoneNumber, value, true);
-        }
-
-        public string? Email
-        {
-            get => email;
-            set => SetProperty(ref email, value, true);
-        }
-
-        public string Address
-        {
-            get => address;
-            set => SetProperty(ref address, value, true);
-        }
-
-
-        public DateTime BirthDate
-        {
-            get => birthDate;
-            set => SetProperty(ref birthDate, value, true);
-        }
-
-        public PaymentMethod PaymentMethod
-        {
-            get => paymentMethod;
-            set
-            {
-                SetProperty(ref paymentMethod, value, true);
-                if (value != PaymentMethod.Cash)
-                    IsUsingBankCard = true;
-                else
-                    IsUsingBankCard = false;
-            }
-        }
-
-        public string? CardNumber
-        {
-            get => cardNumber;
-            set => SetProperty(ref cardNumber, value, true);
-        }
-
-        public DateTime MinimumExpireDate
-        {
-            get => DateTime.Now.Date.AddDays(7);
-        }
-
-        public DateTime? ExpireDate
-        {
-            get => expireDate;
-            set => SetProperty(ref expireDate, value, true);
-        }
 
         public CheckinWindowVM(CustomerBusiness customerBusiness,
                                     ReservationBusiness reservationBusiness)
@@ -137,6 +37,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             this.customerBusiness = customerBusiness;
             this.reservationBusiness = reservationBusiness;
         }
+
 
 
     }

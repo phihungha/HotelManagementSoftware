@@ -75,6 +75,7 @@ namespace HotelManagementSoftware
             services.AddTransient<RoomsVM>();
             services.AddTransient<RoomTypesVM>();
             services.AddTransient<EmployeesVM>();
+            services.AddTransient<ConfigVM>();
 
             services.AddTransient<CancelReservationWindowVM>();
             services.AddTransient<CheckinWindowVM>();

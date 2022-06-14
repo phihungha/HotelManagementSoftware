@@ -45,5 +45,13 @@ namespace HotelManagementSoftware.UI
         {
             ((ReservationsVM)DataContext).GetAllReservation();
         }
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+            int reservationsId = (int)button.Tag;
+            var cancelReservationWindow = new CancelReservationWindow(reservationsId);
+            cancelReservationWindow.Show();
+            cancelReservationWindow.Closed += Window_Closed;
+        }
     }
 }

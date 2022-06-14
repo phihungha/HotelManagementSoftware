@@ -6,8 +6,13 @@
              xmlns:local="clr-namespace:HotelManagementSoftware.UI"
              xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels"
              xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:converters="clr-namespace:HotelManagementSoftware.ViewModels.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:ReservationStatusToString x:Key="ReservationStatusToStringConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -63,21 +68,145 @@
                                     Width="Auto"
                                     Binding="{Binding Room.RoomNumber}"
                                     FontSize="14" />
+                
+                <DataGridTextColumn Header="Status"
+                                    Width="Auto"
+                                    Binding="{Binding Status,
+                                              Converter={StaticResource ReservationStatusToStringConverter }}"
+                                    FontSize="14" />
 
                 <DataGridTemplateColumn Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button x:Name="EditButton" Click="EditButton_Click"
+                            <DockPanel>
+                                <Button x:Name="EditButton" Click="EditButton_Click"
                                     Margin="0,0,10,0"
                                     Visibility="Visible"
                                     Tag="{Binding ReservationId}">
-                                <Image Source="{StaticResource EditIcon}" />
-                            </Button>
+                                    <Image Source="{StaticResource EditIcon}" />
+                                </Button>
+                                <Button x:Name="CancelButton" Click="CancelButton_Click"
+                                    Margin="0,0,10,0"
+                                    Visibility="Visible"
+                                    Tag="{Binding ReservationId}"
+                                    Content="Cancel">
+                                </Button>
+                            </DockPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        
+        <Expander Grid.Row="2" Background="White" Header="Filter">
+            <Grid Margin="15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,0,15" VerticalAlignment="Center">
+                    Search
+                </TextBlock>
+                <Grid Grid.Row="0" Grid.Column="1"
+                      VerticalAlignment="Center" Margin="15,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto " />
+                        <ColumnDefinition Width="Auto " />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0" Margin="0,0,15,0"
+                             Text="{Binding TextFilter , UpdateSourceTrigger=PropertyChanged}" />
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,15,0">
+                        <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Search by</TextBlock>
+                        <ComboBox ItemsSource="{Binding Option, Converter={converters:EnumToCollection}, Mode=OneTime}"
+                                  SelectedValuePath="Value"
+                                  DisplayMemberPath="Description"
+                                  SelectedValue="{Binding Option}"/>
+                    </StackPanel>
+                </Grid>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,0,15" VerticalAlignment="Center">
+                    Status
+                </TextBlock>
+                <Grid Grid.Row="1" Grid.Column="1"
+                      VerticalAlignment="Center" Margin="15,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto " />
+                        <ColumnDefinition Width="Auto " />
+                    </Grid.ColumnDefinitions>
+
+                    <ComboBox Grid.Column="0" Margin="0,0,15,0" HorizontalAlignment="Left" VerticalAlignment="Stretch"
+                              ItemsSource="{Binding Status, Converter={converters:EnumToCollection}, Mode=OneTime}"
+                              SelectedValuePath="Value"
+                              DisplayMemberPath="Description"
+                              SelectedValue="{Binding Status}"/>
+                </Grid>
+
+                <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal"
+                            VerticalAlignment="Center" Margin="0,0,0,15">
+                    <CheckBox Margin="0,0,5,0" VerticalAlignment="Center" IsChecked="{Binding ArrivalTimeFilter.Enable}"/>
+                    <TextBlock VerticalAlignment="Center">Arrival time</TextBlock>
+                </StackPanel>
+                <Grid Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="15,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Min</TextBlock>
+                        <DatePicker IsEnabled="{Binding ArrivalTimeFilter.Enable}"
+                                    SelectedDate="{Binding ArrivalTimeFilter.low}"
+                                    DisplayDateEnd="{Binding ArrivalTimeFilter.high}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Max</TextBlock>
+                        <DatePicker IsEnabled="{Binding ArrivalTimeFilter.Enable}"
+                                    SelectedDate="{Binding ArrivalTimeFilter.high}"
+                                    DisplayDateStart="{Binding ArrivalTimeFilter.low}"/>
+                    </StackPanel>
+                </Grid>
+
+                <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <CheckBox Margin="0,0,5,0" VerticalAlignment="Center" IsChecked="{Binding EndTimeFilter.Enable}" />
+                    <TextBlock VerticalAlignment="Center">Departure time</TextBlock>
+                </StackPanel>
+                <Grid Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="15,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Min</TextBlock>
+                        <DatePicker IsEnabled="{Binding DepartureTimeFilter.Enable}"
+                                    SelectedDate="{Binding DepartureTimeFilter.low}"
+                                    DisplayDateEnd="{Binding DepartureTimeFilter.high}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Max</TextBlock>
+                        <DatePicker IsEnabled="{Binding DepartureTimeFilter.Enable}"
+                                    SelectedDate="{Binding DepartureTimeFilter.high}"
+                                    DisplayDateStart="{Binding DepartureTimeFilter.low}"/>
+                    </StackPanel>
+                </Grid>
+                <Button x:Name="Search_btn" Content="Search" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" Command="{Binding SearchCommand}"/>
+            </Grid>
+        </Expander>
     </Grid>
 </UserControl>
