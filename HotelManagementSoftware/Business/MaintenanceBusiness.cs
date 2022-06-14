@@ -170,6 +170,12 @@ namespace HotelManagementSoftware.Business
             ValidateMaintenanceRequest(request);
             using (var db = new Database())
             {
+                MaintenanceRequest _request 
+                    = await db.MaintenanceRequests.FirstAsync(
+                                i => i.MaintenanceRequestId == request.MaintenanceRequestId);
+                Employee _closeEmployee = await db.Employees.FirstAsync(i => i.EmployeeId == closeEmployee.EmployeeId);
+                Room _room = await db.Rooms.FirstAsync(i => i.RoomId == request.Room.RoomId);
+
                 if (request.Status == MaintenanceRequestStatus.Closed)
                     throw new ArgumentException("Request already closed");
 
@@ -177,10 +183,10 @@ namespace HotelManagementSoftware.Business
                     && closeEmployee.EmployeeType != EmployeeType.MaintenanceManager)
                     throw new ArgumentException("Close employee needs to be a manager or maintenance manager");
 
-                request.Status = MaintenanceRequestStatus.Closed;
-                request.CloseTime = closeTime;
-                request.CloseEmployee = closeEmployee;
-                db.Update(request);
+                _request.Status = MaintenanceRequestStatus.Closed;
+                _request.CloseTime = closeTime;
+                _request.Room = _room;
+                _request.CloseEmployee = _closeEmployee;
                 await db.SaveChangesAsync();
             }
         }
