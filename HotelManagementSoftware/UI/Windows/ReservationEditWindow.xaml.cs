@@ -28,7 +28,12 @@ namespace HotelManagementSoftware.UI
             InitializeComponent();
             DataContext = App.Current.Services.GetRequiredService<ReservationEditWindowVM>();
         }
-
+        public ReservationEditWindow(int reservationId)
+        {
+            InitializeComponent();
+            DataContext = App.Current.Services.GetRequiredService<ReservationEditWindowVM>();
+            ((ReservationEditWindowVM)DataContext).LoadReservationFromId(reservationId);
+        }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
