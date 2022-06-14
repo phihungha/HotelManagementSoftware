@@ -251,7 +251,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
                 await maintenanceBusiness.DeleteMaintenanceItems(maintenance.MaintenanceItems);
                 //maintenance.MaintenanceItems = Items.ToList();
-               // MessageBox.Show(maintenance.MaintenanceItems.Count.ToString());
+                // MessageBox.Show(maintenance.MaintenanceItems.Count.ToString());
                 await maintenanceBusiness.EditMaintenanceRequest(maintenance);
             }
             else
