@@ -245,6 +245,7 @@
                       ItemsSource="{Binding Items}"
                       AutoGenerateColumns="False"
                       IsReadOnly="False"
+                      IsEnabled="{Binding IsEnabled}"
                       CanUserAddRows="True"
                       SelectionMode="Single"
                       SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -298,6 +299,7 @@
                     FontFamily="Poppins"
                     Name="CloseRequest"
                     Click="CloseRequest_Click"
+                    IsEnabled="{Binding CanUseCloseRequest}"
                     Visibility="{Binding CanClose, 
                                  Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button Content="Save"

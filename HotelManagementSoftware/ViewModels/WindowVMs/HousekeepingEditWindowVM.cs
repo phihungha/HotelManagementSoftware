@@ -31,6 +31,16 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             }
         }
 
+        private bool canUseCloseRequest;
+        public bool CanUseCloseRequest
+        {
+            get => canUseCloseRequest;
+            set
+            {
+                SetProperty(ref canUseCloseRequest, value);
+            }
+        }
+
         private bool canNotClose = true;
         public bool CanNotClose
         {
@@ -210,6 +220,8 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 IsEnabled=false;
             }
 
+            CheckCloseRequest();
+
             Room = housekeeping.Room;
             RoomNumber = housekeeping.Room.RoomNumber;
             StartTime = housekeeping.StartTime;
@@ -219,6 +231,23 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             Note = housekeeping.Note;
 
         }
+
+        private void CheckCloseRequest()
+        {
+            Employee? employee = employeeBusiness.CurrentEmployee;
+            if (employee == null) return;
+
+            if (!employee.EmployeeType.Equals(EmployeeType.HousekeepingManager))
+            {
+                CanUseCloseRequest=false;
+                IsEnabled = false;
+            }
+            else
+            {
+                CanUseCloseRequest = true;
+            }
+        }
+
         public async Task<bool> SaveRequest()
         {
             ValidateAllProperties();

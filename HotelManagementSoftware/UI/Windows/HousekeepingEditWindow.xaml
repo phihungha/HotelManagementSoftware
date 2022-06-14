@@ -202,6 +202,7 @@
                     FontFamily="Poppins"
                     Name="CloseRequest"
                     Click="CloseRequest_Click"
+                    IsEnabled="{Binding CanUseCloseRequest}"
                     Visibility="{Binding CanClose, 
                                  Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button Content="Save"
