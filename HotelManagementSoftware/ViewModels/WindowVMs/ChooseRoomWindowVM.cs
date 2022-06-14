@@ -23,6 +23,14 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             this.roomTypeBusiness = roomTypeBusiness;
             this.floorBusiness = floorBusiness;
             Rooms = new ObservableCollection<Room>();
+            if(SelectedRoomType == null)
+            {
+                LoadRooms();
+            }else
+            {
+                GetUsableRoom(SelectedRoomType.RoomTypeId)
+            }    
+            
         }
         public async void GetUsableRoom(int id)
         {
@@ -38,6 +46,12 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 });
 
             }
+        }
+        public async void LoadRooms()
+        {
+            Rooms.Clear();
+            List<Room> rooms = await roomBusiness.GetRooms(null, null, null);
+            rooms.ForEach(roomtype => Rooms.Add(roomtype));
         }
     }
 }

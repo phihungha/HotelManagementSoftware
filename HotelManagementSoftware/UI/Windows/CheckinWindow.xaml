@@ -8,7 +8,14 @@
        xmlns:ui="https://handyorg.github.io/handycontrol"
         x:Class="HotelManagementSoftware.UI.CheckinWindow"
         mc:Ignorable="d"
-        Title="Check-in" Height="808" Width="1426" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen">
+         ResizeMode="NoResize"
+        Title="Check-in" Height="808" Width="1426"  WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="BoxHeader" TargetType="Panel">
+            <Setter Property="Margin" Value="0,0,0,10" />
+        </Style>
+    </Window.Resources>
+
     <Grid Margin="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -36,7 +43,7 @@
             </StackPanel>
             <StackPanel Margin="10,10,0,1" HorizontalAlignment="Left" Grid.Column="1">
                 <TextBlock TextWrapping="Wrap" FontSize="36" FontWeight="Bold"
-                       Text="20462" />
+                       Text="{Binding ReservationId}" />
 
             </StackPanel>
 
@@ -64,85 +71,74 @@
 
             <Border Grid.RowSpan="1">
                 <Grid>
-
-                    <Grid.Resources>
-                        <Style TargetType="StackPanel">
-                            <Setter Property="Margin" Value="15,10,0,10" />
-                        </Style>
-                    </Grid.Resources>
-
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-
+                        <ColumnDefinition />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
+                    <Grid.Resources>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Margin" Value="0,10,10,5" />
+                        </Style>
+                    </Grid.Resources>
 
+                    <Grid Grid.ColumnSpan="2" Style="{StaticResource BoxHeader}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Row="0">
-                        <TextBlock Style="{StaticResource DialogTitle}" Text="Guest information" />
+                        <StackPanel Margin="0">
+                            <TextBlock Style="{StaticResource DialogTitle}" Text="Guest information" />
+                            <TextBlock Style="{StaticResource DialogSubtitle}" Text="Create a new reservation" />
+                        </StackPanel>
 
+                    </Grid>
+
+                    <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+                        <TextBlock Style="{StaticResource Label}" Text="Identity number"/>
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding IdNumber  }" />
                     </StackPanel>
 
-                    <StackPanel  Grid.Row="1">
-                        <TextBlock Style="{StaticResource Label}" Text="Identity information" />
-                        <TextBlock Style="{StaticResource Value}" Text="123456789"  Margin="0,5,0,0" />
-
-                    </StackPanel>
-
-
-                    <StackPanel Grid.Row="2">
-                        <TextBlock Style="{StaticResource Label}" Text="First name" />
-                        <TextBlock Style="{StaticResource Value}" Text="Danh" />
-
-                    </StackPanel>
-
-
-                    <StackPanel  Grid.Row="3">
-                        <TextBlock Style="{StaticResource Label}" Text="Gender" />
-                        <TextBlock Style="{StaticResource Value}" Text="Male" />
-                    </StackPanel>
-
-                    <StackPanel  Grid.Row="4">
-                        <TextBlock Style="{StaticResource Label}" Text="Date of birth" />
-                        <TextBlock Style="{StaticResource Value}" Text="12/05/2002" />
-
-                    </StackPanel>
-
-                    <StackPanel  Grid.Column="1" Grid.Row="2" >
-                        <TextBlock Style="{StaticResource Label}" Text="Last name" />
-                        <TextBlock Style="{StaticResource Value}" Text="Hao" />
-                    </StackPanel>
-
-                    <StackPanel Grid.Column="1" Grid.Row="3" >
-                        <TextBlock Style="{StaticResource Label}" Text="Phone number" />
-                        <TextBlock Style="{StaticResource Value}" Text="+84 752293689" />
-
-                    </StackPanel>
-
-                    <StackPanel  Grid.Column="1" Grid.Row="4" >
-                        <TextBlock Style="{StaticResource Label}" Text="Email" />
-                        <TextBlock Style="{StaticResource Value}" Text="danh123@gmail.com" />
-
-                    </StackPanel>
-
-                    <StackPanel   Grid.Row="5" Grid.ColumnSpan="2" >
-                        <TextBlock Style="{StaticResource Label}" Text="Address" />
-                        <TextBlock Style="{StaticResource Value}" Text="123 Lê Đại Hành, Huế, Thừa Thiên Huế, Việt Nam" />
-
+                    <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
+                        <TextBlock Style="{StaticResource Label}" Text="Name"/>
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding Name}" />
                     </StackPanel>
 
 
+                    <StackPanel Grid.Row="3">
+                        <TextBlock Style="{StaticResource Label}" Text="Gender"/>
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding Gender}" />
+                    </StackPanel>
 
+                    <StackPanel Grid.Row="3" Grid.Column="1">
+                        <TextBlock Style="{StaticResource Label}" Text="Phone number"/>
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding PhoneNumber}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="4">
+                        <TextBlock Style="{StaticResource Label}" Text="Date of birth"/>
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding BirthDate}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="4" Grid.Column="1">
+                        <TextBlock Style="{StaticResource Label}" Text="Email"/>
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding Email}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="5" Grid.ColumnSpan="2">
+                        <TextBlock Style="{StaticResource Label}" Text="Address"/>
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding Address}" />
+                    </StackPanel>
                 </Grid>
 
             </Border>
@@ -163,13 +159,18 @@
 
                     <Grid.Resources>
                         <Style TargetType="StackPanel">
-                            <Setter Property="Margin" Value="15,10,0,10" />
+                            <Setter Property="Margin" Value="0,5,0,5" />
                         </Style>
                     </Grid.Resources>
 
-                    <Grid Grid.ColumnSpan="2">
+                    <Grid Grid.ColumnSpan="2" Style="{StaticResource BoxHeader}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
 
-                        <StackPanel >
+                        <StackPanel Margin="0">
                             <TextBlock Style="{StaticResource DialogTitle}" Text="Room information" />
                             <TextBlock Style="{StaticResource DialogSubtitle}" Text="Room and room type" />
                         </StackPanel>
@@ -178,14 +179,29 @@
 
                     <StackPanel Grid.Row="1">
                         <TextBlock Style="{StaticResource Label}" Text="Room Type"/>
-                        <TextBlock Style="{StaticResource Value}" Text="Standard" />
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding RoomType.Name}" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="1" Grid.Column="1">
                         <TextBlock Style="{StaticResource Label}" Text="Room number"/>
-                        <TextBlock Style="{StaticResource Value}" Text="101" />
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding RoomNumber}" />
                     </StackPanel>
 
+                    <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
+                        <TextBlock Style="{StaticResource Label}" Text="Room Description"/>
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding Note}" />
+                    </StackPanel>
+
+
+                    <StackPanel Grid.Row="3">
+                        <TextBlock Style="{StaticResource Label}" Text="Rate"/>
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding RoomType.Rate}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="3" Grid.Column="1">
+                        <TextBlock Style="{StaticResource Label}" Text="Floor"/>
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding Floor}" />
+                    </StackPanel>
                 </Grid>
             </Border>
 
@@ -199,7 +215,7 @@
 
                     <Grid.Resources>
                         <Style TargetType="StackPanel">
-                            <Setter Property="Margin" Value="15,10,0,10" />
+                            <Setter Property="Margin" Value="15,5,0,5" />
                         </Style>
                     </Grid.Resources>
 
@@ -243,12 +259,7 @@
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" >
-                            <TextBlock Style="{StaticResource Label}" Text="Adult"/>
-                            <ui:NumericUpDown HorizontalAlignment="Stretch" Margin="0,10,0,15"/>
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="2" >
-                            <TextBlock Style="{StaticResource Label}" Text="Child"/>
+                            <TextBlock Style="{StaticResource Label}" Text="Person"/>
                             <ui:NumericUpDown HorizontalAlignment="Stretch" Margin="0,10,0,15"/>
                         </StackPanel>
                     </Grid>
@@ -262,35 +273,30 @@
                         <ColumnDefinition Width="2*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    
-                    <Grid.Resources>
-                        <Style TargetType="StackPanel">
-                            <Setter Property="Margin" Value="15,10,0,10" />
-                        </Style>
-                    </Grid.Resources>
-                    
+
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <StackPanel Grid.ColumnSpan="2" >
+                    <StackPanel Grid.ColumnSpan="2"  Style="{StaticResource BoxHeader}">
                         <TextBlock Style="{StaticResource DialogTitle}" Text="Payment option" />
+                        <TextBlock Style="{StaticResource DialogSubtitle}" Text="Select payment option and information" />
                     </StackPanel>
 
-                    <StackPanel Grid.Row="1" >
+                    <StackPanel Grid.Row="1" Margin="0,0,8,0">
                         <TextBlock Style="{StaticResource Label}" Text="Methods"/>
-                        <ComboBox HorizontalAlignment="Stretch" Margin="0,10,0,15"/>
+                        <ComboBox HorizontalAlignment="Stretch" ItemsSource="{Binding PaymentMethod}" SelectedItem="{Binding SelectedPaymentMethod}"/>
                     </StackPanel>
 
-                    <StackPanel Grid.Row="1" Grid.Column="1" >
+                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="8,0,8,0">
                         <TextBlock Style="{StaticResource Label}" Text="Card number"/>
-                        <TextBox Text="12345678" Margin="0,10,0,15"/>
+                        <TextBox Text="{Binding CardNumber}" />
                     </StackPanel>
 
-                    <StackPanel Grid.Row="1" Grid.Column="2" >
+                    <StackPanel Grid.Row="1" Grid.Column="2" Margin="8,0,0,0">
                         <TextBlock FontSize="11"  Text="Expire date"/>
-                        <DatePicker HorizontalAlignment="Stretch" Margin="0,10,0,15"/>
+                        <DatePicker HorizontalAlignment="Stretch" SelectedDate="{Binding ExpireDate}"/>
                     </StackPanel>
                 </Grid>
             </Border>
