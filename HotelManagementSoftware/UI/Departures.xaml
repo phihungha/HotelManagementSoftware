@@ -74,7 +74,7 @@
                 <DataGridTextColumn Header="Customer"
                                         Width="*"
                                         IsReadOnly="True"
-                                        Binding="{Binding Customer}"
+                                        Binding="{Binding Customer.Name}"
                                         FontSize="12" />
 
                 <DataGridTextColumn Header="Arrival"
@@ -92,7 +92,7 @@
                 <DataGridTextColumn Header="Room"
                                         Width="*"
                                         IsReadOnly="True"
-                                        Binding="{Binding Room}"
+                                        Binding="{Binding Room.RoomNumber}"
                                         FontSize="12" />
 
                 <DataGridTextColumn Header="Status"

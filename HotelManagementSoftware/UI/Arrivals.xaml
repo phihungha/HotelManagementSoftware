@@ -8,6 +8,9 @@
              xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:viewmodels="clr-namespace:HotelManagementSoftware.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:ArrivalsVM}"
              d:DesignHeight="720"
              d:DesignWidth="1290">
+    <UserControl.Resources>
+        <converters:ReservationStatusToString x:Key="ReservationStatusToStringConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -61,7 +64,7 @@
 
         <!--List-->
         <DataGrid Grid.Row="1"
-                  ItemsSource="{Binding Arrivals}"
+                  ItemsSource="{Binding Arrival}"
                   AutoGenerateColumns="False"
                   IsReadOnly="True">
             <DataGrid.Columns>
@@ -73,8 +76,13 @@
                 <DataGridTextColumn Header="Customer"
                                         Width="*"
                                         IsReadOnly="True"
-                                        Binding="{Binding Customer}"
+                                        Binding="{Binding Customer.Name}"
                                         FontSize="12" />
+
+                <DataGridTextColumn Header="Registration date"
+                                    Width="*"
+                                    Binding="{Binding Order.CreationTime}"
+                                    FontSize="12" />
 
                 <DataGridTextColumn Header="Arrival"
                                         Width="*"
@@ -91,13 +99,13 @@
                 <DataGridTextColumn Header="Room"
                                         Width="*"
                                         IsReadOnly="True"
-                                        Binding="{Binding Room}"
+                                        Binding="{Binding Room.RoomNumber}"
                                         FontSize="12" />
 
                 <DataGridTextColumn Header="Status"
                                         Width="*"
                                         IsReadOnly="True"
-                                        Binding="{Binding Status}"
+                                        Binding="{Binding Status, Converter={StaticResource ReservationStatusToStringConverter }}"
                                         FontSize="12" />
 
                 <DataGridTemplateColumn Width="Auto">
