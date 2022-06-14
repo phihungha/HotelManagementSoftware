@@ -425,8 +425,7 @@ namespace HotelManagementSoftware.Business
         /// The cancel fee is the total rent fee * percent
         /// Percent is based on the number of days the cancel happens before arrival date.
         /// </summary>
-        /// <param name="arrivalDate">Arrival date of the reservation</param>
-        /// <param name="totalRentFee">Total expected rent fee of the reservation</param>
+        /// <param name="reservation">Reservation</param>
         /// <returns>Cancel fee</returns>
         public async Task<decimal> GetCancelFee(Reservation reservation)
         {
@@ -443,8 +442,7 @@ namespace HotelManagementSoftware.Business
         /// Percent is based on the number of days the cancel happens before arrival date.
         /// </summary>
         /// <param name="db">Database context of parent method</param>
-        /// <param name="arrivalDate">Arrival date of the reservation</param>
-        /// <param name="totalRentFee">Total expected rent fee of the reservation</param>
+        /// <param name="reservation">Reservation</param>
         /// <returns>Cancel fee</returns>
         private async Task<decimal> GetCancelFee(Database db, Reservation reservation)
         {
