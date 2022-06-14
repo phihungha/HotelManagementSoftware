@@ -245,9 +245,10 @@
                         </StackPanel>
                         
                         <Button Grid.Column="2" Content="Choose Room" FontWeight="Bold"
+                                Name="ChooseRoom"
                                 Background="#FF358AFF" Foreground="White"
                                 VerticalAlignment="Center" HorizontalAlignment="Right" 
-                                Click="ChooseCustomer_Click"/>
+                                Click="ChooseRoom_Click"/>
                     </Grid>
 
                     <StackPanel Grid.Row="1">

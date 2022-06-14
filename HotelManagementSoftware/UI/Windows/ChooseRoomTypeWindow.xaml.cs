@@ -33,7 +33,7 @@ namespace HotelManagementSoftware.UI
             var button = (Button)sender;
             int RoomTypeId = (int)button.Tag;
             DialogFinished?.Invoke(this, new WindowEventArgs(RoomTypeId));
-            this.Close();
+            //this.Close();
         }
     }
 }

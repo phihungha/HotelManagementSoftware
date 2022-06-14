@@ -38,7 +38,8 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             this.SelectedRoomType = roomType;
             if (roomBusiness != null)
             {
-                List<Room> rooms = await roomBusiness.GetUsableRooms(SelectedRoomType.Name, await floorBusiness.GetMaxFloorNumber(), DateTime.Now, DateTime.Now.AddYears(1));
+                // List<Room> rooms = await roomBusiness.GetUsableRooms(SelectedRoomType.Name, await floorBusiness.GetMaxFloorNumber(), DateTime.Now, DateTime.Now.AddYears(1));
+                List<Room> rooms = await roomBusiness.GetUsableRooms(SelectedRoomType.Name, 1, DateTime.Now, DateTime.Now.AddYears(1));
                 Rooms.Clear();
                 rooms.ForEach(room =>
                 {

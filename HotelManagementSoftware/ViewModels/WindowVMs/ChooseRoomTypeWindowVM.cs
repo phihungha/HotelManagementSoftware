@@ -17,8 +17,9 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         public ObservableCollection<RoomType> RoomTypes { get; set; }
         private RoomTypeBusiness? roomTypeBusiness;
         public RoomType SelectedRoomType { get; set; }
-        public ChooseRoomTypeWindowVM()
+        public ChooseRoomTypeWindowVM(RoomTypeBusiness? roomTypeBusiness)
         {
+            this.roomTypeBusiness = roomTypeBusiness;
             RoomTypes = new ObservableCollection<RoomType>();
             GetRoomType();
         }
@@ -28,7 +29,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             if (roomTypeBusiness != null)
             {
                 List<RoomType> roomTypes = await roomTypeBusiness.GetRoomTypes(null, null, null, null, null);
-                roomTypes.Clear();
+                RoomTypes.Clear();
                 roomTypes.ForEach(roomtype =>
                 {
                     RoomTypes.Add(roomtype);

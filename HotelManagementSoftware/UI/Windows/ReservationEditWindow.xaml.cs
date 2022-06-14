@@ -61,12 +61,6 @@ namespace HotelManagementSoftware.UI
             ((ReservationEditWindowVM)DataContext).LoadCustomerFromId(e.Id);
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            var chooseRoom = new ChooseRoomWindow();
-            chooseRoom.DialogFinished += ChooseRoomWindow_DialogFinished;
-            chooseRoom.ShowDialog();
-        }
         void ChooseRoomWindow_DialogFinished(object sender, WindowEventArgs e)
         {
             ((ReservationEditWindowVM)DataContext).LoadRoomFromId(e.Id);
@@ -91,6 +85,13 @@ namespace HotelManagementSoftware.UI
         private async void Button_Click_3(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void ChooseRoom_Click(object sender, RoutedEventArgs e)
+        {
+            var chooseRoom = new ChooseRoomWindow();
+            chooseRoom.DialogFinished += ChooseRoomWindow_DialogFinished;
+            chooseRoom.ShowDialog();
         }
     }
 }
