@@ -16,47 +16,74 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 {
     public class MaintenanceEditWindowVM : ObservableValidator
     {
-        private MaintenanceBusiness? maintenanceBusiness;
-        private EmployeeBusiness? employeeBusiness;
-        private RoomBusiness? roomBusiness;
-        private MaintenanceVM maintenanceVM;
-        private MaintenanceRequest? currentItem;
-        public bool IsEnabled { get; set; }
-        public Visibility VisibilityCbx { get; set; }
-        public Visibility VisibilityTextbox { get; set; }
-        public MaintenanceRequest? CurrentItem
+        private MaintenanceBusiness maintenanceBusiness;
+        private EmployeeBusiness employeeBusiness;
+        private RoomBusiness roomBusiness;
+        private MaintenanceRequest? maintenance = null;
+
+        private bool canClose = false;
+        public bool CanClose
         {
-            get => currentItem;
+            get => canClose;
             set
             {
-                SetProperty(ref currentItem, value, true);
-                if (CurrentItem != null)
-                {
-                    Room = CurrentItem.Room;
-
-                    StartTime = CurrentItem.StartTime;
-                    EndTime = CurrentItem.EndTime;
-
-                    CloseTime = CurrentItem.CloseTime;
-                    Status = CurrentItem.Status;
-
-                    Note = CurrentItem.Note;
-                }
+                SetProperty(ref canClose, value);
             }
         }
-        public MaintenanceVM MaintenanceVM
+
+        private bool canNotClose = true;
+        public bool CanNotClose
         {
-            get => maintenanceVM;
+            get => canNotClose;
             set
             {
-                SetProperty(ref maintenanceVM, value);
+                SetProperty(ref canNotClose, value);
             }
         }
+
+        private Visibility visibilityCbx = Visibility.Visible;
+        public Visibility VisibilityCbx
+        {
+            get => visibilityCbx;
+            set
+            {
+                SetProperty(ref visibilityCbx, value);
+            }
+        }
+
+        private Visibility visibilityTextbox = Visibility.Hidden;
+        public Visibility VisibilityTextbox
+        {
+            get => visibilityTextbox;
+            set
+            {
+                SetProperty(ref visibilityTextbox, value);
+            }
+        }
+        private bool isEnabled = true;
+        public bool IsEnabled
+        {
+            get => isEnabled;
+            set
+            {
+                SetProperty(ref isEnabled, value);
+            }
+        }
+
         public ObservableCollection<Room> RoomLists { get; set; } = new();
-        public String Title { get; set; }
-        public MaintenanceRequestType MaintenanceRequestType { get; set; }
+
+        public ObservableCollection<MaintenanceItem> Items { get; set; } = new();
+        public List<MaintenanceItem> ItemNeedToDelete { get; set; } = new();
+        public MaintenanceItem SelectedItem { get; set; }
+
+        public DateTime MinStartDay { get; set; }
+        public DateTime MaxStartDay { get; set; }
+        public DateTime MinEndDay { get; set; }
+        public DateTime DefaultDate { get; set; }
+
         #region private variables
-        private Room? room;
+        private int roomNumber;
+        private Room room;
         private DateTime startTime;
         private DateTime endTime;
         private DateTime? closeTime;
@@ -67,7 +94,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         #region property validation
 
         [Required(ErrorMessage = "Room cannot be empty")]
-        public Room? Room
+        public Room Room
         {
             get => room;
             set => SetProperty(ref room, value, true);
@@ -80,18 +107,16 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             set
             {
                 SetProperty(ref startTime, value, true);
-                ValidateProperty(EndTime, nameof(EndTime));
             }
         }
 
         [Required(ErrorMessage = "End time cannot be empty")]
-        // [GreaterThan(nameof(StartTime), "End date should come after start date.")]
         public DateTime EndTime
         {
             get => endTime;
             set
             {
-                SetProperty(ref endTime, value, EndTime > StartTime);
+                SetProperty(ref endTime, value, true);
             }
         }
 
@@ -113,22 +138,53 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             get => note;
             set => SetProperty(ref note, value, true);
         }
+
+        public int RoomNumber
+        {
+            get => roomNumber;
+            set => SetProperty(ref roomNumber, value, true);
+        }
         #endregion
 
-        public MaintenanceEditWindowVM(MaintenanceBusiness? maintenanceBusiness, EmployeeBusiness? employeeBusiness, RoomBusiness roomBusiness)
+        public MaintenanceEditWindowVM(MaintenanceBusiness maintenanceBusiness, EmployeeBusiness employeeBusiness, RoomBusiness roomBusiness)
         {
             this.roomBusiness = roomBusiness;
             this.employeeBusiness = employeeBusiness;
             this.maintenanceBusiness = maintenanceBusiness;
-            FillRoomCombobox();
 
-            CommandCancel = new RelayCommand(executeCancelAction);
-            CommandUpdate = new RelayCommand(executeUpdateAction);
-            CommandClose = new RelayCommand(executeCloseAction);
-            CommandEditItem = new RelayCommand(executeEditItemAction);
-            CommandDeleteItem = new RelayCommand(executeDeleteItemAction);
+            FillRoomCombobox();
+            CommandAddRow = new RelayCommand(AddRow);
         }
 
+        public ICommand CommandAddRow { get; set; } 
+        private void AddRow()
+        {
+            Items.Add(new MaintenanceItem("name", 0));
+        }
+        public void setUpDatePicker()
+        {
+            MinStartDay = new DateTime(1970, 1, 1);
+            MaxStartDay = DateTime.Now.AddYears(-18);
+
+            MinEndDay = MaxStartDay.AddDays(1);
+            DefaultDate = DateTime.Now;
+
+            StartTime = MaxStartDay;
+            EndTime = MinEndDay;
+        }
+        public void setDisplayForAdd()
+        {
+            VisibilityCbx = Visibility.Visible;
+            VisibilityTextbox = Visibility.Hidden;
+            IsEnabled = true;
+        }
+
+        public void setDisplayForEdit()
+        {
+            VisibilityCbx = Visibility.Hidden;
+            VisibilityTextbox = Visibility.Visible;
+            IsEnabled = true;
+        }
         private async void FillRoomCombobox()
         {
             if (roomBusiness != null)
@@ -142,110 +198,110 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
             }
         }
-
-        #region command
-        public ICommand CommandDeleteItem { get; }
-        public ICommand CommandEditItem { get; }
-        public ICommand CommandCancel { get; }
-        public ICommand CommandClose { get; }
-        public ICommand CommandUpdate { get; }
-        public void executeUpdateAction()
+        public async void GetCurrentRequestWithId(int id)
         {
-            if (MaintenanceRequestType.Equals(MaintenanceRequestType.Add))
+            MaintenanceRequest? request = await maintenanceBusiness.GetMaintenanceRequestById(id);
+
+            if (request == null)
             {
-                AddRequest();
+                return;
+            }
+
+            maintenance = request;
+
+            CanClose = true;
+            CanNotClose = false;
+            setUpDatePicker();
+            setDisplayForEdit();
+            if (maintenance.Status.Equals(MaintenanceRequestStatus.Closed))
+            {
+                IsEnabled = false;
+            }
+
+            DisplayItems();
+
+            Room = maintenance.Room;
+            RoomNumber = maintenance.Room.RoomNumber;
+            StartTime = maintenance.StartTime;
+            EndTime = maintenance.EndTime;
+            CloseTime = maintenance.CloseTime;
+            Status = maintenance.Status;
+            Note = maintenance.Note;
+
+        }
+
+        public void DisplayItems()
+        {
+            Items.Clear();
+            maintenance.MaintenanceItems.ForEach(item =>
+            {
+                Items.Add(item);
+            });
+        }
+
+        public async Task<bool> SaveRequest()
+        {
+            ValidateAllProperties();
+            if (GetErrors().Count() != 0)
+                return false;
+
+            if (maintenance != null && maintenanceBusiness!=null)
+            {
+                maintenance.StartTime = StartTime;
+                maintenance.EndTime = EndTime;
+                maintenance.Note = Note;
+
+                await maintenanceBusiness.DeleteMaintenanceItems(maintenance.MaintenanceItems);
+                //maintenance.MaintenanceItems = Items.ToList();
+               // MessageBox.Show(maintenance.MaintenanceItems.Count.ToString());
+                await maintenanceBusiness.EditMaintenanceRequest(maintenance);
             }
             else
             {
-                UpdateRequest();
+                if (employeeBusiness.CurrentEmployee != null && maintenanceBusiness!=null)
+                {
+                    Employee openEmployee = employeeBusiness.CurrentEmployee;
+                    var request = new MaintenanceRequest(openEmployee.EmployeeId,
+                                       openEmployee,
+                                       Room,
+                                       StartTime,
+                                       EndTime,
+                                       Note);
+                    request.MaintenanceItems = Items.ToList();
+                    await maintenanceBusiness.CreateMaintenanceRequest(request);
+                }
             }
-        }
-        public void executeCloseAction()
-        {
-            CloseRequest();
-        }
-        public void executeEditItemAction()
-        {
-            MessageBox.Show("Edit item");
-        }
-        public void executeDeleteItemAction()
-        {
-            MessageBox.Show("Delete");
-        }
-        public void executeCancelAction()
-        {
-            CloseAction();
-        }
-        #endregion
-        public Action CloseAction { get; set; }
-
-        private async void AddRequest()
-        {
-            try
-            {
-                ValidateAllProperties();
-                if (employeeBusiness == null || maintenanceBusiness == null) return;
-
-                Employee? current = employeeBusiness.CurrentEmployee;
-
-                if (current == null || Room == null) return;
-                MaintenanceRequest request = new MaintenanceRequest(current.EmployeeId, current, Room, StartTime, EndTime, Note);
-
-                await maintenanceBusiness.CreateMaintenanceRequest(request);
-                maintenanceVM.GetAllItem();
-                CloseAction();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
+            return true;
         }
 
-        private async void UpdateRequest()
+        public async Task<bool> CloseRequest()
         {
-            try
-            {
-                ValidateAllProperties();
-                if (maintenanceBusiness == null || CurrentItem==null) return;
-                MaintenanceRequest request = CurrentItem;
-                request.StartTime = StartTime;
-                request.EndTime = EndTime;
-                request.Note = Note;
-                await maintenanceBusiness.EditMaintenanceRequest(request);
-                maintenanceVM.GetAllItem();
-                CloseAction();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
+            ValidateAllProperties();
+            if (GetErrors().Count() != 0)
+                return false;
+
+            if (maintenanceBusiness == null || employeeBusiness == null || maintenance == null) return false;
+            Employee? current = employeeBusiness.CurrentEmployee;
+            MaintenanceRequest request = maintenance;
+            request.StartTime = StartTime;
+            request.EndTime = EndTime;
+            request.Note = Note;
+
+            /*await maintenanceBusiness.DeleteMaintenanceItems(request.MaintenanceItems);
+            request.MaintenanceItems = Items.ToList();*/
+
+
+            if (current == null) return false;
+            await maintenanceBusiness.CloseMaintenanceRequest(request, DateTime.Now, current);
+
+            return true;
         }
-        private async void CloseRequest()
+
+        public void DeleteItem()
         {
-            try
-            {
-                ValidateAllProperties();
-                if (maintenanceBusiness == null || employeeBusiness == null || CurrentItem == null) return;
-                Employee? current = employeeBusiness.CurrentEmployee;
-                MaintenanceRequest request = CurrentItem;
-                request.StartTime = StartTime;
-                request.EndTime = EndTime;
-                request.Note = Note;
-
-                if (current == null) return;
-                await maintenanceBusiness.CloseMaintenanceRequest(request, DateTime.Now, current);
-                maintenanceVM.GetAllItem();
-                CloseAction();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-
+            Items.Remove(SelectedItem);
         }
-    }
-    public enum MaintenanceRequestType
-    {
-        Add, Edit
+
+
     }
 }

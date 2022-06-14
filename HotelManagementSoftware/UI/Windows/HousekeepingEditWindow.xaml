@@ -7,12 +7,15 @@
         xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels.WindowVMs"
         mc:Ignorable="d"
         xmlns:ui="https://handyorg.github.io/handycontrol"
-        WindowStartupLocation="CenterScreen"
-        WindowStyle="None"
         Title="HousekeepingEditWindow"
-        Height="350"
-        Width="800">
-
+        Style="{StaticResource PoppinsFont}"
+        SizeToContent="Height"
+        Width="800"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -29,7 +32,7 @@
                            FontSize="24"
                            Style="{StaticResource ResourceKey=TextLabel}"
                            FontWeight="Bold"
-                           Text="{Binding Title}" />
+                           Text="Housekeeping request details" />
 
 
             </StackPanel>
@@ -69,7 +72,7 @@
                                 HorizontalContentAlignment="Left"
                                 VerticalContentAlignment="Top"
                                 ui:InfoElement.Placeholder="Note detail"
-                                Text="{Binding Note,UpdateSourceTrigger=PropertyChanged}"
+                                Text="{Binding Note}"
                                 ShowClearButton="True" />
                 </Grid>
             </Grid>
@@ -102,16 +105,18 @@
                                          ItemsSource="{Binding RoomLists}"
                                          DisplayMemberPath="RoomNumber"
                                          SelectedIndex="0"
-                                         Visibility="{Binding VisibilityCbx, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         SelectedItem="{Binding Room, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                         Visibility="{Binding CanNotClose, 
+                                 Converter={StaticResource BooleanToVisibilityConverter}}" 
+                            SelectedItem="{Binding Room, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             </ui:ComboBox>
 
                             <ui:TextBox x:Name="tb_room"
                                         HorizontalAlignment="Stretch"
                                         ui:InfoElement.Placeholder="Room number"
-                                        Visibility="{Binding VisibilityTextbox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        IsEnabled="False"
-                                        Text="{Binding Room.RoomNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        Visibility="{Binding CanClose, 
+                                 Converter={StaticResource BooleanToVisibilityConverter}}" 
+                            IsEnabled="False"
+                                        Text="{Binding RoomNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             </ui:TextBox>
                         </Grid>
                     </StackPanel>
@@ -126,7 +131,10 @@
                                    FontSize="12"
                                    Text="Start day" />
                         <DatePicker HorizontalAlignment="Stretch"
-                                    IsEnabled="{Binding IsEnabled}"
+                                    DisplayDateStart="{Binding Path=MinStartDay,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                    DisplayDateEnd="{Binding Path=MaxStartDay,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                    DisplayDate="{Binding Path=DefaultDate,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                    IsEnabled="{Binding Path=IsEnabled, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                     SelectedDate="{Binding Path=StartTime,UpdateSourceTrigger=PropertyChanged,
                             Mode=TwoWay,
                             ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
@@ -162,7 +170,9 @@
                                    FontSize="12"
                                    Text="End day" />
                         <DatePicker HorizontalAlignment="Stretch"
-                                    IsEnabled="{Binding IsEnabled}"
+                                    DisplayDateStart="{Binding Path=MinEndDay,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                    DisplayDate="{Binding Path=DefaultDate,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                    IsEnabled="{Binding Path=IsEnabled, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                     SelectedDate="{Binding Path=EndTime,
                             UpdateSourceTrigger=PropertyChanged,
                             Mode=TwoWay,
@@ -181,7 +191,7 @@
                                    Text="Status" />
                         <ui:TextBox HorizontalAlignment="Stretch"
                                     ui:InfoElement.Placeholder="Status"
-                                    Text="{Binding Path=Status,UpdateSourceTrigger=PropertyChanged}"
+                                    Text="{Binding Path=Status,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                     IsEnabled="False">
                         </ui:TextBox>
                     </StackPanel>
@@ -202,21 +212,17 @@
                     Background="Green"
                     Foreground="White"
                     FontFamily="Poppins"
-                    Visibility="{Binding VisibilityTextbox}"
-                    Command="{Binding CommandClose}" />
-            <Button Content="Cancel"
-                    FontWeight="Bold"
-                    Background="#FFF0241D"
-                    Foreground="White"
-                    FontFamily="Poppins"
-                    Command="{Binding CommandCancel}" />
- 
+                    Name="CloseRequest"
+                    Click="CloseRequest_Click"
+                    Visibility="{Binding CanClose, 
+                                 Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button Content="Save"
+                    Name="SaveButton"
+                    Click="SaveButton_Click"
                     FontWeight="Bold"
-                    Background="#FF358AFF"
+                    Background="{StaticResource PrimaryColorSolid}"
                     Foreground="White"
-                    FontFamily="Poppins"
-                    Command="{Binding CommandUpdate}" />
+                    FontFamily="Poppins" />
         </ui:UniformSpacingPanel>
     </Grid>
 </Window>

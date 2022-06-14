@@ -27,6 +27,50 @@ namespace HotelManagementSoftware.UI.Windows
         {
             InitializeComponent();
             DataContext = App.Current.Services.GetRequiredService<MaintenanceEditWindowVM>();
-        } 
+        }
+
+        public MaintenanceEditWindow(int RequestId)
+        {
+            InitializeComponent();
+            DataContext = App.Current.Services.GetRequiredService<MaintenanceEditWindowVM>();
+            ((MaintenanceEditWindowVM)DataContext).GetCurrentRequestWithId(RequestId);
+        }
+
+        private async void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (await((MaintenanceEditWindowVM)DataContext).SaveRequest())
+                    Close();
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message,
+                                "Error",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+            }
+        }
+
+        private async void CloseRequest_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (await((MaintenanceEditWindowVM)DataContext).CloseRequest())
+                    Close();
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message,
+                                "Error",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+            }
+        }
+
+        private void DeleteItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((MaintenanceEditWindowVM)DataContext).DeleteItem();
+        }
     }
 }
