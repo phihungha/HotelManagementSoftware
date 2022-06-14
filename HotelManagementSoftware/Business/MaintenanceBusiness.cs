@@ -193,7 +193,7 @@ namespace HotelManagementSoftware.Business
         {
             using (var db = new Database())
             {
-                db.Remove(items);
+                db.RemoveRange(items);
                 await db.SaveChangesAsync();
             }
         }
