@@ -27,15 +27,14 @@ namespace HotelManagementSoftware.ViewModels
 
     public class HousekeepingVM : ObservableValidator
     {
+        private HousekeepingBusiness housekeepingBusiness;
         private HouseKeepingSearchBy searchBy = HouseKeepingSearchBy.Room;
         public HouseKeepingSearchBy SearchBy
         {
             get => searchBy;
             set => SetProperty(ref searchBy, value);
         }
-
-        private HousekeepingBusiness housekeepingBusiness;
-        public ObservableCollection<HousekeepingRequest> HouseKeepingLists { get; set; } = new();
+        public ObservableCollection<HousekeepingRequest> HouseKeepingLists { get; } = new();
 
         private string textFilter = "";
         public string TextFilter
@@ -43,15 +42,14 @@ namespace HotelManagementSoftware.ViewModels
             get { return textFilter; }
             set => SetProperty(ref textFilter, value);
         }
+        public ICommand SearchCommand { get; }
         public HousekeepingVM(HousekeepingBusiness housekeepingBusiness)
         {
             this.housekeepingBusiness = housekeepingBusiness;
             GetAllItem();
 
-            CommandSearch = new AsyncRelayCommand(Search);
+            SearchCommand = new AsyncRelayCommand(Search);
         }
-
-        public ICommand? CommandSearch { get; set; }
         private async Task Search()
         {
             if (textFilter == "")
@@ -66,43 +64,7 @@ namespace HotelManagementSoftware.ViewModels
                 }
             }
         }
-        //public void executeEditIssueAction()
-        //{
-        //    HousekeepingEditWindow window = new HousekeepingEditWindow();
-        //    HousekeepingEditWindowVM vm = App.Current.Services.GetRequiredService<HousekeepingEditWindowVM>();
-        //    vm.HousekeepingVM = this;
-        //    vm.HousekeepingRequestType = HousekeepingRequestType.Edit;
-        //    vm.CurrentRequestId = SelectedItemHouseKeepingRequest.HousekeepingRequestId;
-        //    if (vm.CloseAction == null)
-        //    {
-        //        vm.CloseAction = new Action(window.Close);
-        //    }
 
-        //    if (SelectedItemHouseKeepingRequest.Status.Equals(HousekeepingRequestStatus.Closed))
-        //    {
-        //        vm.IsEnabled = false;
-        //    } else
-        //    {
-        //        vm.IsEnabled = true;
-        //    }
-        //    window.DataContext = vm;
-        //    window.ShowDialog();
-        //}
-        //public void executeAddIssueAction()
-        //{
-        //    HousekeepingEditWindow window = new HousekeepingEditWindow();
-        //    HousekeepingEditWindowVM vm = App.Current.Services.GetRequiredService<HousekeepingEditWindowVM>();
-        //    vm.HousekeepingVM = this;
-        //    vm.HousekeepingRequestType = HousekeepingRequestType.Add;
-        //    vm.CurrentRequestId = null;
-        //    if (vm.CloseAction == null)
-        //    {
-        //        vm.CloseAction = new Action(window.Close);
-        //    }
-        //    window.DataContext = vm;
-        //    window.ShowDialog();
-        //}
- 
         public async Task GetAllItemByRoom()
         {
             int room;

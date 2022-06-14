@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace HotelManagementSoftware.Data
 {
@@ -53,7 +54,9 @@ namespace HotelManagementSoftware.Data
 
     public enum HousekeepingRequestStatus
     {
+        [Description("Opened")]
         Opened,
+        [Description("Closed")]
         Closed
     }
 }

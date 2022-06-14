@@ -16,69 +16,79 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 {
     public class HousekeepingEditWindowVM : ObservableValidator
     {
-        private HousekeepingBusiness? housekeepingBusiness;
-        private EmployeeBusiness? employeeBusiness;
+        private HousekeepingBusiness housekeepingBusiness;
+        private EmployeeBusiness employeeBusiness;
         private RoomBusiness roomBusiness;
-        private HousekeepingRequestType housekeepingRequestType;
-        private int? currentRequestId;
+        private HousekeepingRequest? housekeeping = null;
 
-        public HousekeepingRequestType HousekeepingRequestType
+        private bool canClose = false;
+
+        public bool CanClose
         {
-            get => housekeepingRequestType;
+            get => canClose;
             set
             {
-                SetProperty(ref housekeepingRequestType, value, true);
-
-                if (HousekeepingRequestType.Equals(HousekeepingRequestType.Add))
-                {
-                    Title = "Add housekeeping request window";
-                    VisibilityCbx = Visibility.Visible;
-                    VisibilityTextbox = Visibility.Hidden;
-                    IsEnabled = true;
-                    setUpDatePicker();
-                    StartTime = MaxStartDay;
-                    MinEndDay = StartTime.AddDays(1);
-                    EndTime = MinEndDay;
-                }
-                else
-                {
-                    Title = "Edit housekeeping request window";
-                    VisibilityCbx = Visibility.Hidden;
-                    VisibilityTextbox = Visibility.Visible;
-                    setUpDatePicker();
-                }
+                SetProperty(ref canClose, value);
             }
         }
-        public int? CurrentRequestId
+        private bool canNotClose = true;
+        /*        private bool isEnabled = false;
+                private Visibility visibilityCbx = Visibility.
+                private Visibility visibilityTextbox = Visibility.Hidden;*/
+        public bool CanNotClose
         {
-            get => currentRequestId;
+            get => canNotClose;
             set
             {
-                SetProperty(ref currentRequestId, value, true);
-                if (CurrentRequestId != null)
-                {
-                    GetCurrentRequest();
-                }
+                SetProperty(ref canNotClose, value);
             }
         }
 
-        public bool IsEnabled { get; set; }
-        public Visibility VisibilityCbx { get; set; }
-        public Visibility VisibilityTextbox { get; set; }
-        public HousekeepingVM HousekeepingVM { get; set; }
+        private Visibility visibilityCbx = Visibility.Visible;
+        public Visibility VisibilityCbx
+        {
+            get => visibilityCbx;
+            set
+            {
+                SetProperty(ref visibilityCbx, value);
+            }
+        }
+
+        private Visibility visibilityTextbox = Visibility.Hidden;
+        public Visibility VisibilityTextbox
+        {
+            get => visibilityTextbox;
+            set
+            {
+                SetProperty(ref visibilityTextbox, value);
+            }
+        }
+        private bool isEnabled = true;
+        public bool IsEnabled
+        {
+            get => isEnabled;
+            set
+            {
+                SetProperty(ref isEnabled, value);
+            }
+        }
+
+
         public ObservableCollection<Room> RoomLists { get; set; } = new();
-        public String Title { get; set; }
-        public HousekeepingRequest? Current { get; set; }
+       
+
         public DateTime MinStartDay { get; set; }
-        public DateTime MaxStartDay { get; set; }
-        public DateTime MinEndDay { get; set; }
+        public DateTime MaxStartDay { get; set; } 
+        public DateTime MinEndDay { get; set; } 
         public DateTime DefaultDate { get; set; }
+
         #region private variables
-        private Room? room;
-        private DateTime startTime;
-        private DateTime endTime;
+        private int roomNumber;
+        private Room room;
+        private DateTime startTime= new DateTime(1970, 1, 1);
+        private DateTime endTime = new DateTime(1970, 1, 1);
         private DateTime? closeTime;
-        private HousekeepingRequestStatus status;
+        private HousekeepingRequestStatus status = HousekeepingRequestStatus.Opened;
         private string? note;
         #endregion
 
@@ -128,24 +138,33 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             get => note;
             set => SetProperty(ref note, value, true);
         }
+
+        public int RoomNumber
+        {
+            get => roomNumber;
+            set => SetProperty(ref roomNumber, value, true);
+        }
         #endregion
 
-        public HousekeepingEditWindowVM(HousekeepingBusiness? housekeepingBusiness, EmployeeBusiness? employeeBusiness, RoomBusiness roomBusiness)
+        public HousekeepingEditWindowVM(HousekeepingBusiness housekeepingBusiness, EmployeeBusiness employeeBusiness, RoomBusiness roomBusiness)
         {
             this.roomBusiness = roomBusiness;
             this.employeeBusiness = employeeBusiness;
             this.housekeepingBusiness = housekeepingBusiness;
             FillRoomCombobox();
-            CommandCancel = new RelayCommand(executeCancelAction);
-            CommandUpdate = new RelayCommand(executeUpdateAction);
-            CommandClose = new RelayCommand(executeCloseAction);
+          
         }
 
-        private void setUpDatePicker()
+        public void setUpDatePicker()
         {
-            MinStartDay = new DateTime(1990, 1, 1);
-            MaxStartDay = new DateTime(DateTime.Now.Year - 18, 1, 1);
+            MinStartDay = new DateTime(1970, 1, 1);
+            MaxStartDay = DateTime.Now.AddYears(-18);
+
+            MinEndDay = MaxStartDay.AddDays(1);
             DefaultDate = DateTime.Now;
+
+            StartTime = MaxStartDay;
+            EndTime = MinEndDay;
         }
 
         private async void FillRoomCombobox()
@@ -161,115 +180,96 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
             }
         }
-        private async void GetCurrentRequest()
-        {
-            if (housekeepingBusiness == null || CurrentRequestId == null) return;
-            Current = await housekeepingBusiness.GetHousekeepingRequestById(CurrentRequestId.Value);
 
-            if (Current == null) return;
-            HousekeepingRequest request = Current;
-            Room = request.Room;
-            StartTime = request.StartTime;
-            EndTime = request.EndTime;
-            CloseTime = request.CloseTime;
-            Status = request.Status;
-            Note = request.Note;
+        public void setDisplayForAdd()
+        {
+            VisibilityCbx = Visibility.Visible;
+            VisibilityTextbox = Visibility.Hidden;
+            IsEnabled = true;
         }
 
-        #region command
-        public ICommand CommandCancel { get; }
-        public ICommand CommandClose { get; }
-        public ICommand CommandUpdate { get; }
-        public void executeUpdateAction()
+        public void setDisplayForEdit()
         {
-            if (HousekeepingRequestType.Equals(HousekeepingRequestType.Add))
+            VisibilityCbx = Visibility.Hidden;
+            VisibilityTextbox = Visibility.Visible;
+            IsEnabled = true;
+        }
+
+        public async void GetCurrentRequestWithId(int id)
+        {
+            HousekeepingRequest? request = await housekeepingBusiness.GetHousekeepingRequestById(id);
+
+            if (request == null)
             {
-                AddRequest();
+                return;
+            }
+
+            housekeeping = request;
+            
+            CanClose = true;
+            CanNotClose = false;
+            setUpDatePicker();
+            setDisplayForEdit();
+            if (housekeeping.Status.Equals(HousekeepingRequestStatus.Closed)){
+                IsEnabled=false;
+            }
+
+            Room = housekeeping.Room;
+            RoomNumber = housekeeping.Room.RoomNumber;
+            StartTime = housekeeping.StartTime;
+            EndTime = housekeeping.EndTime;
+            CloseTime = housekeeping.CloseTime;
+            Status = housekeeping.Status;
+            Note = housekeeping.Note;
+
+        }
+        public async Task<bool> SaveRequest()
+        {
+            ValidateAllProperties();
+            if (GetErrors().Count() != 0)
+                return false;
+
+            if (housekeeping != null)
+            {
+                housekeeping.StartTime = StartTime;
+                housekeeping.EndTime = EndTime;
+                housekeeping.Note = Note;
+                await housekeepingBusiness.EditHousekeepingRequest(housekeeping);
             }
             else
             {
-                UpdateRequest();
+                if (employeeBusiness.CurrentEmployee != null)
+                {
+                    Employee openEmployee = employeeBusiness.CurrentEmployee;
+                    var request = new HousekeepingRequest(openEmployee.EmployeeId,
+                                       openEmployee,
+                                       Room,
+                                       StartTime,
+                                       EndTime,
+                                       Note);
+                    await housekeepingBusiness.CreateHousekeepingRequest(request);
+                }
             }
+            return true;
         }
-        public void executeCloseAction()
+
+        public async Task<bool> CloseRequest()
         {
-            CloseRequest();
+            ValidateAllProperties();
+            if (GetErrors().Count() != 0)
+                return false;
+
+            if (housekeepingBusiness == null || employeeBusiness == null || housekeeping == null) return false;
+            Employee? current = employeeBusiness.CurrentEmployee;
+            HousekeepingRequest request = housekeeping;
+            request.StartTime = StartTime;
+            request.EndTime = EndTime;
+            request.Note = Note;
+
+            if (current == null) return false;
+            await housekeepingBusiness.CloseHousekeepingRequest(request, DateTime.Now, current);
+
+            return true;
         }
-        public void executeCancelAction()
-        {
-            CloseAction();
-        }
-        #endregion
-        public Action CloseAction { get; set; }
-
-        private async void AddRequest()
-        {
-            try
-            {
-                ValidateAllProperties();
-                if (employeeBusiness == null || housekeepingBusiness == null) return;
-
-                Employee? current = employeeBusiness.CurrentEmployee;
-
-                if (current == null || Room == null) return;
-                HousekeepingRequest request = new HousekeepingRequest(current.EmployeeId, current, Room, StartTime, EndTime, Note);
-
-                await housekeepingBusiness.CreateHousekeepingRequest(request);
-                HousekeepingVM.GetAllItem();
-                CloseAction();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-        }
-
-        private async void UpdateRequest()
-        {
-            try
-            {
-                ValidateAllProperties();
-                if (housekeepingBusiness == null || Current==null) return;
-                HousekeepingRequest request = Current;
-                request.StartTime = StartTime;
-                request.EndTime = EndTime;
-                request.Note = Note;
-                await housekeepingBusiness.EditHousekeepingRequest(request);
-                HousekeepingVM.GetAllItem();
-                CloseAction();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-        }
-        private async void CloseRequest()
-        {
-            try
-            {
-                ValidateAllProperties();
-                if (housekeepingBusiness == null || employeeBusiness == null || Current == null) return;
-                Employee? current = employeeBusiness.CurrentEmployee;
-                HousekeepingRequest request = Current;
-                request.StartTime = StartTime;
-                request.EndTime = EndTime;
-                request.Note = Note;
-
-                if (current == null) return;
-                await housekeepingBusiness.CloseHousekeepingRequest(request, DateTime.Now, current);
-                HousekeepingVM.GetAllItem();
-                CloseAction();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-        }
-
-    }
-
-    public enum HousekeepingRequestType
-    {
-        Add, Edit
     }
 }

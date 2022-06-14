@@ -8,12 +8,12 @@ namespace HotelManagementSoftware.ViewModels.Converters
     /// <summary>
     /// Convert a HousekeepingType enum values to string for displaying.
     /// </summary>
-    public class HousekeepingTypeToString : IValueConverter
+    public class HousekeepingStatusToString : IValueConverter
     {
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            HousekeepingRequestStatus housekeepingType = (HousekeepingRequestStatus)value;
-            switch (housekeepingType)
+            HousekeepingRequestStatus housekeepingStatus = (HousekeepingRequestStatus)value;
+            switch (housekeepingStatus)
             {
                 case HousekeepingRequestStatus.Opened:
                     return "Opened";
