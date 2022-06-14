@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HotelManagementSoftware.ViewModels.WindowVMs;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,22 @@ namespace HotelManagementSoftware.UI.Windows
     /// </summary>
     public partial class CancelReservationWindow : Window
     {
-        public CancelReservationWindow()
+        public CancelReservationWindow(int reservationId)
         {
             InitializeComponent();
+            DataContext = App.Current.Services.GetRequiredService<CancelReservationWindowVM>();
+            ((CancelReservationWindowVM)DataContext).LoadReservationFromId(reservationId);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            await ((CancelReservationWindowVM)DataContext).Cancel();
+            this.Close();
         }
     }
 }

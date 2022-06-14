@@ -164,7 +164,7 @@
 
                         <StackPanel Margin="0,0,8,0">
                             <TextBlock Style="{StaticResource Label}" Text="No of Days"/>
-                            <ComboBox HorizontalAlignment="Stretch" SelectedValue="{Binding NumOfDay}" />
+                            <TextBlock HorizontalAlignment="Stretch"  Text="{Binding NumOfDay}" />
                         </StackPanel>
 
 
