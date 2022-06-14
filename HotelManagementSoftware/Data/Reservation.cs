@@ -73,5 +73,11 @@ namespace HotelManagementSoftware.Data
             DayNumberBeforeArrival = dayNumberBeforeArrival;
             PercentOfTotal = percentOfTotal;
         }
+
+        public ReservationCancelFeePercent()
+        {
+            DayNumberBeforeArrival = 0;
+            PercentOfTotal = 0;
+        }
     }
 }
