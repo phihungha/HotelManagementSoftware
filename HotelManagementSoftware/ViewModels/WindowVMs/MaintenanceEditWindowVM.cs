@@ -154,11 +154,8 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             FillRoomCombobox();
             CommandAddRow = new RelayCommand(AddRow);
         }
-        public ICommand CommandAddRow { get; set; } 
-        private void AddRow()
-        {
-            Items.Add(new MaintenanceItem("name", 0));
-        }
+        public ICommand CommandAddRow { get; set; }
+
         public void setUpDatePicker()
         {
             MinStartDay = new DateTime(1970, 1, 1);
@@ -243,20 +240,19 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             if (GetErrors().Count() != 0)
                 return false;
 
-            if (maintenance != null && maintenanceBusiness!=null)
+            if (maintenance != null && maintenanceBusiness != null)
             {
                 maintenance.StartTime = StartTime;
                 maintenance.EndTime = EndTime;
                 maintenance.Note = Note;
 
-                await maintenanceBusiness.DeleteMaintenanceItems(maintenance.MaintenanceItems);
-                //maintenance.MaintenanceItems = Items.ToList();
-                // MessageBox.Show(maintenance.MaintenanceItems.Count.ToString());
+                maintenance.MaintenanceItems = Items.ToList();
+
                 await maintenanceBusiness.EditMaintenanceRequest(maintenance);
             }
             else
             {
-                if (employeeBusiness.CurrentEmployee != null && maintenanceBusiness!=null)
+                if (employeeBusiness.CurrentEmployee != null && maintenanceBusiness != null)
                 {
                     Employee openEmployee = employeeBusiness.CurrentEmployee;
                     var request = new MaintenanceRequest(openEmployee.EmployeeId,
@@ -285,9 +281,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             request.EndTime = EndTime;
             request.Note = Note;
 
-            /*await maintenanceBusiness.DeleteMaintenanceItems(request.MaintenanceItems);
-            request.MaintenanceItems = Items.ToList();*/
-
+            request.MaintenanceItems = Items.ToList();
 
             if (current == null) return false;
             await maintenanceBusiness.CloseMaintenanceRequest(request, DateTime.Now, current);
@@ -295,11 +289,35 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             return true;
         }
 
-        public void DeleteItem()
+        public async void DeleteItem()
         {
-            Items.Remove(SelectedItem);
+            List<MaintenanceItem> items = new List<MaintenanceItem>();
+            items.Add(SelectedItem);
+
+            if (maintenance == null)
+            {
+                Items.Remove(SelectedItem);
+                return;
+            }
+            else
+            {
+                if (maintenance.MaintenanceItems.Contains(SelectedItem))
+                {
+                    await maintenanceBusiness.DeleteMaintenanceItems(items);
+                    DisplayItems();
+                }
+                else
+                {
+                    Items.Remove(SelectedItem);
+                    return;
+                }
+                
+            }
         }
 
-
+        private async void AddRow()
+        {
+            Items.Add(new MaintenanceItem("name", 0));
+        }
     }
 }
