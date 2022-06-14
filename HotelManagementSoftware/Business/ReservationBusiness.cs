@@ -525,29 +525,41 @@ namespace HotelManagementSoftware.Business
         }
 
         /// <summary>
-        /// Edit reservation cancel fee percent.
+        /// Add reservation cancel fee percent.
         /// </summary>
-        /// <param name="percent">Updated percent info</param>
-        public async Task Edit(ReservationCancelFeePercent percent)
+        /// <param name="percent">Percent info</param>
+        public async Task<List<ReservationCancelFeePercent>> GetPercents()
         {
-            ValidatePercent(percent);
             using (var db = new Database())
             {
-                db.ReservationCancelFeePercents.Update(percent);
+                return await db.ReservationCancelFeePercents.ToListAsync();
+            }
+        }
+
+        /// <summary>
+        /// Edit reservation cancel fee percent.
+        /// </summary>
+        /// <param name="percents">Updated percents</param>
+        public async Task Update(List<ReservationCancelFeePercent> percents)
+        {
+            percents.ForEach(i => ValidatePercent(i));
+            using (var db = new Database())
+            {
+                db.ReservationCancelFeePercents.UpdateRange(percents);
                 await db.SaveChangesAsync();
             }
         }
 
         /// <summary>
-        /// Delete reservation cancel fee percent.
+        /// Remove reservation cancel fee percent.
         /// </summary>
-        /// <param name="percent">Percent info</param>
-        public async Task Delete(ReservationCancelFeePercent percent)
+        /// <param name="percents">Percents to remove</param>
+        public async Task Delete(List<ReservationCancelFeePercent> percents)
         {
-            ValidatePercent(percent);
+            percents.ForEach(i => ValidatePercent(i));
             using (var db = new Database())
             {
-                db.ReservationCancelFeePercents.Remove(percent);
+                db.ReservationCancelFeePercents.RemoveRange(percents);
                 await db.SaveChangesAsync();
             }
         }
