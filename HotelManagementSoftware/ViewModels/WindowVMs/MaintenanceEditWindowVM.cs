@@ -93,7 +93,6 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
         #region property validation
 
-        [Required(ErrorMessage = "Room cannot be empty")]
         public Room Room
         {
             get => room;
@@ -240,7 +239,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             if (GetErrors().Count() != 0)
                 return false;
 
-            if (maintenance != null && maintenanceBusiness != null)
+            if (maintenance != null)
             {
                 maintenance.StartTime = StartTime;
                 maintenance.EndTime = EndTime;
@@ -252,7 +251,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             }
             else
             {
-                if (employeeBusiness.CurrentEmployee != null && maintenanceBusiness != null)
+                if (employeeBusiness.CurrentEmployee != null)
                 {
                     Employee openEmployee = employeeBusiness.CurrentEmployee;
                     var request = new MaintenanceRequest(openEmployee.EmployeeId,
@@ -274,17 +273,14 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             if (GetErrors().Count() != 0)
                 return false;
 
-            if (maintenanceBusiness == null || employeeBusiness == null || maintenance == null) return false;
+            if (maintenance == null) 
+                return false;
+
             Employee? current = employeeBusiness.CurrentEmployee;
-            MaintenanceRequest request = maintenance;
-            request.StartTime = StartTime;
-            request.EndTime = EndTime;
-            request.Note = Note;
+            if (current == null)
+                return false;
 
-            request.MaintenanceItems = Items.ToList();
-
-            if (current == null) return false;
-            await maintenanceBusiness.CloseMaintenanceRequest(request, DateTime.Now, current);
+            await maintenanceBusiness.CloseMaintenanceRequest(maintenance, DateTime.Now, current);
 
             return true;
         }
