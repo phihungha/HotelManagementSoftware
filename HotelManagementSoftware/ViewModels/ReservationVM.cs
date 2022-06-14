@@ -70,7 +70,7 @@ namespace HotelManagementSoftware.ViewModels
         {
             if (reservationBusiness != null)
             {
-                List<Reservation> reservations = await reservationBusiness.GetReservations(null, null, null, null, null, null, null, null, null, null, null);
+                List<Reservation> reservations = await reservationBusiness.GetReservations();
                 Reservations.Clear();
                 reservations.ForEach(roomtype =>
                 {

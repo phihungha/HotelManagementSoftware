@@ -290,8 +290,10 @@
                         <TextBlock Style="{StaticResource DialogTitle}" Text="Total Payment Amount"/>
                         <TextBlock Style="{StaticResource DialogSubtitle}" Text="Total amount to pay for a stay from 01/01/2022 to 01/03/2022 in a Deluxe room"/>
                     </StackPanel>
-                    <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="10,10,0,0" 
-                                TextWrapping="Wrap" FontWeight="Bold" Text="{Binding TotalPayment}" FontSize="42"/>
+                    <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="10,10,0,0"
+                               TextWrapping="Wrap"
+                               FontWeight="Bold"
+                               Text="{Binding TotalPayment}" FontSize="42"/>
                 </Grid>
             </Border>
         </Grid>

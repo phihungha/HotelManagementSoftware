@@ -50,6 +50,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         }
         public async void LoadRooms()
         {
+            if (roomBusiness == null) return;
             Rooms.Clear();
             List<Room> rooms = await roomBusiness.GetRooms(null, null, null);
             rooms.ForEach(roomtype => Rooms.Add(roomtype));
