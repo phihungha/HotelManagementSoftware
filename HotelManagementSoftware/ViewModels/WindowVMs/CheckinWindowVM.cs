@@ -1,13 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using HandyControl.Controls;
+using HotelManagementSoftware.Business;
 using HotelManagementSoftware.Data;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using HotelManagementSoftware.Business;
-using System.Collections.ObjectModel;
-using HotelManagementSoftware.ViewModels.Validators;
+using Microsoft.Toolkit.Mvvm.Input;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+
 
 namespace HotelManagementSoftware.ViewModels.WindowVMs
 {
@@ -180,37 +183,24 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             this.customerBusiness = customerBusiness;
             this.reservationBusiness = reservationBusiness;
             this.employeeBusiness = employeeBusiness;
+
+            
         }
 
 
-        public async void LoadReservationFromId(int reservationId)
+        public async void LoadReservationFromId(int reservationsId)
         {
-            Reservation? reservation = await reservationBusiness.GetReservationById(reservationId);
+            Reservation? reservation = await reservationBusiness.GetReservationById(reservationsId);
+            Room? room = await roomBusiness.GetRoomById(reservation.Room.RoomId);
+            Customer? customer = await customerBusiness.GetCustomerById(reservation.Customer.CustomerId);
             this.reservation = reservation;
-            this.room = reservation.Room;
-            LoadRoomFromId(reservation.Room.RoomId);
-            this.customer = reservation.Customer;
-            LoadCustomerFromId(reservation.Customer.CustomerId);
-            Person = reservation.NumberOfPeople;
-            ArrivalTime = reservation.ArrivalTime;
-            DepartureTime = reservation.DepartureTime;
-            TotalPayment = reservationBusiness.GetTotalRentFee(reservation);
-            TimeSpan stayPeriod = reservation.DepartureTime - reservation.ArrivalTime;
-            NumOfDay = (int)Math.Ceiling(stayPeriod.TotalDays);
-        }
-
-        public async void LoadRoomFromId(int RoomId)
-        {
-            Room? room = await roomBusiness.GetRoomById(RoomId);
+            
             this.room = room;
             RoomNumber = room.RoomNumber;
             RoomType = room.RoomType;
             Note = room.Note;
             Floor = room.Floor;
-        }
-        public async void LoadCustomerFromId(int customerId)
-        {
-            Customer? customer = await customerBusiness.GetCustomerById(customerId);
+
             this.customer = customer;
             CMND = customer.IdNumber;
             Name = customer.Name;
@@ -219,10 +209,18 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             PhoneNumber = customer.PhoneNumber;
             Email = customer.Email;
             Address = customer.Address;
-            //SelectedPaymentMethod = customer.PaymentMethod;
-            //ExpireDate = customer.ExpireDate;
-            //CardNumber = customer.CardNumber;
+
+            Person = reservation.NumberOfPeople;
+            ArrivalTime = reservation.ArrivalTime;
+            DepartureTime = reservation.DepartureTime;
+            TotalPayment = reservationBusiness.GetTotalRentFee(reservation);
+            TimeSpan stayPeriod = reservation.DepartureTime - reservation.ArrivalTime;
+            NumOfDay = (int)Math.Ceiling(stayPeriod.TotalDays);
         }
+
+       
+      
+
 
 
     }

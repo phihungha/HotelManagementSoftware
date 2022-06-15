@@ -19,7 +19,8 @@ namespace HotelManagementSoftware.UI
         private void CheckinButton_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
-            CheckinWindow window = new CheckinWindow();
+            int reservationsId = (int)button.Tag;
+            CheckinWindow window = new CheckinWindow(reservationsId);
             window.Show();
             window.Closed += Window_Closed;
         }

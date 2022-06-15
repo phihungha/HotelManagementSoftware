@@ -9,7 +9,7 @@
         x:Class="HotelManagementSoftware.UI.CheckinWindow"
         mc:Ignorable="d"
          ResizeMode="NoResize"
-        Title="Check-in"  Width="1000"  WindowStartupLocation="CenterScreen">
+        Title="Check-in"  Width="1172"   WindowStartupLocation="CenterScreen" Height="821">
     <Window.Resources>
         <Style x:Key="BoxHeader" TargetType="Panel">
             <Setter Property="Margin" Value="0,0,0,10" />
@@ -111,7 +111,7 @@
 
                     <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
                         <TextBlock Style="{StaticResource Label}" Text="Name"/>
-                        <TextBlock Style="{StaticResource Value}" Text="{Binding Customer.Name}" />
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding Name}" />
                     </StackPanel>
 
 
@@ -127,7 +127,7 @@
 
                     <StackPanel Grid.Row="4">
                         <TextBlock Style="{StaticResource Label}" Text="Date of birth"/>
-                        <TextBlock Style="{StaticResource Value}" Text="{Binding BirthDate}" />
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding BirthDate, StringFormat={}{0:dd}/{0:MM}/{0:yyyy}}" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="4" Grid.Column="1">
@@ -242,14 +242,13 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel Margin="0,0,8,0">
+                        <StackPanel >
                             <TextBlock Style="{StaticResource Label}" Text="No of Days"/>
-                            <ComboBox HorizontalAlignment="Stretch" SelectedValue="{Binding NumOfday}" />
+                            <TextBlock HorizontalAlignment="Stretch"  Text="{Binding NumOfDay}" />
                         </StackPanel>
 
 
-
-                        <StackPanel Grid.Column="2" Margin="8,0,0,0">
+                        <StackPanel Grid.Column="2" >
                             <TextBlock Style="{StaticResource Label}" Text="Person"/>
                             <ui:NumericUpDown HorizontalAlignment="Stretch" Value="{Binding Person}"/>
                         </StackPanel>
@@ -277,17 +276,17 @@
 
                     <StackPanel Grid.Row="1" Margin="0,0,8,0">
                         <TextBlock Style="{StaticResource Label}" Text="Methods"/>
-                        <ComboBox HorizontalAlignment="Stretch" ItemsSource="{Binding PaymentMethod}" SelectedItem="{Binding SelectedPaymentMethod}"/>
+                        <TextBlock Text="{Binding SelectedPaymentMethod}" HorizontalAlignment="Stretch" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="1" Grid.Column="1" Margin="8,0,8,0">
                         <TextBlock Style="{StaticResource Label}" Text="Card number"/>
-                        <TextBox Text="{Binding CardNumber}" />
+                        <TextBlock Text="{Binding CardNumber}" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="1" Grid.Column="2" Margin="8,0,0,0">
                         <TextBlock FontSize="11"  Text="Expire date"/>
-                        <DatePicker HorizontalAlignment="Stretch" SelectedDate="{Binding ExpireDate}"/>
+                        <TextBlock HorizontalAlignment="Stretch" Text="{Binding ExpireDate}"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -299,8 +298,7 @@
         <ui:UniformSpacingPanel Grid.Row="2" HorizontalAlignment="Right"
                                 Spacing="10" ItemWidth="139"
                                 Orientation="Horizontal" Margin="0,30,30,5">
-            <Button Content="Exit" FontWeight="Bold"
-                    Background="#A5A5A5" Foreground="White" />
+           
             <Button Content="Check in" FontWeight="Bold"
                     Background="#FF358AFF" Foreground="White" />
         </ui:UniformSpacingPanel>
