@@ -115,6 +115,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             set
             {
                 SetProperty(ref roomType, value, true);
+                Load();
             }
         }
         public string? Note
@@ -154,6 +155,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             set
             {
                 SetProperty(ref arrivalTime, value, true);
+                Load();
             }
         }
         public DateTime DepartureTime {
@@ -161,6 +163,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             set
             {
                 SetProperty(ref departureTime, value, true);
+                Load();
             }
         }
         public int NumOfDay {
@@ -308,6 +311,15 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         
         public Action CloseAction { get; set; }
         #endregion
+        public void Load()
+        {
+            if(room != null && room.RoomType != null)
+            {
+                TimeSpan stayPeriod = DepartureTime - ArrivalTime;
+                NumOfDay = (int)Math.Ceiling(stayPeriod.TotalDays);
+                TotalPayment = NumOfDay * room.RoomType.Rate;
+            }
+        }
         public enum ReservationEditWindowType
         {
             Add, Edit
