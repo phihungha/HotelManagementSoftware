@@ -1,4 +1,5 @@
-﻿using HotelManagementSoftware.Business;
+﻿using HandyControl.Tools;
+using HotelManagementSoftware.Business;
 using HotelManagementSoftware.Data;
 using HotelManagementSoftware.Tests;
 using HotelManagementSoftware.ViewModels;
@@ -24,15 +25,17 @@ namespace HotelManagementSoftware
             InitializeComponent();
 
             // Set global culture
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-IN");
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-IN");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("vn-VN");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("vn-VN");
             FrameworkElement.LanguageProperty.OverrideMetadata(
                 typeof(FrameworkElement), 
                 new FrameworkPropertyMetadata(
                         XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)
                         )
                 );
-            
+
+            ConfigHelper.Instance.SetLang("en");
+
             InitiateDatabase();
             GenerateTestData();
         }
