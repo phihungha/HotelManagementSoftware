@@ -146,8 +146,8 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
         // Stay info
         #region Stay info
-        private DateTime arrivalTime;
-        private DateTime departureTime;
+        private DateTime arrivalTime=DateTime.Now;
+        private DateTime departureTime = DateTime.Now.AddDays(1);
         private int numOfDay;
         private int person;
         public DateTime ArrivalTime {

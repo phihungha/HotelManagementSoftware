@@ -35,8 +35,15 @@ namespace HotelManagementSoftware.UI.Windows
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            await ((CancelReservationWindowVM)DataContext).Cancel();
-            this.Close();
+            try
+            {
+                await ((CancelReservationWindowVM)DataContext).Cancel();
+            }
+            catch(Exception err)
+            {
+                MessageBox.Show(err.Message);
+            }                
+                this.Close();
         }
     }
 }

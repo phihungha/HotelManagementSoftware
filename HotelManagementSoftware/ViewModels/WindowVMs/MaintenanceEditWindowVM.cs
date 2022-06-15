@@ -92,8 +92,8 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         #region private variables
         private int roomNumber;
         private Room room;
-        private DateTime startTime;
-        private DateTime endTime;
+        private DateTime startTime = DateTime.Now;
+        private DateTime endTime = DateTime.Now.AddDays(1);
         private DateTime? closeTime;
         private MaintenanceRequestStatus status;
         private string? note;
@@ -240,7 +240,6 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             if (!employee.EmployeeType.Equals(EmployeeType.MaintenanceManager))
             {
                 CanUseCloseRequest = false;
-                IsEnabled = false;
             }
             else
             {

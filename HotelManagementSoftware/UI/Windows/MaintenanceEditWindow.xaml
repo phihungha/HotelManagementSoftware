@@ -223,7 +223,6 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Margin="16 8 0 0"
-                    IsEnabled="{Binding IsEnabled}"
                     Command="{Binding CommandAddRow}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{StaticResource AddIconWhite}"
@@ -245,7 +244,6 @@
                       ItemsSource="{Binding Items}"
                       AutoGenerateColumns="False"
                       IsReadOnly="False"
-                      IsEnabled="{Binding IsEnabled}"
                       CanUserAddRows="True"
                       SelectionMode="Single"
                       SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">

@@ -53,5 +53,10 @@ namespace HotelManagementSoftware.UI
             cancelReservationWindow.Show();
             cancelReservationWindow.Closed += Window_Closed;
         }
+
+        private void Reset_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
