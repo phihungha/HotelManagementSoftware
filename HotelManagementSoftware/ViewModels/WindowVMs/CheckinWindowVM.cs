@@ -269,8 +269,13 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             NumOfDay = (int)Math.Ceiling(stayPeriod.TotalDays);
         }
 
-       
-      
+        public async Task CheckIn()
+        {
+            if (reservation != null)
+                await reservationBusiness.CheckIn(reservation);
+        }
+
+
 
 
 

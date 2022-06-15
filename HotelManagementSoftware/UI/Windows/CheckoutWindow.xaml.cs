@@ -24,6 +24,21 @@ namespace HotelManagementSoftware.UI
             ((CheckoutWindowVM)DataContext).LoadReservationFromId(reservationId);
         }
 
-        
+        private async void Checkout_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                await ((CheckoutWindowVM)DataContext).CheckOut();
+                Close();
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message,
+                                "Error",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+            }
+        }
+
     }
 }

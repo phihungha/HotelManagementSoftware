@@ -311,10 +311,7 @@
         <ui:UniformSpacingPanel Grid.Row="2" HorizontalAlignment="Right"
                                 Spacing="10" ItemWidth="139"
                                 Orientation="Horizontal" Margin="0,30,30,20">
-           
-            <Button Content="Exit" FontWeight="Bold"
-                    Background="#A5A5A5" Foreground="White" />
-            <Button Content="Check out" FontWeight="Bold"
+            <Button Click="Checkout_Click" Content="Check out" FontWeight="Bold"
                     Background="#FF358AFF" Foreground="White" />
             
         </ui:UniformSpacingPanel>

@@ -23,7 +23,21 @@ namespace HotelManagementSoftware.UI
             DataContext = App.Current.Services.GetRequiredService<CheckinWindowVM>();
             ((CheckinWindowVM)DataContext).LoadReservationFromId(reservationId);
         }
-
+        private async void Checkin_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                await ((CheckinWindowVM)DataContext).CheckIn();
+                 Close();
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message,
+                                "Error",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+            }
+        }
 
 
     }

@@ -298,8 +298,8 @@
         <ui:UniformSpacingPanel Grid.Row="2" HorizontalAlignment="Right"
                                 Spacing="10" ItemWidth="139"
                                 Orientation="Horizontal" Margin="0,20,30,10">
-           
-            <Button Content="Check in" FontWeight="Bold" Height="35"
+
+            <Button Click="Checkin_Click" Content="Check in" FontWeight="Bold" Height="35"
                     Background="#FF358AFF" Foreground="White" />
         </ui:UniformSpacingPanel>
 

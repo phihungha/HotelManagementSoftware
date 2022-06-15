@@ -262,7 +262,11 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             TimeSpan stayPeriod = reservation.DepartureTime - reservation.ArrivalTime;
             NumOfDay = (int)Math.Ceiling(stayPeriod.TotalDays);
         }
-
+        public async Task CheckOut()
+        {
+            if (reservation != null)
+                await reservationBusiness.CheckOut(reservation);
+        }
 
     }
 }
