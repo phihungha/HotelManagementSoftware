@@ -36,9 +36,9 @@ namespace HotelManagementSoftware.UI
         {
             var button = (Button)sender;
             int reservationId = (int)button.Tag;
-            // var checkoutWindow = new CheckoutWindow(reservationId);
-            // checkoutWindow.Show();
-            // checkoutWindow.Closed += CheckInWindow_Closed;
+            var checkoutWindow = new CheckoutWindow(reservationId);
+            checkoutWindow.Show();
+            checkoutWindow.Closed += Window_Closed;
         }
 
         private void CheckInButton_Click(object sender, RoutedEventArgs e)
