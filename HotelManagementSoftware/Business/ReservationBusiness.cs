@@ -77,6 +77,11 @@ namespace HotelManagementSoftware.Business
             }
         }
 
+        internal Task<List<Reservation>> GetReservationByCustomerName(string v)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Get reservations that satisfy specified criteria.
         /// </summary>
@@ -163,6 +168,16 @@ namespace HotelManagementSoftware.Business
 
                 return await filteredRequest.ToListAsync();
             }
+        }
+
+        internal Task<List<Reservation>> GetReservationByCustomerPhoneNumber(string v)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal Task<List<Reservation>> GetReservationByCustomerID(string v)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -472,7 +487,7 @@ namespace HotelManagementSoftware.Business
 
             int dayNumberBeforeArrival = (reservation.ArrivalTime - DateTime.Now).Days;
             if (dayNumberBeforeArrival < 0)
-                dayNumberBeforeArrival = -1;
+                dayNumberBeforeArrival = 0;
 
             ReservationCancelFeePercent? cancelFeePercent 
                 = await db.ReservationCancelFeePercents
@@ -590,5 +605,51 @@ namespace HotelManagementSoftware.Business
             if (percent.DayNumberBeforeArrival < 0)
                 throw new ArgumentException("Day number cannot be smaller than 0");
         }
+
+        /// <summary>
+        /// Get reservation with customer name containing the search term.
+        /// </summary>
+        /// <param name="searchTerm">Name search term</param>
+        /// <returns>reservation</returns>
+        public async Task<List<Reservation>> GetReservationByCustomerName (string searchTerm)
+        {
+            using (var db = new Database())
+            {
+                return await db.Reservations
+                    .Where(i => i.Customer.Name.Contains(searchTerm))
+                    .ToListAsync();
+            }
+        }
+
+        /// <summary>
+        /// Get reservation with customer ID number containing the search term.
+        /// </summary>
+        /// <param name="searchTerm">Name search term</param>
+        /// <returns>reservation</returns>
+        /// 
+        //public async Task<List<Reservation>> GetReservationByCustomerID(string idNumber)
+        //{
+        //    using (var db = new Database())
+        //    {
+        //        return await db.Reservations
+        //            .FirstOrDefaultAsync(i => i.Customer.IdNumber == idNumber);
+        //    }
+        //}
+
+       
+        /// <summary>
+        /// Get reservation with customer's Phone Number containing the search term.
+        /// </summary>
+        /// <param name="searchTerm">Name search term</param>
+        /// <returns>reservation</returns>
+        //public async Task<List<Reservation>> GetReservationByCustomerPhoneNumber(string phoneNumber)
+        //{
+        //    using (var db = new Database())
+        //    {
+        //        return await db.Reservations
+        //            .FirstOrDefaultAsync(i => i.Customer.PhoneNumber == phoneNumber);
+        //    }
+            
+        //}
     }
 }

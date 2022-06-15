@@ -11,6 +11,15 @@ using System.ComponentModel;
 
 namespace HotelManagementSoftware.ViewModels
 {
+    public enum SearchOption
+    {
+        [Description("Customer Name")]
+        CustomerName,
+        [Description("Room type name")]
+        Roomtype,
+        [Description("Employee Name")]
+        Employee
+    }
     public class DeparturesVM : ObservableValidator
     {
         public ObservableCollection<Reservation> Departure { get; set; }

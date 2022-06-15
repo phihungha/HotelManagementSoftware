@@ -55,7 +55,7 @@
 
                 <ComboBox Grid.Column="1"
                           FontSize="14"
-                          ItemsSource="{Binding SearchBy, Mode=OneTime}"
+                          ItemsSource="{Binding SearchBy, Converter={converters:EnumToCollection}, Mode=OneTime}"
                           SelectedValuePath="Value"
                           DisplayMemberPath="Description"
                           SelectedValue="{Binding SearchBy}" />
