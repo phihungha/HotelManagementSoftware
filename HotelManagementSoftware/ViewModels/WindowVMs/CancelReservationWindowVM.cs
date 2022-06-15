@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace HotelManagementSoftware.ViewModels.WindowVMs
 {
@@ -28,14 +29,15 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         }
         public async void LoadReservationFromId(int reservationId)
         {
+
             Reservation? reservation = await reservationBusiness.GetReservationById(reservationId);
             CancelFee = await reservationBusiness.GetCancelFee(reservation);
             this.reservationId = reservationId;
         }
         public async Task Cancel()
         {
-            Reservation? reservation = await reservationBusiness.GetReservationById(reservationId);
-            reservationBusiness.CancelReservation(reservation);
+                Reservation? reservation = await reservationBusiness.GetReservationById(reservationId);
+                await reservationBusiness.CancelReservation(reservation);
         }
     }
 }

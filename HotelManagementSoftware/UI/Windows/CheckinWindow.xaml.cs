@@ -16,7 +16,14 @@ namespace HotelManagementSoftware.UI
 
         }
 
-        
+
+        public CheckinWindow(int reservationId)
+        {
+            InitializeComponent();
+            DataContext = App.Current.Services.GetRequiredService<CheckinWindowVM>();
+            ((CheckinWindowVM)DataContext).LoadReservationFromId(reservationId);
+        }
+
 
 
     }

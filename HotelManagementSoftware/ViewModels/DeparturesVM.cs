@@ -17,34 +17,42 @@ namespace HotelManagementSoftware.ViewModels
         private ReservationBusiness reservationBusiness;
         private CustomerBusiness customerBusiness;
 
-        private string searchTerm = "";
-        private DeparturesSearchBy searchBy = DeparturesSearchBy.Name;
-
-       
-        public enum DeparturesSearchBy
-        {
-            [Description("Name")]
-            Name,
-            [Description("Identity number")]
-            IdNumber,
-            [Description("Phone number")]
-            PhoneNumber
-        }
+        private ReservationStatus status;
    
-        public DeparturesVM()
+        public ReservationStatus Status
         {
-            Departure = new ObservableCollection<Reservation>();
-            //SearchCommand = new AsyncRelayCommand(Search);
-
+            get => status;
+            set => SetProperty(ref status, value, true);
         }
 
+        public async void GetAllReservation()
+        {
+            if (reservationBusiness != null)
+            {
+                List<Reservation> reservations = await reservationBusiness.GetReservations();
+                Departure.Clear();
+                reservations.ForEach(roomtype =>
+                {
+                    Departure.Add(roomtype);
+                });
+
+            }
+        }
+
+        public DeparturesVM(ReservationBusiness? reservationBusiness)
+        {
+            this.reservationBusiness = reservationBusiness;
+            Departure = new ObservableCollection<Reservation>();
+            GetAllReservation();
+
+
+        }
 
         public async void LoadDepartures()
         {
             Departure.Clear();
             List<Reservation> reservations = await reservationBusiness.GetReservations();
             reservations.ForEach(i => Departure.Add(i));
-
         }
     }
 }

@@ -146,12 +146,12 @@
 
                         <StackPanel Margin="0,0,15,0" >
                             <TextBlock Style="{StaticResource Label}" Text="Arrival"/>
-                            <DatePicker HorizontalAlignment="Stretch" DisplayDateEnd="{Binding DepartureTime}" SelectedDate="{Binding ArrivalTime}" />
+                            <ui:DateTimePicker HorizontalAlignment="Stretch"  SelectedDateTime="{Binding ArrivalTime}" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Margin="15,0,0,0">
                             <TextBlock Style="{StaticResource Label}" Text="Departure"/>
-                            <DatePicker HorizontalAlignment="Stretch" DisplayDateEnd="{Binding ArrivalTime}" SelectedDate="{Binding DepartureTime}"/>
+                            <ui:DateTimePicker HorizontalAlignment="Stretch" SelectedDateTime="{Binding DepartureTime}"/>
                         </StackPanel>
                     </Grid>
 
@@ -171,7 +171,7 @@
 
                         <StackPanel Grid.Column="2" Margin="8,0,0,0">
                             <TextBlock Style="{StaticResource Label}" Text="Person"/>
-                            <ui:NumericUpDown HorizontalAlignment="Stretch" Value="{Binding Person}"/>
+                            <ui:NumericUpDown Minimum="1" HorizontalAlignment="Stretch" Value="{Binding Person}"/>
                         </StackPanel>
                     </Grid>
                 </Grid>
@@ -288,7 +288,7 @@
 
                     <StackPanel>
                         <TextBlock Style="{StaticResource DialogTitle}" Text="Total Payment Amount"/>
-                        <TextBlock Style="{StaticResource DialogSubtitle}" Text="Total amount to pay for a stay from 01/01/2022 to 01/03/2022 in a Deluxe room"/>
+                        
                     </StackPanel>
                     <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="10,10,0,0"
                                TextWrapping="Wrap"
@@ -301,7 +301,7 @@
         <ui:UniformSpacingPanel Grid.Row="2" HorizontalAlignment="Right"
                                 Spacing="10" ItemWidth="139"
                                 Orientation="Horizontal" Margin="0,15,32,5">
-            <Button Content="Cancel Reservation" FontWeight="Bold"
+            <Button Content="Cancel" FontWeight="Bold"
                     Background="#FFF0241D" Foreground="White"  Command="{Binding CommandCancel}" Click="Button_Click_3"/>
             <Button Content="Update" FontWeight="Bold"
                     Background="#FF358AFF" Foreground="White" Command="{Binding CommandSave}" Click="Button_Click_2" />

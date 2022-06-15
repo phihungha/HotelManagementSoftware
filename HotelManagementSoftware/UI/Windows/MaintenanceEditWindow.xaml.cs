@@ -33,7 +33,7 @@ namespace HotelManagementSoftware.UI.Windows
         {
             InitializeComponent();
             DataContext = App.Current.Services.GetRequiredService<MaintenanceEditWindowVM>();
-            ((MaintenanceEditWindowVM)DataContext).GetCurrentRequestWithId(RequestId);
+            ((MaintenanceEditWindowVM)DataContext).GetCurrentRequestWithId(RequestId); 
         }
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e)

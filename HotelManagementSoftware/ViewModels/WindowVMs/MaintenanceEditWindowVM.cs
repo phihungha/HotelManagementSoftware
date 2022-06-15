@@ -30,7 +30,15 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 SetProperty(ref canClose, value);
             }
         }
-
+        private bool canUseCloseRequest = true;
+        public bool CanUseCloseRequest
+        {
+            get => canUseCloseRequest;
+            set
+            {
+                SetProperty(ref canUseCloseRequest, value);
+            }
+        }
         private bool canNotClose = true;
         public bool CanNotClose
         {
@@ -84,8 +92,8 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         #region private variables
         private int roomNumber;
         private Room room;
-        private DateTime startTime;
-        private DateTime endTime;
+        private DateTime startTime = DateTime.Now;
+        private DateTime endTime = DateTime.Now.AddDays(1);
         private DateTime? closeTime;
         private MaintenanceRequestStatus status;
         private string? note;
@@ -213,6 +221,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             }
 
             DisplayItems();
+            CheckCloseRequest();
 
             Room = maintenance.Room;
             RoomNumber = maintenance.Room.RoomNumber;
@@ -223,7 +232,20 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             Note = maintenance.Note;
 
         }
+        private void CheckCloseRequest()
+        {
+            Employee? employee = employeeBusiness.CurrentEmployee;
+            if (employee == null) return;
 
+            if (!employee.EmployeeType.Equals(EmployeeType.MaintenanceManager))
+            {
+                CanUseCloseRequest = false;
+            }
+            else
+            {
+                CanUseCloseRequest = true;
+            }
+        }
         public void DisplayItems()
         {
             Items.Clear();

@@ -33,7 +33,7 @@ namespace HotelManagementSoftware.UI
             var chooseRoomType = new ChooseRoomTypeWindow();
             chooseRoomType.DialogFinished += ChooseRoomTypeWindow_DialogFinished;
             chooseRoomType.ShowDialog();
-            this.Close();
+            
         }
         void ChooseRoomTypeWindow_DialogFinished(object sender, WindowEventArgs e)
         {

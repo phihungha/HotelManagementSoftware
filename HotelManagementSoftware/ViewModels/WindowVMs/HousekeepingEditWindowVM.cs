@@ -31,6 +31,16 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             }
         }
 
+        private bool canUseCloseRequest;
+        public bool CanUseCloseRequest
+        {
+            get => canUseCloseRequest;
+            set
+            {
+                SetProperty(ref canUseCloseRequest, value);
+            }
+        }
+
         private bool canNotClose = true;
         public bool CanNotClose
         {
@@ -82,8 +92,8 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         #region private variables
         private int roomNumber;
         private Room room;
-        private DateTime startTime= new DateTime(1970, 1, 1);
-        private DateTime endTime = new DateTime(1970, 1, 1);
+        private DateTime startTime = DateTime.Now;
+        private DateTime endTime = DateTime.Now.AddDays(1);
         private DateTime? closeTime;
         private HousekeepingRequestStatus status = HousekeepingRequestStatus.Opened;
         private string? note;
@@ -210,6 +220,8 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 IsEnabled=false;
             }
 
+            CheckCloseRequest();
+
             Room = housekeeping.Room;
             RoomNumber = housekeeping.Room.RoomNumber;
             StartTime = housekeeping.StartTime;
@@ -219,6 +231,22 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             Note = housekeeping.Note;
 
         }
+
+        private void CheckCloseRequest()
+        {
+            Employee? employee = employeeBusiness.CurrentEmployee;
+            if (employee == null) return;
+
+            if (!employee.EmployeeType.Equals(EmployeeType.HousekeepingManager))
+            {
+                CanUseCloseRequest=false;
+            }
+            else
+            {
+                CanUseCloseRequest = true;
+            }
+        }
+
         public async Task<bool> SaveRequest()
         {
             ValidateAllProperties();
@@ -257,13 +285,9 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
             if (housekeepingBusiness == null || employeeBusiness == null || housekeeping == null) return false;
             Employee? current = employeeBusiness.CurrentEmployee;
-            HousekeepingRequest request = housekeeping;
-            request.StartTime = StartTime;
-            request.EndTime = EndTime;
-            request.Note = Note;
 
             if (current == null) return false;
-            await housekeepingBusiness.CloseHousekeepingRequest(request, DateTime.Now, current);
+            await housekeepingBusiness.CloseHousekeepingRequest(housekeeping, DateTime.Now, current);
 
             return true;
         }
