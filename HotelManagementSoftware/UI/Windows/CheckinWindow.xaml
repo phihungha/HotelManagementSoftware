@@ -9,7 +9,7 @@
         x:Class="HotelManagementSoftware.UI.CheckinWindow"
         mc:Ignorable="d"
          ResizeMode="NoResize"
-        Title="Check-in"  Width="1172"   WindowStartupLocation="CenterScreen" Height="821">
+        Title="Check-in"  Width="1172"   WindowStartupLocation="CenterScreen" Height="780">
     <Window.Resources>
         <Style x:Key="BoxHeader" TargetType="Panel">
             <Setter Property="Margin" Value="0,0,0,10" />
@@ -29,7 +29,7 @@
             </Style>
         </Grid.Resources>
 
-        <Grid Grid.Row="0" Margin="15,30,0,5">
+        <Grid Grid.Row="0" Margin="15,5,0,5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition />

@@ -8,7 +8,7 @@
         xmlns:hc="https://handyorg.github.io/handycontrol" x:Class="HotelManagementSoftware.UI.CheckoutWindow"
         mc:Ignorable="d"
          ResizeMode="NoResize"
-        Title="CheckoutWindow" Width="1000" Height="821">
+        Title="CheckoutWindow" Width="1000" Height="754" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <Style x:Key="BoxHeader" TargetType="Panel">
@@ -28,7 +28,7 @@
             </Style>
         </Grid.Resources>
 
-        <Grid Grid.Row="0" Margin="15,30,0,10">
+        <Grid Grid.Row="0" Margin="15,5,0,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition />
