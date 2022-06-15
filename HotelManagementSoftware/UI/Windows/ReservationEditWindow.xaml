@@ -110,7 +110,7 @@
 
                     <StackPanel Grid.Row="4">
                         <TextBlock Style="{StaticResource Label}" Text="Date of birth"/>
-                        <TextBlock Style="{StaticResource Value}" Text="{Binding BirthDate}" />
+                        <TextBlock Style="{StaticResource Value}" Text="{Binding BirthDate, StringFormat={}{0:dd/MM/yyyy}}" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="4" Grid.Column="1">
