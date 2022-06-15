@@ -472,7 +472,7 @@ namespace HotelManagementSoftware.Business
 
             int dayNumberBeforeArrival = (reservation.ArrivalTime - DateTime.Now).Days;
             if (dayNumberBeforeArrival < 0)
-                dayNumberBeforeArrival = -1;
+                dayNumberBeforeArrival = 0;
 
             ReservationCancelFeePercent? cancelFeePercent 
                 = await db.ReservationCancelFeePercents
