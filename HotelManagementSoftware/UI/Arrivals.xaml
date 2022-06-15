@@ -115,6 +115,7 @@
                                 <Button Grid.Column="3" 
                                         Name="CheckinButton" 
                                         Click="CheckinButton_Click"
+                                        Tag="{Binding ReservationId}"
                                         Height="35" 
                                         Background="{StaticResource PrimaryColorSolid}"
                                         HorizontalAlignment="Right" 
