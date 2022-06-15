@@ -146,12 +146,12 @@
 
                         <StackPanel Margin="0,0,15,0" >
                             <TextBlock Style="{StaticResource Label}" Text="Arrival"/>
-                            <DatePicker HorizontalAlignment="Stretch" DisplayDateEnd="{Binding DepartureTime}" SelectedDate="{Binding ArrivalTime}" />
+                            <ui:DateTimePicker HorizontalAlignment="Stretch"  SelectedDateTime="{Binding ArrivalTime}" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Margin="15,0,0,0">
                             <TextBlock Style="{StaticResource Label}" Text="Departure"/>
-                            <DatePicker HorizontalAlignment="Stretch" DisplayDateEnd="{Binding ArrivalTime}" SelectedDate="{Binding DepartureTime}"/>
+                            <ui:DateTimePicker HorizontalAlignment="Stretch" SelectedDateTime="{Binding DepartureTime}"/>
                         </StackPanel>
                     </Grid>
 
@@ -171,7 +171,7 @@
 
                         <StackPanel Grid.Column="2" Margin="8,0,0,0">
                             <TextBlock Style="{StaticResource Label}" Text="Person"/>
-                            <ui:NumericUpDown HorizontalAlignment="Stretch" Value="{Binding Person}"/>
+                            <ui:NumericUpDown Minimum="1" HorizontalAlignment="Stretch" Value="{Binding Person}"/>
                         </StackPanel>
                     </Grid>
                 </Grid>

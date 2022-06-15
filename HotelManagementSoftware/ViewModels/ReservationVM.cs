@@ -21,6 +21,10 @@ namespace HotelManagementSoftware.ViewModels
         public ReservationBusiness? reservationBusiness;
         public TimeFilter ArrivalTimeFilter { get; private set; }
         public TimeFilter DepartureTimeFilter { get; private set; }
+        public DateTime? a_low { get; set; }
+        public DateTime? a_high { get; set; }
+        public DateTime? d_low { get; set; }
+        public DateTime? d_high { get; set; }
         private ReservationStatus status;
         private SearchOption option;
         private string textFilter;
@@ -66,8 +70,8 @@ namespace HotelManagementSoftware.ViewModels
         public class TimeFilter
         {
             public bool Enable { get; set; }
-            public DateTime? low { get; set; }
-            public DateTime? high { get; set; }
+            public DateTime low { get; set; }
+            public DateTime high { get; set; }
         }
         public enum SearchOption
         {
@@ -96,26 +100,34 @@ namespace HotelManagementSoftware.ViewModels
         {
             if (ArrivalTimeFilter.Enable == false)
             {
-                ArrivalTimeFilter.high = null;
-                ArrivalTimeFilter.low = null;
+                a_high = null;
+                a_low = null;
+            }else
+            {
+                a_high = ArrivalTimeFilter.high;
+                a_low = ArrivalTimeFilter.low;
             }
             if (DepartureTimeFilter.Enable == false)
             {
-                DepartureTimeFilter.high = null;
-                DepartureTimeFilter.low = null;
+                d_low = null;
+                d_high = null;
+            }else
+            {
+                d_low = DepartureTimeFilter.low;
+                d_high = DepartureTimeFilter.high;
             }
             if (TextFilter == "") TextFilter = null;
             List<Reservation> reservations = new();
             switch (option)
             {
                 case SearchOption.CustomerName:
-                    reservations = await reservationBusiness.GetReservations(Status, TextFilter, null, null, null, ArrivalTimeFilter.low, ArrivalTimeFilter.high, DepartureTimeFilter.low, DepartureTimeFilter.high, null, null);
+                    reservations = await reservationBusiness.GetReservations(Status, TextFilter, null, null, null, a_low, a_high, d_low, d_high, null, null);
                     break;
                 case SearchOption.Roomtype:
-                    reservations = await reservationBusiness.GetReservations(Status, null, null, TextFilter, null, ArrivalTimeFilter.low, ArrivalTimeFilter.high, DepartureTimeFilter.low, DepartureTimeFilter.high, null, null);
+                    reservations = await reservationBusiness.GetReservations(Status, null, null, TextFilter, null, a_low, a_high, d_low, d_high, null, null);
                     break;
                 case SearchOption.Employee:
-                    reservations = await reservationBusiness.GetReservations(Status, null, null, null, TextFilter, ArrivalTimeFilter.low, ArrivalTimeFilter.high, DepartureTimeFilter.low, DepartureTimeFilter.high, null, null);
+                    reservations = await reservationBusiness.GetReservations(Status, null, null, null, TextFilter, a_low, a_high, d_low, d_high, null, null);
                     break;
             }
             Reservations.Clear();
