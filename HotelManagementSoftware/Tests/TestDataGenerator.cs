@@ -178,7 +178,7 @@ namespace HotelManagementSoftware.Tests
             var arrivalTime = DateTime.Now.AddDays(2);
             var departureTime = DateTime.Now.AddDays(5);
             Customer customer = (await customerBusiness.GetCustomersByName("Nguyễn Văn A"))[0];
-            Room room = (await roomBusiness.GetUsableRooms("Normal", 1, arrivalTime, departureTime))[0];
+            Room room = (await roomBusiness.GetUsableRooms(arrivalTime, departureTime, "Normal"))[0];
             await reservationBusiness.CreateReservation(new Reservation(arrivalTime,
                                                                   departureTime,
                                                                   1,
@@ -189,7 +189,7 @@ namespace HotelManagementSoftware.Tests
             arrivalTime = DateTime.Now.AddHours(12);
             departureTime = DateTime.Now.AddDays(2);
             customer = (await customerBusiness.GetCustomersByName("Nguyễn Văn B"))[0];
-            room = (await roomBusiness.GetUsableRooms("Presidential", 2, arrivalTime, departureTime))[0];
+            room = (await roomBusiness.GetUsableRooms(arrivalTime, departureTime, "Presidential"))[0];
             await reservationBusiness.CreateReservation(new Reservation(arrivalTime,
                                                                   departureTime,
                                                                   2,
@@ -200,7 +200,7 @@ namespace HotelManagementSoftware.Tests
             arrivalTime = DateTime.Now;
             departureTime = arrivalTime.Date.AddDays(5);
             customer = (await customerBusiness.GetCustomersByName("Mary John"))[0];
-            room = (await roomBusiness.GetUsableRooms("Deluxe", 2, arrivalTime, departureTime))[0];
+            room = (await roomBusiness.GetUsableRooms(arrivalTime, departureTime, "Deluxe"))[0];
             await reservationBusiness.CreateReservation(new Reservation(arrivalTime,
                                                                   departureTime,
                                                                   4,
