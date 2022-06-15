@@ -29,7 +29,7 @@
             </Style>
         </Grid.Resources>
 
-        <Grid Grid.Row="0" Margin="15,30,0,40">
+        <Grid Grid.Row="0" Margin="15,30,0,5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition />
@@ -244,7 +244,7 @@
 
                         <StackPanel >
                             <TextBlock Style="{StaticResource Label}" Text="No of Days"/>
-                            <TextBlock HorizontalAlignment="Stretch"  Text="{Binding NumOfDay}" />
+                            <TextBlock HorizontalAlignment="Stretch" Margin="0,8,0,0" Text="{Binding NumOfDay}" />
                         </StackPanel>
 
 
@@ -297,9 +297,9 @@
         </Grid>
         <ui:UniformSpacingPanel Grid.Row="2" HorizontalAlignment="Right"
                                 Spacing="10" ItemWidth="139"
-                                Orientation="Horizontal" Margin="0,30,30,5">
+                                Orientation="Horizontal" Margin="0,20,30,10">
            
-            <Button Content="Check in" FontWeight="Bold"
+            <Button Content="Check in" FontWeight="Bold" Height="35"
                     Background="#FF358AFF" Foreground="White" />
         </ui:UniformSpacingPanel>
 

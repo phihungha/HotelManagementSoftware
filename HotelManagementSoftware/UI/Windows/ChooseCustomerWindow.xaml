@@ -9,6 +9,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
 
@@ -25,8 +26,18 @@
 
         </Grid>
 
+        <Button x:Name="AddCustomer"
+                Content="Add customer"
+                HorizontalAlignment="Right"
+                Margin="8"
+                Grid.Row="1"
+                Foreground="White"
+                Click="AddCustomer_Click"
+                Background="{StaticResource PrimaryBrush}"
+                />
+
         <!--List-->
-        <DataGrid Grid.Row="1"
+        <DataGrid Grid.Row="2"
                   ItemsSource="{Binding Customers}"
                   AutoGenerateColumns="False"
                   IsReadOnly="True">

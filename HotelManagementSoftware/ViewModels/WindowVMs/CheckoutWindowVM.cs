@@ -13,50 +13,255 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 {
     public class CheckoutWindowVM : ObservableValidator
     {
-        private ReservationBusiness reservationBusiness;
+        private ReservationBusiness? reservationBusiness;
         private RoomBusiness? roomBusiness;
-        private CustomerBusiness customerBusiness;
-        private Reservation? reservation;
+        private CustomerBusiness? customerBusiness;
+        private EmployeeBusiness? employeeBusiness;
         private Customer? customer;
+        private Reservation? reservation;
         private Room? room;
 
+        #region private variables
+        private int reservationId;
+        private string cmnd;
+        private string name;
+        private Gender gender;
+        private string phoneNumber;
+        private DateTime birthDate;
+        private string? email;
+        private string address;
+        private int roomNumber;
+        private RoomType? roomType;
+        private string? note;
+        private int floor;
+        private decimal totalPayment;
+        private DateTime arrivalTime;
+        private DateTime departureTime;
+        private int numOfDay;
+        private int person;
+        private PaymentMethod[] paymentMethod;
+        private PaymentMethod selectedPaymentMethod;
+        private string? cardNumber;
+        private DateTime? expireDate;
+        #endregion
 
-        public CheckoutWindowVM(CustomerBusiness customerBusiness,
-                                    ReservationBusiness reservationBusiness, RoomBusiness roomBusiness)
+        #region constructors
+        public string CMND
         {
-            this.customerBusiness = customerBusiness;
-            this.reservationBusiness = reservationBusiness;
-            this.roomBusiness = roomBusiness;
+            get => cmnd;
+            set
+            {
+                SetProperty(ref cmnd, value, true);
+            }
+        }
+        public int ReservationId
+        {
+            get => reservationId;
+            set
+            {
+                SetProperty(ref reservationId, value, true);
+            }
+        }
+        public string Name
+        {
+            get => name;
+            set
+            {
+                SetProperty(ref name, value, true);
+            }
+        }
+        public Gender Gender
+        {
+            get => gender;
+            set
+            {
+                SetProperty(ref gender, value, true);
+            }
+        }
+        public string PhoneNumber
+        {
+            get => phoneNumber;
+            set
+            {
+                SetProperty(ref phoneNumber, value, true);
+            }
+        }
+        public DateTime BirthDate
+        {
+            get => birthDate;
+            set
+            {
+                SetProperty(ref birthDate, value, true);
+            }
+        }
+        public string? Email
+        {
+            get => email;
+            set
+            {
+                SetProperty(ref email, value, true);
+            }
+        }
+        public string Address
+        {
+            get => address;
+            set
+            {
+                SetProperty(ref address, value, true);
+            }
         }
 
-        public string CMND { get; set; }
-        public string Name { get; set; }
-        public Gender Gender { get; set; }
-        public string PhoneNumber { get; set; }
-        public DateTime BirthDate { get; set; }
-        public string? Email { get; set; }
-        public string Address { get; set; }
+        public int RoomNumber
+        {
+            get => roomNumber;
+            set
+            {
+                SetProperty(ref roomNumber, value, true);
+            }
+        }
+        public RoomType? RoomType
+        {
+            get => roomType;
+            set
+            {
+                SetProperty(ref roomType, value, true);
+            }
+        }
+        public string? Note
+        {
+            get => note;
+            set
+            {
+                SetProperty(ref note, value, true);
+            }
+        }
+        public int Floor
+        {
+            get => floor;
+            set
+            {
+                SetProperty(ref floor, value, true);
+            }
+        }
+        public decimal TotalPayment
+        {
+            get => totalPayment;
+            set
+            {
+                SetProperty(ref totalPayment, value, true);
+            }
+        }
 
-        //Room information
-        public int RoomNumber { get; set; }
-        public RoomType? RoomType { get; set; }
-        public string? Note { get; set; }
-        public int Floor { get; set; }
-        public decimal TotalPayment { get; set; }
+        public DateTime ArrivalTime
+        {
+            get => arrivalTime;
+            set
+            {
+                SetProperty(ref arrivalTime, value, true);
+            }
+        }
+        public DateTime DepartureTime
+        {
+            get => departureTime;
+            set
+            {
+                SetProperty(ref departureTime, value, true);
+            }
+        }
+        public int NumOfDay
+        {
+            get => numOfDay;
+            set
+            {
+                SetProperty(ref numOfDay, value, true);
+            }
+        }
+        public int Person
+        {
+            get => person;
+            set
+            {
+                SetProperty(ref person, value, true);
+            }
+        }
+        public PaymentMethod[] PaymentMethod
+        {
+            get => paymentMethod;
+            set
+            {
+                SetProperty(ref paymentMethod, value, true);
+            }
+        }
+        public PaymentMethod SelectedPaymentMethod
+        {
+            get => selectedPaymentMethod;
+            set
+            {
+                SetProperty(ref selectedPaymentMethod, value, true);
+            }
+        }
+        public string? CardNumber
+        {
+            get => cardNumber;
+            set
+            {
+                SetProperty(ref cardNumber, value, true);
+            }
+        }
+        public DateTime? ExpireDate
+        {
+            get => expireDate;
+            set
+            {
+                SetProperty(ref expireDate, value, true);
+            }
+        }
+        #endregion
 
-        //Payment information
-        public PaymentMethod[] PaymentMethod { get; set; }
-        public PaymentMethod SelectedPaymentMethod { get; set; }
-        public string? CardNumber { get; set; }
-        public DateTime? ExpireDate { get; set; }
+        public CheckoutWindowVM(CustomerBusiness customerBusiness,
+                                    ReservationBusiness reservationBusiness, RoomBusiness roomBusiness, EmployeeBusiness employeeBusiness)
+        {
+            this.roomBusiness = roomBusiness;
+            this.customerBusiness = customerBusiness;
+            this.reservationBusiness = reservationBusiness;
+            this.employeeBusiness = employeeBusiness;
 
 
-        // Stay information
-        public DateTime ArrivalTime { get; set; }
-        public DateTime DepartureTime { get; set; }
-        public int NumOfDay { get; set; }
-        public int Person { get; set; }
+        }
 
+
+        public async void LoadReservationFromId(int reservationsId)
+        {
+            Reservation? reservation = await reservationBusiness.GetReservationById(reservationsId);
+            Room? room = await roomBusiness.GetRoomById(reservation.Room.RoomId);
+            Customer? customer = await customerBusiness.GetCustomerById(reservation.Customer.CustomerId);
+            this.reservation = reservation;
+
+            //Room Information
+            this.room = room;
+            RoomNumber = room.RoomNumber;
+            RoomType = room.RoomType;
+            Note = room.Note;
+            Floor = room.Floor;
+
+            //Customer Information
+            this.customer = customer;
+            CMND = customer.IdNumber;
+            Name = customer.Name;
+            Gender = customer.Gender;
+            BirthDate = customer.BirthDate;
+            PhoneNumber = customer.PhoneNumber;
+            Email = customer.Email;
+            Address = customer.Address;
+
+            //Reservation Information
+            Person = reservation.NumberOfPeople;
+            ArrivalTime = reservation.ArrivalTime;
+            DepartureTime = reservation.DepartureTime;
+            TotalPayment = reservationBusiness.GetTotalRentFee(reservation);
+            TimeSpan stayPeriod = reservation.DepartureTime - reservation.ArrivalTime;
+            NumOfDay = (int)Math.Ceiling(stayPeriod.TotalDays);
+        }
 
 
     }

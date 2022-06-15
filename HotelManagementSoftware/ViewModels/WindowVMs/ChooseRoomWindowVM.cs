@@ -34,25 +34,31 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         }
         public async void GetUsableRoom(int id)
         {
-            RoomType roomType = await roomTypeBusiness.GetRoomTypeById(id);
-            this.SelectedRoomType = roomType;
-            if (roomBusiness != null)
+            Rooms.Clear();
+            int maxfloor = await floorBusiness.GetMaxFloorNumber();
+            for(int i=1; i<= maxfloor; i++)
             {
-                // List<Room> rooms = await roomBusiness.GetUsableRooms(SelectedRoomType.Name, await floorBusiness.GetMaxFloorNumber(), DateTime.Now, DateTime.Now.AddYears(1));
-                List<Room> rooms = await roomBusiness.GetUsableRooms(SelectedRoomType.Name, 1, DateTime.Now, DateTime.Now.AddYears(1));
-                Rooms.Clear();
-                rooms.ForEach(room =>
+                RoomType roomType = await roomTypeBusiness.GetRoomTypeById(id);
+                this.SelectedRoomType = roomType;
+                if (roomBusiness != null)
                 {
-                    Rooms.Add(room);
-                });
+                    // List<Room> rooms = await roomBusiness.GetUsableRooms(SelectedRoomType.Name, await floorBusiness.GetMaxFloorNumber(), DateTime.Now, DateTime.Now.AddYears(1));
+                    List<Room> rooms = await roomBusiness.GetUsableRooms(SelectedRoomType.Name, i, DateTime.Now, DateTime.Now.AddYears(1));
+                    
+                    rooms.ForEach(room =>
+                    {
+                        Rooms.Add(room);
+                    });
 
+                }
             }
+            
         }
         public async void LoadRooms()
         {
             if (roomBusiness == null) return;
             Rooms.Clear();
-            List<Room> rooms = await roomBusiness.GetRooms(null, null, null);
+            List<Room> rooms = await roomBusiness.GetRooms(null, null, RoomStatus.Usable);
             rooms.ForEach(roomtype => Rooms.Add(roomtype));
         }
     }

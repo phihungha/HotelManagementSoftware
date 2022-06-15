@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:HotelManagementSoftware.ViewModels.WindowVMs" xmlns:ui="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d"
-        Title="CancelReservationWindow" Height="450" Width="800">
+        Title="CancelReservationWindow" Height="350" Width="800">
     <Window.Resources>
         <Style x:Key="BoxHeader" TargetType="Panel">
             <Setter Property="Margin" Value="0,0,0,10" />
@@ -38,7 +38,7 @@
                     <TextBlock  FontSize="16" FontWeight="Bold"
                        Text="Cancellation fee"  Margin="10,10,10,5" TextWrapping="Wrap" HorizontalAlignment="Left"/>
                     <TextBlock Margin="10,0,10,10"
-                       Text="Cancellation happened 12 days before arrival time 01/03/2022 17:00" HorizontalAlignment="Left" FontSize="12" Width="Auto"/>
+                       Text="{Binding Cancel1}" HorizontalAlignment="Left" FontSize="12" Width="Auto"/>
                 </StackPanel>
                 <TextBlock Grid.Row="1" Text="{Binding CancelFee}" FontSize="26" Margin="10,0,10,0" FontWeight="Bold" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
             </Grid>

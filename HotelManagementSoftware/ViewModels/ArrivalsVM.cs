@@ -12,26 +12,32 @@ using System.ComponentModel;
 
 namespace HotelManagementSoftware.ViewModels
 {
-    public enum SearchOption
-    {
-        [Description("Customer Name")]
-        CustomerName,
-        [Description("Room type name")]
-        Roomtype,
-        [Description("Employee Name")]
-        Employee
-    }
+
     public class ArrivalsVM : ObservableValidator
     {
+        private string searchTerm = "";
+        private CustomersSearchBy searchBy = CustomersSearchBy.Name;
         private  ReservationBusiness reservationBusiness;
         private ReservationStatus status;
+        private CustomerBusiness customerBusiness;
+
         public ObservableCollection<Reservation> Arrival { get; set;}
         public ReservationStatus Status
         {
             get => status;
             set => SetProperty(ref status, value, true);
         }
+        public string SearchTerm
+        {
+            get => searchTerm;
+            set => SetProperty(ref searchTerm, value);
+        }
 
+        public CustomersSearchBy SearchBy
+        {
+            get => searchBy;
+            set => SetProperty(ref searchBy, value);
+        }
         public async void GetAllReservation()
         {
             if (reservationBusiness != null)
@@ -46,10 +52,13 @@ namespace HotelManagementSoftware.ViewModels
             }
         }
 
+        public ICommand SearchCommand { get; }
+
         public ArrivalsVM(ReservationBusiness? reservationBusiness)
         {
             this.reservationBusiness = reservationBusiness;
             Arrival = new ObservableCollection<Reservation>();
+            SearchCommand = new AsyncRelayCommand(Search);
             GetAllReservation();
 
 
@@ -63,6 +72,66 @@ namespace HotelManagementSoftware.ViewModels
             reservations.ForEach(i => Arrival.Add(i));
         }
 
-       
+        private async Task Search()
+        {
+            if (searchTerm == "")
+                GetAllReservation();
+            else
+            {
+                switch (SearchBy)
+                {
+                    case CustomersSearchBy.Name:
+                        await GetCustomersByName();
+                        break;
+                    case CustomersSearchBy.IdNumber:
+                        await GetCustomersByID();
+                        break;
+                    case CustomersSearchBy.PhoneNumber:
+                        await GetCustomersByPhoneNumber();
+                        break;
+                }
+            }
+        }
+
+        private async Task GetCustomersByName()
+        {
+            if (reservationBusiness != null && SearchTerm != null)
+            {
+                List<Reservation> reservations = await reservationBusiness.GetReservationByCustomerName(SearchTerm.Trim());
+                Arrival.Clear();
+                reservations.ForEach(item =>
+                {
+                    Arrival.Add(item);
+                });
+            }
+        }
+
+        private async Task GetCustomersByID()
+        {
+            if (reservationBusiness != null && SearchTerm != null)
+            {
+                List<Reservation> reservations = await reservationBusiness.GetReservationByCustomerID(SearchTerm.Trim());
+                Arrival.Clear();
+                reservations.ForEach(item =>
+                {
+                    Arrival.Add(item);
+                });
+            }
+        }
+
+        private async Task GetCustomersByPhoneNumber()
+        {
+            if (reservationBusiness != null && SearchTerm != null)
+            {
+                List<Reservation> reservations = await reservationBusiness.GetReservationByCustomerPhoneNumber(SearchTerm.Trim());
+                Arrival.Clear();
+                reservations.ForEach(item =>
+                {
+                    Arrival.Add(item);
+                });
+            }
+        }
+
+
     }
 }

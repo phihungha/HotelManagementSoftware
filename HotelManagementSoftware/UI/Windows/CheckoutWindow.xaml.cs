@@ -17,11 +17,13 @@ namespace HotelManagementSoftware.UI
 
         }
 
-        //public CheckoutWindow(int ReservationId)
-        //{
-        //    InitializeComponent();
-        //    DataContext = App.Current.Services.GetRequiredService<CheckoutWindowVM>(ReservationId);
-                
-        //}
+        public CheckoutWindow(int reservationId)
+        {
+            InitializeComponent();
+            DataContext = App.Current.Services.GetRequiredService<CheckoutWindowVM>();
+            ((CheckoutWindowVM)DataContext).LoadReservationFromId(reservationId);
+        }
+
+        
     }
 }

@@ -13,7 +13,18 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
     public class CancelReservationWindowVM : ObservableValidator
     {
         private int reservationId;
-        public decimal cancelFee;
+
+        private string cancel1;
+        public string Cancel1
+        {
+            get => cancel1;
+            set
+            {
+                SetProperty(ref cancel1, value);
+            }
+        }
+
+        private decimal cancelFee;
         public decimal CancelFee
         {
             get => cancelFee;
@@ -33,6 +44,9 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             Reservation? reservation = await reservationBusiness.GetReservationById(reservationId);
             CancelFee = await reservationBusiness.GetCancelFee(reservation);
             this.reservationId = reservationId;
+            TimeSpan stayPeriod = reservation.ArrivalTime - DateTime.Now;
+            int x = (int)Math.Ceiling(stayPeriod.TotalDays);
+            Cancel1 = "Cancellation happened " + x + " before arrival time" + DateTime.Now;
         }
         public async Task Cancel()
         {

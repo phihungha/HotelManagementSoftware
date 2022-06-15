@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using HotelManagementSoftware.UI.Windows;
+﻿using HotelManagementSoftware.UI.Windows;
 using HotelManagementSoftware.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
+
 
 namespace HotelManagementSoftware.UI
 {
@@ -21,7 +20,8 @@ namespace HotelManagementSoftware.UI
         private void CheckoutButton_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
-            CheckoutWindow window = new CheckoutWindow();
+            int reservationsId = (int)button.Tag;
+            CheckoutWindow window = new CheckoutWindow(reservationsId);
             window.Show();
             window.Closed += Window_Closed;
         }
