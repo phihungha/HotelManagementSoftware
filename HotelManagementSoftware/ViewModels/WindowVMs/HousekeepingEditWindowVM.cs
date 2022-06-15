@@ -82,11 +82,11 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
 
         public ObservableCollection<Room> RoomLists { get; set; } = new();
-       
+
 
         public DateTime MinStartDay { get; set; }
-        public DateTime MaxStartDay { get; set; } 
-        public DateTime MinEndDay { get; set; } 
+        public DateTime MaxStartDay { get; set; }
+        public DateTime MinEndDay { get; set; }
         public DateTime DefaultDate { get; set; }
 
         #region private variables
@@ -211,13 +211,14 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             }
 
             housekeeping = request;
-            
+
             CanClose = true;
             CanNotClose = false;
             setUpDatePicker();
             setDisplayForEdit();
-            if (housekeeping.Status.Equals(HousekeepingRequestStatus.Closed)){
-                IsEnabled=false;
+            if (housekeeping.Status.Equals(HousekeepingRequestStatus.Closed))
+            {
+                IsEnabled = false;
             }
 
             CheckCloseRequest();
@@ -237,13 +238,13 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             Employee? employee = employeeBusiness.CurrentEmployee;
             if (employee == null) return;
 
-            if (!employee.EmployeeType.Equals(EmployeeType.HousekeepingManager))
+            if (employee.EmployeeType.Equals(EmployeeType.HousekeepingManager) || employee.EmployeeType.Equals(EmployeeType.Manager))
             {
-                CanUseCloseRequest=false;
+                CanUseCloseRequest = true;
             }
             else
             {
-                CanUseCloseRequest = true;
+                CanUseCloseRequest = false;
             }
         }
 
