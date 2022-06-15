@@ -113,6 +113,7 @@ namespace HotelManagementSoftware
         private async void GenerateTestData()
         {
             var testDataGenerator = new TestDataGenerator();
+            // await testDataGenerator.CreateMaxFloor();
             //await testDataGenerator.GenerateEmployees();
             //await testDataGenerator.GenerateCustomers();
             //await testDataGenerator.GenerateRoomsAndRoomTypes();
