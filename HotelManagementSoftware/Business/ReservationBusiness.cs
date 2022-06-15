@@ -354,15 +354,16 @@ namespace HotelManagementSoftware.Business
         {
             using (var db = new Database())
             {
+                var _reservation = await db.Reservations.FirstAsync(i => i.ReservationId == reservation.ReservationId);
+
                 if (reservation.Status != ReservationStatus.Reserved)
                     throw new ArgumentException("Reservation has been checked in before or has been canceled");
 
                 if (reservation.ArrivalTime.Date != DateTime.Now.Date)
                     throw new ArgumentException("Today is not arrival date");
 
-                reservation.Status = ReservationStatus.CheckedIn;
+                _reservation.Status = ReservationStatus.CheckedIn;
 
-                db.Update(reservation);
                 await db.SaveChangesAsync();
             }
         }
@@ -376,19 +377,21 @@ namespace HotelManagementSoftware.Business
         {
             using (var db = new Database())
             {
+                var _reservation = await db.Reservations.FirstAsync(i => i.ReservationId == reservation.ReservationId);
+
                 if (reservation.Status != ReservationStatus.CheckedIn)
                     throw new ArgumentException("Reservation has not been checked in or has been canceled");
 
                 if (reservation.DepartureTime.Date != DateTime.Now.Date)
                     throw new ArgumentException("Today is not departure date");
 
-                reservation.Status = ReservationStatus.CheckedOut;
+                _reservation.Status = ReservationStatus.CheckedOut;
 
                 if (reservation.Order == null)
                     throw new ArgumentException("Order cannot be null");
 
-                reservation.Order.PayTime = DateTime.Now;
-                reservation.Order.Status = OrderStatus.Paid;
+                _reservation.Order.PayTime = DateTime.Now;
+                _reservation.Order.Status = OrderStatus.Paid;
 
                 db.Update(reservation);
                 await db.SaveChangesAsync();
