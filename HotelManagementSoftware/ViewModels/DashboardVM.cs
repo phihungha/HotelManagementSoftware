@@ -79,7 +79,7 @@ namespace HotelManagementSoftware.ViewModels
             CurrentTime = DateTime.Now;
         }
 
-        private async void LoadData()
+        public async void LoadData()
         {
             LoadUpcomingLists();
             ReservationNumber = await reservationBusiness.GetReservedReservationNumber();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HotelManagementSoftware.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,6 +30,29 @@ namespace HotelManagementSoftware.UI
         {
             var createReservationDialog = new ReservationEditWindow();
             createReservationDialog.Show();
+        }
+
+        private void CheckOutButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+            int reservationId = (int)button.Tag;
+            // var checkoutWindow = new CheckoutWindow(reservationId);
+            // checkoutWindow.Show();
+            // checkoutWindow.Closed += CheckInWindow_Closed;
+        }
+
+        private void CheckInButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+            int reservationId = (int)button.Tag;
+            var checkInWindow = new CheckinWindow(reservationId);
+            checkInWindow.Show();
+            checkInWindow.Closed += Window_Closed;
+        }
+
+        private void Window_Closed(object? sender, EventArgs e)
+        {
+            ((DashboardVM)DataContext).LoadData();
         }
     }
 }
