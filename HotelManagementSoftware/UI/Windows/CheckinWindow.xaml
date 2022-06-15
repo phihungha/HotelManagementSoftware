@@ -300,7 +300,7 @@
                                 Orientation="Horizontal" Margin="0,30,30,5">
            
             <Button Content="Check in" FontWeight="Bold"
-                    Background="#FF358AFF" Foreground="White" Command="{Binding CommandCheckin}" Click="Button_Checkin" />
+                    Background="#FF358AFF" Foreground="White" />
         </ui:UniformSpacingPanel>
 
 
