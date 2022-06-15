@@ -237,13 +237,13 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             Employee? employee = employeeBusiness.CurrentEmployee;
             if (employee == null) return;
 
-            if (!employee.EmployeeType.Equals(EmployeeType.MaintenanceManager))
+            if (employee.EmployeeType.Equals(EmployeeType.MaintenanceManager) || employee.EmployeeType.Equals(EmployeeType.Manager))
             {
-                CanUseCloseRequest = false;
+                CanUseCloseRequest = true;
             }
             else
             {
-                CanUseCloseRequest = true;
+                CanUseCloseRequest = false;
             }
         }
         public void DisplayItems()
