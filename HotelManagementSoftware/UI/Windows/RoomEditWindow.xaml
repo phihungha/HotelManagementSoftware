@@ -57,6 +57,7 @@
                                FontSize="12"
                                Text="Room number" />
                     <hc:TextBox  hc:InfoElement.Placeholder="Enter room number"
+                                 PreviewTextInput="TextBox_PreviewTextInput"
                                  Text="{Binding Number}"
                                  ShowClearButton="True" />
                 </StackPanel>

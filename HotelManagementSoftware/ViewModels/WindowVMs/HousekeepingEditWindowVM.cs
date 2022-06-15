@@ -82,18 +82,18 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
 
         public ObservableCollection<Room> RoomLists { get; set; } = new();
-       
+
 
         public DateTime MinStartDay { get; set; }
-        public DateTime MaxStartDay { get; set; } 
-        public DateTime MinEndDay { get; set; } 
+        public DateTime MaxStartDay { get; set; }
+        public DateTime MinEndDay { get; set; }
         public DateTime DefaultDate { get; set; }
 
         #region private variables
         private int roomNumber;
         private Room room;
-        private DateTime startTime= new DateTime(1970, 1, 1);
-        private DateTime endTime = new DateTime(1970, 1, 1);
+        private DateTime startTime = DateTime.Now;
+        private DateTime endTime = DateTime.Now.AddDays(1);
         private DateTime? closeTime;
         private HousekeepingRequestStatus status = HousekeepingRequestStatus.Opened;
         private string? note;
@@ -211,13 +211,14 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             }
 
             housekeeping = request;
-            
+
             CanClose = true;
             CanNotClose = false;
             setUpDatePicker();
             setDisplayForEdit();
-            if (housekeeping.Status.Equals(HousekeepingRequestStatus.Closed)){
-                IsEnabled=false;
+            if (housekeeping.Status.Equals(HousekeepingRequestStatus.Closed))
+            {
+                IsEnabled = false;
             }
 
             CheckCloseRequest();
@@ -237,14 +238,13 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             Employee? employee = employeeBusiness.CurrentEmployee;
             if (employee == null) return;
 
-            if (!employee.EmployeeType.Equals(EmployeeType.HousekeepingManager))
+            if (employee.EmployeeType.Equals(EmployeeType.HousekeepingManager) || employee.EmployeeType.Equals(EmployeeType.Manager))
             {
-                CanUseCloseRequest=false;
-                IsEnabled = false;
+                CanUseCloseRequest = true;
             }
             else
             {
-                CanUseCloseRequest = true;
+                CanUseCloseRequest = false;
             }
         }
 

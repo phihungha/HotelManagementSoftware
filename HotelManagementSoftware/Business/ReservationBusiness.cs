@@ -263,6 +263,10 @@ namespace HotelManagementSoftware.Business
             ValidateReservation(reservation);
             using (var db = new Database())
             {
+                var _customer = await db.Customers.FirstAsync(i => i.CustomerId == reservation.Customer.CustomerId);
+                var _employee = await db.Employees.FirstAsync(i => i.EmployeeId == reservation.Employee.EmployeeId);
+                var _room = await db.Rooms.FirstAsync(i => i.RoomId == reservation.Room.RoomId);
+
                 if (await CheckCollidedReservation(db, reservation))
                     throw new ArgumentException("Another reservation exists in this reservation's stay period");
 
@@ -288,10 +292,10 @@ namespace HotelManagementSoftware.Business
 
                 decimal totalRentFee = GetTotalRentFee(reservation);
                 reservation.Order = new Order(DateTime.Now, totalRentFee, OrderStatus.Pending);
+                reservation.Customer = _customer;
+                reservation.Employee = _employee;
+                reservation.Room = _room;
 
-                db.Attach(reservation.Customer);
-                db.Attach(reservation.Room);
-                db.Attach(reservation.Employee);
                 db.Add(reservation);
                 await db.SaveChangesAsync();
             }
@@ -306,6 +310,11 @@ namespace HotelManagementSoftware.Business
             ValidateReservation(reservation);
             using (var db = new Database())
             {
+                var _reservation = await db.Reservations
+                    .Include(i => i.Order)
+                    .FirstAsync(i => i.ReservationId == reservation.ReservationId);
+                var _room = await db.Rooms.FirstAsync(i => i.RoomId == reservation.Room.RoomId);
+
                 if (await CheckCollidedReservation(db, reservation))
                     throw new ArgumentException("Another reservation exists in this reservation's stay period");
 
@@ -318,7 +327,10 @@ namespace HotelManagementSoftware.Business
                 reservation.Order.CreationTime = DateTime.Now;
                 reservation.Order.Amount = GetTotalRentFee(reservation);
 
-                db.Update(reservation);
+                _reservation.Room = _room;
+                _reservation.ArrivalTime = reservation.ArrivalTime;
+                _reservation.DepartureTime = reservation.DepartureTime;
+
                 await db.SaveChangesAsync();
             }
         }
@@ -331,19 +343,22 @@ namespace HotelManagementSoftware.Business
         {
             using (var db = new Database())
             {
+                var _reservation = await db.Reservations
+                    .Include(i => i.Order)
+                    .FirstAsync(i => i.ReservationId == reservation.ReservationId);
+
                 if (reservation.Status != ReservationStatus.Reserved)
                     throw new ArgumentException("Cannot cancel reservation if it has been checked in or cancelled");
 
                 if (reservation.Order == null)
                     throw new ArgumentException("Order cannot be null when cancelling reservation");
 
-                reservation.Status = ReservationStatus.Cancelled;
+                _reservation.Status = ReservationStatus.Cancelled;
 
-                reservation.Order.PayTime = DateTime.Now;
-                reservation.Order.Amount = await GetCancelFee(db, reservation);
-                reservation.Order.Status = OrderStatus.Paid;
+                _reservation.Order.PayTime = DateTime.Now;
+                _reservation.Order.Amount = await GetCancelFee(db, reservation);
+                _reservation.Order.Status = OrderStatus.Paid;
 
-                db.Update(reservation);
                 await db.SaveChangesAsync();
             }
         }
@@ -357,15 +372,16 @@ namespace HotelManagementSoftware.Business
         {
             using (var db = new Database())
             {
+                var _reservation = await db.Reservations.FirstAsync(i => i.ReservationId == reservation.ReservationId);
+
                 if (reservation.Status != ReservationStatus.Reserved)
                     throw new ArgumentException("Reservation has been checked in before or has been canceled");
 
                 if (reservation.ArrivalTime.Date != DateTime.Now.Date)
                     throw new ArgumentException("Today is not arrival date");
 
-                reservation.Status = ReservationStatus.CheckedIn;
+                _reservation.Status = ReservationStatus.CheckedIn;
 
-                db.Update(reservation);
                 await db.SaveChangesAsync();
             }
         }
@@ -379,19 +395,21 @@ namespace HotelManagementSoftware.Business
         {
             using (var db = new Database())
             {
+                var _reservation = await db.Reservations.FirstAsync(i => i.ReservationId == reservation.ReservationId);
+
                 if (reservation.Status != ReservationStatus.CheckedIn)
                     throw new ArgumentException("Reservation has not been checked in or has been canceled");
 
                 if (reservation.DepartureTime.Date != DateTime.Now.Date)
                     throw new ArgumentException("Today is not departure date");
 
-                reservation.Status = ReservationStatus.CheckedOut;
+                _reservation.Status = ReservationStatus.CheckedOut;
 
                 if (reservation.Order == null)
                     throw new ArgumentException("Order cannot be null");
 
-                reservation.Order.PayTime = DateTime.Now;
-                reservation.Order.Status = OrderStatus.Paid;
+                _reservation.Order.PayTime = DateTime.Now;
+                _reservation.Order.Status = OrderStatus.Paid;
 
                 db.Update(reservation);
                 await db.SaveChangesAsync();
@@ -469,7 +487,7 @@ namespace HotelManagementSoftware.Business
 
             int dayNumberBeforeArrival = (reservation.ArrivalTime - DateTime.Now).Days;
             if (dayNumberBeforeArrival < 0)
-                dayNumberBeforeArrival = -1;
+                dayNumberBeforeArrival = 0;
 
             ReservationCancelFeePercent? cancelFeePercent 
                 = await db.ReservationCancelFeePercents
@@ -488,6 +506,7 @@ namespace HotelManagementSoftware.Business
                 await db.Reservations
                             .Include(i => i.Room)
                             .Where(i => i.Room == newReservation.Room)
+                            .Where(i => i.ReservationId != newReservation.ReservationId)
                             .ToListAsync();
             return collidedReservation.Any(
                             i => CheckStayPeriodCollision(

@@ -68,7 +68,10 @@ namespace HotelManagementSoftware.ViewModels
 
         private void UpcomingListTimer_Elapsed(object? sender, ElapsedEventArgs e)
         {
-            LoadUpcomingLists();
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                LoadUpcomingLists();
+            });
         }
 
         private void CurrentTimeTimer_Elapsed(object? sender, ElapsedEventArgs e)

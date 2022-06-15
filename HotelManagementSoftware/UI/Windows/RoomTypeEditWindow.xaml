@@ -81,6 +81,7 @@
                                 FontSize="12"
                                 Text="Rate" />
                     <hc:TextBox  hc:InfoElement.Placeholder="Enter rate"
+                                 PreviewTextInput="TextBox_PreviewTextInput"
                                  ShowClearButton="True"
                                  Text="{Binding Rate}" />
                 </StackPanel>

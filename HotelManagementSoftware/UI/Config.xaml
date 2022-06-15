@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:validators="clr-namespace:HotelManagementSoftware.UI.Validators"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -40,6 +41,26 @@
                   CanUserAddRows="True"
                   Width="400"
                   ItemsSource="{Binding CancelFeePercents}">
+            <DataGrid.RowValidationRules>
+                <validators:CancelFeePercentageValidationRule ValidationStep="UpdatedValue" />
+            </DataGrid.RowValidationRules>
+
+            <DataGrid.RowValidationErrorTemplate>
+                <ControlTemplate>
+                    <Grid Margin="0,-2,0,-2"
+                        ToolTip="{Binding RelativeSource={RelativeSource
+                        FindAncestor, AncestorType={x:Type DataGridRow}},
+                        Path=(Validation.Errors)[0].ErrorContent}">
+                        <Ellipse StrokeThickness="0" Fill="Red" 
+                                 Width="{TemplateBinding FontSize}" 
+                                 Height="{TemplateBinding FontSize}" />
+                        <TextBlock Text="!" FontSize="{TemplateBinding FontSize}" 
+                        FontWeight="Bold" Foreground="White" 
+                        HorizontalAlignment="Center"  />
+                    </Grid>
+                </ControlTemplate>
+            </DataGrid.RowValidationErrorTemplate>
+            
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Day before arrival"
                                 Width="*"

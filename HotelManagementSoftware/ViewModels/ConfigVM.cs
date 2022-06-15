@@ -2,10 +2,12 @@
 using HotelManagementSoftware.Data;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace HotelManagementSoftware.ViewModels
@@ -62,7 +64,19 @@ namespace HotelManagementSoftware.ViewModels
 
         private async Task Save()
         {
-            await floorBusiness.SetMaxFloorNumber(FloorNumber);
+
+            try
+            {
+                await floorBusiness.SetMaxFloorNumber(FloorNumber);
+
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message,
+                                "Error",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+            }
 
             List<ReservationCancelFeePercent> percents = CancelFeePercents.ToList();
             await cancelFeeBusiness.Update(CancelFeePercents.ToList());

@@ -92,8 +92,8 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         #region private variables
         private int roomNumber;
         private Room room;
-        private DateTime startTime;
-        private DateTime endTime;
+        private DateTime startTime = DateTime.Now;
+        private DateTime endTime = DateTime.Now.AddDays(1);
         private DateTime? closeTime;
         private MaintenanceRequestStatus status;
         private string? note;
@@ -237,14 +237,13 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             Employee? employee = employeeBusiness.CurrentEmployee;
             if (employee == null) return;
 
-            if (!employee.EmployeeType.Equals(EmployeeType.MaintenanceManager))
+            if (employee.EmployeeType.Equals(EmployeeType.MaintenanceManager) || employee.EmployeeType.Equals(EmployeeType.Manager))
             {
-                CanUseCloseRequest = false;
-                IsEnabled = false;
+                CanUseCloseRequest = true;
             }
             else
             {
-                CanUseCloseRequest = true;
+                CanUseCloseRequest = false;
             }
         }
         public void DisplayItems()

@@ -19,8 +19,8 @@ namespace HotelManagementSoftware.ViewModels
         public ObservableCollection<Reservation> Reservations { get; private set; }
         public Reservation SelectedReservations { get; set; }
         public ReservationBusiness? reservationBusiness;
-        public TimeFilter ArrivalTimeFilter { get; private set; }
-        public TimeFilter DepartureTimeFilter { get; private set; }
+        public TimeFilter ArrivalTimeFilter { get; private set; } = new();
+        public TimeFilter DepartureTimeFilter { get; private set; } = new();
         public DateTime? a_low { get; set; }
         public DateTime? a_high { get; set; }
         public DateTime? d_low { get; set; }
@@ -49,6 +49,7 @@ namespace HotelManagementSoftware.ViewModels
             Reservations = new ObservableCollection<Reservation>();
             GetAllReservation();
             SearchCommand = new AsyncRelayCommand(Search);
+            ResetCommand = new AsyncRelayCommand(Reset);
         }
         #region command
         public ICommand CommandAdd { get; }
@@ -70,8 +71,8 @@ namespace HotelManagementSoftware.ViewModels
         public class TimeFilter
         {
             public bool Enable { get; set; }
-            public DateTime low { get; set; }
-            public DateTime high { get; set; }
+            public DateTime low { get; set; } = DateTime.Now;
+            public DateTime high { get; set; } = DateTime.Now.AddDays(1);
         }
         public enum SearchOption
         {
@@ -96,6 +97,11 @@ namespace HotelManagementSoftware.ViewModels
             }
         }
         public ICommand SearchCommand { get; }
+        public ICommand ResetCommand { get; }
+        public async Task Reset()
+        {
+            GetAllReservation();
+        }
         public async Task Search()
         {
             if (ArrivalTimeFilter.Enable == false)

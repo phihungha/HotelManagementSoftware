@@ -1,6 +1,7 @@
 ﻿using HotelManagementSoftware.ViewModels.WindowVMs;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace HotelManagementSoftware.UI.Windows
@@ -50,6 +51,12 @@ namespace HotelManagementSoftware.UI.Windows
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Error);
             }
+        }
+
+        private void TextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            var regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }
