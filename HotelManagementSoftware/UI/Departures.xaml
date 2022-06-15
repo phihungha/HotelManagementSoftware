@@ -108,6 +108,7 @@
                                 <Button Grid.Column="3" 
                                         Name="CheckoutButton" 
                                         Click="CheckoutButton_Click"
+                                        Tag="{Binding ReservationId}"
                                         Height="35" 
                                         Background="{StaticResource CheckoutColorSolid}"
                                         HorizontalAlignment="Right" 

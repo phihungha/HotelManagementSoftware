@@ -25,6 +25,8 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         private Reservation? reservation;
         private Room? room;
 
+        #region private variables
+        private int reservationId;
         private string cmnd;
         private string name;
         private Gender gender;
@@ -45,13 +47,23 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         private PaymentMethod selectedPaymentMethod;
         private string? cardNumber;
         private DateTime? expireDate;
+        #endregion
 
+        #region Constructors
         public string CMND
         {
             get => cmnd;
             set
             {
                 SetProperty(ref cmnd, value, true);
+            }
+        }
+        public int ReservationId
+        {
+            get => reservationId;
+            set
+            {
+                SetProperty(ref reservationId, value, true);
             }
         }
         public string Name
@@ -176,6 +188,41 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 SetProperty(ref person, value, true);
             }
         }
+
+        public PaymentMethod[] PaymentMethod
+        {
+            get => paymentMethod;
+            set
+            {
+                SetProperty(ref paymentMethod, value, true);
+            }
+        }
+        public PaymentMethod SelectedPaymentMethod
+        {
+            get => selectedPaymentMethod;
+            set
+            {
+                SetProperty(ref selectedPaymentMethod, value, true);
+            }
+        }
+        public string? CardNumber
+        {
+            get => cardNumber;
+            set
+            {
+                SetProperty(ref cardNumber, value, true);
+            }
+        }
+        public DateTime? ExpireDate
+        {
+            get => expireDate;
+            set
+            {
+                SetProperty(ref expireDate, value, true);
+            }
+        }
+        #endregion
+
         public CheckinWindowVM(CustomerBusiness customerBusiness,
                                     ReservationBusiness reservationBusiness, RoomBusiness roomBusiness,EmployeeBusiness employeeBusiness)
         {
@@ -194,13 +241,16 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             Room? room = await roomBusiness.GetRoomById(reservation.Room.RoomId);
             Customer? customer = await customerBusiness.GetCustomerById(reservation.Customer.CustomerId);
             this.reservation = reservation;
-            
+
+            //Room Information
             this.room = room;
             RoomNumber = room.RoomNumber;
             RoomType = room.RoomType;
             Note = room.Note;
             Floor = room.Floor;
 
+
+            //Customer Information
             this.customer = customer;
             CMND = customer.IdNumber;
             Name = customer.Name;
@@ -210,6 +260,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             Email = customer.Email;
             Address = customer.Address;
 
+            //Reservation Information
             Person = reservation.NumberOfPeople;
             ArrivalTime = reservation.ArrivalTime;
             DepartureTime = reservation.DepartureTime;
