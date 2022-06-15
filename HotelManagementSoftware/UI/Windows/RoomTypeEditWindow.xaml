@@ -83,7 +83,7 @@
                     <hc:TextBox  hc:InfoElement.Placeholder="Enter rate"
                                  PreviewTextInput="TextBox_PreviewTextInput"
                                  ShowClearButton="True"
-                                 Text="{Binding Rate}" />
+                                 Text="{Binding Rate, StringFormat='{}{0:c}'}" />
                 </StackPanel>
             </Grid>
 

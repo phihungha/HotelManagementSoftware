@@ -54,7 +54,7 @@
                 <DataGridTextColumn Header="Rate" 
                                     Width="*" 
                                     FontSize="14"
-                                    Binding="{Binding Rate}" />
+                                    Binding="{Binding Rate, StringFormat='{}{0:c}'}" />
 
                 <DataGridTextColumn Header="Description" 
                                     Width="3*" 

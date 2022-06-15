@@ -89,7 +89,9 @@ namespace HotelManagementSoftware.UI
 
         private void ChooseRoom_Click(object sender, RoutedEventArgs e)
         {
-            var chooseRoom = new ChooseRoomWindow();
+            DateTime Arrivaltime = ((ReservationEditWindowVM)DataContext).ArrivalTime;
+            DateTime Departuretime = ((ReservationEditWindowVM)DataContext).DepartureTime;
+            var chooseRoom = new ChooseRoomWindow(Arrivaltime,Departuretime);
             chooseRoom.DialogFinished += ChooseRoomWindow_DialogFinished;
             chooseRoom.ShowDialog();
         }

@@ -146,7 +146,7 @@
                                            Style="{StaticResource DateTimePickerExtend}"
                                            SelectedDateTime="{Binding EndTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            DateTimeFormat="dd/MM/yyyy hh:mm:ss tt"
-                                           hc:InfoElement.Title="End day"
+                                           hc:InfoElement.Title="Start day"
                                            hc:InfoElement.Placeholder="Enter end time" />
                     </StackPanel>
                 </Grid>

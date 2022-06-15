@@ -77,19 +77,24 @@ namespace HotelManagementSoftware.Business
         /// <param name="arrivalTime">Arrival time</param>
         /// <param name="departureTime">Departure time</param>
         /// <returns>List of rooms</returns>
-        public async Task<List<Room>> GetUsableRooms(string roomType,
-                                                     int floorNumber,
-                                                     DateTime arrivalTime,
-                                                     DateTime departureTime)
+        public async Task<List<Room>> GetUsableRooms(DateTime arrivalTime,
+                                                     DateTime departureTime,
+                                                     string? roomType = null)
         {
             using (var db = new Database())
             {
-                List<Room> rooms = await db.Rooms
+                var request = db.Rooms
                     .Include(i => i.RoomType)
-                    .Include(i => i.Reservations)
-                    .Where(i => i.Floor == floorNumber)
-                    .Where(i => i.RoomType != null && i.RoomType.Name == roomType)
-                    .ToListAsync();
+                    .Include(i => i.Reservations);
+
+                var filteredRequest = request.Where(i => true);
+
+                if (roomType != null)
+                    filteredRequest = filteredRequest.Where(i => i.RoomType != null && i.RoomType.Name == roomType);
+
+                List<Room> rooms = await filteredRequest
+                                .OrderBy(i => i.RoomNumber)
+                                .ToListAsync();
 
                 return rooms.Where(i => !i.Reservations.Any(
                             r => ReservationBusiness.CheckStayPeriodCollision(

@@ -28,6 +28,13 @@ namespace HotelManagementSoftware.UI
             InitializeComponent();
             DataContext = App.Current.Services.GetRequiredService<ChooseRoomWindowVM>();
         }
+        public ChooseRoomWindow(DateTime Arrivaltime, DateTime Departuretime)
+        {
+            InitializeComponent();
+            DataContext = App.Current.Services.GetRequiredService<ChooseRoomWindowVM>();
+            ((ChooseRoomWindowVM)DataContext).LoadRooms(Arrivaltime, Departuretime);
+
+        }
         private void ChooseRoomTypeButton_Click(object sender, RoutedEventArgs e)
         {
             var chooseRoomType = new ChooseRoomTypeWindow();

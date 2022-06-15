@@ -166,7 +166,11 @@
                     <DataGridTemplateColumn Width="Auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Foreground="White" Background="{StaticResource PrimaryColorSolid}" 
+                                <Button x:Name="CheckInButton"
+                                        Click="CheckInButton_Click"
+                                        Foreground="White" 
+                                        Background="{StaticResource PrimaryColorSolid}" 
+                                        Tag="{Binding Reservation.ReservationId}"
                                         Content="Check-in" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -207,7 +211,11 @@
                     <DataGridTemplateColumn Width="Auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Foreground="White" Background="{StaticResource CheckoutColorSolid}" 
+                                <Button Foreground="White" 
+                                        Name="CheckOutButton"
+                                        Click="CheckOutButton_Click"
+                                        Background="{StaticResource CheckoutColorSolid}" 
+                                        Tag="{Binding Reservation.ReservationId}"
                                         Content="Check-out" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

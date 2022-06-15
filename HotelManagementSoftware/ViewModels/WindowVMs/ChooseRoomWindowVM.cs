@@ -23,36 +23,33 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
             this.roomTypeBusiness = roomTypeBusiness;
             this.floorBusiness = floorBusiness;
             Rooms = new ObservableCollection<Room>();
-            if(SelectedRoomType == null)
-            {
-                LoadRooms();
-            }else
-            {
-                GetUsableRoom(SelectedRoomType.RoomTypeId);
-            }    
             
         }
         public async void GetUsableRoom(int id)
         {
-            RoomType roomType = await roomTypeBusiness.GetRoomTypeById(id);
-            this.SelectedRoomType = roomType;
-            if (roomBusiness != null)
-            {
-                // List<Room> rooms = await roomBusiness.GetUsableRooms(SelectedRoomType.Name, await floorBusiness.GetMaxFloorNumber(), DateTime.Now, DateTime.Now.AddYears(1));
-                List<Room> rooms = await roomBusiness.GetUsableRooms(SelectedRoomType.Name, 1, DateTime.Now, DateTime.Now.AddYears(1));
+           
+              
+                RoomType roomType = await roomTypeBusiness.GetRoomTypeById(id);
+                this.SelectedRoomType = roomType;
+                if (roomBusiness != null)
+                {
+                    // List<Room> rooms = await roomBusiness.GetUsableRooms(SelectedRoomType.Name, await floorBusiness.GetMaxFloorNumber(), DateTime.Now, DateTime.Now.AddYears(1));
+                    List<Room> rooms = await roomBusiness.GetUsableRooms(DateTime.Now, DateTime.Now.AddYears(1), SelectedRoomType.Name);
                 Rooms.Clear();
                 rooms.ForEach(room =>
-                {
-                    Rooms.Add(room);
-                });
+                    {
+                        Rooms.Add(room);
+                    });
 
-            }
+                }
+            
+            
         }
-        public async void LoadRooms()
+        public async void LoadRooms(DateTime Arrivaltime, DateTime Departuretime)
         {
             if (roomBusiness == null) return;
             Rooms.Clear();
-            List<Room> rooms = await roomBusiness.GetRooms(null, null, null);
+            List<Room> rooms = await roomBusiness.GetUsableRooms(Arrivaltime, Departuretime, null);
             rooms.ForEach(roomtype => Rooms.Add(roomtype));
         }
     }
