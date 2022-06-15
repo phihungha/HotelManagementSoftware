@@ -20,6 +20,7 @@ namespace HotelManagementSoftware.Tests
         private ReservationCancelFeePercentBusiness reservationCancelFeePercentBusiness;
         private HousekeepingBusiness housekeepingBusiness;
         private MaintenanceBusiness maintenanceBusiness;
+        private FloorBusiness floorBusiness;
 
         public TestDataGenerator()
         {
@@ -32,6 +33,12 @@ namespace HotelManagementSoftware.Tests
             reservationCancelFeePercentBusiness = App.Current.Services.GetRequiredService<ReservationCancelFeePercentBusiness>();
             housekeepingBusiness = App.Current.Services.GetRequiredService<HousekeepingBusiness>();
             maintenanceBusiness = App.Current.Services.GetRequiredService<MaintenanceBusiness>();
+            floorBusiness = App.Current.Services.GetRequiredService<FloorBusiness>();
+        }
+
+        public async Task CreateMaxFloor()
+        {
+            await floorBusiness.SetMaxFloorNumber(5);
         }
 
         public async Task GenerateEmployees()
