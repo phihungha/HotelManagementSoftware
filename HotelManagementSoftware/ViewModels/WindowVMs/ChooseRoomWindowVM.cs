@@ -58,7 +58,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         {
             if (roomBusiness == null) return;
             Rooms.Clear();
-            List<Room> rooms = await roomBusiness.GetRooms(null, null, null);
+            List<Room> rooms = await roomBusiness.GetRooms(null, null, RoomStatus.Usable);
             rooms.ForEach(roomtype => Rooms.Add(roomtype));
         }
     }
