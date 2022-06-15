@@ -89,6 +89,7 @@ namespace HotelManagementSoftware.Business
                     .Include(i => i.Reservations)
                     .Where(i => i.Floor == floorNumber)
                     .Where(i => i.RoomType != null && i.RoomType.Name == roomType)
+                    .OrderBy(i => i.RoomNumber)
                     .ToListAsync();
 
                 return rooms.Where(i => !i.Reservations.Any(
