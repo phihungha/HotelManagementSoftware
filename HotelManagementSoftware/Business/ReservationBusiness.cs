@@ -292,11 +292,12 @@ namespace HotelManagementSoftware.Business
         /// <param name="reservation">Updated reservation info</param>
         public async Task EditReservation(Reservation reservation)
         {
-
             ValidateReservation(reservation);
             using (var db = new Database())
             {
-                var _reservation = await db.Reservations.FirstAsync(i => i.ReservationId == reservation.ReservationId);
+                var _reservation = await db.Reservations
+                    .Include(i => i.Order)
+                    .FirstAsync(i => i.ReservationId == reservation.ReservationId);
                 var _room = await db.Rooms.FirstAsync(i => i.RoomId == reservation.Room.RoomId);
 
                 if (await CheckCollidedReservation(db, reservation))
@@ -327,7 +328,9 @@ namespace HotelManagementSoftware.Business
         {
             using (var db = new Database())
             {
-                var _reservation = await db.Reservations.FirstAsync(i => i.ReservationId == reservation.ReservationId);
+                var _reservation = await db.Reservations
+                    .Include(i => i.Order)
+                    .FirstAsync(i => i.ReservationId == reservation.ReservationId);
 
                 if (reservation.Status != ReservationStatus.Reserved)
                     throw new ArgumentException("Cannot cancel reservation if it has been checked in or cancelled");
@@ -335,7 +338,7 @@ namespace HotelManagementSoftware.Business
                 if (reservation.Order == null)
                     throw new ArgumentException("Order cannot be null when cancelling reservation");
 
-                reservation.Status = ReservationStatus.Cancelled;
+                _reservation.Status = ReservationStatus.Cancelled;
 
                 _reservation.Order.PayTime = DateTime.Now;
                 _reservation.Order.Amount = await GetCancelFee(db, reservation);
@@ -488,6 +491,7 @@ namespace HotelManagementSoftware.Business
                 await db.Reservations
                             .Include(i => i.Room)
                             .Where(i => i.Room == newReservation.Room)
+                            .Where(i => i.ReservationId != newReservation.ReservationId)
                             .ToListAsync();
             return collidedReservation.Any(
                             i => CheckStayPeriodCollision(
