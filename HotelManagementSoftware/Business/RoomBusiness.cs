@@ -12,6 +12,7 @@ namespace HotelManagementSoftware.Business
         private const string CONFIG_NAME = "MaxFloorNumber";
 
         private ConfigurationBusiness configurationBusiness;
+        private RoomBusiness roomBusiness;
 
         /// <summary>
         /// Get maximum floor number.
@@ -37,12 +38,17 @@ namespace HotelManagementSoftware.Business
             if (maxFloorNumber < 1)
                 throw new ArgumentException("Floor number cannot be smaller than 1");
 
+            List<Room> rooms = await roomBusiness.GetRooms(floorNumber: maxFloorNumber);
+            if (rooms.Count != 0)
+                throw new ArgumentException("There are rooms with this floor number");
+
             await configurationBusiness.SetConfig(CONFIG_NAME, maxFloorNumber);
         }
 
-        public FloorBusiness(ConfigurationBusiness configurationBusiness)
+        public FloorBusiness(ConfigurationBusiness configurationBusiness, RoomBusiness roomBusiness)
         {
             this.configurationBusiness = configurationBusiness;
+            this.roomBusiness = roomBusiness;
         }
     }
 
