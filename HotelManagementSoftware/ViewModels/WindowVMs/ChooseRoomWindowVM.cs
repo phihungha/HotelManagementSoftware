@@ -15,6 +15,8 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         private RoomBusiness? roomBusiness;
         private RoomTypeBusiness? roomTypeBusiness;
         private FloorBusiness? floorBusiness;
+        public DateTime Arrivaltime { get; set; } = DateTime.Now;
+        public DateTime Departuretime { get; set; } = DateTime.Now.AddDays(1);
         public Room SelectedRoom { get; set; }
         public RoomType SelectedRoomType { get; set; }
         public ChooseRoomWindowVM(RoomBusiness? roomBusiness, RoomTypeBusiness? roomTypeBusiness, FloorBusiness? floorBusiness)
@@ -34,7 +36,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 if (roomBusiness != null)
                 {
                     // List<Room> rooms = await roomBusiness.GetUsableRooms(SelectedRoomType.Name, await floorBusiness.GetMaxFloorNumber(), DateTime.Now, DateTime.Now.AddYears(1));
-                    List<Room> rooms = await roomBusiness.GetUsableRooms(DateTime.Now, DateTime.Now.AddYears(1), SelectedRoomType.Name);
+                    List<Room> rooms = await roomBusiness.GetUsableRooms(Arrivaltime, Departuretime, SelectedRoomType.Name);
                 Rooms.Clear();
                 rooms.ForEach(room =>
                     {
@@ -48,6 +50,8 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
         public async void LoadRooms(DateTime Arrivaltime, DateTime Departuretime)
         {
             if (roomBusiness == null) return;
+            this.Arrivaltime = Arrivaltime;
+            this.Departuretime = Departuretime;
             Rooms.Clear();
             List<Room> rooms = await roomBusiness.GetUsableRooms(Arrivaltime, Departuretime, null);
             rooms.ForEach(roomtype => Rooms.Add(roomtype));
