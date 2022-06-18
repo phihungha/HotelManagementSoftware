@@ -288,7 +288,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
                 else
                 {
                     Reservation reservation = new Reservation(ArrivalTime, DepartureTime, Person, room, customer, employeeBusiness.CurrentEmployee);
-                    var result = HandyControl.Controls.MessageBox.Show(
+                    var result = System.Windows.MessageBox.Show(
         "Are you sure that you want to check in this Reservation now? This action cannot be undone.",
         "check in this Reservation?",
         MessageBoxButton.YesNo, MessageBoxImage.Question);

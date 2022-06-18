@@ -101,7 +101,6 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
         #region property validation
 
-        [Required(ErrorMessage = "Room cannot be empty")]
         public Room Room
         {
             get => room;
@@ -286,6 +285,7 @@ namespace HotelManagementSoftware.ViewModels.WindowVMs
 
             if (housekeepingBusiness == null || employeeBusiness == null || housekeeping == null) return false;
             Employee? current = employeeBusiness.CurrentEmployee;
+            housekeeping.Room = room;
 
             if (current == null) return false;
             await housekeepingBusiness.CloseHousekeepingRequest(housekeeping, DateTime.Now, current);

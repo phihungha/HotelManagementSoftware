@@ -293,7 +293,7 @@
                     <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="10,10,0,0"
                                TextWrapping="Wrap"
                                FontWeight="Bold"
-                               Text="{Binding TotalPayment}" FontSize="42"/>
+                               Text="{Binding TotalPayment, StringFormat='{}{0:c}'}" FontSize="42"/>
                 </Grid>
             </Border>
         </Grid>

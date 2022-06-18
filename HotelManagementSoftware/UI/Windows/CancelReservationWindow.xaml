@@ -40,7 +40,7 @@
                     <TextBlock Margin="10,0,10,10"
                        Text="{Binding Cancel1}" HorizontalAlignment="Left" FontSize="12" Width="Auto"/>
                 </StackPanel>
-                <TextBlock Grid.Row="1" Text="{Binding CancelFee}" FontSize="26" Margin="10,0,10,0" FontWeight="Bold" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
+                <TextBlock Grid.Row="1" Text="{Binding CancelFee,StringFormat='{}{0:c}'}" FontSize="26" Margin="10,0,10,0" FontWeight="Bold" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
             </Grid>
         </Border>
         <ui:UniformSpacingPanel Grid.Row="2" HorizontalAlignment="Right"
